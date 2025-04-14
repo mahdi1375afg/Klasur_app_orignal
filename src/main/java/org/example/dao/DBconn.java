@@ -1,7 +1,5 @@
 package org.example.dao;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DBconn {
 
@@ -14,12 +12,28 @@ public class DBconn {
         try {
              conn = DriverManager.getConnection(url, user, password);
             if (conn != null) {
-                System.out.println("Connected to the database" );
+                System.out.println("connection valid: " + conn.isValid(0));
             }
         }
         catch (SQLException e) {
             System.out.println("Connection failed");
         }
         return conn;
+    }
+
+    public static void sqlSelect(String table,String column, String value) throws SQLException {
+
+        PreparedStatement ps;
+        try {
+            ps = getConn().prepareStatement("select * from " + table + " where " + column + " = ?");//? ist platzhalter für value
+            ps.setString(1,value);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()){
+            System.out.println(rs.getInt("id")+rs.getString(column));
+        }
+
     }
 }
