@@ -34,6 +34,75 @@ public class DBconn {
         while (rs.next()){
             System.out.println(rs.getInt("id")+rs.getString(column));
         }
+        rs.close();
 
     }
-}
+
+    public static void sqlInsert(String table, String[] column,String[] value)throws SQLException {
+        PreparedStatement ps;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < value.length; i++){
+
+            sb.append("?,");
+            if (i == value.length -1){
+                sb.deleteCharAt(sb.length()-1);
+            }
+        }
+
+        String listColumn = String.join(",", column);
+        try {
+            ps = getConn().prepareStatement("insert into " + table + " (" + listColumn + ") values ("+ sb +")");
+            for(int i = 0; i < value.length; i++) {
+                ps.setString(i + 1, value[i]);
+            }
+            int insertCount = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void sqlUpdate(String table, String[] column,String[] value,String conditionColumn,String conditionValue)throws SQLException {
+        PreparedStatement ps;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < column.length; i++) {
+
+            sb.append(column[i]).append(" = ?");
+            if (i < column.length - 1) {
+                sb.append(", ");
+            }
+        }
+
+        String listColumn = sb.toString();
+        String query = "update " + table + " set " + listColumn + " where " + conditionColumn + " = ?";
+        System.out.println(query);
+        try {
+            ps = getConn().prepareStatement(query);
+            for (int i = 0; i < value.length; i++) {
+                ps.setString(i + 1, value[i]);
+            }
+            if (conditionColumn.equals("id")) {
+                ps.setInt(value.length + 1, Integer.parseInt(conditionValue));
+            } else {
+                ps.setString(value.length + 1, conditionValue);
+            }
+            int updatecount = ps.executeUpdate();
+            System.out.println("Update count: " + updatecount);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+        public static void sqlDelete (String table, String column, String value) throws SQLException {
+            PreparedStatement ps;
+            try {
+                ps = getConn().prepareStatement("delete from " + table + " where " + column + " = ?");
+                ps.setString(1, value);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            int deleteCount = ps.executeUpdate();
+            System.out.println("Delete count: " + deleteCount);
+        }
+    }
+
+
+
