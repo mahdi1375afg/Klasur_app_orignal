@@ -7,13 +7,13 @@ public class Klasur {
 	private int id;
 	private LocalDate erstellungsdatum;
 	private String name;
-	private int beschreibung;
+	private String beschreibung;
 
 	private Modul modul;
 
 	private int dauer;
 
-	public Klasur (int id, LocalDate erstellungsdatum, String name, int beschreibung, Modul modul, int dauer) {
+	public Klasur (int id, LocalDate erstellungsdatum, String name, String beschreibung, Modul modul, int dauer) {
 		this.id = id;
 		this.erstellungsdatum = erstellungsdatum;
 		this.name = name;
@@ -31,7 +31,7 @@ public class Klasur {
 	public String getName () {
 		return name;
 	}
-	public int getBeschreibung () {
+	public String getBeschreibung () {
 		return beschreibung;
 	}
 	public Modul getModul () {
@@ -49,7 +49,7 @@ public class Klasur {
 	public void setName (String name) {
 		this.name = name;
 	}
-	public void setBeschreibung (int beschreibung) {
+	public void setBeschreibung (String beschreibung) {
 		this.beschreibung = beschreibung;
 	}
 	public void setModul (Modul modul) {

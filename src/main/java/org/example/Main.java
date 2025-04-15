@@ -13,6 +13,13 @@ public class Main {
 
         DBconn db = new DBconn();
 
+
+
+        try {
+            db.sqlInsert("nutzer",columns, values);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         try {
             db.sqlDelete("nutzer","vorname", "netan");
         } catch (SQLException e) {

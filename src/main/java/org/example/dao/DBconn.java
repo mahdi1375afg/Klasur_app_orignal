@@ -31,11 +31,11 @@ public class DBconn {
             throw new RuntimeException(e);
         }
         ResultSet rs = ps.executeQuery();
+
         while (rs.next()){
             System.out.println(rs.getInt("id")+rs.getString(column));
         }
         rs.close();
-
     }
 
     public static void sqlInsert(String table, String[] column,String[] value)throws SQLException {
@@ -56,9 +56,11 @@ public class DBconn {
                 ps.setString(i + 1, value[i]);
             }
             int insertCount = ps.executeUpdate();
+            System.out.println("Insert count: " + insertCount);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        ps.close();
     }
     public static void sqlUpdate(String table, String[] column,String[] value,String conditionColumn,String conditionValue)throws SQLException {
         PreparedStatement ps;
@@ -89,6 +91,7 @@ public class DBconn {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        ps.close();
     }
 
         public static void sqlDelete (String table, String column, String value) throws SQLException {
@@ -101,7 +104,9 @@ public class DBconn {
             }
             int deleteCount = ps.executeUpdate();
             System.out.println("Delete count: " + deleteCount);
+            ps.close();
         }
+
     }
 
 
