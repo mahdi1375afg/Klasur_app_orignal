@@ -3,9 +3,9 @@ import java.sql.*;
 
 public class DBconn {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/klasurapp";
+    private static final String url = "jdbc:postgresql://localhost:5432/klausurapp"; // klasur => klausur
     private static final String user = "postgres";
-    private static final String password = "1375";
+    private static final String password = "1234"; //1234 - Passwort Jan
 
     public static Connection getConn()throws SQLException {
         Connection conn = null;
@@ -17,6 +17,7 @@ public class DBconn {
         }
         catch (SQLException e) {
             System.out.println("Connection failed");
+            System.out.println(e.getMessage());
         }
         return conn;
     }

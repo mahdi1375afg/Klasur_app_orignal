@@ -2,7 +2,7 @@ package org.example.domain;
 
 import java.time.LocalDate;
 
-public class Klasur {
+public class Klausur {
 
 	private int id;
 	private LocalDate erstellungsdatum;
@@ -13,7 +13,7 @@ public class Klasur {
 
 	private int dauer;
 
-	public Klasur (int id, LocalDate erstellungsdatum, String name, String beschreibung, Modul modul, int dauer) {
+	public Klausur (int id, LocalDate erstellungsdatum, String name, String beschreibung, Modul modul, int dauer) {
 		this.id = id;
 		this.erstellungsdatum = erstellungsdatum;
 		this.name = name;
