@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        String []values = {"netan","drake","gmail@outlook"};
-        String []columns = {"vorname","name","email"};
+        String []values = {"netan","drake"};
+        String []columns = {"vorname","name"};
 
         DBconn db = new DBconn();
 
