@@ -1,7 +1,24 @@
-create type bloomLevel as enum(
-'errinern','verstehen','anwenden','anlysieren','bewerten','erschaffen'
-);
+create type bloomLevel as enum('errinern','verstehen','anwenden','anlysieren','bewerten','erschaffen');
+create type geschlosseneFrageType as enum('singel Choice','multiple Choice','wahr oder falsch','luecken Text','Zuordnung,Ranking');
 create type Bloom as enum('true', 'false');
+
+create table modul(
+id int generated always as identity primary key,
+name varchar(255),
+beschreibung text
+);
+
+create table klausur (
+id int generated always as identity primary key,
+name varchar(255),
+beschreibung text,
+modulId int,
+dauer int,
+erstellungsDatum date,
+punkt int,
+foreign key (modulId) references modul(id)
+);
+
 create table aufgabe (
 id int generated always as identity primary key,
 name varchar(255),
@@ -10,14 +27,13 @@ zeit int,
 bloomLevel bloomLevel not null,
 type Bloom not null,
 modulId int,
-punkt int,
+punkte int,
 foreign key (modulId) references modul(id)
 );
 
-create type closedFrageType as enum('singel Choice','multiple Choice','wahr oder falsch','luecken Text','Zuordnung,Ranking')
-create table closedFrage(
+create table geschlosseneAufgabe(
 id int generated always as identity primary key,
-closeFrageType closedFrageType not null,
+geschlosseneFrageType geschlosseneFrageType not null,
 aufgabeId int,
 foreign key (aufgabeId) references aufgabe (id)
 );
@@ -29,53 +45,34 @@ aufgabeId int,
 foreign key (aufgabeId) references aufgabe (id)
 );
 
-create table closeAntwort(
+create table geschlosseneAntwort(
 id int generated always as identity primary key,
 Antwort text,
 isKorrekt bloom not null,
-rank int,
 antwortId int not null,
 foreign key (antwortId) references antwort(id)
 );
 
-create table aufgabeKlasur(
+create table aufgabeKlausur(
 aufgabeId int not null,
-klasurId int not null,
-primary key(aufgabeId,klasurId),
+klausurId int not null,
+primary key(aufgabeId,klausurId),
 foreign key (aufgabeId) references aufgabe(id),
-foreign key (klasurId) references klasur(id)
+foreign key (klausurId) references klausur(id)
 );
 
-create table klasur (
-id int generated always as identity primary key,
-name varchar(255),
-beschreibung text,
-modulId int,
-dauer int,
-erstellungsDatum date,
-punkt int,
-foreign key (modulId) references modul(id)
-);
-
-create table modul(
-id int generated always as identity primary key,
-name varchar(255),
-beschreibung text
-);
 
 create table nutzer(
 id int generated always as identity primary key,
 name varchar(255),
-age int,
-email varchar(320)
+vorname varchar(255)
 );
-create type status as enum('online','offline')
+
 create table nutzerKonto(
 id int generated always as identity primary key,
 username varchar(255) not null,
 password varchar(255) not null,
 letzterAnmeldung date,
-status status not null,
 nutzerId int not null,
 foreign key (nutzerId) references nutzer(id)
 );
@@ -88,10 +85,10 @@ foreign key (nutzerKontoId) references nutzerKonto(id),
 foreign key (aufgabeId) references aufgabe(id)
 );
 
-create table nutzerKontoKlasur(
+create table nutzerKontoKlausur(
 nutzerKontoId int not null,
-klasurId int not null,
-primary key (nutzerKontoId,klasurId),
+klausurId int not null,
+primary key (nutzerKontoId,klausurId),
 foreign key (nutzerKontoId) references nutzerKonto(id),
-foreign key (klasurId) references klasur(id)
+foreign key (klausurId) references klausur(id)
 )
