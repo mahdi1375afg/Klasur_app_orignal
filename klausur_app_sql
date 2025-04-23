@@ -12,7 +12,10 @@ CREATE TABLE modul (
 CREATE TABLE klausur (
  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  name VARCHAR(255) NOT NULL,
- datum DATE NOT NULL
+ datum DATE NOT NULL,
+ gesamtpunkte DECIMAL(5,1) NOT NULL,
+ benutzer_id INT NOT NULL,
+ FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
 );
 
 CREATE TYPE taxonomie_stufe AS ENUM (
@@ -29,15 +32,17 @@ CREATE TABLE taxonomie_level (
  name taxonomie_stufe NOT NULL
 );
 
-
 CREATE TABLE aufgabe (
  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  name VARCHAR(255) NOT NULL,
  aufgabentext TEXT NOT NULL,
  zeit INTERVAL NOT NULL,
  format VARCHAR(20) NOT NULL,
+ punkte DECIMAL(4,1) NOT NULL,
  taxonomie_id INT,
- FOREIGN KEY (taxonomie_id) REFERENCES taxonomie_level(id)
+ benutzer_id INT,
+ FOREIGN KEY (taxonomie_id) REFERENCES taxonomie_level(id),
+ FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
 );
 
 CREATE TABLE offene_aufgabe (
@@ -61,7 +66,6 @@ CREATE TABLE geschlossene_aufgabe (
  FOREIGN KEY (aufgabe_id) REFERENCES aufgabe(id)
 );
 
-
 CREATE TABLE antwortmoeglichkeit_geschlossen (
  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  antworttext TEXT NOT NULL,
@@ -74,7 +78,6 @@ CREATE TABLE aufgaben_klausur (
  PRIMARY KEY (aufgabe_id, klausur_id),
  aufgabe_id INT NOT NULL,
  klausur_id INT NOT NULL,
- punkte DECIMAL(4,1) NOT NULL,
  FOREIGN KEY (aufgabe_id) REFERENCES aufgabe(id),
  FOREIGN KEY (klausur_id) REFERENCES klausur(id)
 );
