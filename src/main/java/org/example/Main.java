@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.example.dao.DBconn;
+import org.example.domain.benutzerKonto;
 
 import java.sql.SQLException;
 
@@ -30,6 +31,9 @@ public class Main extends Application {
             e.printStackTrace(); // Fehlerbehandlung für Delete
         }
 
+        benutzerKonto Nutzer = new benutzerKonto();
+        //Nutzer.fragenErstellen(1);
+        //Nutzer.fragenfiltern(1);
         launch(args);
     }
 
