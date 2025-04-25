@@ -14,15 +14,38 @@ import java.sql.SQLException;
 public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
+        launch(args);
         // Hier wird die Datenbankoperation vor dem Starten der JavaFX-Oberfläche ausgeführt
-        String[] values = {"netan", "drake"};
-        String[] columns = {"vorname", "name"};
         DBconn db = new DBconn();
 
+
+        // Fehlerbehandlung für Insert
+        Object []values= {"aufgabe2","was ist primitiv Datentype",4,"anwenden",1,3,"geschlossene aufgabe"};
+        String []columns = {"name","aufgabetext","zeit","bloomlevel","modulid","punkte","aufgabetype"};
         try {
             db.sqlInsert("nutzer", columns, values); // Beispiel für SQL Insert
         } catch (SQLException e) {
-            e.printStackTrace(); // Fehlerbehandlung für Insert
+            e.printStackTrace();}
+
+
+        // test modul
+        /*try {
+            db.sqlInsert("modul",columns, values);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            db.sqlSelect("modul","name", "AIN4");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }*/
+
+
+
+        try {
+            db.sqlInsert("aufgabe",columns, values);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         try {
@@ -34,7 +57,12 @@ public class Main extends Application {
         benutzerKonto Nutzer = new benutzerKonto();
         //Nutzer.fragenErstellen(1);
         //Nutzer.fragenfiltern(1);
-        launch(args);
+
+
+
+
+
+        //System.out.println(name);
     }
 
     @Override

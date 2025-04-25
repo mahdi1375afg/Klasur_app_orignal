@@ -2,6 +2,8 @@ package org.example.domain;
 
 import org.example.dao.DBconn;
 import org.example.dao.dbConnFrage;
+import org.example.domain.Klausur;
+import org.example.dao.dbConnModul;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -143,8 +145,46 @@ public class benutzerKonto {
 		// TODO - implement benutzerKonto.antwortloeaschen
 		throw new UnsupportedOperationException();
 	}
-
+	// noch nicht fertig klasur erstellen
 	public void klasurErstellen() {
+		Klausur k = new Klausur();
+		Scanner scanner = new Scanner(System.in);
+		//name eingeben
+		System.out.println("Bitte geben Sie den Namen der Klausur ein:");
+		String name = scanner.nextLine();
+		k.setName(name);
+
+		System.out.println("Bitte geben Sie den Dauer der Klausur ein:");
+		int dauer = Integer.parseInt(scanner.nextLine());
+		k.setDauer(dauer);
+
+		System.out.println("Bitte geben Sie die Beschreibung der Klausur ein:");
+		String beschreibung = scanner.nextLine();
+		k.setBeschreibung(beschreibung);
+
+		System.out.println("Bitte geben Sie das Modul ID der Klausur ein:");
+		int modul = Integer.parseInt(scanner.nextLine());
+
+		dbConnModul db = new dbConnModul();
+		try {
+			// Get the Modul from the database
+			List<Map<String, Object>> result = db.sqlSelectModul();
+			if (result.isEmpty()) {
+				System.out.println("Das Modul mit der ID " + modul + " existiert nicht.");
+				return;
+			}
+
+
+			// Assign the Modul to the Klausur
+			k.setModul(new Modul(modul, result.get(0).get("name").toString(), result.get(0).get("beschreibung").toString()));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Fehler beim Abrufen des Moduls aus der Datenbank.");
+		}
+
+
+
 		// TODO - implement benutzerKonto.klasurErstellen
 		throw new UnsupportedOperationException();
 	}

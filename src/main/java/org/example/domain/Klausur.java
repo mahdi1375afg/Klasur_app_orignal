@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Klausur {
 
@@ -9,17 +10,30 @@ public class Klausur {
 	private String name;
 	private String beschreibung;
 
+	List<Fragen> fragen;
+
 	private Modul modul;
+
 
 	private int dauer;
 
-	public Klausur (int id, LocalDate erstellungsdatum, String name, String beschreibung, Modul modul, int dauer) {
+	public Klausur (int id, LocalDate erstellungsdatum, String name,List<Fragen> fragen, String beschreibung, Modul modul, int dauer) {
 		this.id = id;
 		this.erstellungsdatum = erstellungsdatum;
 		this.name = name;
+		this.fragen = fragen;
 		this.beschreibung = beschreibung;
 		this.modul = modul;
 		this.dauer = dauer;
+	}
+
+	public Klausur(){
+		this.id = 0;
+		this.erstellungsdatum = LocalDate.now();
+		this.name = "";
+		this.beschreibung = "";
+		this.modul = null;
+		this.dauer = 0;
 	}
 
 	public int getId () {
@@ -59,5 +73,10 @@ public class Klausur {
 		this.dauer = dauer;
 	}
 
-
+	public List<Fragen> getFragen() {
+		return fragen;
+	}
+	public void setFragen(List<Fragen> fragen) {
+		this.fragen = fragen;
+	}
 }

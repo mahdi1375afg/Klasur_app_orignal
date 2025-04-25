@@ -5,7 +5,7 @@ public class DBconn {
 
     private static final String url = "jdbc:postgresql://localhost:5432/klausurapp"; // klasur => klausur
     private static final String user = "postgres";
-    private static final String password = "1234"; //1234 - Passwort Jan
+    private static final String password = "1375"; //1234 - Passwort Jan
 
     public static Connection getConn()throws SQLException {
         Connection conn = null;
@@ -39,22 +39,36 @@ public class DBconn {
         rs.close();
     }
 
-    public static void sqlInsert(String table, String[] column,String[] value)throws SQLException {
+    public static void sqlInsert(String table, String[] column,Object[] value)throws SQLException {
         PreparedStatement ps;
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < value.length; i++){
+        for (int i = 0; i < value.length; i++) {
+            // Spezialbehandlung für ENUM-Typen
+            if (column[i].equalsIgnoreCase("bloomlevel") || column[i].equalsIgnoreCase("aufgabetype")) {
+                sb.append("CAST(? AS " + column[i] + ")");
+            } else {
+                sb.append("?");
+            }
 
-            sb.append("?,");
-            if (i == value.length -1){
-                sb.deleteCharAt(sb.length()-1);
+            if (i < value.length - 1) {
+                sb.append(",");
             }
         }
 
+
         String listColumn = String.join(",", column);
+        String query ="insert into " + table + " (" + listColumn + ") values ("+ sb +")";
+        System.out.println(query);
         try {
-            ps = getConn().prepareStatement("insert into " + table + " (" + listColumn + ") values ("+ sb +")");
+            ps = getConn().prepareStatement(query);
             for(int i = 0; i < value.length; i++) {
-                ps.setString(i + 1, value[i]);
+                if (value[i] instanceof String) {
+                    ps.setString(i + 1, (String) value[i]);
+                } else if (value[i] instanceof Integer) {
+                    ps.setInt(i + 1, (Integer) value[i]);
+                } else {
+                    throw new SQLException("Invalid data type");
+                }
             }
             int insertCount = ps.executeUpdate();
             System.out.println("Insert count: " + insertCount);
