@@ -14,6 +14,13 @@ public class Antwort {
 		this.rank = rank;
 	}
 
+	public Antwort (){
+		this.id = 0;
+		this.antwortText = "";
+		this.korrekt = false;
+		this.rank = 0;
+	}
+
 	public int getId (){
 		return id;
 	}

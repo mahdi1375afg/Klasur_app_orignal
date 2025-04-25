@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import org.example.dao.DBconn;
+import org.example.dao.dbConnAntwort;
 import org.example.dao.dbConnFrage;
 import org.example.domain.Klausur;
 import org.example.dao.dbConnModul;
@@ -123,9 +124,53 @@ public class benutzerKonto {
 		return result;
 	}
 
-	public void antwortErstellen() {
-		// TODO - implement benutzerKonto.antwortErstellen
-		throw new UnsupportedOperationException();
+	public void antwortErstellen(Fragen frage) {
+		Antwort antwort = new Antwort();
+		Scanner scanner = new Scanner(System.in);
+		//name eingeben
+		System.out.println("Bitte geben Sie den Antwort ein:");
+		String name = scanner.nextLine();
+		antwort.setAntwortText(name);
+
+		System.out.println("Bitte geben Sie Richtig oder Falsch ein:");
+		if (scanner.nextLine().equals("Richtig")) {
+			antwort.setKorrekt(true);
+		} else {
+			antwort.setKorrekt(false);
+		}
+		// nur beim fragen die von art zuordnung sind einsetzen
+		System.out.println("Bitte geben Sie den Rank der Antwort ein:");
+		int rank = Integer.parseInt(scanner.nextLine());
+		antwort.setRank(rank);
+
+		if(frage.getFragenArt().equals(FragenArt.OffeneFrage)){
+
+			try{
+				DBconn db = new DBconn();
+				db.sqlInsert("antwort", new String[]{"Antwort","aufgabeId"}, new Object[]{antwort.getAntwortText(),frage.getId()});
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+		}else if(frage.getFragenArt().equals(FragenArt.GeschlosseneFrage)){
+			try{
+				DBconn db = new DBconn();
+				dbConnAntwort dbAntwort = new dbConnAntwort();
+				db.sqlInsert("antwort", new String[]{"Antwort","aufgabeId"}, new Object[]{antwort.getAntwortText(),frage.getId()});
+				System.out.println("erfogreich im im antwort table eingefügt");
+				List<Map<String, Object>> id = dbAntwort.sqlSelectAntwortId();
+				System.out.println("select id erfolgreich");
+				antwort.setId((int) id.get(id.size()-1).get("id"));
+				System.out.println("antwort id ist: "+antwort.getId());
+				String korrekt;
+				if(antwort.isKorrekt()){korrekt = "true";}
+				else {korrekt = "false";}
+				dbAntwort.sqlInsertGeschlosseneAnt( antwort.getAntwortText(),korrekt,antwort.getId());
+				System.out.println("erfogreich im im geschlosseneantwort table eingefügt");
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	/**

@@ -7,26 +7,33 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.example.dao.DBconn;
-import org.example.domain.benutzerKonto;
+import org.example.domain.*;
 
 import java.sql.SQLException;
 
-public class Main extends Application {
+public class Main {
 
     public static void main(String[] args) throws SQLException {
-        launch(args);
+        //launch(args);
         // Hier wird die Datenbankoperation vor dem Starten der JavaFX-Oberfläche ausgeführt
         DBconn db = new DBconn();
 
+        //Fragen hinzufügen
+        benutzerKonto mahdi = new benutzerKonto();
+        Modul modul = new Modul(1,"AIN4","allgemein Informatik");
+
+        Fragen frage = new Fragen(2,"wie groß ist eine Elephant", BloomLevel.verstehen,modul,3, FragenArt.GeschlosseneFrage);
+        System.out.println(frage.getFragenArt());
+        mahdi.antwortErstellen(frage);
 
         // Fehlerbehandlung für Insert
-        Object []values= {"aufgabe2","was ist primitiv Datentype",4,"anwenden",1,3,"geschlossene aufgabe"};
+       /* Object []values= {"aufgabe2","was ist primitiv Datentype",4,"anwenden",1,3,"geschlossene aufgabe"};
         String []columns = {"name","aufgabetext","zeit","bloomlevel","modulid","punkte","aufgabetype"};
         try {
             db.sqlInsert("nutzer", columns, values); // Beispiel für SQL Insert
         } catch (SQLException e) {
             e.printStackTrace();}
-
+        */
 
         // test modul
         /*try {
@@ -42,17 +49,6 @@ public class Main extends Application {
 
 
 
-        try {
-            db.sqlInsert("aufgabe",columns, values);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            db.sqlDelete("nutzer", "vorname", "netan"); // Beispiel für SQL Delete
-        } catch (SQLException e) {
-            e.printStackTrace(); // Fehlerbehandlung für Delete
-        }
 
         benutzerKonto Nutzer = new benutzerKonto();
         //Nutzer.fragenErstellen(1);
@@ -65,7 +61,7 @@ public class Main extends Application {
         //System.out.println(name);
     }
 
-    @Override
+   /* @Override
     public void start(Stage stage) throws Exception {
         //Methode die GUI startet
 
@@ -77,5 +73,5 @@ public class Main extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

@@ -5,11 +5,11 @@ public class Fragen {
 	private int id;
 	private String frageText;
 	private BloomLevel bloomLevel;
-	private Module module;
+	private Modul module;
 	private int geschaetzeZeit;
 	private FragenArt fragenArt;
 
-	public Fragen(int id, String frageText, BloomLevel bloomLevel, Module module, int geschaetzeZeit, FragenArt fragenArt) {
+	public Fragen(int id, String frageText, BloomLevel bloomLevel, Modul module, int geschaetzeZeit, FragenArt fragenArt) {
 		this.id = id;
 		this.frageText = frageText;
 		this.bloomLevel = bloomLevel;
@@ -26,7 +26,7 @@ public class Fragen {
 	public BloomLevel getBloomLevel() {
 		return bloomLevel;
 	}
-	public Module getModule() {
+	public Modul getModule() {
 		return module;
 	}
 	public int getGeschaetzeZeit() {
@@ -44,7 +44,7 @@ public class Fragen {
 	public void setBloomLevel(BloomLevel bloomLevel) {
 		this.bloomLevel = bloomLevel;
 	}
-	public void setModule(Module module) {
+	public void setModule(Modul module) {
 		this.module = module;
 	}
 	public void setGeschaetzeZeit(int geschaetzeZeit) {
