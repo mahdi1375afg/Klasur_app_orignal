@@ -81,8 +81,11 @@ public class DBconn {
         PreparedStatement ps;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < column.length; i++) {
-
-            sb.append(column[i]).append(" = ?");
+            if (column[i].equalsIgnoreCase("isKorrekt")) {
+                sb.append("isKorrekt = CAST(? AS " + "bloom" + ")");}
+            else{
+                sb.append(column[i]).append(" = ?");
+            }
             if (i < column.length - 1) {
                 sb.append(", ");
             }
@@ -94,7 +97,9 @@ public class DBconn {
         try {
             ps = getConn().prepareStatement(query);
             for (int i = 0; i < value.length; i++) {
-                if(value[i] instanceof String){
+
+
+                 if(value[i] instanceof String){
                     ps.setString(i + 1, (String) value[i]);
                 } else if (value[i] instanceof Integer) {
                     ps.setInt(i + 1, (Integer) value[i]);
@@ -102,10 +107,12 @@ public class DBconn {
                     throw new SQLException("Invalid data type");
                 }
             }
-            if (conditionColumn.equals("id")) {
-                ps.setInt(value.length + 1, (Integer)(conditionValue));
+            if (conditionValue instanceof Integer) {
+                ps.setInt(value.length + 1, (Integer) conditionValue);
+            } else if (conditionValue instanceof String) {
+                ps.setString(value.length + 1, (String) conditionValue);
             } else {
-                ps.setString(value.length + 1,(String)(conditionValue));
+                throw new SQLException("Invalid data type for conditionValue");
             }
             int updatecount = ps.executeUpdate();
             System.out.println("Update count: " + updatecount);

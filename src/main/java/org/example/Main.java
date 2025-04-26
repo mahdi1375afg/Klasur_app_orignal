@@ -20,11 +20,19 @@ public class Main {
 
         //Fragen hinzufügen
         benutzerKonto mahdi = new benutzerKonto();
+        /*
         Modul modul = new Modul(1,"AIN4","allgemein Informatik");
 
         Fragen frage = new Fragen(2,"wie groß ist eine Elephant", BloomLevel.verstehen,modul,3, FragenArt.GeschlosseneFrage);
         System.out.println(frage.getFragenArt());
         mahdi.antwortErstellen(frage);
+        */
+
+        //Fragen bearbeiten
+        Antwort antwort = new Antwort(1,"Elephant ist 4m groß", true, 1, antwortType.geschlosseneAntwort);
+         mahdi.antwortBearbeiten(antwort);
+
+
 
         // Fehlerbehandlung für Insert
        /* Object []values= {"aufgabe2","was ist primitiv Datentype",4,"anwenden",1,3,"geschlossene aufgabe"};

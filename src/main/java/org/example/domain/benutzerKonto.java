@@ -211,26 +211,51 @@ public class benutzerKonto {
 			switch (choice) {
 				case 1:
 					System.out.println("Bitte geben Sie den neuen AntwortText ein:");
-					String newAntwortText = scanner.nextLine();
-					ant.setAntwortText(newAntwortText);
+					String newAntwortText1 = scanner.nextLine();
+					ant.setAntwortText(newAntwortText1);
 
 					try {
+						DBconn.sqlUpdate("antwort", new String[]{"antwort"}, new Object[]{newAntwortText1}, "id", id);
+						System.out.println("antwort table erfolgreich bearbeitet.");
 
-						DBconn.sqlUpdate("antwort", new String[]{"Antwort"}, new Object[]{ant.getAntwortText()}, "id", ant.getId());
-						System.out.println("Antwort erfolgreich bearbeitet.");
+						List<Map<String, Object>> lastid = dbConnAntwort.sqlSelectAntwortId();
+						System.out.println("select id erfolgreich");
+						ant.setId((int) lastid.get(lastid.size() - 1).get("id"));
+						System.out.println("antwort id ist: " + ant.getId());
+						DBconn.sqlUpdate("geschlosseneantwort", new String[]{"antwort"}, new Object[]{newAntwortText1}, "antwortid", ant.getId());
+
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
+
 					break;
 				case 2:
 					System.out.println("Bitte geben Sie den neuen Korrekt ein (true/false):");
 					boolean newKorrekt = Boolean.parseBoolean(scanner.nextLine());
 					ant.setKorrekt(newKorrekt);
-					break;
+					try {
+						String korrekt;
+						if (ant.isKorrekt()) {
+							korrekt = "true";
+						} else {
+							korrekt = "false";
+						}
+						DBconn.sqlUpdate("geschlosseneantwort", new String[]{"isKorrekt"}, new Object[]{korrekt}, "id", id);
+						System.out.println("antwort table erfolgreich bearbeitet.");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+						break;
 				case 3:
 					System.out.println("Bitte geben Sie den neuen Rank ein:");
 					int newRank = Integer.parseInt(scanner.nextLine());
 					ant.setRank(newRank);
+					try {
+						DBconn.sqlUpdate("geschlosseneantwort", new String[]{"rank"}, new Object[]{newRank}, "id", id);
+						System.out.println("rank im geschlosseneantwort table erfolgreich bearbeitet.");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					break;
 				default:
 					System.out.println("Ungültige Auswahl.");
