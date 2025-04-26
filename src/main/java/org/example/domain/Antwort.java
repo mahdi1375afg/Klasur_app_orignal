@@ -7,11 +7,22 @@ public class Antwort {
 	private boolean korrekt;
 	private int rank;
 
-	public Antwort (int id, String antwortText, boolean koorrekt, int rank){
+	private antwortType antwortType;
+
+	public Antwort (int id, String antwortText, boolean korrekt, int rank, antwortType antwortType){
 		this.id = id;
 		this.antwortText = antwortText;
 		this.korrekt = korrekt;
 		this.rank = rank;
+		this.antwortType = antwortType;
+	}
+
+	public antwortType getAntwortType() {
+		return antwortType;
+	}
+
+	public void setAntwortType(antwortType antwortType) {
+		this.antwortType = antwortType;
 	}
 
 	public Antwort (){
@@ -19,6 +30,7 @@ public class Antwort {
 		this.antwortText = "";
 		this.korrekt = false;
 		this.rank = 0;
+		this.antwortType = null;
 	}
 
 	public int getId (){

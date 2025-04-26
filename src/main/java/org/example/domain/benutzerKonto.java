@@ -127,59 +127,116 @@ public class benutzerKonto {
 	public void antwortErstellen(Fragen frage) {
 		Antwort antwort = new Antwort();
 		Scanner scanner = new Scanner(System.in);
-		//name eingeben
-		System.out.println("Bitte geben Sie den Antwort ein:");
-		String name = scanner.nextLine();
-		antwort.setAntwortText(name);
 
-		System.out.println("Bitte geben Sie Richtig oder Falsch ein:");
-		if (scanner.nextLine().equals("Richtig")) {
-			antwort.setKorrekt(true);
-		} else {
-			antwort.setKorrekt(false);
-		}
-		// nur beim fragen die von art zuordnung sind einsetzen
-		System.out.println("Bitte geben Sie den Rank der Antwort ein:");
-		int rank = Integer.parseInt(scanner.nextLine());
-		antwort.setRank(rank);
+		if (frage.getFragenArt().equals(FragenArt.OffeneFrage)) {
+			//name eingeben
+			System.out.println("Bitte geben Sie den Antwort ein:");
+			String name = scanner.nextLine();
+			antwort.setAntwortText(name);
 
-		if(frage.getFragenArt().equals(FragenArt.OffeneFrage)){
-
-			try{
+			try {
 				DBconn db = new DBconn();
-				db.sqlInsert("antwort", new String[]{"Antwort","aufgabeId"}, new Object[]{antwort.getAntwortText(),frage.getId()});
-			}catch (SQLException e){
+				db.sqlInsert("antwort", new String[]{"Antwort", "aufgabeId"}, new Object[]{antwort.getAntwortText(), frage.getId()});
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}else if(frage.getFragenArt().equals(FragenArt.GeschlosseneFrage)){
-			try{
+
+		} else {
+			System.out.println("Bitte geben Sie den Antwort ein:");
+			String name = scanner.nextLine();
+			antwort.setAntwortText(name);
+
+
+			System.out.println("Bitte geben Sie Richtig oder Falsch ein:");
+			if (scanner.nextLine().equals("Richtig")) {
+				antwort.setKorrekt(true);
+			} else {
+				antwort.setKorrekt(false);
+			}
+			// nur beim fragen die von art zuordnung sind einsetzen
+			System.out.println("Bitte geben Sie den Rank der Antwort ein:");
+			int rank = Integer.parseInt(scanner.nextLine());
+			antwort.setRank(rank);
+
+			try {
 				DBconn db = new DBconn();
 				dbConnAntwort dbAntwort = new dbConnAntwort();
-				db.sqlInsert("antwort", new String[]{"Antwort","aufgabeId"}, new Object[]{antwort.getAntwortText(),frage.getId()});
+				db.sqlInsert("antwort", new String[]{"Antwort", "aufgabeId"}, new Object[]{antwort.getAntwortText(), frage.getId()});
 				System.out.println("erfogreich im im antwort table eingefügt");
 				List<Map<String, Object>> id = dbAntwort.sqlSelectAntwortId();
 				System.out.println("select id erfolgreich");
-				antwort.setId((int) id.get(id.size()-1).get("id"));
-				System.out.println("antwort id ist: "+antwort.getId());
+				antwort.setId((int) id.get(id.size() - 1).get("id"));
+				System.out.println("antwort id ist: " + antwort.getId());
 				String korrekt;
-				if(antwort.isKorrekt()){korrekt = "true";}
-				else {korrekt = "false";}
-				dbAntwort.sqlInsertGeschlosseneAnt( antwort.getAntwortText(),korrekt,antwort.getId());
+				if (antwort.isKorrekt()) {
+					korrekt = "true";
+				} else {
+					korrekt = "false";
+				}
+				dbAntwort.sqlInsertGeschlosseneAnt(antwort.getAntwortText(), korrekt, antwort.getId());
 				System.out.println("erfogreich im im geschlosseneantwort table eingefügt");
-			}catch (SQLException e){
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
 
+
+		}
 	}
 
-	/**
-	 * 
-	 * @param Antwort
-	 */
-	public void antwortBearbeiten(int Antwort) {
-		// TODO - implement benutzerKonto.antwortBearbeiten
-		throw new UnsupportedOperationException();
+	//noch nicht fertig
+	public void antwortBearbeiten(Antwort ant) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Bitte geben Sie den Id der Antwort, der sie bearbeiten möchten:");
+		int id = Integer.parseInt(scanner.nextLine());
+
+		if(ant.getAntwortType().equals(antwortType.offeneAntwort)){
+			System.out.println("Bitte geben Sie den neuen AntwortText ein:");
+			String newAntwortText = scanner.nextLine();
+
+			try {
+				DBconn.sqlUpdate("antwort", new String[]{"antwort"}, new Object[]{newAntwortText}, "id", id);
+				System.out.println("Antwort erfolgreich bearbeitet.");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}else {
+
+			System.out.println("Welche Spalten möchten Sie bearbeiten?");
+			System.out.println("1. AntwortText");
+			System.out.println("2. Korrekt");
+			System.out.println("3. Rank");
+			int choice = Integer.parseInt(scanner.nextLine());
+
+			switch (choice) {
+				case 1:
+					System.out.println("Bitte geben Sie den neuen AntwortText ein:");
+					String newAntwortText = scanner.nextLine();
+					ant.setAntwortText(newAntwortText);
+
+					try {
+
+						DBconn.sqlUpdate("antwort", new String[]{"Antwort"}, new Object[]{ant.getAntwortText()}, "id", ant.getId());
+						System.out.println("Antwort erfolgreich bearbeitet.");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+					break;
+				case 2:
+					System.out.println("Bitte geben Sie den neuen Korrekt ein (true/false):");
+					boolean newKorrekt = Boolean.parseBoolean(scanner.nextLine());
+					ant.setKorrekt(newKorrekt);
+					break;
+				case 3:
+					System.out.println("Bitte geben Sie den neuen Rank ein:");
+					int newRank = Integer.parseInt(scanner.nextLine());
+					ant.setRank(newRank);
+					break;
+				default:
+					System.out.println("Ungültige Auswahl.");
+			}
+
+		}
 	}
 
 	/**

@@ -77,7 +77,7 @@ public class DBconn {
         }
         ps.close();
     }
-    public static void sqlUpdate(String table, String[] column,String[] value,String conditionColumn,String conditionValue)throws SQLException {
+    public static void sqlUpdate(String table, String[] column,Object[] value,String conditionColumn,Object conditionValue)throws SQLException {
         PreparedStatement ps;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < column.length; i++) {
@@ -94,12 +94,18 @@ public class DBconn {
         try {
             ps = getConn().prepareStatement(query);
             for (int i = 0; i < value.length; i++) {
-                ps.setString(i + 1, value[i]);
+                if(value[i] instanceof String){
+                    ps.setString(i + 1, (String) value[i]);
+                } else if (value[i] instanceof Integer) {
+                    ps.setInt(i + 1, (Integer) value[i]);
+                } else {
+                    throw new SQLException("Invalid data type");
+                }
             }
             if (conditionColumn.equals("id")) {
-                ps.setInt(value.length + 1, Integer.parseInt(conditionValue));
+                ps.setInt(value.length + 1, (Integer)(conditionValue));
             } else {
-                ps.setString(value.length + 1, conditionValue);
+                ps.setString(value.length + 1,(String)(conditionValue));
             }
             int updatecount = ps.executeUpdate();
             System.out.println("Update count: " + updatecount);
