@@ -29,8 +29,11 @@ public class Main {
         */
 
         //Fragen bearbeiten
-        Antwort antwort = new Antwort(1,"Elephant ist 4m groß", true, 1, antwortType.geschlosseneAntwort);
-         mahdi.antwortBearbeiten(antwort);
+        Antwort antwort = new Antwort(2,"Elephant ist 4m groß", true, 1, antwortType.geschlosseneAntwort);
+         ///mahdi.antwortBearbeiten(antwort);
+
+        //Fragen löschen
+        mahdi.antwortloeaschen(antwort);
 
 
 

@@ -135,8 +135,8 @@ public class benutzerKonto {
 			antwort.setAntwortText(name);
 
 			try {
-				DBconn db = new DBconn();
-				db.sqlInsert("antwort", new String[]{"Antwort", "aufgabeId"}, new Object[]{antwort.getAntwortText(), frage.getId()});
+
+				DBconn.sqlInsert("antwort", new String[]{"Antwort", "aufgabeId"}, new Object[]{antwort.getAntwortText(), frage.getId()});
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -159,11 +159,10 @@ public class benutzerKonto {
 			antwort.setRank(rank);
 
 			try {
-				DBconn db = new DBconn();
-				dbConnAntwort dbAntwort = new dbConnAntwort();
-				db.sqlInsert("antwort", new String[]{"Antwort", "aufgabeId"}, new Object[]{antwort.getAntwortText(), frage.getId()});
+
+				DBconn.sqlInsert("antwort", new String[]{"Antwort", "aufgabeId"}, new Object[]{antwort.getAntwortText(), frage.getId()});
 				System.out.println("erfogreich im im antwort table eingefügt");
-				List<Map<String, Object>> id = dbAntwort.sqlSelectAntwortId();
+				List<Map<String, Object>> id = dbConnAntwort.sqlSelectAntwortId();
 				System.out.println("select id erfolgreich");
 				antwort.setId((int) id.get(id.size() - 1).get("id"));
 				System.out.println("antwort id ist: " + antwort.getId());
@@ -173,7 +172,7 @@ public class benutzerKonto {
 				} else {
 					korrekt = "false";
 				}
-				dbAntwort.sqlInsertGeschlosseneAnt(antwort.getAntwortText(), korrekt, antwort.getId());
+				dbConnAntwort.sqlInsertGeschlosseneAnt(antwort.getAntwortText(), korrekt, antwort.getId());
 				System.out.println("erfogreich im im geschlosseneantwort table eingefügt");
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -264,16 +263,28 @@ public class benutzerKonto {
 		}
 	}
 
-	/**
-	 * 
-	 * @param Antwort
-	 */
-	public void antwortloeaschen(int Antwort) {
-		// TODO - implement benutzerKonto.antwortloeaschen
-		throw new UnsupportedOperationException();
+	public void antwortloeaschen(Antwort ant) {
+
+		if (ant.getAntwortType().equals(antwortType.geschlosseneAntwort)) {
+			try {
+				DBconn.sqlDelete("geschlosseneantwort", "antwortid", ant.getId());
+				System.out.println("geschlosseneantwort erfolgreich gelöscht.");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+
+			try {
+				DBconn.sqlDelete("antwort", "id", ant.getId());
+				System.out.println("table antwort erfolgreich gelöscht.");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
 	// noch nicht fertig klasur erstellen
-	public void klasurErstellen() {
+	public void klasurErstellen(){
 		Klausur k = new Klausur();
 		Scanner scanner = new Scanner(System.in);
 		//name eingeben
@@ -291,11 +302,10 @@ public class benutzerKonto {
 
 		System.out.println("Bitte geben Sie das Modul ID der Klausur ein:");
 		int modul = Integer.parseInt(scanner.nextLine());
-
-		dbConnModul db = new dbConnModul();
+		
 		try {
 			// Get the Modul from the database
-			List<Map<String, Object>> result = db.sqlSelectModul();
+			List<Map<String, Object>> result = dbConnModul.sqlSelectModul();
 			if (result.isEmpty()) {
 				System.out.println("Das Modul mit der ID " + modul + " existiert nicht.");
 				return;

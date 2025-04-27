@@ -122,11 +122,17 @@ public class DBconn {
         ps.close();
     }
 
-        public static void sqlDelete (String table, String column, String value) throws SQLException {
+        public static void sqlDelete (String table, String column, Object value) throws SQLException {
             PreparedStatement ps;
             try {
                 ps = getConn().prepareStatement("delete from " + table + " where " + column + " = ?");
-                ps.setString(1, value);
+                if(value instanceof Integer){
+                    ps.setInt(1, (Integer) value);
+                } else if (value instanceof String) {
+                    ps.setString(1, (String) value);
+                } else {
+                    throw new SQLException("Invalid data type");
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
