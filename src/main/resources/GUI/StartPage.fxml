@@ -10,9 +10,9 @@
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SceneController">
     <left>
         <VBox alignment="CENTER_LEFT" maxWidth="400.0" prefHeight="400.0" prefWidth="150.0" spacing="10" style="-fx-background-color: #1c9f0c;" BorderPane.alignment="CENTER">
-            <Button fx:id="buttonGenerateExam" onAction="#switchToExamPage" prefHeight="30.0" prefWidth="150.0" text="Klausur erstellen" />
             <Button fx:id="buttonAddTask" onAction="#switchToAddTaskPage" prefHeight="30.0" prefWidth="150.0" text="Aufgabe hinzufügen" />
             <Button fx:id="buttonTaskOverview" onAction="#switchToTaskOverview" prefHeight="30.0" prefWidth="150.0" text="Aufgabenübersicht" />
+            <Button fx:id="buttonGenerateExam" onAction="#switchToExamPage" prefHeight="30.0" prefWidth="150.0" text="Klausur erstellen" />
             <Button fx:id="buttonExamCollection" onAction="#switchToExamCollection" prefHeight="30.0" prefWidth="150.0" text="Klausurensammlung" />
         </VBox>
     </left>

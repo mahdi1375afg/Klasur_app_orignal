@@ -11,10 +11,10 @@ import org.example.domain.*;
 
 import java.sql.SQLException;
 
-public class Main {
+public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
-        //launch(args);
+        launch(args);
         // Hier wird die Datenbankoperation vor dem Starten der JavaFX-Oberfläche ausgeführt
         DBconn db = new DBconn();
 
@@ -72,7 +72,7 @@ public class Main {
         //System.out.println(name);
     }
 
-   /* @Override
+    @Override
     public void start(Stage stage) throws Exception {
         //Methode die GUI startet
 
@@ -84,5 +84,5 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 }
