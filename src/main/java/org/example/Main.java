@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.example.dao.DBconn;
 import org.example.domain.*;
@@ -29,7 +28,7 @@ public class Main extends Application {
         */
 
         //Fragen bearbeiten
-        Antwort antwort = new Antwort(2,"Elephant ist 4m groß", true, 1, antwortType.geschlosseneAntwort);
+        Antwort antwort = new Antwort(2,"Elephant ist 4m groß", true, 1, AntwortType.geschlosseneAntwort);
          ///mahdi.antwortBearbeiten(antwort);
 
         //Fragen löschen

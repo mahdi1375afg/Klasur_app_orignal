@@ -3,7 +3,6 @@ package org.example.domain;
 import org.example.dao.DBconn;
 import org.example.dao.dbConnAntwort;
 import org.example.dao.dbConnFrage;
-import org.example.domain.Klausur;
 import org.example.dao.dbConnModul;
 
 import java.sql.SQLException;
@@ -188,7 +187,7 @@ public class benutzerKonto {
 		System.out.println("Bitte geben Sie den Id der Antwort, der sie bearbeiten möchten:");
 		int id = Integer.parseInt(scanner.nextLine());
 
-		if(ant.getAntwortType().equals(antwortType.offeneAntwort)){
+		if(ant.getAntwortType().equals(AntwortType.offeneAntwort)){
 			System.out.println("Bitte geben Sie den neuen AntwortText ein:");
 			String newAntwortText = scanner.nextLine();
 
@@ -265,7 +264,7 @@ public class benutzerKonto {
 
 	public void antwortloeaschen(Antwort ant) {
 
-		if (ant.getAntwortType().equals(antwortType.geschlosseneAntwort)) {
+		if (ant.getAntwortType().equals(AntwortType.geschlosseneAntwort)) {
 			try {
 				DBconn.sqlDelete("geschlosseneantwort", "antwortid", ant.getId());
 				System.out.println("geschlosseneantwort erfolgreich gelöscht.");

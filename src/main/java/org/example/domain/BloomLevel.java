@@ -3,7 +3,7 @@ package org.example.domain;
 public enum BloomLevel {
 
 
-	errinern(1, "Erinnern","Gelerntes auswendig wiedergeben, Ausführen von Routinen."),
+	erinnern(1, "Erinnern","Gelerntes auswendig wiedergeben, Ausführen von Routinen."),
 	verstehen(2, "Verstehen", "Gelerntes erklären, reformulieren oder paraphrasieren."),
 	anwenden(3, "Anwenden", "Gelerntes in neuem Kontext / neuer Situation anwenden"),
 	analysieren(4,"Analysieren", "Gelerntes in Bestandteile zerlegen, Strukturen erläutern. "),
@@ -21,7 +21,7 @@ public enum BloomLevel {
 	public int getNummer(){
 		return nummer;
 	}
-	public String getKatagorie(){
+	public String getKategorie(){
 		return katagorie;
 	}
 

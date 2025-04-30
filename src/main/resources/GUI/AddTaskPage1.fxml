@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TaskPageController1">
+
+   <top>
+      <Text style="-fx-font-size:30;" text="Aufgabe hinzufügen" BorderPane.alignment="CENTER" />
+   </top>
+
+   <center>
+      <GridPane hgap="15" vgap="10">
+         <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+         </padding>
+         <columnConstraints>
+            <ColumnConstraints percentWidth="20" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="80" />
+         </columnConstraints>
+
+         <Text text="Titel:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+         <TextField fx:id="taskTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+         <Text text="Modul:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+         <TextField fx:id="modulTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+         <Text text="Anzahl Punkte:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+         <TextField fx:id="numberPoints" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+         <Text style="-fx-font-size:18;" text="Typ:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+         <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.rowSpan="6">
+            <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen">
+               <toggleGroup>
+                  <ToggleGroup fx:id="taskType" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypTrueFalsch" onAction="#setTaskType" text="Wahr/Falsch" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypGapText" onAction="#setTaskType" text="Lückentext" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypAssign" onAction="#setTaskType" text="Zuordnen" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking" toggleGroup="$taskType" />
+         </VBox>
+
+         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="4" GridPane.rowSpan="6">
+            <RadioButton fx:id="rButtonTaxonomieRemember" onAction="#setTaskTaxonomie" text="Erinnern">
+               <toggleGroup>
+                  <ToggleGroup fx:id="taskTaxonomie" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="rButtonTaxonomieUnderstand" onAction="#setTaskTaxonomie" text="Verstehen" toggleGroup="$taskTaxonomie" />
+            <RadioButton fx:id="rButtonTaxonomieApply" onAction="#setTaskTaxonomie" text="Anwenden" toggleGroup="$taskTaxonomie" />
+            <RadioButton fx:id="rButtonTaxonomieAnalyze" onAction="#setTaskTaxonomie" text="Analysieren" toggleGroup="$taskTaxonomie" />
+            <RadioButton fx:id="rButtonTaxonomieRate" onAction="#setTaskTaxonomie" text="Bewerten" toggleGroup="$taskTaxonomie" />
+            <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen" toggleGroup="$taskTaxonomie" />
+         </VBox>
+         <Button onAction="#switchToAddTaskPageContent" text="Startseite" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+   </center>
+
+</BorderPane>

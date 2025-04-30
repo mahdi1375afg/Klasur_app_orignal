@@ -59,7 +59,7 @@ public class SceneController {
     public void switchToAddTaskPage(ActionEvent event) throws IOException {
         //Methode sorgt für den Wechsel von Startseite zur Klausurerstellungsseite
 
-        switchScene(event, "/GUI/AddTaskPage.fxml");
+        switchScene(event, "/GUI/AddTaskPage1.fxml");
     }
 
 

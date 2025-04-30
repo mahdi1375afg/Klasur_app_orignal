@@ -7,9 +7,9 @@ public class Antwort {
 	private boolean korrekt;
 	private int rank;
 
-	private antwortType antwortType;
+	private AntwortType antwortType;
 
-	public Antwort (int id, String antwortText, boolean korrekt, int rank, antwortType antwortType){
+	public Antwort (int id, String antwortText, boolean korrekt, int rank, AntwortType antwortType){
 		this.id = id;
 		this.antwortText = antwortText;
 		this.korrekt = korrekt;
@@ -17,11 +17,11 @@ public class Antwort {
 		this.antwortType = antwortType;
 	}
 
-	public antwortType getAntwortType() {
+	public AntwortType getAntwortType() {
 		return antwortType;
 	}
 
-	public void setAntwortType(antwortType antwortType) {
+	public void setAntwortType(AntwortType antwortType) {
 		this.antwortType = antwortType;
 	}
 
