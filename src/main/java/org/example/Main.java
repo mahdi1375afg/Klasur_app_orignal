@@ -6,7 +6,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
 
-public class Main {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.example.dao.DBconn;
+import org.example.domain.*;
+
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class Main  extends Application{
     public static void main(String[] args) throws SQLException {
         String []values = {"netan","drake","gmail@outlook"};
         String []columns = {"vorname","name","email"};
@@ -26,8 +39,22 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+    }
+    @Override
+    public void start(Stage stage) throws Exception {
+        //Methode die GUI startet
+
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/StartPage.fxml"));
+            Scene startScene = new Scene(root);
+            stage.setScene(startScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //System.out.println(name);
+    }
 
 
         //System.out.println(name);
     }
-}
