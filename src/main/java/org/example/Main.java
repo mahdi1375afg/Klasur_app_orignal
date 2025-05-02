@@ -4,6 +4,7 @@ import org.example.dao.DBconn;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import javafx.application.Application;
@@ -19,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Main  extends Application{
+public class Main {
     public static void main(String[] args) throws SQLException {
-        String []values = {"netan","drake","gmail@outlook"};
-        String []columns = {"vorname","name","email"};
+        String[] values = {"netan", "drake", "gmail@outlook"};
+        String[] columns = {"vorname", "name", "email"};
 
-        DBconn db = new DBconn();
+      /*  DBconn db = new DBconn();
 
 
 
@@ -38,23 +39,13 @@ public class Main  extends Application{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    */
+        Fragen frage = new Fragen(1, "Was ist Java?", BloomLevel.anwenden,new Modul(1,"AIN","ain") , 1, FragenArt.GeschlosseneFrage);
+        Antwort antwort = new Antwort(2, "Java ist eine Programmiersprache", true, 1,AntwortType.geschlosseneAntwort);
+        LocalDateTime time = LocalDateTime.now();
+        benutzerKonto konto = new benutzerKonto(1, "netan", "drake", time, true);
 
-    }
-    @Override
-    public void start(Stage stage) throws Exception {
-        //Methode die GUI startet
-
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/StartPage.fxml"));
-            Scene startScene = new Scene(root);
-            stage.setScene(startScene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //System.out.println(name);
+        konto.antwortloeaschen(antwort);
     }
 
-
-        //System.out.println(name);
-    }
+}

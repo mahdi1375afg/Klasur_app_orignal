@@ -44,8 +44,8 @@ public class DBconn {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < value.length; i++) {
             // Spezialbehandlung für ENUM-Typen
-            if (column[i].equalsIgnoreCase("bloomlevel") || column[i].equalsIgnoreCase("aufgabetype")) {
-                sb.append("CAST(? AS " + column[i] + ")");
+            if (column[i].equalsIgnoreCase("ist_korrekt")) {
+                sb.append("CAST(? AS boolean)");
             } else {
                 sb.append("?");
             }
@@ -77,6 +77,8 @@ public class DBconn {
         }
         ps.close();
     }
+
+
     public static void sqlUpdate(String table, String[] column,Object[] value,String conditionColumn,Object conditionValue)throws SQLException {
         PreparedStatement ps;
         StringBuilder sb = new StringBuilder();

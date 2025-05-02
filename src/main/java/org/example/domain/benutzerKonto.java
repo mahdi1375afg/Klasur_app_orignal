@@ -21,6 +21,14 @@ public class benutzerKonto {
 
 	private LocalDateTime letzteAnmeldung;
 	private boolean aktiv;
+
+	public benutzerKonto(int id, String benutzerName, String passwort, LocalDateTime letzteAnmeldung, boolean aktiv) {
+		this.id = id;
+		this.benutzerName = benutzerName;
+		this.passwort = passwort;
+		this.letzteAnmeldung = letzteAnmeldung;
+		this.aktiv = aktiv;
+	}
 	/**
 	 * 
 	 * @param Nutzer
@@ -133,7 +141,7 @@ public class benutzerKonto {
 
 			try {
 
-				DBconn.sqlInsert("antwort", new String[]{"Antwort", "aufgabeId"}, new Object[]{antwort.getAntwortText(), frage.getId()});
+				DBconn.sqlInsert("antwortmoeglichkeit_geschlossen", new String[]{"antworttext","ist_korrekt","geschlossene_aufgabe_id"}, new Object[]{antwort.getAntwortText(),"true",1});
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -157,20 +165,8 @@ public class benutzerKonto {
 
 			try {
 
-				DBconn.sqlInsert("antwort", new String[]{"Antwort", "aufgabeId"}, new Object[]{antwort.getAntwortText(), frage.getId()});
+				DBconn.sqlInsert("antwortmoeglichkeit_geschlossen", new String[]{"antworttext","ist_korrekt","geschlossene_aufgabe_id"}, new Object[]{antwort.getAntwortText(),"true",1});
 				System.out.println("erfogreich im im antwort table eingefügt");
-				List<Map<String, Object>> id = dbConnAntwort.sqlSelectAntwortId();
-				System.out.println("select id erfolgreich");
-				antwort.setId((int) id.get(id.size() - 1).get("id"));
-				System.out.println("antwort id ist: " + antwort.getId());
-				String korrekt;
-				if (antwort.isKorrekt()) {
-					korrekt = "true";
-				} else {
-					korrekt = "false";
-				}
-				dbConnAntwort.sqlInsertGeschlosseneAnt(antwort.getAntwortText(), korrekt, antwort.getId());
-				System.out.println("erfogreich im im geschlosseneantwort table eingefügt");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -190,7 +186,7 @@ public class benutzerKonto {
 			String newAntwortText = scanner.nextLine();
 
 			try {
-				DBconn.sqlUpdate("antwort", new String[]{"antwort"}, new Object[]{newAntwortText}, "id", id);
+				DBconn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"antworttext"}, new Object[]{newAntwortText}, "id", id);
 				System.out.println("Antwort erfolgreich bearbeitet.");
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -201,7 +197,6 @@ public class benutzerKonto {
 			System.out.println("Welche Spalten möchten Sie bearbeiten?");
 			System.out.println("1. AntwortText");
 			System.out.println("2. Korrekt");
-			System.out.println("3. Rank");
 			int choice = Integer.parseInt(scanner.nextLine());
 
 			switch (choice) {
@@ -211,14 +206,9 @@ public class benutzerKonto {
 					ant.setAntwortText(newAntwortText1);
 
 					try {
-						DBconn.sqlUpdate("antwort", new String[]{"antwort"}, new Object[]{newAntwortText1}, "id", id);
+						DBconn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"antworttext"}, new Object[]{newAntwortText1}, "id", id);
 						System.out.println("antwort table erfolgreich bearbeitet.");
 
-						List<Map<String, Object>> lastid = dbConnAntwort.sqlSelectAntwortId();
-						System.out.println("select id erfolgreich");
-						ant.setId((int) lastid.get(lastid.size() - 1).get("id"));
-						System.out.println("antwort id ist: " + ant.getId());
-						DBconn.sqlUpdate("geschlosseneantwort", new String[]{"antwort"}, new Object[]{newAntwortText1}, "antwortid", ant.getId());
 
 					} catch (SQLException e) {
 						e.printStackTrace();
@@ -236,23 +226,12 @@ public class benutzerKonto {
 						} else {
 							korrekt = "false";
 						}
-						DBconn.sqlUpdate("geschlosseneantwort", new String[]{"isKorrekt"}, new Object[]{korrekt}, "id", id);
+						DBconn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"ist_korrekt"}, new Object[]{korrekt}, "id", id);
 						System.out.println("antwort table erfolgreich bearbeitet.");
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 						break;
-				case 3:
-					System.out.println("Bitte geben Sie den neuen Rank ein:");
-					int newRank = Integer.parseInt(scanner.nextLine());
-					ant.setRank(newRank);
-					try {
-						DBconn.sqlUpdate("geschlosseneantwort", new String[]{"rank"}, new Object[]{newRank}, "id", id);
-						System.out.println("rank im geschlosseneantwort table erfolgreich bearbeitet.");
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					break;
 				default:
 					System.out.println("Ungültige Auswahl.");
 			}
@@ -264,20 +243,11 @@ public class benutzerKonto {
 
 		if (ant.getAntwortType().equals(AntwortType.geschlosseneAntwort)) {
 			try {
-				DBconn.sqlDelete("geschlosseneantwort", "antwortid", ant.getId());
+				DBconn.sqlDelete("antwortmoeglichkeit_geschlossen", "id", ant.getId());
 				System.out.println("geschlosseneantwort erfolgreich gelöscht.");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		} else {
-
-			try {
-				DBconn.sqlDelete("antwort", "id", ant.getId());
-				System.out.println("table antwort erfolgreich gelöscht.");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
 		}
 	}
 	// noch nicht fertig klasur erstellen
