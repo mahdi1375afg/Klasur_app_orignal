@@ -27,11 +27,6 @@ CREATE TYPE taxonomie_stufe AS ENUM (
  'Erschaffen'
 );
 
-CREATE TABLE taxonomie_level (
- id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
- name taxonomie_stufe NOT NULL
-);
-
 CREATE TABLE aufgabe (
  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
  name VARCHAR(255) NOT NULL,
@@ -39,9 +34,8 @@ CREATE TABLE aufgabe (
  zeit INTERVAL NOT NULL,
  format VARCHAR(20) NOT NULL,
  punkte DECIMAL(4,1) NOT NULL,
- taxonomie_id INT,
- benutzer_id INT,
- FOREIGN KEY (taxonomie_id) REFERENCES taxonomie_level(id),
+ taxonomie taxonomie_stufe,
+ benutzer_id INT NOT NULL,
  FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
 );
 
