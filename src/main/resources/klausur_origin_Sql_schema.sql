@@ -1,5 +1,5 @@
-create type bloomLevel as enum('errinern','verstehen','anwenden','anlysieren','bewerten','erschaffen');
-create type geschlosseneFrageType as enum('singel Choice','multiple Choice','wahr oder falsch','luecken Text','Zuordnung,Ranking');
+create type bloomLevel as enum('erinnern','verstehen','anwenden','analysieren','bewerten','erschaffen');
+create type geschlosseneFrageType as enum('single Choice','multiple Choice','wahr oder falsch','luecken Text','Zuordnung,Ranking');
 create type Bloom as enum('true', 'false');
 
 create table modul(

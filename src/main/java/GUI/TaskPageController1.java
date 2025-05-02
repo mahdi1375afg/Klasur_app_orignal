@@ -19,6 +19,8 @@ public class TaskPageController1 extends SceneController {
     private TextField modulTitle;
     @FXML
     private TextField numberPoints;
+    @FXML
+    TextField duration;
 
     //ToggleGroups
     @FXML
@@ -64,6 +66,7 @@ public class TaskPageController1 extends SceneController {
     private Integer numberPointsInteger = null;
     private AntwortType antwortType = null;
     private BloomLevel bloomLevel = null;
+    private Integer durationNumber = null;
 
     @FXML
     public void initialize() {
@@ -74,6 +77,8 @@ public class TaskPageController1 extends SceneController {
         modulTitle.textProperty().addListener((observable, oldValue, newValue) -> setModulTitle());
 
         numberPoints.textProperty().addListener((observable, oldValue, newValue) -> setNumberPoints());
+
+        duration.textProperty().addListener((observable, oldValue, newValue) -> setDurationNumber());
     }
 
     public String getTaskTitle() {
@@ -106,11 +111,25 @@ public class TaskPageController1 extends SceneController {
         }
     }
 
-
     public Integer getNumberPoints() {
         return numberPointsInteger;
     }
 
+    public void setDurationNumber() {
+        String temp = duration.getText();
+        try {
+            Integer tempInteger = Integer.parseInt(temp);
+
+            if (tempInteger >= 0) {
+                durationNumber = tempInteger;
+            }
+        } catch (NumberFormatException e) {
+
+        }
+    }
+    public Integer getDurationNumber() {
+        return durationNumber;
+    }
     @FXML
     public void switchToAddTaskPageContent(ActionEvent event) throws IOException {
         //Schickt alle gesammelten Informationen beim Seitenwechsel an Anwendungsschicht
@@ -132,6 +151,10 @@ public class TaskPageController1 extends SceneController {
             return;
         }
 
+        if(durationNumber == null){
+            showAlert("Fehler", "Bitte geben Sie die Dauer an!");
+            return;
+        }
         if (antwortType == null) {
             showAlert("Fehler", "Bitte geben Sie einen Aufgabentyp an!");
             return;
@@ -145,6 +168,7 @@ public class TaskPageController1 extends SceneController {
         System.out.println(getTaskTitle());
         System.out.println(getModulTitle());
         System.out.println(getNumberPoints());
+        System.out.println(getDurationNumber());
         System.out.println(getAntwortType());
         System.out.println(getTaskTaxonomie());
 
