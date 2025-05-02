@@ -19,5 +19,4 @@ public enum AntwortType {
         return beschreibung;
     }
 
-
 }

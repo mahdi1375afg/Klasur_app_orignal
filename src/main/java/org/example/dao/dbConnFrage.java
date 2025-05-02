@@ -7,34 +7,16 @@ import java.util.Map;
 
 public class dbConnFrage {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/klausurapp"; // klasur => klausur
-    private static final String user = "postgres";
-    private static final String password = "1234"; //1234 - Passwort Jan
-
-    public static Connection getConn()throws SQLException {
-        Connection conn = null;
-        try {
-             conn = DriverManager.getConnection(url, user, password);
-            if (conn != null) {
-                System.out.println("connection valid: " + conn.isValid(0));
-            }
-        }
-        catch (SQLException e) {
-            System.out.println("Connection failed");
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
-
     public static List<Map<String, Object>> sqlSelect(String column, String value) throws SQLException {
         String table = "aufgabe";
+        DBconn db = new DBconn();
 
         // Liste, die die Ergebnisse speichert
         List<Map<String, Object>> results = new ArrayList<>();
 
         PreparedStatement ps;
         try {
-            ps = getConn().prepareStatement("SELECT * FROM " + table); //"SELECT * FROM " + table + " WHERE " + column + " = ?"
+            ps = db.getConn().prepareStatement("SELECT * FROM " + table); //"SELECT * FROM " + table + " WHERE " + column + " = ?"
             //ps.setString(1, value);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -67,18 +49,22 @@ public class dbConnFrage {
         return results;
     }
 
-    public static void sqlInsert(String name, String aufgabentext, int zeit, String bloomlevel, String type, int modulid, int punkte) throws SQLException {
+    public static void sqlInsert(String name, String aufgabentext, int zeit, String format, int punkte, String taxonomie, int benutzer_id) throws SQLException {
         String table = "aufgabe";
-        String sql = "INSERT INTO aufgabe (name, aufgabetext, zeit, bloomlevel, type, modulid, punkte) " + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        DBconn db = new DBconn();
+        String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " + "VALUES (?, ?, ?::interval, ?, ?, ?::taxonomie_stufe, ?)";
 
-        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+        try (PreparedStatement ps = db.getConn().prepareStatement(sql)) { // HIER NOCHMAL AN DIE DATENFORMEN
             ps.setString(1, name);
             ps.setString(2, aufgabentext);
-            ps.setInt(3, zeit);
-            ps.setObject(4, bloomlevel, java.sql.Types.OTHER);
-            ps.setObject(5, type, java.sql.Types.OTHER);
-            ps.setInt(6, modulid);
-            ps.setInt(7, punkte);
+
+            String intervalString = zeit + " minutes";  // oder "seconds", je nach Bedeutung
+            ps.setString(3, intervalString);
+
+            ps.setString(4, format);
+            ps.setInt(5, punkte);
+            ps.setObject(6, taxonomie);
+            ps.setInt(7, benutzer_id);
 
             int insertCount = ps.executeUpdate();
             System.out.println("Insert count: " + insertCount);
@@ -88,7 +74,9 @@ public class dbConnFrage {
         }
     }
 
-    public static void sqlUpdate(String table, String[] column,String[] value,String conditionColumn,String conditionValue)throws SQLException {
+    public static void sqlUpdate(String[] column,String[] value,String conditionColumn,String conditionValue)throws SQLException {
+        String table = "aufgabe";
+        DBconn db = new DBconn();
         PreparedStatement ps;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < column.length; i++) {
@@ -103,7 +91,7 @@ public class dbConnFrage {
         String query = "update " + table + " set " + listColumn + " where " + conditionColumn + " = ?";
         System.out.println(query);
         try {
-            ps = getConn().prepareStatement(query);
+            ps = db.getConn().prepareStatement(query);
             for (int i = 0; i < value.length; i++) {
                 ps.setString(i + 1, value[i]);
             }
@@ -120,10 +108,12 @@ public class dbConnFrage {
         ps.close();
     }
 
-    public static void sqlDelete (String table, String column, String value) throws SQLException {
+    public static void sqlDelete (String column, String value) throws SQLException {
+        String table = "aufgabe";
+        DBconn db = new DBconn();
         PreparedStatement ps;
         try {
-            ps = getConn().prepareStatement("delete from " + table + " where " + column + " = ?");
+            ps = db.getConn().prepareStatement("delete from " + table + " where " + column + " = ?");
             ps.setString(1, value);
         } catch (SQLException e) {
             throw new RuntimeException(e);

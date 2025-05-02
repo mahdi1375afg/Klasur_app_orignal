@@ -63,9 +63,9 @@ public class benutzerKonto {
 		String name;
 		String aufgabentext;
 		int zeit;
-		String bloomLevel;
-		String type;
-		String modul;
+		String taxonomie;
+		String format;
+		int benutzer_id;
 		int punkte;
 
 		Scanner scanner = new Scanner(System.in);
@@ -76,18 +76,16 @@ public class benutzerKonto {
 		aufgabentext = scanner.nextLine();
 		System.out.println("zeit:");
 		zeit = Integer.parseInt(scanner.nextLine());
-		System.out.println("bloomLevel:");
-		bloomLevel = scanner.nextLine();
+		System.out.println("taxonomie:");
+		taxonomie = scanner.nextLine();
 		System.out.println("type:");
-		type = scanner.nextLine();
-		System.out.println("modul:");
-		modul = scanner.nextLine();
+		format = scanner.nextLine();
+		System.out.println("benutzer_id:");
+		benutzer_id = Integer.parseInt(scanner.nextLine());
 		System.out.println("punkte:");
 		punkte = Integer.parseInt(scanner.nextLine());
 
-		int modulid = modul.length();
-
-		connection.sqlInsert(name,aufgabentext,zeit,bloomLevel,type,modulid,punkte);
+		connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
 		//Get alle Informationen aus dem GUI
 		//Modul Id herausfinden
 

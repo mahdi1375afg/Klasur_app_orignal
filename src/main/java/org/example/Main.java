@@ -8,12 +8,17 @@ import javafx.stage.Stage;
 import org.example.dao.DBconn;
 import org.example.domain.*;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
-        launch(args);
+        //launch(args);
         // Hier wird die Datenbankoperation vor dem Starten der JavaFX-Oberfläche ausgeführt
         DBconn db = new DBconn();
 
@@ -28,11 +33,11 @@ public class Main extends Application {
         */
 
         //Fragen bearbeiten
-        Antwort antwort = new Antwort(2,"Elephant ist 4m groß", true, 1, AntwortType.geschlosseneAntwort);
+        //Antwort antwort = new Antwort(2,"Elephant ist 4m groß", true, 1, AntwortType.geschlosseneAntwort);    -----
          ///mahdi.antwortBearbeiten(antwort);
 
         //Fragen löschen
-        mahdi.antwortloeaschen(antwort);
+        //mahdi.antwortloeaschen(antwort);      ----
 
 
 
@@ -58,15 +63,20 @@ public class Main extends Application {
         }*/
 
 
-
+        //Benutzer Anlegen
+        /*
+        PreparedStatement ps;
+        try {
+            ps = db.getConn().prepareStatement("INSERT INTO benutzer (benutzername, passwort) VALUES ('User', '1234')");
+            int insertCount = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        */
 
         benutzerKonto Nutzer = new benutzerKonto();
         //Nutzer.fragenErstellen(1);
         //Nutzer.fragenfiltern(1);
-
-
-
-
 
         //System.out.println(name);
     }
