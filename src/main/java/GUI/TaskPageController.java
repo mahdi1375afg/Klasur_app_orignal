@@ -3,14 +3,16 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.io.IOException;
 
+import javafx.stage.Stage;
 import org.example.domain.AntwortType;
 import org.example.domain.BloomLevel;
 
-public class TaskPageController1 extends SceneController {
+public class TaskPageController extends SceneController {
 
     //Textfelder
     @FXML
@@ -59,7 +61,7 @@ public class TaskPageController1 extends SceneController {
     private RadioButton rButtonTaxonomieCreate;
 
     @FXML
-    private Button taskPageButton2;
+    private MenuButton menuBar;
 
     private String taskTitleText = null;
     private String modulTitleText = null;
@@ -130,10 +132,11 @@ public class TaskPageController1 extends SceneController {
     public Integer getDurationNumber() {
         return durationNumber;
     }
+
     @FXML
     public void switchToAddTaskPageContent(ActionEvent event) throws IOException {
         //Schickt alle gesammelten Informationen beim Seitenwechsel an Anwendungsschicht
-         //ToDo: Wechsel auf zweite Seite(noch zu erstellen) implementieren und Title, Modul, Typ. Taxonomie und Punkte an Anwendungsschicht schicken
+         //ToDo: Title, Modul, Typ. Taxonomie und Punkte an Anwendungsschicht schicken
          //ToDO: --> Schnittstelle definieren
 
         if (taskTitleText == null || taskTitleText.trim().isEmpty()) {
@@ -172,7 +175,13 @@ public class TaskPageController1 extends SceneController {
         System.out.println(getAntwortType());
         System.out.println(getTaskTaxonomie());
 
-        super.switchToStartPage(event);
+        if(antwortType == AntwortType.offeneAntwort){
+            switchScene(event, "/GUI/OpenQuestionPage.fxml");
+        }
+        //ToDo: ScneSwitch abhängig vom Aufgabentyp machen
+        else {
+            super.switchToStartPage(event);
+        }
     }
 
     @FXML
@@ -230,6 +239,26 @@ public class TaskPageController1 extends SceneController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+
+    @FXML
+    public void switchToStartPage(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToStartPage(stage);
+    }
+
+
+    @FXML
+    public void switchToTaskOverview(ActionEvent event) throws IOException{
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToTaskOverview(stage);
+    }
+
+
+    @FXML
+    public void logout(ActionEvent event) throws IOException {
+        super.logout(event);
     }
 }
 

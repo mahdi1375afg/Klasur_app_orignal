@@ -20,10 +20,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Main {
+public class Main  extends Application {
     public static void main(String[] args) throws SQLException {
         String[] values = {"netan", "drake", "gmail@outlook"};
         String[] columns = {"vorname", "name", "email"};
+
+        launch(args);
+
 
       /*  DBconn db = new DBconn();
 
@@ -48,4 +51,16 @@ public class Main {
         konto.antwortloeaschen(antwort);
     }
 
+    @Override
+    public void start(Stage stage) throws Exception {
+        //System.out.println(name);
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/StartPage.fxml"));
+            Scene startScene = new Scene(root);
+            stage.setScene(startScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
