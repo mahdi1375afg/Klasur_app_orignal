@@ -63,4 +63,16 @@ public class SceneController {
     }
 
 
+
+
+
+    public void switchToLoginPage(ActionEvent event) throws IOException {
+        //Methode sorgt für den Wechsel von Titelseite zur Anmeldeseite
+       switchScene(event, "/GUI/LoginPage.fxml");
+    }
+
+    public void switchToSignUpPage(ActionEvent event) throws IOException {
+        //Methode sorgt für den Wechsel von Titelseite zur  Registrierungsseite
+        switchScene(event, "/GUI/SignUpPage.fxml");
+    }
 }
