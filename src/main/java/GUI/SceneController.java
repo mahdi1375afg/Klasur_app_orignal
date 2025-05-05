@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,7 +17,6 @@ public class SceneController {
 
     private Stage stage;
     private Scene scene;
-    //private Parent root;
     private double sceneWidth, sceneHeight;
 
     @FXML
@@ -111,17 +112,54 @@ public class SceneController {
 
     }
 
-
-
-
-
+    @FXML
     public void switchToLoginPage(ActionEvent event) throws IOException {
         //Methode sorgt für den Wechsel von Titelseite zur Anmeldeseite
        switchScene(event, "/GUI/LoginPage.fxml");
     }
 
+    @FXML
     public void switchToSignUpPage(ActionEvent event) throws IOException {
         //Methode sorgt für den Wechsel von Titelseite zur  Registrierungsseite
         switchScene(event, "/GUI/SignUpPage.fxml");
+    }
+
+    protected boolean showAlert() {
+        //Zeigt Fehlermeldung an, falls die Seite verlassen wird
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Achtung!");
+        alert.setHeaderText(null);
+        alert.setContentText("Wenn Sie die Seite verlassen, werden Ihre Daten nicht gespeichert!");
+
+        boolean[] result = new boolean[1];
+
+        //Überprüft, welche Schaltfläche der Benutzer gedrückt hat
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                result[0] = true;
+            }
+        });
+
+        return result[0];
+    }
+
+    protected boolean showAlert(String message) {
+        //Zeigt Fehlermeldung an
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Achtung!");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        boolean[] result = new boolean[1];
+
+        //Überprüft, welche Schaltfläche der Benutzer gedrückt hat
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                result[0] = true;
+            }
+        });
+        return result[0];
     }
 }

@@ -3,7 +3,6 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.io.IOException;
@@ -23,12 +22,6 @@ public class TaskPageController extends SceneController {
     private TextField numberPoints;
     @FXML
     TextField duration;
-
-    //ToggleGroups
-    @FXML
-    private ToggleGroup taskType;
-    @FXML
-    private ToggleGroup taskTaxonomie;
 
     //RadioButtons für Aufgabentyp
     @FXML
@@ -108,7 +101,7 @@ public class TaskPageController extends SceneController {
             if (pointsInteger >= 0) {
                 numberPointsInteger = pointsInteger;
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ignored) {
 
         }
     }
@@ -125,9 +118,7 @@ public class TaskPageController extends SceneController {
             if (tempInteger >= 0) {
                 durationNumber = tempInteger;
             }
-        } catch (NumberFormatException e) {
-
-        }
+        } catch (NumberFormatException ignored) {}
     }
     public Integer getDurationNumber() {
         return durationNumber;
@@ -178,14 +169,17 @@ public class TaskPageController extends SceneController {
         if(antwortType == AntwortType.offeneAntwort){
             switchScene(event, "/GUI/OpenQuestionPage.fxml");
         }
-        //ToDo: ScneSwitch abhängig vom Aufgabentyp machen
+        else if(antwortType == AntwortType.geschlosseneAntwort){
+            switchScene(event, "/GUI/TrueFalsePage.fxml");
+        }
+        //ToDo: SceneSwitch abhängig vom Aufgabentyp machen
         else {
             super.switchToStartPage(event);
         }
     }
 
     @FXML
-    public void setTaskType(ActionEvent event) {
+    public void setTaskType() {
         //ToDo: Enum-AntwortType anpassen, dass es mehr Fragetypen (nicht nur zwei) gibt
 
         if (rButtonTypOpen.isSelected()) {
@@ -214,7 +208,7 @@ public class TaskPageController extends SceneController {
     }
 
     @FXML
-    public void setTaskTaxonomie(ActionEvent event) {
+    public void setTaskTaxonomie() {
 
         if (rButtonTaxonomieRemember.isSelected()) {
             bloomLevel = BloomLevel.erinnern;
@@ -255,8 +249,20 @@ public class TaskPageController extends SceneController {
         super.switchToTaskOverview(stage);
     }
 
+    @FXML
+    public void switchToExamOverview(ActionEvent event) throws IOException{
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToExamCollection(stage);
+    }
 
     @FXML
+    public void switchToExamPage(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToExamPage(stage);
+    }
+
+
+        @FXML
     public void logout(ActionEvent event) throws IOException {
         super.logout(event);
     }

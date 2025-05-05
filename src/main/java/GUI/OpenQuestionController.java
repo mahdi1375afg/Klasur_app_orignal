@@ -9,18 +9,13 @@ import java.io.IOException;
 
 public class OpenQuestionController extends SceneController{
 
+    //Textfelder
     @FXML
     private TextField taskTextField;
     @FXML
     private TextField taskSampleSolution;
-    @FXML
-    private Button finsihed;
-    @FXML
-    private MenuItem startpage;
-    @FXML
-    private MenuItem taskOverview;
-    @FXML
-    private MenuItem logout;
+
+
     @FXML
     private MenuButton menuBar;
 
@@ -78,76 +73,55 @@ public class OpenQuestionController extends SceneController{
         savedSwitchToStartPage(event);
     }
 
-    private boolean showAlert() {
-        //Zeigt Fehlermeldung an, falls die Seite verlassen wird
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Achtung!");
-        alert.setHeaderText(null);
-        alert.setContentText("Wenn Sie die Seite verlassen, werden Ihre Daten nicht gespeichert!");
-
-        boolean result[] = new boolean[1];
-
-        //Überprüft, welche Schaltfläche der Benutzer gedrückt hat
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                result[0] = true;
-            } else if (response == ButtonType.CANCEL) {
-                result[0] = false;
-            }
-        });
-
-        return result[0];
-    }
-
-    private boolean showAlert(String message) {
-        //Zeigt Fehlermeldung an
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Achtung!");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        boolean result[] = new boolean[1];
-
-        //Überprüft, welche Schaltfläche der Benutzer gedrückt hat
-        alert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                result[0] = true;
-            } else if (response == ButtonType.CANCEL) {
-                result[0] = false;
-            }
-        });
-        return result[0];
-    }
 
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
-        showAlert();
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToStartPage(stage);
+        }
     }
 
     @FXML
     public void savedSwitchToStartPage(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToStartPage(stage);
+        }
     }
 
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
-        showAlert();
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToTaskOverview(stage);
+        if(showAlert()){
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToTaskOverview(stage);
+        }
+    }
+
+    @FXML
+    public void switchToExamOverview(ActionEvent event) throws IOException{
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToExamCollection(stage);
+        }
+    }
+
+    @FXML
+    public void switchToExamPage(ActionEvent event) throws IOException {
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToExamPage(stage);
+        }
     }
 
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
-        showAlert();
-        super.logout(event);
+        if(showAlert()) {
+            super.logout(event);
+        }
     }
 
 }
