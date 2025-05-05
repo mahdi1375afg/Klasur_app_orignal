@@ -29,17 +29,17 @@ public class SignUpController  extends SceneController {
         password2 = passwordSignUp2Field.getText();
 
         if (username.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
-            System.out.println("Bitte alle Felder ausfüllen.");
+            showAlert("Bitte alle Felder ausfüllen.");
             return;
         }
 
         if (!password1.equals(password2)) {
-            System.out.println("Passwörter stimmen nicht überein.");
+            showAlert("Passwörter stimmen nicht überein.");
             return;
         }
 
         if (password1.length() < 6) {
-            System.out.println("Passwort muss mindestens 6 Zeichen lang sein.");
+            showAlert("Passwort muss mindestens 6 Zeichen lang sein.");
             return;
         }
 
