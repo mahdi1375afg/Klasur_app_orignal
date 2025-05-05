@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import org.example.dao.DBconn;
+import GUI.TaskPageController;
 import org.example.dao.dbConnAntwort;
 import org.example.dao.dbConnFrage;
 import org.example.dao.dbConnModul;
@@ -62,20 +63,19 @@ public class benutzerKonto {
         return true;
     }
 
-	/**
-	 *
-	 * @param Fragen
-	 */
-	public boolean fragenErstellen(int Fragen) throws SQLException {
-		dbConnFrage connection = new dbConnFrage();
-		String name;
-		String aufgabentext;
-		int zeit;
-		String taxonomie;
-		String format;
-		int benutzer_id;
-		int punkte;
 
+	public boolean fragenErstellen(TaskPageController Controller) throws SQLException {
+		dbConnFrage connection = new dbConnFrage();
+
+		// Temporär nur für die erste TaskPage
+		String name = Controller.getTaskTitle();
+		String aufgabentext = "Temporäter Aufgabentext"; // TEMP
+		int zeit = 15; // TEMP
+		String taxonomie = Controller.getTaskTaxonomie();
+		String format = Controller.getAntwortType();
+		int benutzer_id = 1;
+		int punkte = Controller.getNumberPoints();
+		/*
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("fragenErstellen");
 		System.out.println("Name:");
@@ -92,7 +92,7 @@ public class benutzerKonto {
 		benutzer_id = Integer.parseInt(scanner.nextLine());
 		System.out.println("punkte:");
 		punkte = Integer.parseInt(scanner.nextLine());
-
+		*/
 		connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
 		//Get alle Informationen aus dem GUI
 		//Modul Id herausfinden

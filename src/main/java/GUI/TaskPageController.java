@@ -6,10 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import javafx.stage.Stage;
 import org.example.domain.AntwortType;
 import org.example.domain.BloomLevel;
+import org.example.domain.benutzerKonto;
 
 public class TaskPageController extends SceneController {
 
@@ -125,7 +128,7 @@ public class TaskPageController extends SceneController {
     }
 
     @FXML
-    public void switchToAddTaskPageContent(ActionEvent event) throws IOException {
+    public void switchToAddTaskPageContent(ActionEvent event) throws IOException, SQLException {
         //Schickt alle gesammelten Informationen beim Seitenwechsel an Anwendungsschicht
          //ToDo: Title, Modul, Typ. Taxonomie und Punkte an Anwendungsschicht schicken
          //ToDO: --> Schnittstelle definieren
@@ -165,6 +168,9 @@ public class TaskPageController extends SceneController {
         System.out.println(getDurationNumber());
         System.out.println(getAntwortType());
         System.out.println(getTaskTaxonomie());
+
+        benutzerKonto konto = new benutzerKonto(1, "netan", "drake", LocalDateTime.now(), true);
+        konto.fragenErstellen(this);
 
         if(antwortType == AntwortType.offeneAntwort){
             switchScene(event, "/GUI/OpenQuestionPage.fxml");
