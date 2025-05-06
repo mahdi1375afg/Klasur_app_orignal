@@ -34,7 +34,7 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="buttonLogin1" mnemonicParsing="false" onAction="#switchToLoginPage" text="Anmleden " GridPane.rowIndex="1">
+            <Button fx:id="buttonLogin1" mnemonicParsing="false" onAction="#switchToLoginPage" text="Anmelden " GridPane.rowIndex="1">
                <font>
                   <Font size="25.0" />
                </font>
