@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TrueFalseController2">
+   <children>
+      <GridPane layoutX="14.0" prefHeight="400.0" prefWidth="600.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="295.0" minWidth="10.0" prefWidth="112.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="488.0" minWidth="10.0" prefWidth="488.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="46.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="297.0" minHeight="10.0" prefHeight="109.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="232.0" minHeight="10.0" prefHeight="117.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="65.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="73.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+             <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                 <items>
+                     <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                     <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                     <MenuItem fx:id="menuButtonExamPage" mnemonicParsing="false" onAction="#switchToExamPage" text=" Klausur erstellen" />
+                     <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                     <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+
+                 </items>
+             </MenuButton>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Wahr/Falsch Aufgabe erstellen" wrappingWidth="484.119140625" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+            <TextField fx:id="textFieldTaskText" prefHeight="100.0" prefWidth="460.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="textFieldTask" prefHeight="100.0" prefWidth="460.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabenstellung:" GridPane.rowIndex="1" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabe:" GridPane.rowIndex="2" />
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <HBox prefHeight="137.0" prefWidth="219.0">
+                     <children>
+                        <RadioButton fx:id="rButtonTrue" mnemonicParsing="false" onAction="#setAnswerStatus" text="Wahr">
+                           <toggleGroup>
+                              <ToggleGroup fx:id="TrueFalse" />
+                           </toggleGroup></RadioButton>
+                     </children>
+                  </HBox>
+                  <VBox prefHeight="129.0" prefWidth="328.0">
+                     <children>
+                        <RadioButton fx:id="rButtonFalse" mnemonicParsing="false" onAction="#setAnswerStatus" text="Falsch" toggleGroup="$TrueFalse" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <children>
+                  <VBox prefHeight="104.0" prefWidth="187.0">
+                     <children>
+                        <Button fx:id="buttonsave" mnemonicParsing="false" onAction="#savedSwitchToStartPage" text="Speichern" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="104.0" prefWidth="181.0">
+                     <children>
+                        <Button fx:id="buttoneNextTask" mnemonicParsing="false" onAction="#switchToAddAnotherTask" text="Weitere Aufgabe" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>

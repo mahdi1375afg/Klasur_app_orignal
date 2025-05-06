@@ -55,7 +55,7 @@ public class Main  extends Application {
     public void start(Stage stage) throws Exception {
         //System.out.println(name);
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/StartPage.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/GUI/TitlePage.fxml"));
             Scene startScene = new Scene(root);
             stage.setScene(startScene);
             stage.show();

@@ -23,6 +23,7 @@ public class SignUpController  extends SceneController {
 
     @FXML
     public void switchToLoginPage(ActionEvent event) throws IOException {
+        //ToDo: Daten an Anwendungsschicht senden
 
         username = usernameSignUpTextField.getText().trim();
         password1 = passwordSignUp1Field.getText();

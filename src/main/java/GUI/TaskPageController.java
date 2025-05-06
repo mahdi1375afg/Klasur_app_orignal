@@ -168,7 +168,10 @@ public class TaskPageController extends SceneController {
         System.out.println(getDurationNumber());
         System.out.println(getAntwortType());
         System.out.println(getTaskTaxonomie());
-
+        //ToDo: Daten an die nächste Seite weitergeben
+        //Damit das Funktioniert muss vorher in DB dieser Befehl ausgeführt werden:
+        //INSERT INTO benutzer (benutzername, passwort)
+        //VALUES ('testuser', 'geheimespasswort');
         benutzerKonto konto = new benutzerKonto(1, "netan", "drake", LocalDateTime.now(), true);
         konto.fragenErstellen(this);
 
