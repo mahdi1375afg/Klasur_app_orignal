@@ -45,8 +45,7 @@ public class Main  extends Application {
     */
         Fragen frage = new Fragen(1, "Was ist Java?", BloomLevel.anwenden,new Modul(1,"AIN","ain") , 1, FragenArt.GeschlosseneFrage);
         Antwort antwort = new Antwort(2, "Java ist eine Programmiersprache", true, 1,AntwortType.geschlosseneAntwort);
-        LocalDateTime time = LocalDateTime.now();
-        benutzerKonto konto = new benutzerKonto(1, "netan", "drake", time, true);
+        benutzerKonto konto = new benutzerKonto();
 
         konto.antwortloeaschen(antwort);
     }

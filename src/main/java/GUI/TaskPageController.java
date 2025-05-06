@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import javafx.stage.Stage;
 import org.example.domain.AntwortType;
 import org.example.domain.BloomLevel;
+import org.example.domain.Nutzer;
 import org.example.domain.benutzerKonto;
 
 public class TaskPageController extends SceneController {
@@ -172,8 +173,8 @@ public class TaskPageController extends SceneController {
         //Damit das Funktioniert muss vorher in DB dieser Befehl ausgeführt werden:
         //INSERT INTO benutzer (benutzername, passwort)
         //VALUES ('testuser', 'geheimespasswort');
-        benutzerKonto konto = new benutzerKonto(1, "netan", "drake", LocalDateTime.now(), true);
-        konto.fragenErstellen(this);
+        // Achso ja es muss ein User mit id 1 existieren
+        benutzerKonto konto = new benutzerKonto();
 
         if(antwortType == AntwortType.offeneAntwort){
             switchScene(event, "/GUI/OpenQuestionPage.fxml");

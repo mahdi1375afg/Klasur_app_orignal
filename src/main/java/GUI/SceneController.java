@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class SceneController {
     //Klasse die Wechsel zwischen Verschiedenen "Bildschirmen" verwaltet
@@ -46,7 +47,7 @@ public class SceneController {
     }
 
     @FXML
-    public void switchToStartPage(ActionEvent event) throws IOException {
+    public void switchToStartPage(ActionEvent event) throws IOException, SQLException {
         //Methode sorgt für den Wechsel zur Startseite
         switchScene(event, "/GUI/StartPage.fxml");
     }
@@ -113,7 +114,7 @@ public class SceneController {
     }
 
     @FXML
-    public void switchToLoginPage(ActionEvent event) throws IOException {
+    public void switchToLoginPage(ActionEvent event) throws IOException, SQLException {
         //Methode sorgt für den Wechsel von Titelseite zur Anmeldeseite
        switchScene(event, "/GUI/LoginPage.fxml");
     }

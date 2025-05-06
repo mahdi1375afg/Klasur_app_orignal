@@ -4,8 +4,10 @@ package GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import org.example.domain.benutzerKonto;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class SignUpController  extends SceneController {
     @FXML
@@ -22,7 +24,7 @@ public class SignUpController  extends SceneController {
     private String password2;
 
     @FXML
-    public void switchToLoginPage(ActionEvent event) throws IOException {
+    public void switchToLoginPage(ActionEvent event) throws IOException, SQLException {
         //ToDo: Daten an Anwendungsschicht senden
 
         username = usernameSignUpTextField.getText().trim();
@@ -44,8 +46,8 @@ public class SignUpController  extends SceneController {
             return;
         }
 
-        System.out.println("Benutzername: " + username);
-        System.out.println("Passwort: " + password1);
+        benutzerKonto konto = new benutzerKonto();
+        konto.register(username,password1);
 
         super.switchToLoginPage(event);
     }

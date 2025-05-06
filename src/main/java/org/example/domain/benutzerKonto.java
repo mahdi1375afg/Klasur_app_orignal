@@ -1,10 +1,7 @@
 package org.example.domain;
 
-import org.example.dao.DBconn;
+import org.example.dao.*;
 import GUI.TaskPageController;
-import org.example.dao.dbConnAntwort;
-import org.example.dao.dbConnFrage;
-import org.example.dao.dbConnModul;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -14,35 +11,41 @@ import java.util.Map;
 import java.util.Scanner; // nur für ohne GUI testing
 
 public class benutzerKonto {
+	public static Nutzer aktuellerBenutzer;
 
-	private int id;
-	private String benutzerName;
-
-	private String passwort;
-
-	private LocalDateTime letzteAnmeldung;
+	private LocalDateTime lastLogin;
 	private boolean aktiv;
 
-	public benutzerKonto(int id, String benutzerName, String passwort, LocalDateTime letzteAnmeldung, boolean aktiv) {
-		this.id = id;
-		this.benutzerName = benutzerName;
-		this.passwort = passwort;
-		this.letzteAnmeldung = letzteAnmeldung;
-		this.aktiv = aktiv;
-	}
-	/**
-	 * 
-	 * @param Nutzer
-	 */
-	public boolean anmelden(int Nutzer) {
-		// TODO - implement benutzerKonto.anmelden
-		throw new UnsupportedOperationException();
+	public benutzerKonto() {
+		// WIP
 	}
 
-	/**
-	 * 
-	 * @param Nutzer
-	 */
+	public String register(String name, String password) throws SQLException {
+		dbConnUser connection = new dbConnUser();
+		if(!connection.getNameUsed(name)) {
+			System.out.println(connection.getNameUsed(name));
+			connection.sqlInsert(name,password);
+			return "Erfolgreich";
+		} else {
+			return "Fehler beim registrieren: Name schon vorhanden";
+		}
+    }
+
+	public String anmelden(String name, String password) throws SQLException {
+		dbConnUser connection = new dbConnUser();
+		if(connection.getNameUsed(name)) {
+			Nutzer nutzer = connection.getNutzer(name);
+			if(nutzer.getPassword().equals(password)) {
+				this.aktuellerBenutzer = nutzer;
+				return "Erfolgreich";
+			} else {
+				return "Fehler beim anmelden";
+			}
+		} else {
+			return "Fehler beim anmelden: Account nicht vorhanden";
+		}
+	}
+
 	public boolean abmelden(int Nutzer) {
 		// TODO - implement benutzerKonto.abmelden
 		throw new UnsupportedOperationException();

@@ -4,14 +4,12 @@ public class Nutzer {
 
 	private int id;
 	private String Name;
-	private int age;
-	private String email;
+	private String password;
 
-	public Nutzer(int id, String name, int age, String email) {
+	public Nutzer(int id, String name, String password) {
 		this.id = id;
 		this.Name = name;
-		this.age = age;
-		this.email = email;
+		this.password = password;
 	}
 	public int getId() {
 		return id;
@@ -19,26 +17,20 @@ public class Nutzer {
 	public String getName() {
 		return Name;
 	}
-	public int getAge() {
-		return age;
-	}
-	public String getEmail() {
-		return email;
-	}
+	public String getPassword() {return password;}
 	public void setId(int id) {
 		this.id = id;
 	}
 	public void setName(String name) {
 		this.Name = name;
 	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 
+	public void printNutzer() {
+		System.out.println("Nutzer: " + this.Name + " " + this.password + " " + this.id);
+	}
+
+	// WIP: WIRD IN benutzerKonto GEHANDLED
 	public void kontoErstellen() {
 		// TODO - implement Nutzer.kontoErstellen
 		throw new UnsupportedOperationException();
