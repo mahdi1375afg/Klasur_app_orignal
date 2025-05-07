@@ -32,9 +32,12 @@ public class LoginController extends SceneController {
 
         benutzerKonto konto = new benutzerKonto();
         konto.anmelden(username,password);
-        konto.aktuellerBenutzer.printNutzer();
-
-        super.switchToStartPage(event);
+        try {
+            konto.aktuellerBenutzer.printNutzer();
+            super.switchToStartPage(event);
+        } catch (NullPointerException e) {
+            super.switchToTitlePage(event);
+        }
     }
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
