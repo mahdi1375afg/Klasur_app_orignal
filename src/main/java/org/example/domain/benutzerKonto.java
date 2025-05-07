@@ -83,24 +83,6 @@ public class benutzerKonto {
 		String format = Controller.getAntwortType();
 		int benutzer_id = 1;
 		int punkte = Controller.getNumberPoints();
-		/*
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("fragenErstellen");
-		System.out.println("Name:");
-		name = scanner.nextLine();
-		System.out.println("aufgabentext:");
-		aufgabentext = scanner.nextLine();
-		System.out.println("zeit:");
-		zeit = Integer.parseInt(scanner.nextLine());
-		System.out.println("taxonomie:");
-		taxonomie = scanner.nextLine();
-		System.out.println("type:");
-		format = scanner.nextLine();
-		System.out.println("benutzer_id:");
-		benutzer_id = Integer.parseInt(scanner.nextLine());
-		System.out.println("punkte:");
-		punkte = Integer.parseInt(scanner.nextLine());
-		*/
 		connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
 		//Get alle Informationen aus dem GUI
 		//Modul Id herausfinden
@@ -137,7 +119,7 @@ public class benutzerKonto {
 		return result;
 	}
 
-	public void antwortErstellen(Fragen frage) {
+	public void antwortErstellen(Frage frage) {
 		Antwort antwort = new Antwort();
 		Scanner scanner = new Scanner(System.in);
 

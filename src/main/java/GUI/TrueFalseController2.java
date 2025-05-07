@@ -10,6 +10,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.domain.AufgabeService;
 
 
 import java.io.IOException;
@@ -37,6 +38,13 @@ public class TrueFalseController2 extends SceneController {
     private String taskText = null;
     private ArrayList<String> tasks = new ArrayList<>();
     private Boolean answerStatus = null;
+
+    private AufgabeService aufgabe;
+
+    public void setAufgabe(AufgabeService aufgabe) {
+        this.aufgabe = aufgabe;
+        System.out.println("Aufgabe gesetzt in nächsten Controller!");
+    }
 
     public void initialize() {
         //wird zu Beginn ausgeführt und sorgt dafür, dass bei Änderungen in den Textfeldern automatisch die entsprechenden Setter aufgerufen werden
@@ -113,6 +121,9 @@ public class TrueFalseController2 extends SceneController {
         System.out.println(getTaskText());
         System.out.println(getAnswerStatus());
 
+        aufgabe.setAnswerPage(task, getAnswerStatus());
+        aufgabe.save();
+
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.switchToStartPage(stage);
 
@@ -131,7 +142,7 @@ public class TrueFalseController2 extends SceneController {
         System.out.println(getTaskText());
         System.out.println(getAnswerStatus());
 
-        answerStatus = null;
+        aufgabe.setAnswerPage(task, getAnswerStatus());
 
         // Neue Seite laden mit Zugriff auf Controller
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/TrueFalsePage2.fxml"));
@@ -140,6 +151,7 @@ public class TrueFalseController2 extends SceneController {
         // Zugriff auf den Controller der neuen Seite
         TrueFalseController2 controller2 = loader.getController();
         controller2.setTaskTextPage2(getTaskText());  // <-- Text wird jetzt korrekt gesetzt
+        controller2.setAufgabe(aufgabe);  // Aufgabe weitergabe
 
         // Szene anzeigen
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

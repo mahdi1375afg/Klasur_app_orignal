@@ -1,6 +1,6 @@
 package org.example.domain;
 
-public class Fragen {
+public class Frage {
 
 	private int id;
 	private String frageText;
@@ -8,7 +8,7 @@ public class Fragen {
 	private int geschaetzeZeit;
 	private FragenArt fragenArt;
 
-	public Fragen(int id, String frageText, BloomLevel bloomLevel, Modul module, int geschaetzeZeit, FragenArt fragenArt) {
+	public Frage(int id, String frageText, BloomLevel bloomLevel, Modul module, int geschaetzeZeit, FragenArt fragenArt) {
 		this.id = id;
 		this.frageText = frageText;
 		this.bloomLevel = bloomLevel;
@@ -16,9 +16,6 @@ public class Fragen {
 		this.fragenArt = fragenArt;
 	}
 
-	public Fragen() {
-
-	}
 
 	public int getId() {
 		return id;

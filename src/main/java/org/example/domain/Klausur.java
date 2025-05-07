@@ -10,14 +10,14 @@ public class Klausur {
 	private String name;
 	private String beschreibung;
 
-	List<Fragen> fragen;
+	List<Frage> fragen;
 
 	private Modul modul;
 
 
 	private int dauer;
 
-	public Klausur (int id, LocalDate erstellungsdatum, String name,List<Fragen> fragen, String beschreibung, Modul modul, int dauer) {
+	public Klausur (int id, LocalDate erstellungsdatum, String name, List<Frage> fragen, String beschreibung, Modul modul, int dauer) {
 		this.id = id;
 		this.erstellungsdatum = erstellungsdatum;
 		this.name = name;
@@ -73,10 +73,10 @@ public class Klausur {
 		this.dauer = dauer;
 	}
 
-	public List<Fragen> getFragen() {
+	public List<Frage> getFragen() {
 		return fragen;
 	}
-	public void setFragen(List<Fragen> fragen) {
+	public void setFragen(List<Frage> fragen) {
 		this.fragen = fragen;
 	}
 }

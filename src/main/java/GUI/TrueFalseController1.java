@@ -10,9 +10,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.domain.Antwort;
 import org.example.domain.AufgabeService;
-import org.example.domain.Fragen;
 
 
 import java.io.IOException;
@@ -133,6 +131,9 @@ public class TrueFalseController1 extends SceneController {
             System.out.println(getTaskText());
             System.out.println(getAnswerStatus());
 
+            aufgabe.setAnswerPage(task, getAnswerStatus());
+            aufgabe.save();
+
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
 
@@ -151,12 +152,16 @@ public class TrueFalseController1 extends SceneController {
         System.out.println(getTaskText());
         System.out.println(getAnswerStatus());
 
+        aufgabe.setAnswerPage(task, getAnswerStatus());
+
         //FXML laden
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/TrueFalsePage2.fxml"));
         Parent root = loader.load();
 
+
         //Neuen Controller holen
         TrueFalseController2 controller = loader.getController();
+        controller.setAufgabe(aufgabe);  // Aufgabe weitergabe
 
         //Daten übergeben
         controller.setTaskTextPage2(getTaskText());

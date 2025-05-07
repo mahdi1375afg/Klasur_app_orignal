@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 import javafx.stage.Stage;
 import org.example.domain.*;
@@ -175,7 +174,12 @@ public class TaskPageController extends SceneController {
         //INSERT INTO benutzer (benutzername, passwort)
         //VALUES ('testuser', 'geheimespasswort');
         // Achso ja es muss ein User mit id 1 existieren
-        benutzerKonto konto = new benutzerKonto();
+        //benutzerKonto konto = new benutzerKonto();
+
+        //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
+        AufgabeService aufgabe = new AufgabeService();
+        aufgabe.setTaskPageData(getTaskTitle(),getNumberPoints(),getDurationNumber(),getAntwortType(),getTaskTaxonomie(),getModulTitle());
+
 
         if(antwortType == AntwortType.offeneAntwort){
             switchScene(event, "/GUI/OpenQuestionPage.fxml");
@@ -185,8 +189,7 @@ public class TaskPageController extends SceneController {
             Parent root = loader.load();
 
             TrueFalseController1 controller = loader.getController();
-            AufgabeService aufgabe = new AufgabeService();
-            controller.setAufgabe(aufgabe);  // Objekt weitergabe
+            controller.setAufgabe(aufgabe);  // Aufgabe weitergabe
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
