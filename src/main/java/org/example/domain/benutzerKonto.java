@@ -35,10 +35,15 @@ public class benutzerKonto {
 		dbConnUser connection = new dbConnUser();
 		if(connection.getNameUsed(name)) {
 			Nutzer nutzer = connection.getNutzer(name);
-			if(nutzer.getPassword().equals(password)) {
-				this.aktuellerBenutzer = nutzer;
-				return "Erfolgreich";
-			} else {
+			try {
+				if(nutzer.getPassword().equals(password)) {
+					this.aktuellerBenutzer = nutzer;
+					return "Erfolgreich";
+				} else {
+					System.out.println("Falsches Passwort");
+					return "Fehler beim anmelden";
+				}
+			} catch (NullPointerException e) {
 				return "Fehler beim anmelden";
 			}
 		} else {

@@ -67,12 +67,22 @@ public class dbConnUser {
         }
 
         try {
-            ps.executeQuery();
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                if(rs.getString("benutzername").equals(name)) {
+                    System.out.println("Account Exist!");
+                    return true;
+                } else {
+                    System.out.println("Account doesnt Exists!");
+                    return false;
+                }
+            } else {
+                System.out.println("Account doesnt Exist!");
+                return false;
+            }
         } catch (PSQLException e) {
             System.out.println("Account doesnt Exist!");
             return false;
         }
-        System.out.println("Account Exists!");
-        return true;
     }
 }

@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import org.example.domain.benutzerKonto;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -110,7 +111,8 @@ public class SceneController {
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
-        System.exit(0);
+        benutzerKonto.aktuellerBenutzer = null;
+        switchToTitlePage(event);
 
     }
 
