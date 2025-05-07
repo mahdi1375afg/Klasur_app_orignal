@@ -68,12 +68,18 @@ public class TaskPageController extends SceneController {
     private Integer durationNumber = null;
 
     @FXML
+    private ComboBox<String> modulDropdown;
+
+    @FXML
     public void initialize() {
+
+        modulDropdown.getItems().addAll(Modul.getAllModul());
+
         //wird zu Beginn ausgeführt und sorgt dafür, dass bei Änderungen in den Textfeldern automatisch die entsprechenden Setter aufgerufen werden
 
         taskTitle.textProperty().addListener((observable, oldValue, newValue) -> setTaskTitle());
 
-        modulTitle.textProperty().addListener((observable, oldValue, newValue) -> setModulTitle());
+        modulDropdown.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setModulTitle());
 
         numberPoints.textProperty().addListener((observable, oldValue, newValue) -> setNumberPoints());
 
@@ -89,7 +95,7 @@ public class TaskPageController extends SceneController {
     }
 
     public void setModulTitle() {
-        modulTitleText = modulTitle.getText();
+        modulTitleText = modulDropdown.getValue();
     }
 
     public String getModulTitle() {

@@ -1,5 +1,8 @@
 package org.example.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Modul {
 
 	private int id;
@@ -12,4 +15,10 @@ public class Modul {
 		this.Beschreibung = Beschreibung;
 	}
 
+    public static List<String> getAllModul() {
+		List<String> modules = new ArrayList<>();
+		modules.add("Betriebssysteme");
+		modules.add("Software Engineering 2");
+		return modules;
+    }
 }

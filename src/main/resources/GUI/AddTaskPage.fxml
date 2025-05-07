@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ComboBox?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TaskPageController">
 
    <center>
@@ -30,7 +31,7 @@
          <TextField fx:id="taskTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
          <Text text="Modul:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-         <TextField fx:id="modulTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <ComboBox fx:id="modulDropdown" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
          <Text text="Anzahl Punkte:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
          <TextField fx:id="numberPoints" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="3" />
