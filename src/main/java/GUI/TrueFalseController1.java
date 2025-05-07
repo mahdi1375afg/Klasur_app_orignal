@@ -10,6 +10,9 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.domain.Antwort;
+import org.example.domain.AufgabeService;
+import org.example.domain.Fragen;
 
 
 import java.io.IOException;
@@ -37,6 +40,13 @@ public class TrueFalseController1 extends SceneController {
     private String taskText = null;
     private ArrayList<String> tasks = new ArrayList<>();
     private Boolean answerStatus = null;
+
+    private AufgabeService aufgabe;
+
+    public void setAufgabe(AufgabeService aufgabe) {
+        this.aufgabe = aufgabe;
+        System.out.println("Aufgabe gesetzt in nächsten Controller!");
+    }
 
     public void initialize() {
         //wird zu Beginn ausgeführt und sorgt dafür, dass bei Änderungen in den Textfeldern automatisch die entsprechenden Setter aufgerufen werden

@@ -3,6 +3,10 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.io.IOException;
@@ -10,10 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import javafx.stage.Stage;
-import org.example.domain.AntwortType;
-import org.example.domain.BloomLevel;
-import org.example.domain.Nutzer;
-import org.example.domain.benutzerKonto;
+import org.example.domain.*;
 
 public class TaskPageController extends SceneController {
 
@@ -180,7 +181,17 @@ public class TaskPageController extends SceneController {
             switchScene(event, "/GUI/OpenQuestionPage.fxml");
         }
         else if(antwortType == AntwortType.geschlosseneAntwort){
-            switchScene(event, "/GUI/TrueFalsePage.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/TrueFalsePage.fxml"));
+            Parent root = loader.load();
+
+            TrueFalseController1 controller = loader.getController();
+            AufgabeService aufgabe = new AufgabeService();
+            controller.setAufgabe(aufgabe);  // Objekt weitergabe
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+
         }
         //ToDo: SceneSwitch abhängig vom Aufgabentyp machen
         else {

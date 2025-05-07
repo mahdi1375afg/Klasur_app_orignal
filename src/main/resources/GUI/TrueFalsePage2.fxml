@@ -48,7 +48,7 @@
             <TextField fx:id="textFieldTaskText" prefHeight="100.0" prefWidth="460.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="textFieldTask" prefHeight="100.0" prefWidth="460.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabenstellung:" GridPane.rowIndex="1" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabe:" GridPane.rowIndex="2" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aussage:" GridPane.rowIndex="2" />
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <HBox prefHeight="137.0" prefWidth="219.0">

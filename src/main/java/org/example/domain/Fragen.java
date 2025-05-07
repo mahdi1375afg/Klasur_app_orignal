@@ -5,7 +5,6 @@ public class Fragen {
 	private int id;
 	private String frageText;
 	private BloomLevel bloomLevel;
-	private Modul module;
 	private int geschaetzeZeit;
 	private FragenArt fragenArt;
 
@@ -13,10 +12,14 @@ public class Fragen {
 		this.id = id;
 		this.frageText = frageText;
 		this.bloomLevel = bloomLevel;
-		this.module = module;
 		this.geschaetzeZeit = geschaetzeZeit;
 		this.fragenArt = fragenArt;
 	}
+
+	public Fragen() {
+
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -25,9 +28,6 @@ public class Fragen {
 	}
 	public BloomLevel getBloomLevel() {
 		return bloomLevel;
-	}
-	public Modul getModule() {
-		return module;
 	}
 	public int getGeschaetzeZeit() {
 		return geschaetzeZeit;
@@ -44,9 +44,6 @@ public class Fragen {
 	public void setBloomLevel(BloomLevel bloomLevel) {
 		this.bloomLevel = bloomLevel;
 	}
-	public void setModule(Modul module) {
-		this.module = module;
-	}
 	public void setGeschaetzeZeit(int geschaetzeZeit) {
 		this.geschaetzeZeit = geschaetzeZeit;
 	}
@@ -54,7 +51,7 @@ public class Fragen {
 		this.fragenArt = fragenArt;
 	}
 	public String toString() {
-		return "Fragen [id=" + id + ", frageText=" + frageText + ", bloomLevel=" + bloomLevel + ", module=" + module
+		return "Fragen [id=" + id + ", frageText=" + frageText + ", bloomLevel=" + bloomLevel
 				+ ", geschaetzeZeit=" + geschaetzeZeit + ", fragenArt=" + fragenArt + "]";
 	}
 
