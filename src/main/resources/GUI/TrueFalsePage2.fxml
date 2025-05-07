@@ -75,7 +75,7 @@
                   </VBox>
                   <VBox prefHeight="104.0" prefWidth="181.0">
                      <children>
-                        <Button fx:id="buttoneNextTask" mnemonicParsing="false" onAction="#switchToAddAnotherTask" text="mehr Aussagen hinzufügen" />
+                        <Button fx:id="buttoneNextTask" mnemonicParsing="false" onAction="#switchToAddAnotherTask" text="Weitere Aufgabe" />
                      </children>
                   </VBox>
                </children>

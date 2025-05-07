@@ -19,13 +19,13 @@ public class TaskPageController extends SceneController {
 
     //Textfelder
     @FXML
-    private TextField taskTitle;
+    private TextField textFieldTaskTitle;
     @FXML
     private TextField modulTitle;
     @FXML
-    private TextField numberPoints;
+    private TextField textFieldNumberPoints;
     @FXML
-    TextField duration;
+    TextField textFieldDuration;
 
     //RadioButtons für Aufgabentyp
     @FXML
@@ -60,38 +60,38 @@ public class TaskPageController extends SceneController {
     @FXML
     private MenuButton menuBar;
 
-    private String taskTitleText = null;
-    private String modulTitleText = null;
-    private Integer numberPointsInteger = null;
-    private AntwortType antwortType = null;
-    private BloomLevel bloomLevel = null;
-    private Integer durationNumber = null;
+    private String taskTitleText ;
+    private String modulTitleText;
+    private Integer numberPointsInteger;
+    private AntwortType antwortType;
+    private BloomLevel bloomLevel;
+    private Integer durationNumber;
+    private CloseType closeType;
 
     @FXML
     private ComboBox<String> modulDropdown;
 
     @FXML
     public void initialize() {
+        //wird zu Beginn ausgeführt und sorgt dafür, dass bei Änderungen in den Textfeldern automatisch die entsprechenden Setter aufgerufen werden
 
         modulDropdown.getItems().addAll(Modul.getAllModul());
 
-        //wird zu Beginn ausgeführt und sorgt dafür, dass bei Änderungen in den Textfeldern automatisch die entsprechenden Setter aufgerufen werden
-
-        taskTitle.textProperty().addListener((observable, oldValue, newValue) -> setTaskTitle());
+        textFieldTaskTitle.textProperty().addListener((observable, oldValue, newValue) -> setTaskTitle());
 
         modulDropdown.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> setModulTitle());
 
-        numberPoints.textProperty().addListener((observable, oldValue, newValue) -> setNumberPoints());
+        textFieldNumberPoints.textProperty().addListener((observable, oldValue, newValue) -> setNumberPoints());
 
-        duration.textProperty().addListener((observable, oldValue, newValue) -> setDurationNumber());
+        textFieldDuration.textProperty().addListener((observable, oldValue, newValue) -> setDurationNumber());
     }
 
-    public String getTaskTitle() {
+    public String getTextFieldTaskTitle() {
         return taskTitleText;
     }
 
     public void setTaskTitle() {
-        taskTitleText = taskTitle.getText();
+        taskTitleText = textFieldTaskTitle.getText();
     }
 
     public void setModulTitle() {
@@ -104,7 +104,7 @@ public class TaskPageController extends SceneController {
     }
 
     public void setNumberPoints() {
-        String points = numberPoints.getText();
+        String points = textFieldNumberPoints.getText();
         try {
             Integer pointsInteger = Integer.parseInt(points);
 
@@ -116,12 +116,12 @@ public class TaskPageController extends SceneController {
         }
     }
 
-    public Integer getNumberPoints() {
+    public Integer getTextFieldNumberPoints() {
         return numberPointsInteger;
     }
 
     public void setDurationNumber() {
-        String temp = duration.getText();
+        String temp = textFieldDuration.getText();
         try {
             Integer tempInteger = Integer.parseInt(temp);
 
@@ -130,6 +130,7 @@ public class TaskPageController extends SceneController {
             }
         } catch (NumberFormatException ignored) {}
     }
+
     public Integer getDurationNumber() {
         return durationNumber;
     }
@@ -138,7 +139,6 @@ public class TaskPageController extends SceneController {
     public void switchToAddTaskPageContent(ActionEvent event) throws IOException, SQLException {
         //Schickt alle gesammelten Informationen beim Seitenwechsel an Anwendungsschicht
          //ToDo: Title, Modul, Typ. Taxonomie und Punkte an Anwendungsschicht schicken
-         //ToDO: --> Schnittstelle definieren
 
         if (taskTitleText == null || taskTitleText.trim().isEmpty()) {
             showAlert(null, "Bitte geben Sie einen Title an!");
@@ -169,9 +169,9 @@ public class TaskPageController extends SceneController {
             return;
         }
 
-        System.out.println(getTaskTitle());
+        System.out.println(getTextFieldTaskTitle());
         System.out.println(getModulTitle());
-        System.out.println(getNumberPoints());
+        System.out.println(getTextFieldNumberPoints());
         System.out.println(getDurationNumber());
         System.out.println(getAntwortType());
         System.out.println(getTaskTaxonomie());
@@ -184,25 +184,29 @@ public class TaskPageController extends SceneController {
 
         //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
         AufgabeService aufgabe = new AufgabeService();
-        aufgabe.setTaskPageData(getTaskTitle(),getNumberPoints(),getDurationNumber(),getAntwortType(),getTaskTaxonomie(),getModulTitle());
+        aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(),getDurationNumber(),getAntwortType(),getTaskTaxonomie(),getModulTitle());
 
 
         if(antwortType == AntwortType.offeneAntwort){
             switchScene(event, "/GUI/OpenQuestionPage.fxml");
         }
-        else if(antwortType == AntwortType.geschlosseneAntwort){
+        else if (antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.singleChoiceFragen){
+            switchScene(event, "/GUI/SingleChoicePage.fxml");
+        }
+        else if (antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.wahrOderFalsch){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/TrueFalsePage.fxml"));
             Parent root = loader.load();
 
             TrueFalseController1 controller = loader.getController();
-            controller.setAufgabe(aufgabe);  // Aufgabe weitergabe
+            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
-
         }
-        //ToDo: SceneSwitch abhängig vom Aufgabentyp machen
+        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.multipleChoiceFragen){
+            switchScene(event, "/GUI/MultipleChoicePage.fxml");
+        }
         else {
             super.switchToStartPage(event);
         }
@@ -210,22 +214,27 @@ public class TaskPageController extends SceneController {
 
     @FXML
     public void setTaskType() {
-        //ToDo: Enum-AntwortType anpassen, dass es mehr Fragetypen (nicht nur zwei) gibt
 
         if (rButtonTypOpen.isSelected()) {
             antwortType = AntwortType.offeneAntwort;
         } else if (rButtonTypSingle.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
+            closeType = CloseType.singleChoiceFragen;
         } else if (rButtonTypMultiple.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
+            closeType = CloseType.multipleChoiceFragen;
         } else if (rButtonTypTrueFalsch.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
+            closeType = CloseType.wahrOderFalsch;
         } else if (rButtonTypGapText.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
+            closeType = CloseType.leerstellen;
         } else if (rButtonTypAssign.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
+            closeType = CloseType.zuordnung;
         } else if (rButtonTypRanking.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
+            closeType = CloseType.zuordnung;
         }
     }
 
@@ -291,8 +300,7 @@ public class TaskPageController extends SceneController {
         super.switchToExamPage(stage);
     }
 
-
-        @FXML
+    @FXML
     public void logout(ActionEvent event) throws IOException {
         super.logout(event);
     }

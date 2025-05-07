@@ -76,13 +76,13 @@ public class benutzerKonto {
 		dbConnFrage connection = new dbConnFrage();
 
 		// Temporär nur für die erste TaskPage
-		String name = Controller.getTaskTitle();
+		String name = Controller.getTextFieldTaskTitle();
 		String aufgabentext = "Temporäter Aufgabentext"; // TEMP
 		int zeit = 15; // TEMP
 		String taxonomie = Controller.getTaskTaxonomie();
 		String format = Controller.getAntwortType();
 		int benutzer_id = 1;
-		int punkte = Controller.getNumberPoints();
+		int punkte = Controller.getTextFieldNumberPoints();
 		connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
 		//Get alle Informationen aus dem GUI
 		//Modul Id herausfinden

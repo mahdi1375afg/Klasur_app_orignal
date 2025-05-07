@@ -28,13 +28,13 @@
          </columnConstraints>
 
          <Text text="Titel:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-         <TextField fx:id="taskTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <TextField fx:id="textFieldTaskTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
          <Text text="Modul:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
          <ComboBox fx:id="modulDropdown" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
          <Text text="Anzahl Punkte:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-         <TextField fx:id="numberPoints" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <TextField fx:id="textFieldNumberPoints" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
          <Text style="-fx-font-size:18;" text="Typ:" GridPane.rowIndex="5" />
          <VBox spacing="5" GridPane.rowIndex="6" GridPane.rowSpan="6">
@@ -64,7 +64,7 @@
          </VBox>
          <Button onAction="#switchToAddTaskPageContent" text="weiter" GridPane.columnIndex="1" GridPane.rowIndex="12" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dauer in Minuten:" GridPane.rowIndex="4" />
-         <TextField fx:id="duration" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <TextField fx:id="textFieldDuration" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          <Text style="-fx-font-size:30;" text="Aufgabe hinzufügen" GridPane.columnIndex="1" />
          <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.valignment="TOP">
            <items>
