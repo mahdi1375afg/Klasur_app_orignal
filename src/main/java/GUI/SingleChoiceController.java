@@ -101,15 +101,15 @@ public class SingleChoiceController extends SceneController{
 
             if (!answer.isEmpty()) {
                 answers.add(answer);
+            }
 
-                if (checkBoxes.get(i).isSelected()) {
+            if (checkBoxes.get(i).isSelected()) {
 
-                    if (correctIndex != -1) {
-                        showAlert("Fehler", "Nur eine Antwort darf als richtig markiert sein.");
-                        return;
-                    }
-                    correctIndex = i;
+                if (correctIndex != -1) {
+                    showAlert("Fehler", "Nur eine Antwort darf als richtig markiert sein.");
+                    return;
                 }
+                correctIndex = i;
             }
         }
 
