@@ -138,7 +138,7 @@ public class TaskPageController extends SceneController {
     @FXML
     public void switchToAddTaskPageContent(ActionEvent event) throws IOException, SQLException {
         //Schickt alle gesammelten Informationen beim Seitenwechsel an Anwendungsschicht
-         //ToDo: Title, Modul, Typ. Taxonomie und Punkte an Anwendungsschicht schicken
+         //    ToDo: Title, Modul, Typ. Taxonomie und Punkte an Anwendungsschicht schicken
 
         if (taskTitleText == null || taskTitleText.trim().isEmpty()) {
             showAlert(null, "Bitte geben Sie einen Title an!");
@@ -197,7 +197,7 @@ public class TaskPageController extends SceneController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/TrueFalsePage.fxml"));
             Parent root = loader.load();
 
-            TrueFalseController1 controller = loader.getController();
+            TrueFalseController controller = loader.getController();
             controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -77,6 +77,11 @@
                   <Font size="20.0" />
                </font>
             </Button>
+            <Button fx:id="buttonlogin2" layoutX="395.0" layoutY="273.0" mnemonicParsing="false" onAction="#switchToTitlePage" text="Startseite" GridPane.rowIndex="3">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
          </children>
          <BorderPane.margin>
             <Insets bottom="20.0" left="50.0" right="20.0" top="20.0" />
