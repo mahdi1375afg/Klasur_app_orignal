@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.example.domain.AufgabeService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public class TrueFalseController extends SceneController{
 
 
         @FXML
-        public void saveandswitchToStartPage(ActionEvent event)  throws IOException {
+        public void saveandswitchToStartPage(ActionEvent event) throws IOException, SQLException {
 
             String question = questionTextField.getText().trim();
 
@@ -140,18 +141,19 @@ public class TrueFalseController extends SceneController{
                 return;
             }
 
-
+            /*
             System.out.println(question);
             for (int i = 0; i < answers.size(); i++) {
                 String answer = answers.get(i);
                 boolean isTrue = correctValues.get(i);
 
                 if (isTrue) {
-                    System.out.println((i) +  answer + " (richtig)");
+                    System.out.println(answer + " (richtig)");
                 } else {
-                    System.out.println((i)  + answer + " (falsch)");
+                    System.out.println(answer + " (falsch)");
                 }
             }
+             */
 
             //ToDO: Daten an Datenbank senden
             aufgabe.save();

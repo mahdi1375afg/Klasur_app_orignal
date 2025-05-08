@@ -1,5 +1,6 @@
 package org.example.domain;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,14 +33,31 @@ public class AufgabeService {
 
     public void setAnswerPage(String answer,boolean truth) {
         antworten.put(answer, truth);
-        System.out.println("Antwort: " + answer + " ist " + truth);
+        System.out.println("Antwort: " + answer + " ist " + truth + " (hinzugefügt)");
     }
 
-    public void save() {
+    public void save() throws SQLException {
+
+        /*
+        benutzerKonto konto = new benutzerKonto();
+        int FragenId = konto.fragenErstellen(QuestionName, QuestionQuestion, QuestionDuration, QuestionType,QuestionPoints,QuestionTaxonomie,benutzerKonto.aktuellerBenutzer.getId());
+        if(QuestionType.equals(AntwortType.offeneAntwort.getName())) {
+            Map.Entry<String, Boolean> ersterEintrag = antworten.entrySet().iterator().next();
+            ersterEintrag.getKey();
+            konto.antwortErstellenOffen(FragenId,ersterEintrag.getKey());
+        } else {
+            for (Map.Entry<String, Boolean> eintrag : antworten.entrySet()) {
+                konto.antwortErstellenGeschlossen(FragenId,eintrag.getKey(),eintrag.getValue(),QuestionTaxonomie);
+            }
+        }
+         */
+
         System.out.println("Save die Aufgabe!");
+
         System.out.println("QuestionName: " + QuestionName);
         System.out.println("Question: " + QuestionQuestion);
         System.out.println("Antworten: " + antworten.size());
+        System.out.println(antworten);
     }
 
     public void setTask(String question) {

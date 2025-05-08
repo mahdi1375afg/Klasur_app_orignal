@@ -54,11 +54,11 @@ public class dbConnFrage {
         DBconn db = new DBconn();
         String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " + "VALUES (?, ?, ?::interval, ?, ?, ?::taxonomie_stufe, ?)";
 
-        try (PreparedStatement ps = db.getConn().prepareStatement(sql)) { // HIER NOCHMAL AN DIE DATENFORMEN
+        try (PreparedStatement ps = db.getConn().prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setString(2, aufgabentext);
 
-            String intervalString = zeit + " minutes";  // oder "seconds", je nach Bedeutung
+            String intervalString = zeit + " minutes";
             ps.setString(3, intervalString);
 
             ps.setString(4, format);
@@ -68,6 +68,30 @@ public class dbConnFrage {
 
             int insertCount = ps.executeUpdate();
             System.out.println("Insert count: " + insertCount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e; // oder: throw new RuntimeException(e);
+        }
+    }
+
+    public int getId(String name, String aufgabentext, int zeit, String format, int punkte, String taxonomie, int benutzerId) throws SQLException {
+        DBconn db = new DBconn();
+        String sql = "SELECT id FROM aufgabe WHERE name = ? AND aufgabentext = ? AND zeit = ? AND format = ? AND punkte = ? AND taxonomie = ? AND benutzer_id = ?";
+
+        try (PreparedStatement ps = db.getConn().prepareStatement(sql)) {
+            ps.setString(1, name);
+            ps.setString(2, aufgabentext);
+
+            String intervalString = zeit + " minutes";
+            ps.setString(3, intervalString);
+
+            ps.setString(4, format);
+            ps.setInt(5, punkte);
+            ps.setObject(6, taxonomie);
+            ps.setInt(7, benutzerId);
+
+            int aufgabenId = ps.executeUpdate();
+            return aufgabenId;
         } catch (SQLException e) {
             e.printStackTrace();
             throw e; // oder: throw new RuntimeException(e);
@@ -122,7 +146,6 @@ public class dbConnFrage {
         System.out.println("Delete count: " + deleteCount);
         ps.close();
     }
-
 }
 
 

@@ -111,7 +111,8 @@ public class SceneController {
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
-        benutzerKonto.aktuellerBenutzer = null;
+        benutzerKonto konto = new benutzerKonto();
+        konto.abmelden();
         switchToTitlePage(event);
 
     }

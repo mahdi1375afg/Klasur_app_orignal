@@ -1,7 +1,6 @@
 package org.example.domain;
 
 import org.example.dao.*;
-import GUI.TaskPageController;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -51,9 +50,13 @@ public class benutzerKonto {
 		}
 	}
 
-	public boolean abmelden(int Nutzer) {
-		// TODO - implement benutzerKonto.abmelden
-		throw new UnsupportedOperationException();
+	public String abmelden() {
+		if(aktuellerBenutzer == null) {
+			return "Fehler beim abmelden! Kein Nutzer angemeldet!";
+		} else {
+			aktuellerBenutzer = null;
+			return "Erfolgreich";
+		}
 	}
 
 
@@ -71,7 +74,22 @@ public class benutzerKonto {
         return true;
     }
 
+	public int fragenErstellen(String questionName, String questionQuestion, int questionDuration, String questionType, int questionPoints, String questionTaxonomie, int id) throws SQLException {
+		dbConnFrage connection = new dbConnFrage();
 
+		String name = questionName;
+		String aufgabentext = questionQuestion;
+		int zeit = questionDuration;
+		String taxonomie = questionTaxonomie;
+		String format = questionType;
+		int benutzer_id = id;
+		int punkte = questionPoints;
+		connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
+		return connection.getId(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
+
+	}
+
+	/*
 	public boolean fragenErstellen(TaskPageController Controller) throws SQLException {
 		dbConnFrage connection = new dbConnFrage();
 
@@ -91,11 +109,8 @@ public class benutzerKonto {
 
 		return true; //Machen obs wirklich funktioniert hat
 	}
-
-	/**
-	 * 
-	 * @param Fragen
 	 */
+
 	public boolean fragenBearbeiten(int Fragen) {
 		// TODO - implement benutzerKonto.fragenBearbeiten
 		throw new UnsupportedOperationException();
@@ -117,6 +132,25 @@ public class benutzerKonto {
 		dbConnFrage connection = new dbConnFrage();
 		List<Map<String, Object>> result = connection.sqlSelect("Egal","Egal");
 		return result;
+	}
+
+	public void antwortErstellenOffen(int fragenId, String key) {
+		try {
+			DBconn.sqlInsert("oeffene_aufgabe", new String[]{"musterloesung","aufgabe_id"}, new Object[]{key,fragenId});
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void antwortErstellenGeschlossen(int fragenId, String key, Boolean value, String questionTaxonomie) {
+			try {
+
+				DBconn.sqlInsert("geschlossene_aufgabe", new String[]{"aufgaben_typ","aufgabe_id"}, new Object[]{questionTaxonomie,fragenId});
+
+				DBconn.sqlInsert("antwortmoeglichkeit_geschlossen", new String[]{"antworttext","ist_korrekt","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	}
 
 	public void antwortErstellen(Frage frage) {
@@ -300,5 +334,4 @@ public class benutzerKonto {
 		// TODO - implement benutzerKonto.KlarsurLoeschen
 		throw new UnsupportedOperationException();
 	}
-
 }
