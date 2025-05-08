@@ -11,6 +11,8 @@ public class AufgabeService {
     String QuestionType;
     String QuestionTaxonomie;
 
+    String QuestionQuestion;
+
     //Antwort
     Map<String, Boolean> antworten = new HashMap<>();
 
@@ -30,12 +32,17 @@ public class AufgabeService {
 
     public void setAnswerPage(String answer,boolean truth) {
         antworten.put(answer, truth);
-        System.out.println("Antwort " + answer + " " + truth);
+        System.out.println("Antwort: " + answer + " ist " + truth);
     }
 
     public void save() {
         System.out.println("Save die Aufgabe!");
         System.out.println("QuestionName: " + QuestionName);
+        System.out.println("Question: " + QuestionQuestion);
         System.out.println("Antworten: " + antworten.size());
+    }
+
+    public void setTask(String question) {
+        QuestionQuestion = question;
     }
 }

@@ -108,6 +108,8 @@ public class TrueFalseController extends SceneController{
                 return;
             }
 
+            aufgabe.setTask(question);
+
             List<String> answers = new ArrayList<>();
             List<Boolean> correctValues = new ArrayList<>();
 
@@ -129,6 +131,7 @@ public class TrueFalseController extends SceneController{
 
                 answers.add(answer);
                 correctValues.add(isTrueSelected); // true = Richtig, false = Falsch
+                aufgabe.setAnswerPage(answer, isTrueSelected);
             }
 
 
@@ -151,6 +154,7 @@ public class TrueFalseController extends SceneController{
             }
 
             //ToDO: Daten an Datenbank senden
+            aufgabe.save();
 
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
