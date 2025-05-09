@@ -68,6 +68,11 @@
                <font>
                   <Font size="20.0" />
                </font></Button>
+            <Button fx:id="buttonstartpage" mnemonicParsing="false" onAction="#switchToTitlePage" text="Startseite" GridPane.rowIndex="2">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
          </children>
          <padding>
             <Insets left="100.0" />
