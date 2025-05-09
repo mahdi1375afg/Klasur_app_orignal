@@ -76,27 +76,36 @@ public class dbConnFrage {
 
     public int getId(String name, String aufgabentext, int zeit, String format, int punkte, String taxonomie, int benutzerId) throws SQLException {
         DBconn db = new DBconn();
-        String sql = "SELECT id FROM aufgabe WHERE name = ? AND aufgabentext = ? AND zeit = ? AND format = ? AND punkte = ? AND taxonomie = ? AND benutzer_id = ?";
+        String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?::taxonomie_stufe, ?)";
 
-        try (PreparedStatement ps = db.getConn().prepareStatement(sql)) {
+        try (PreparedStatement ps = db.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, name);
             ps.setString(2, aufgabentext);
 
             String intervalString = zeit + " minutes";
-            ps.setString(3, intervalString);
+            ps.setObject(3, intervalString, java.sql.Types.OTHER);
 
             ps.setString(4, format);
             ps.setInt(5, punkte);
             ps.setObject(6, taxonomie);
             ps.setInt(7, benutzerId);
 
-            int aufgabenId = ps.executeUpdate();
-            return aufgabenId;
+            ps.executeUpdate();
+
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                } else {
+                    throw new SQLException("ID konnte nicht ermittelt werden.");
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw e; // oder: throw new RuntimeException(e);
+            throw e;
         }
     }
+
 
     public static void sqlUpdate(String[] column,String[] value,String conditionColumn,String conditionValue)throws SQLException {
         String table = "aufgabe";

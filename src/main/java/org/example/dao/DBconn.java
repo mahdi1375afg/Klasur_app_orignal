@@ -1,4 +1,6 @@
 package org.example.dao;
+import org.postgresql.util.PGobject;
+
 import java.sql.*;
 
 public class DBconn {
@@ -66,9 +68,14 @@ public class DBconn {
                     ps.setString(i + 1, (String) value[i]);
                 } else if (value[i] instanceof Integer) {
                     ps.setInt(i + 1, (Integer) value[i]);
+                } else if (value[i] instanceof Boolean) {
+                    ps.setBoolean(i + 1, (Boolean) value[i]);
+                } else if (value[i] instanceof PGobject) {
+                    ps.setObject(i + 1, value[i]);
                 } else {
-                    throw new SQLException("Invalid data type");
+                    throw new SQLException("Invalid data type: " + value[i].getClass());
                 }
+
             }
             int insertCount = ps.executeUpdate();
             System.out.println("Insert count: " + insertCount);

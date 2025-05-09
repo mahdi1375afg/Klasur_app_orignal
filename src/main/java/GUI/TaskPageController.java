@@ -179,7 +179,7 @@ public class TaskPageController extends SceneController {
 
         //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
         AufgabeService aufgabe = new AufgabeService();
-        aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(),getDurationNumber(),getAntwortType(),getTaskTaxonomie(),getModulTitle());
+        aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(),getDurationNumber(),getAntwortType(),getTaskTaxonomie(),getModulTitle(),closeType);
 
 
         if(antwortType == AntwortType.offeneAntwort){

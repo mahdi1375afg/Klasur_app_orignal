@@ -1,6 +1,7 @@
 package org.example.domain;
 
 import org.example.dao.*;
+import org.postgresql.util.PGobject;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -89,28 +90,6 @@ public class benutzerKonto {
 
 	}
 
-	/*
-	public boolean fragenErstellen(TaskPageController Controller) throws SQLException {
-		dbConnFrage connection = new dbConnFrage();
-
-		// Temporär nur für die erste TaskPage
-		String name = Controller.getTextFieldTaskTitle();
-		String aufgabentext = "Temporäter Aufgabentext"; // TEMP
-		int zeit = 15; // TEMP
-		String taxonomie = Controller.getTaskTaxonomie();
-		String format = Controller.getAntwortType();
-		int benutzer_id = 1;
-		int punkte = Controller.getTextFieldNumberPoints();
-		connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
-		//Get alle Informationen aus dem GUI
-		//Modul Id herausfinden
-
-		// In der Datenbank Antwort Id hinzufügen?
-
-		return true; //Machen obs wirklich funktioniert hat
-	}
-	 */
-
 	public boolean fragenBearbeiten(int Fragen) {
 		// TODO - implement benutzerKonto.fragenBearbeiten
 		throw new UnsupportedOperationException();
@@ -142,11 +121,20 @@ public class benutzerKonto {
 		}
 	}
 
-	public void antwortErstellenGeschlossen(int fragenId, String key, Boolean value, String questionTaxonomie) {
+	public void frageErstellenGeschlossen(int fragenId, String questionType) {
+		try {
+			PGobject enumObj = new PGobject();
+			enumObj.setType("aufgaben_typ");
+			enumObj.setValue(questionType);
+			System.out.println(fragenId);
+			DBconn.sqlInsert("geschlossene_aufgabe", new String[]{"typ","aufgabe_id"}, new Object[]{enumObj, fragenId});
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void antwortErstellenGeschlossen(int fragenId, String key, Boolean value, String questionType) {
 			try {
-
-				DBconn.sqlInsert("geschlossene_aufgabe", new String[]{"aufgaben_typ","aufgabe_id"}, new Object[]{questionTaxonomie,fragenId});
-
 				DBconn.sqlInsert("antwortmoeglichkeit_geschlossen", new String[]{"antworttext","ist_korrekt","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
 			} catch (SQLException e) {
 				e.printStackTrace();
