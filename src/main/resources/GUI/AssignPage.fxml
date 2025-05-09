@@ -4,17 +4,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TrueFalseController">
+<BorderPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AssignController">
 
 
     <top>
@@ -34,7 +32,7 @@
             </MenuButton>
 
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                <Text style="-fx-font-size: 24;" text="Wahr/Falsch Aufgabe erstellen" />
+                <Text style="-fx-font-size: 24;" text="Zuordnen Aufgabe erstellen" />
             </HBox>
         </HBox>
     </top>
@@ -49,7 +47,7 @@
                 </padding>
 
 
-                <TextField fx:id="questionTextField" maxWidth="564.0" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben">
+                <TextField fx:id="textFieldQuestion" maxWidth="564.0" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben">
                     <font>
                         <Font size="20.0" />
                     </font></TextField>
@@ -57,44 +55,28 @@
                 <VBox fx:id="answerContainer" spacing="10"> <!-- Container für Antwortfelder (dynamisch erstellbar) -->
 
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextField fx:id="answer1Button" prefHeight="30.0" prefWidth="370.0" promptText="Antwort">
+                        <TextField fx:id="answer1TextField" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
                             <font>
                                 <Font size="15.0" />
                             </font></TextField>
-                  <RadioButton fx:id="rButton11" mnemonicParsing="false" text="Richtig">
+                  <TextField fx:id="solution1TextField" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
                      <font>
                         <Font size="15.0" />
                      </font>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="trueFalseGroup1" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="rButton12" mnemonicParsing="false" text="Falsch" toggleGroup="$trueFalseGroup1">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </RadioButton>
+                  </TextField>
                     </HBox>
 
 
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextField fx:id="answer2Button" prefHeight="30.0" prefWidth="370.0" promptText="Antwort">
+                        <TextField fx:id="answer2TextField" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 2">
                             <font>
                                 <Font size="15.0" />
                             </font></TextField>
-                  <RadioButton fx:id="rButton21" mnemonicParsing="false" text="Richtig">
+                  <TextField fx:id="solution2TextField" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 2">
                      <font>
                         <Font size="15.0" />
                      </font>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="trueFalseGroup2" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="rButton22" mnemonicParsing="false" text="Falsch" toggleGroup="$trueFalseGroup2">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </RadioButton>
+                  </TextField>
                     </HBox>
 
                 </VBox>

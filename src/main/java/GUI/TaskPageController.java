@@ -176,11 +176,6 @@ public class TaskPageController extends SceneController {
         System.out.println(getAntwortType());
         System.out.println(getTaskTaxonomie());
         //ToDo: Daten an die nächste Seite weitergeben
-        //Damit das Funktioniert muss vorher in DB dieser Befehl ausgeführt werden:
-        //INSERT INTO benutzer (benutzername, passwort)
-        //VALUES ('testuser', 'geheimespasswort');
-        // Achso ja es muss ein User mit id 1 existieren
-        //benutzerKonto konto = new benutzerKonto();
 
         //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
         AufgabeService aufgabe = new AufgabeService();
@@ -201,11 +196,19 @@ public class TaskPageController extends SceneController {
             controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            double sceneWidth = stage.getScene().getWidth();
+            double sceneHeight = stage.getScene().getHeight();
+
+            Scene scene = new Scene(root, sceneWidth, sceneHeight);
+            stage.setScene(scene);
             stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.multipleChoiceFragen){
             switchScene(event, "/GUI/MultipleChoicePage.fxml");
+        }
+        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.zuordnung){
+            switchScene(event, "/GUI/AssignPage.fxml");
         }
         else {
             super.switchToStartPage(event);
@@ -289,7 +292,7 @@ public class TaskPageController extends SceneController {
     }
 
     @FXML
-    public void switchToExamOverview(ActionEvent event) throws IOException{
+    public void switchToExamOverview() throws IOException{
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.switchToExamCollection(stage);
     }

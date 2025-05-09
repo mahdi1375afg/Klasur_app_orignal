@@ -24,7 +24,7 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void initialize() {
-        //wird zu Beginn ausgeführt und sorgt dafür, dass bei Änderungen in den Textfeldern automatisch die entsprechenden Setter aufgerufen werden
+        //Setzt Listener auf die Textfelder damit Änderungen sofort erfasst werden
 
         taskTextField.textProperty().addListener((observable, oldValue, newValue) -> setTask());
 
@@ -50,7 +50,7 @@ public class OpenQuestionController extends SceneController{
 
 
     @FXML
-    public void saveTask(ActionEvent event) throws IOException {
+    public void saveTask() throws IOException {
         //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
 
         if(taskText == null) {
@@ -70,7 +70,7 @@ public class OpenQuestionController extends SceneController{
         System.out.println(taskText);
         System.out.println(sampleSolutionText);
 
-        savedSwitchToStartPage(event);
+        savedSwitchToStartPage();
     }
 
 
@@ -84,7 +84,7 @@ public class OpenQuestionController extends SceneController{
     }
 
     @FXML
-    public void savedSwitchToStartPage(ActionEvent event) throws IOException {
+    public void savedSwitchToStartPage() throws IOException {
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
@@ -101,7 +101,7 @@ public class OpenQuestionController extends SceneController{
     }
 
     @FXML
-    public void switchToExamOverview(ActionEvent event) throws IOException{
+    public void switchToExamOverview() throws IOException{
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);

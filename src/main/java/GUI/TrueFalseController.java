@@ -25,10 +25,6 @@ public class TrueFalseController extends SceneController{
         @FXML
         private VBox answerContainer;
 
-        private final List<TextField> answerFields = new ArrayList<>();
-        private final List<RadioButton> trueButtons = new ArrayList<>();
-        private final List<RadioButton> falseButtons = new ArrayList<>();
-
         @FXML
         private TextField answer1Button;
         @FXML
@@ -42,6 +38,10 @@ public class TrueFalseController extends SceneController{
         @FXML
         private RadioButton rButton22;
 
+        private final List<TextField> answerFields = new ArrayList<>();
+        private final List<RadioButton> trueButtons = new ArrayList<>();
+        private final List<RadioButton> falseButtons = new ArrayList<>();
+
         private AufgabeService aufgabe;
 
         public void setAufgabe(AufgabeService aufgabe) {
@@ -51,6 +51,8 @@ public class TrueFalseController extends SceneController{
 
     @FXML
     public void initialize() {
+        //Fügt die default Textfelder und Buttons zur jeweiligen Liste hinzu
+
         answerFields.add(answer1Button);
         answerFields.add(answer2Button);
 
@@ -62,6 +64,7 @@ public class TrueFalseController extends SceneController{
 
         @FXML
         public void addAnswerField() {
+            //Fügt in der Oberfläche ein neues Aufgabe-Status-Paar ein
 
             TextField answerField = new TextField();
             answerField.setPromptText("Antwort");
@@ -89,6 +92,8 @@ public class TrueFalseController extends SceneController{
 
         @FXML
         public void removeLastAnswerField() {
+            //löscht das letzte Aufgabe-Status-Paar in der Oberfläche einschließlich der gespeicherten Daten
+
             int childCount = answerContainer.getChildren().size();
 
             if (childCount > 2) {
@@ -100,7 +105,9 @@ public class TrueFalseController extends SceneController{
 
 
         @FXML
-        public void saveandswitchToStartPage(ActionEvent event) throws IOException, SQLException {
+        public void saveAndSwitchToStartPage() throws IOException, SQLException {
+            //Speichert alle gesammelten Daten und sendet sie an DB --> Wechsel zum Startbildschirm
+            //ToDo: Daten an DB senden
 
             String question = questionTextField.getText().trim();
 
@@ -136,24 +143,10 @@ public class TrueFalseController extends SceneController{
             }
 
 
-            if (answers.size() < 1) {
+            if (answers.isEmpty()) {
                 showAlert("Fehler", "Mindestens eine Aussage angeben werden.");
                 return;
             }
-
-            /*
-            System.out.println(question);
-            for (int i = 0; i < answers.size(); i++) {
-                String answer = answers.get(i);
-                boolean isTrue = correctValues.get(i);
-
-                if (isTrue) {
-                    System.out.println(answer + " (richtig)");
-                } else {
-                    System.out.println(answer + " (falsch)");
-                }
-            }
-             */
 
             //ToDO: Daten an Datenbank senden
             aufgabe.save();
@@ -163,6 +156,8 @@ public class TrueFalseController extends SceneController{
         }
 
         private void showAlert(String title, String message) {
+            //Zeigt Fehlermeldung mit bestimmten Text an
+
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle(title);
             alert.setHeaderText(null);
@@ -189,7 +184,7 @@ public class TrueFalseController extends SceneController{
         }
 
         @FXML
-        public void switchToExamOverview(ActionEvent event) throws IOException {
+        public void switchToExamOverview() throws IOException {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
         }
