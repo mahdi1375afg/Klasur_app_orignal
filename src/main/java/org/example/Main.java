@@ -15,11 +15,12 @@ public class Main  extends Application {
 
         // Hol alle Modul
 
+        /* Test Code
         Frage frage = new Frage(1, "Was ist Java?", BloomLevel.anwenden,new Modul(1,"AIN","ain") , 1, FragenArt.GeschlosseneFrage);
         Antwort antwort = new Antwort(2, "Java ist eine Programmiersprache", true, 1,AntwortType.geschlosseneAntwort);
         benutzerKonto konto = new benutzerKonto();
-
         konto.antwortloeaschen(antwort);
+         */
     }
 
     @Override

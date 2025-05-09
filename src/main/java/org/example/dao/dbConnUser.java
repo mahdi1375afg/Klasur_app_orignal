@@ -19,7 +19,7 @@ public class dbConnUser {
             ps.setString(2, password);
 
             int insertCount = ps.executeUpdate();
-            System.out.println("Insert count: " + insertCount);
+            //System.out.println("Insert count: " + insertCount);
         } catch (SQLException e) {
             e.printStackTrace();
             throw e; // oder: throw new RuntimeException(e);
@@ -70,7 +70,7 @@ public class dbConnUser {
             rs = ps.executeQuery();
             if(rs.next()) {
                 if(rs.getString("benutzername").equals(name)) {
-                    System.out.println("Account Exist!");
+                    //System.out.println("Account Exist!");
                     return true;
                 } else {
                     System.out.println("Account doesnt Exists!");

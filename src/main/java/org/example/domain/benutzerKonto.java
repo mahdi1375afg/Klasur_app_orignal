@@ -126,7 +126,6 @@ public class benutzerKonto {
 			PGobject enumObj = new PGobject();
 			enumObj.setType("aufgaben_typ");
 			enumObj.setValue(questionType);
-			System.out.println(fragenId);
 			DBconn.sqlInsert("geschlossene_aufgabe", new String[]{"typ","aufgabe_id"}, new Object[]{enumObj, fragenId});
 		} catch (SQLException e) {
 			e.printStackTrace();

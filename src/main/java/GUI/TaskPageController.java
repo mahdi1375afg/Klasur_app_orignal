@@ -169,13 +169,14 @@ public class TaskPageController extends SceneController {
             return;
         }
 
+        /*
         System.out.println(getTextFieldTaskTitle());
         System.out.println(getModulTitle());
         System.out.println(getTextFieldNumberPoints());
         System.out.println(getDurationNumber());
         System.out.println(getAntwortType());
         System.out.println(getTaskTaxonomie());
-        //ToDo: Daten an die nächste Seite weitergeben
+         */
 
         //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
         AufgabeService aufgabe = new AufgabeService();

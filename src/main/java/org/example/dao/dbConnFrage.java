@@ -67,7 +67,7 @@ public class dbConnFrage {
             ps.setInt(7, benutzer_id);
 
             int insertCount = ps.executeUpdate();
-            System.out.println("Insert count: " + insertCount);
+            //System.out.println("Insert count: " + insertCount);
         } catch (SQLException e) {
             e.printStackTrace();
             throw e; // oder: throw new RuntimeException(e);
@@ -134,7 +134,7 @@ public class dbConnFrage {
                 ps.setString(value.length + 1, conditionValue);
             }
             int updatecount = ps.executeUpdate();
-            System.out.println("Update count: " + updatecount);
+            //System.out.println("Update count: " + updatecount);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -152,7 +152,7 @@ public class dbConnFrage {
             throw new RuntimeException(e);
         }
         int deleteCount = ps.executeUpdate();
-        System.out.println("Delete count: " + deleteCount);
+        //System.out.println("Delete count: " + deleteCount);
         ps.close();
     }
 }

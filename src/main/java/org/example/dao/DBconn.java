@@ -14,7 +14,7 @@ public class DBconn {
         try {
              conn = DriverManager.getConnection(url, user, password);
             if (conn != null) {
-                System.out.println("connection valid: " + conn.isValid(0));
+        //        System.out.println("connection valid: " + conn.isValid(0));
             }
         }
         catch (SQLException e) {
@@ -78,7 +78,7 @@ public class DBconn {
 
             }
             int insertCount = ps.executeUpdate();
-            System.out.println("Insert count: " + insertCount);
+            //System.out.println("Insert count: " + insertCount);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -124,7 +124,7 @@ public class DBconn {
                 throw new SQLException("Invalid data type for conditionValue");
             }
             int updatecount = ps.executeUpdate();
-            System.out.println("Update count: " + updatecount);
+            //System.out.println("Update count: " + updatecount);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -146,7 +146,7 @@ public class DBconn {
                 throw new RuntimeException(e);
             }
             int deleteCount = ps.executeUpdate();
-            System.out.println("Delete count: " + deleteCount);
+            //System.out.println("Delete count: " + deleteCount);
             ps.close();
         }
 

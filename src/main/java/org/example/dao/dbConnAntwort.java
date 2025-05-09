@@ -54,7 +54,7 @@ public class dbConnAntwort {
             ps.setInt(3, antwortId);
 
             int insertCount = ps.executeUpdate();
-            System.out.println("Insert count: " + insertCount);
+            //System.out.println("Insert count: " + insertCount);
         } catch (SQLException e) {
             e.printStackTrace();
             throw e; // oder: throw new RuntimeException(e);

@@ -46,7 +46,6 @@ public class TrueFalseController extends SceneController{
 
         public void setAufgabe(AufgabeService aufgabe) {
             this.aufgabe = aufgabe;
-             System.out.println("Aufgabe gesetzt in nächsten Controller!");
         }
 
     @FXML

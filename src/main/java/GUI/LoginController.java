@@ -20,8 +20,6 @@ public class LoginController extends SceneController {
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException, SQLException {
-        //ToDo: Daten an Anwendungsschicht senden
-
         username = usernameLoginTextField.getText().trim();
         password = passwordLoginField.getText();
 
@@ -33,8 +31,10 @@ public class LoginController extends SceneController {
         benutzerKonto konto = new benutzerKonto();
         konto.anmelden(username,password);
         try {
-            konto.aktuellerBenutzer.printNutzer();
-            super.switchToStartPage(event);
+            //konto.aktuellerBenutzer.printNutzer();
+            if(konto.aktuellerBenutzer != null){
+                super.switchToStartPage(event);
+            }
         } catch (NullPointerException e) {
             super.switchToTitlePage(event);
         }
