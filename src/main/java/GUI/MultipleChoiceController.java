@@ -3,6 +3,7 @@ package GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -19,7 +20,8 @@ public class MultipleChoiceController extends SceneController{
     private MenuButton menuBar;
 
     @FXML
-    private TextField questionTextField;
+    private TextArea questionTextArea;
+
 
     @FXML
     private VBox answerContainer;
@@ -28,21 +30,24 @@ public class MultipleChoiceController extends SceneController{
     private final List<CheckBox> checkBoxes = new ArrayList<>();
 
     @FXML
-    private TextField answer1Button;
+    private TextField answer1TextField;
     @FXML
     private CheckBox checkBox1;
     @FXML
-    private TextField answer2Button;
+    private TextField answer2TextField;
     @FXML
     private CheckBox checkBox2;
 
     @FXML
     public void initialize() {
-        answerFields.add(answer1Button);
+        answerFields.add(answer1TextField);
         checkBoxes.add(checkBox1);
 
-        answerFields.add(answer2Button);
+        answerFields.add(answer2TextField);
         checkBoxes.add(checkBox2);
+
+        HBox.setHgrow(answer1TextField, Priority.ALWAYS);
+        HBox.setHgrow(answer2TextField, Priority.ALWAYS);
     }
 
 
@@ -51,9 +56,12 @@ public class MultipleChoiceController extends SceneController{
 
         TextField answerField = new TextField();
         answerField.setPromptText("Antwort");
-        answerField.setPrefWidth(401.0);
+        answerField.setPrefWidth(450.0);
         answerField.setPrefHeight(31.0);
         answerField.setFont(new Font(15.0));
+
+        answerField.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(answerField, Priority.ALWAYS);
 
         CheckBox correctCheckBox = new CheckBox("Richtig");
         correctCheckBox.setFont(new Font(15.0));
@@ -84,7 +92,7 @@ public class MultipleChoiceController extends SceneController{
     @FXML
     public void saveandswitchToStartPage(ActionEvent event)  throws IOException {
 
-        String question = questionTextField.getText().trim();
+        String question = questionTextArea.getText().trim();
 
         if (question.isEmpty()) {
             showAlert("Fehler", "Frage eingeben.");
