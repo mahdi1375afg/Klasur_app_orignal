@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -20,7 +21,7 @@ public class TrueFalseController extends SceneController{
         private MenuButton menuBar;
 
         @FXML
-        private TextField questionTextField;
+        private TextArea questionTextField;
 
         @FXML
         private VBox answerContainer;
@@ -61,35 +62,37 @@ public class TrueFalseController extends SceneController{
         falseButtons.add(rButton22);
     }
 
-        @FXML
-        public void addAnswerField() {
-            //Fügt in der Oberfläche ein neues Aufgabe-Status-Paar ein
+    @FXML
+    public void addAnswerField() {
+        // Fügt in der Oberfläche ein neues Aufgabe-Status-Paar ein
 
-            TextField answerField = new TextField();
-            answerField.setPromptText("Antwort");
-            answerField.setPrefWidth(370.0);
-            answerField.setPrefHeight(30.0);
-            answerField.setFont(new Font(15.0));
+        TextField answerField = new TextField();
+        answerField.setPromptText("Antwort");
+        answerField.setPrefHeight(30.0);
+        answerField.setFont(new Font(15.0));
+        answerField.setMaxWidth(Double.MAX_VALUE);
 
-            RadioButton trueButton = new RadioButton("Richtig");
-            trueButton.setFont(new Font(15.0));
-            RadioButton falseButton = new RadioButton("Falsch");
-            falseButton.setFont(new Font(15.0));
+        HBox.setHgrow(answerField, Priority.ALWAYS);
 
-            ToggleGroup group = new ToggleGroup();
-            trueButton.setToggleGroup(group);
-            falseButton.setToggleGroup(group);
+        RadioButton trueButton = new RadioButton("Richtig");
+        trueButton.setFont(new Font(15.0));
+        RadioButton falseButton = new RadioButton("Falsch");
+        falseButton.setFont(new Font(15.0));
 
-            answerFields.add(answerField);
-            trueButtons.add(trueButton);
-            falseButtons.add(falseButton);
+        ToggleGroup group = new ToggleGroup();
+        trueButton.setToggleGroup(group);
+        falseButton.setToggleGroup(group);
 
-            HBox answerRow = new HBox(10, answerField, trueButton, falseButton);
-            // Fügt HBox  VBox answerContainer hinzu
-            answerContainer.getChildren().add(answerRow);
-        }
+        answerFields.add(answerField);
+        trueButtons.add(trueButton);
+        falseButtons.add(falseButton);
 
-        @FXML
+        HBox answerRow = new HBox(10, answerField, trueButton, falseButton);
+        answerContainer.getChildren().add(answerRow);
+    }
+
+
+    @FXML
         public void removeLastAnswerField() {
             //löscht das letzte Aufgabe-Status-Paar in der Oberfläche einschließlich der gespeicherten Daten
 
