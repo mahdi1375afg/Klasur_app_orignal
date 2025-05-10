@@ -11,9 +11,9 @@ public class OpenQuestionController extends SceneController{
 
     //Textfelder
     @FXML
-    private TextField taskTextField;
+    private TextArea taskTextField;
     @FXML
-    private TextField taskSampleSolution;
+    private TextArea taskSampleSolution;
 
 
     @FXML
