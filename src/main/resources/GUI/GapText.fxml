@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.GapTextController">
+    <center>
+        <GridPane prefHeight="400.0" prefWidth="630.0" vgap="10.0" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="5.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="441.0" minWidth="421.0" prefWidth="421.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="103.0" minHeight="56.0" prefHeight="68.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="75.0" minHeight="6.399993896484375" prefHeight="71.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="98.0" minHeight="81.0" prefHeight="81.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="68.00002441406252" minHeight="30.399987792968773" prefHeight="60.00002441406252" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lückentext:" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="20.0" />
+                    </font></Text>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vollständiger Text:" GridPane.rowIndex="3">
+                    <font>
+                        <Font size="20.0" />
+                    </font></Text>
+                <Button mnemonicParsing="false" onAction="#saveTask" text="Fertig" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+                    <font>
+                        <Font size="20.0" />
+                    </font></Button>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lückentext erstellen" wrappingWidth="423.158203125" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+                    <font>
+                        <Font size="36.0" />
+                    </font>
+                </Text>
+                <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                    <items>
+                        <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                        <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                        <MenuItem fx:id="menuButtonExamPage" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+                        <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                        <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+
+                    </items>
+                </MenuButton>
+                <TextArea fx:id="textAreaGapText" prefHeight="100.0" prefWidth="421.0" promptText="Bitte markieren sie Lücken mit einem Unterstrich" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets></TextArea>
+                <TextArea fx:id="textAreaCompleteText" prefHeight="100.0" prefWidth="450.0" promptText="Bitte geben Sie den vollständigen Text mit ausgefüllten Lücken an" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabe:" GridPane.rowIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+            <TextArea fx:id="textAreaTask" prefHeight="200.0" prefWidth="200.0" promptText="Bitte geben Sie die Aufgabenstellung ein" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </GridPane>
+    </center>
+</BorderPane>
