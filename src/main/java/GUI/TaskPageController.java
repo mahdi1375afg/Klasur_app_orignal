@@ -21,7 +21,7 @@ public class TaskPageController extends SceneController {
     @FXML
     private TextField textFieldTaskTitle;
     @FXML
-    private TextField modulTitle;
+    private TextField textFieldNewModul;
     @FXML
     private TextField textFieldNumberPoints;
     @FXML
@@ -59,6 +59,9 @@ public class TaskPageController extends SceneController {
 
     @FXML
     private MenuButton menuBar;
+
+    @FXML
+    private Button buttonAddModul;
 
     private String taskTitleText ;
     private String modulTitleText;
@@ -98,8 +101,13 @@ public class TaskPageController extends SceneController {
         modulTitleText = modulDropdown.getValue();
     }
 
-    public String getModulTitle() {
+    public void setNewModul() {
+        //ToDo: Neues Modul in DB einfügen
+        modulTitleText = textFieldNewModul.getText();
 
+    }
+
+    public String getModulTitle() {
         return modulTitleText;
     }
 
