@@ -85,10 +85,13 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void savedSwitchToStartPage() throws IOException {
-        if(showAlert()) {
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToStartPage(stage);
+        if(taskTextField.getText().isEmpty() || taskSampleSolution.getText().isEmpty()) {
+            if (!showAlert()) {
+                return;
+            }
         }
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToStartPage(stage);
     }
 
 
