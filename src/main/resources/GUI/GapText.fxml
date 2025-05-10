@@ -16,16 +16,16 @@
     <center>
         <GridPane prefHeight="400.0" prefWidth="630.0" vgap="10.0" BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="25.0" minWidth="5.0" prefWidth="25.0" />
-            <ColumnConstraints hgrow="ALWAYS" maxWidth="441.0" minWidth="421.0" prefWidth="421.0" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="210.0" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="25.0" minWidth="5.0" prefWidth="25.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="421.0" prefWidth="421.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="103.0" minHeight="56.0" prefHeight="68.0" vgrow="ALWAYS" />
-                <RowConstraints maxHeight="75.0" minHeight="6.399993896484375" prefHeight="71.0" vgrow="ALWAYS" />
-                <RowConstraints maxHeight="98.0" minHeight="81.0" prefHeight="81.0" vgrow="ALWAYS" />
-                <RowConstraints maxHeight="68.00002441406252" minHeight="30.399987792968773" prefHeight="60.00002441406252" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="150.0" minHeight="56.0" prefHeight="80.0" vgrow="ALWAYS" />
+                <RowConstraints minHeight="6.399993896484375" prefHeight="80.0" vgrow="ALWAYS" />
+                <RowConstraints minHeight="81.0" prefHeight="80.0" vgrow="ALWAYS" />
+                <RowConstraints minHeight="30.399987792968773" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lückentext:" GridPane.rowIndex="2">
@@ -55,17 +55,17 @@
 
                     </items>
                 </MenuButton>
-                <TextArea fx:id="textAreaGapText" prefHeight="100.0" prefWidth="421.0" promptText="Bitte markieren sie Lücken mit einem Unterstrich" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+                <TextArea fx:id="textAreaGapText" prefHeight="100.0" prefWidth="421.0" promptText="Bitte markieren sie Lücken mit einem Unterstrich" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets></TextArea>
-                <TextArea fx:id="textAreaCompleteText" prefHeight="100.0" prefWidth="450.0" promptText="Bitte geben Sie den vollständigen Text mit ausgefüllten Lücken an" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+                <TextArea fx:id="textAreaCompleteText" prefHeight="100.0" prefWidth="450.0" promptText="Bitte geben Sie den vollständigen Text mit ausgefüllten Lücken an" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabe:" GridPane.rowIndex="1">
                <font>
                   <Font size="20.0" />
                </font>
             </Text>
-            <TextArea fx:id="textAreaTask" prefHeight="200.0" prefWidth="200.0" promptText="Bitte geben Sie die Aufgabenstellung ein" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <TextArea fx:id="textAreaTask" maxHeight="150.0" prefHeight="200.0" prefWidth="200.0" promptText="Bitte geben Sie die Aufgabenstellung ein" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
             </children>
             <padding>
                 <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
