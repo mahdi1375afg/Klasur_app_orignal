@@ -219,6 +219,9 @@ public class TaskPageController extends SceneController {
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.zuordnung){
             switchScene(event, "/GUI/AssignPage.fxml");
         }
+        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.leerstellen){
+            switchScene(event, "/GUI/GapText.fxml");
+        }
         else {
             super.switchToStartPage(event);
         }

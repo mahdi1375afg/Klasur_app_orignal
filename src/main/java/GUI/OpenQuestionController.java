@@ -41,27 +41,17 @@ public class OpenQuestionController extends SceneController{
         sampleSolutionText = taskSampleSolution.getText();
     }
 
-    public String getTask() {
-        return taskText;
-    }
-    public String getSampleSolution() {
-        return sampleSolutionText;
-    }
-
-
     @FXML
     public void saveTask() throws IOException {
         //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
 
-        if(taskText == null) {
-            if(!showAlert("Sie haben keinen Aufgabentext angegeben.")){
-                return;
-            }
+        if(taskText == null || taskText.isEmpty()) {
+            showAlert("Sie haben keinen Aufgabentext angegeben.");
+            return;
         }
-        if(sampleSolutionText == null) {
-            if(!showAlert("Sie haben keine Musterlösung angegeben.")){
+        if(sampleSolutionText == null || sampleSolutionText.isEmpty()) {
+            showAlert("Sie haben keine Musterlösung angegeben.");
                 return;
-            }
         }
 
         //ToDo: Daten an die Anwendungsschicht übergeben
@@ -85,11 +75,6 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void savedSwitchToStartPage() throws IOException {
-        if(taskTextField.getText().isEmpty() || taskSampleSolution.getText().isEmpty()) {
-            if (!showAlert()) {
-                return;
-            }
-        }
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.switchToStartPage(stage);
     }
