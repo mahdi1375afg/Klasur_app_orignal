@@ -1,5 +1,6 @@
 package org.example.domain;
 
+import java.time.Duration;
 import org.example.dao.*;
 import org.postgresql.util.PGobject;
 
@@ -90,16 +91,115 @@ public class benutzerKonto {
 
 	}
 
-	public boolean fragenBearbeiten(int Fragen) {
-		// TODO - implement benutzerKonto.fragenBearbeiten
-		throw new UnsupportedOperationException();
+	public void fragenBearbeiten(int id) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Welche Spalten möchten Sie bearbeiten?");
+		System.out.println("1. Name");
+		System.out.println("2. Aufgabe Text");
+		System.out.println("3. Dauer");
+		System.out.println("4. Format");
+		System.out.println("5. Punkte");
+		System.out.println("6. Taxonomie");
+		System.out.println("7. Art der Geschlossenen Frage");
+
+
+		int choice = Integer.parseInt(scanner.nextLine());
+
+		switch (choice) {
+			case 1:
+				System.out.println("Bitte geben Sie den neuen Aufgaben Name ein:");
+				String newAntwortText1 = scanner.nextLine();
+				try {
+					DBconn.sqlUpdate("aufgabe", new String[]{"name"}, new Object[]{newAntwortText1}, "id", id);
+					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+				break;
+			case 2:
+				System.out.println("Bitte geben Sie den neuen Aufgaben Text ein:");
+				String aufgabeText = scanner.nextLine();
+				try {
+					DBconn.sqlUpdate("aufgabe", new String[]{"aufgabentext"}, new Object[]{aufgabeText}, "id", id);
+					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 3:
+				System.out.println("Bitte geben Sie den neues Dauer ein:");
+				String dauer = scanner.nextLine();
+
+				try {
+					Duration dauer1 = Duration.parse(dauer);
+					DBconn.sqlUpdate("aufgabe", new String[]{"zeit"}, new Object[]{dauer1.toString()}, "id", id);
+					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+
+			case 4:
+				System.out.println("Bitte geben Sie den neuen Format (Offen oder Geschlossen) ein:");
+				String format = scanner.nextLine();
+				try {
+					DBconn.sqlUpdate("aufgabe", new String[]{"format"}, new Object[]{format}, "id", id);
+					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+
+			case 5:
+				System.out.println("Bitte geben Sie den neue Taxonomie ein:");
+				String taxonomie= scanner.nextLine();
+				try {
+					DBconn.sqlUpdate("aufgabe", new String[]{"taxonomie"}, new Object[]{taxonomie}, "id", id);
+					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+
+			case 6:
+				System.out.println("Bitte geben Sie den neuen Punkte ein:");
+				int punkt = Integer.parseInt(scanner.nextLine());
+				try {
+					DBconn.sqlUpdate("aufgabe", new String[]{"punkte"}, new Object[]{punkt}, "id", id);
+					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+
+			case 7:
+				System.out.println("Bitte geben Sie den neuen Art der Geschlossenen Frage ein:");
+				String art = scanner.nextLine();
+				try {
+					DBconn.sqlUpdate("geschlossene_aufgabe", new String[]{"typ"}, new Object[]{art}, "id", id);
+					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+
+			default:
+				System.out.println("Ungültige Auswahl.");
+		}
+
 	}
 
-	/**
-	 * 
-	 * @param Fragen
-	 */
+
 	public boolean fragenLoeschen(int id) {
+
 
 		try {
 			DBconn.sqlDelete("aufgaben_modul", "aufgabe_id", id);
@@ -136,10 +236,6 @@ public class benutzerKonto {
 			e.printStackTrace();
 		}
 		return true;
-
-
-
-
 	}
 
 

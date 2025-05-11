@@ -16,7 +16,7 @@ public class Main  extends Application {
         benutzerKonto konto2 = new benutzerKonto();
         //int id = konto2.fragenErstellen("Was ist Java?", "Java ist eine Programmiersprache", 1, "Multiple Choice", 1, "Anwenden", konto.getId());
 
-        konto2.fragenLoeschen(5);
+        konto2.fragenBearbeiten(1);
         // Hol alle Modul
         //konto2.deleteFragetable(3);
         /* Test Code
