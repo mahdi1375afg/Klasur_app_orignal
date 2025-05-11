@@ -7,7 +7,7 @@ public class DBconn {
 
     private static final String url = "jdbc:postgresql://localhost:5432/klausurapp"; // klasur => klausur
     private static final String user = "postgres";
-    private static final String password = "1234"; //1234 - Passwort Jan
+    private static final String password = "1375"; //1234 - Passwort Jan
 
     public static Connection getConn()throws SQLException {
         Connection conn = null;

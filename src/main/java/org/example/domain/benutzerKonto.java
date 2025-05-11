@@ -99,10 +99,49 @@ public class benutzerKonto {
 	 * 
 	 * @param Fragen
 	 */
-	public boolean fragenLoeschen(int Fragen) {
-		// TODO - implement benutzerKonto.fragenLoeschen
-		throw new UnsupportedOperationException();
+	public boolean fragenLoeschen(int id) {
+
+		try {
+			DBconn.sqlDelete("aufgaben_modul", "aufgabe_id", id);
+			System.out.println("Aufgabe von tabelle aufgaben_modul erfolgreich gelöscht.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			DBconn.sqlDelete("antwortmoeglichkeit_geschlossen", "geschlossene_aufgabe_id", id);
+			System.out.println("Aufgabe von tabelle antwortmoeglichkeit_geschlossen erfolgreich gelöscht.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			DBconn.sqlDelete("geschlossene_aufgabe", "aufgabe_id", id);
+			System.out.println("Aufgabe von tabelle geschlossene_aufgabe erfolgreich gelöscht.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			DBconn.sqlDelete("offene_aufgabe", "aufgabe_id", id);
+			System.out.println("Aufgabe von tabelle offene_aufgabe erfolgreich gelöscht.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		try {
+			DBconn.sqlDelete("aufgabe", "id", id);
+			System.out.println("Aufgabe von tabelle aufgabe erfolgreich gelöscht.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return true;
+
+
+
+
 	}
+
 
 	/**
 	 * @param Fragen
