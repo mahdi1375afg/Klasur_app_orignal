@@ -21,7 +21,7 @@
       </Text>
    </top>
    <center>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.20001220703125" minWidth="10.0" prefWidth="284.79998779296875" />
           <ColumnConstraints hgrow="ALWAYS" maxWidth="385.60001983642576" minWidth="10.0" prefWidth="342.6000122070312" />

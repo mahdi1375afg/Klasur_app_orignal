@@ -249,7 +249,7 @@ public class TaskPageController extends SceneController {
             closeType = CloseType.zuordnung;
         } else if (rButtonTypRanking.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.zuordnung;
+            closeType = CloseType.ranking;
         }
     }
 
