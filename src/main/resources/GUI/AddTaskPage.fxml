@@ -78,7 +78,7 @@
          <HBox prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <children>
                <ComboBox fx:id="modulDropdown" prefHeight="25" prefWidth="120.0" />
-               <TextField fx:id="textFieldNewModul" prefWidth="120.0" promptText="neues Modul" />
+               <TextField fx:id="textFieldNewModul" prefWidth="140.0" promptText="neues Modul" HBox.hgrow="ALWAYS" />
                <Button fx:id="buttonAddModul" onAction="#setNewModul" prefWidth="120.0" text="Modul hinzufügen" />
             </children>
          </HBox>
