@@ -222,6 +222,9 @@ public class TaskPageController extends SceneController {
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.leerstellen){
             switchScene(event, "/GUI/GapText.fxml");
         }
+        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.ranking){
+            switchScene(event, "/GUI/RankingPage.fxml");
+        }
         else {
             super.switchToStartPage(event);
         }
@@ -317,7 +320,8 @@ public class TaskPageController extends SceneController {
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
-        super.logout(event);
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.logout(stage);
     }
 }
 

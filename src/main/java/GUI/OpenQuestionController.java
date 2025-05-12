@@ -104,11 +104,11 @@ public class OpenQuestionController extends SceneController{
         }
     }
 
-
     @FXML
     public void logout(ActionEvent event) throws IOException {
         if(showAlert()) {
-            super.logout(event);
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.logout(stage);
         }
     }
 

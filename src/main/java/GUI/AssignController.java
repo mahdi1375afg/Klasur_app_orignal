@@ -143,31 +143,42 @@ public class AssignController extends SceneController{
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToStartPage(stage);
+        }
     }
 
     @FXML
-    public void switchToTaskOverview(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToTaskOverview(stage);
+    public void switchToTaskOverview(ActionEvent event) throws IOException{
+        if(showAlert()){
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToTaskOverview(stage);
+        }
+    }
+
+    @FXML
+    public void switchToExamOverview() throws IOException{
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToExamCollection(stage);
+        }
     }
 
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToExamPage(stage);
-    }
-
-    @FXML
-    public void switchToExamOverview(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToExamCollection(stage);
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToExamPage(stage);
+        }
     }
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
-        super.logout(event);
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.logout(stage);
+        }
     }
 
 }

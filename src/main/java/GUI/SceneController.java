@@ -114,7 +114,13 @@ public class SceneController {
         benutzerKonto konto = new benutzerKonto();
         konto.abmelden();
         switchToTitlePage(event);
+    }
 
+    @FXML
+    public void logout(Stage stage) throws IOException {
+        benutzerKonto konto = new benutzerKonto();
+        konto.abmelden();
+        switchToTitlePage(stage);
     }
 
     @FXML
@@ -131,8 +137,14 @@ public class SceneController {
 
     @FXML
     protected void switchToTitlePage(ActionEvent event) throws IOException {
-        //Methode sorgt für den Wechsel von Titelseite zur  Registrierungsseite
+        //Methode sorgt für den Wechsel von Titelseite zur Registrierungsseite
         switchScene(event, "/GUI/TitlePage.fxml");
+    }
+
+    @FXML
+    protected void switchToTitlePage(Stage stage) throws IOException {
+        //Methode sorgt für den Wechsel von Titelseite zur Registrierungsseite
+        switchScene(stage, "/GUI/TitlePage.fxml");
     }
 
     protected boolean showAlert() {

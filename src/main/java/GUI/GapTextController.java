@@ -79,8 +79,6 @@ public class GapTextController extends SceneController{
         savedSwitchToStartPage();
     }
 
-
-
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
         if(showAlert()) {
@@ -120,11 +118,11 @@ public class GapTextController extends SceneController{
         }
     }
 
-
     @FXML
     public void logout(ActionEvent event) throws IOException {
         if(showAlert()) {
-            super.logout(event);
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.logout(stage);
         }
     }
 
