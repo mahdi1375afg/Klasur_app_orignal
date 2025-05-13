@@ -25,7 +25,8 @@ public class SignUpController  extends SceneController {
 
     @FXML
     public void switchToLoginPage(ActionEvent event) throws IOException, SQLException {
-        //ToDo: Daten an Anwendungsschicht senden
+        //registriert den neuen User bei der DB und wechselt bein erfolgreichem registrieren
+        //zur LoginPage
 
         username = usernameSignUpTextField.getText().trim();
         password1 = passwordSignUp1Field.getText();
@@ -47,20 +48,16 @@ public class SignUpController  extends SceneController {
         }
 
         benutzerKonto konto = new benutzerKonto();
-        konto.register(username,password1);
+
+        if(!konto.register(username,password1)){
+            showAlert("Der Benutzername ist schon vergeben. Bitte wählen Sie einen anderen Benutzernamen. ");
+            return;
+        }
 
         super.switchToLoginPage(event);
     }
 
     public void switchToTitlePage(ActionEvent event) throws IOException {
         super.switchToTitlePage(event);
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

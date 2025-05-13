@@ -21,14 +21,14 @@ public class benutzerKonto {
 		// WIP
 	}
 
-	public String register(String name, String password) throws SQLException {
+	public Boolean register(String name, String password) throws SQLException {
 		dbConnUser connection = new dbConnUser();
 		if(!connection.getNameUsed(name)) {
 			System.out.println(connection.getNameUsed(name));
 			connection.sqlInsert(name,password);
-			return "Erfolgreich";
+			return true;
 		} else {
-			return "Fehler beim registrieren: Name schon vorhanden";
+			return false;
 		}
     }
 
