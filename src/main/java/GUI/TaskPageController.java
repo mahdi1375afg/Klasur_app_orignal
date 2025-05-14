@@ -192,7 +192,20 @@ public class TaskPageController extends SceneController {
 
 
         if(antwortType == AntwortType.offeneAntwort){
-            switchScene(event, "/GUI/OpenQuestionPage.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/OpenQuestionPage.fxml"));
+            Parent root = loader.load();
+
+            OpenQuestionController controller = loader.getController(); //Change das zu jeweils Controller
+            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            double sceneWidth = stage.getScene().getWidth();
+            double sceneHeight = stage.getScene().getHeight();
+
+            Scene scene = new Scene(root, sceneWidth, sceneHeight);
+            stage.setScene(scene);
+            stage.show();
         }
         else if (antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.singleChoiceFragen){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/SingleChoicePage.fxml"));

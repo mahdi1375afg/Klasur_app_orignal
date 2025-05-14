@@ -4,8 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.domain.AufgabeService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class OpenQuestionController extends SceneController{
 
@@ -21,6 +23,12 @@ public class OpenQuestionController extends SceneController{
 
     private String taskText = null;
     private String sampleSolutionText = null;
+
+    private AufgabeService aufgabe;
+
+    public void setAufgabe(AufgabeService aufgabe) {
+        this.aufgabe = aufgabe;
+    }
 
     @FXML
     public void initialize() {
@@ -42,7 +50,7 @@ public class OpenQuestionController extends SceneController{
     }
 
     @FXML
-    public void saveTask() throws IOException {
+    public void saveTask() throws IOException, SQLException {
         //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
 
         if(taskText == null || taskText.isEmpty()) {
@@ -59,6 +67,9 @@ public class OpenQuestionController extends SceneController{
 
         System.out.println(taskText);
         System.out.println(sampleSolutionText);
+        aufgabe.setAnswerPage(sampleSolutionText, true);
+        aufgabe.setTask(taskText);
+        aufgabe.save();
 
         savedSwitchToStartPage();
     }

@@ -250,7 +250,7 @@ public class benutzerKonto {
 
 	public void antwortErstellenOffen(int fragenId, String key) {
 		try {
-			DBconn.sqlInsert("oeffene_aufgabe", new String[]{"musterloesung","aufgabe_id"}, new Object[]{key,fragenId});
+			DBconn.sqlInsert("offene_aufgabe", new String[]{"musterloesung","aufgabe_id"}, new Object[]{key,fragenId});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
