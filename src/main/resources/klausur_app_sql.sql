@@ -83,3 +83,19 @@ CREATE TABLE aufgaben_modul (
  FOREIGN KEY (aufgabe_id) REFERENCES aufgabe(id),
  FOREIGN KEY (modul_id) REFERENCES modul(id)
 );
+
+CREATE TABLE antwortMehrParts_geschlossen (
+ id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ antworttext TEXT NOT NULL,
+ antworttext2 TEXT NOT NULL,
+ geschlossene_aufgabe_id INT NOT NULL,
+ FOREIGN KEY (geschlossene_aufgabe_id) REFERENCES geschlossene_aufgabe(aufgabe_id)
+);
+
+CREATE TABLE antwortRanking_geschlossen (
+ id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+ rank INT,
+ antworttext TEXT NOT NULL,
+ geschlossene_aufgabe_id INT NOT NULL,
+ FOREIGN KEY (geschlossene_aufgabe_id) REFERENCES geschlossene_aufgabe(aufgabe_id)
+);
