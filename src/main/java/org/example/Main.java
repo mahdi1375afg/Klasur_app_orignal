@@ -11,25 +11,8 @@ import org.example.domain.*;
 
 public class Main  extends Application {
     public static void main(String[] args) throws SQLException {
-        benutzerKonto konto = new benutzerKonto();
-        //konto.adminModulErstellen("Betriebssysteme");
-        //konto.adminModulErstellen("Software Engineering 2");
         initUser();
         launch(args);
-
-        //Nutzer konto = new Nutzer(1,"max","1234");
-        //benutzerKonto konto2 = new benutzerKonto();
-        //int id = konto2.fragenErstellen("Was ist Java?", "Java ist eine Programmiersprache", 1, "Multiple Choice", 1, "Anwenden", konto.getId());
-
-        //konto2.fragenBearbeiten(1);
-        // Hol alle Modul
-        //konto2.deleteFragetable(3);
-        /* Test Code
-        Frage frage = new Frage(1, "Was ist Java?", BloomLevel.anwenden,new Modul(1,"AIN","ain") , 1, FragenArt.GeschlosseneFrage);
-        Antwort antwort = new Antwort(2, "Java ist eine Programmiersprache", true, 1,AntwortType.geschlosseneAntwort);
-        benutzerKonto konto = new benutzerKonto();
-        konto.antwortloeaschen(antwort);
-         */
     }
 
     public static void initUser() throws SQLException {

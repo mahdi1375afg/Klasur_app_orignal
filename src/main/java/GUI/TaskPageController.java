@@ -78,6 +78,7 @@ public class TaskPageController extends SceneController {
     public void initialize() throws SQLException {
         //wird zu Beginn ausgeführt und sorgt dafür, dass bei Änderungen in den Textfeldern automatisch die entsprechenden Setter aufgerufen werden
 
+        modulDropdown.getItems().clear();
         modulDropdown.getItems().addAll(Modul.getAllNames());
 
         textFieldTaskTitle.textProperty().addListener((observable, oldValue, newValue) -> setTaskTitle());
@@ -105,8 +106,19 @@ public class TaskPageController extends SceneController {
         //ToDo: Neues Modul in DB einfügen
         modulTitleText = textFieldNewModul.getText();
         benutzerKonto konto = new benutzerKonto();
+
+        if (modulTitleText.isEmpty()) {
+            showAlert("Fehler", "Bitte geben Sie einen Modulnamen ein.");
+            return;
+        }
+
+        if (Modul.getAllNames().contains(modulTitleText)) {
+            showAlert("Hinweis", "Dieses Modul existiert bereits.");
+            return;
+        }
         konto.createModul(modulTitleText);
-        modulDropdown.getItems().add(modulTitleText);
+        modulDropdown.getItems().setAll(Modul.getAllNames());
+        textFieldNewModul.clear();
     }
 
     public String getModulTitle() {

@@ -23,6 +23,9 @@ public class Modul {
     public static List<Modul> getAllModul() throws SQLException {
 		dbConnModul.sqlGetAllModul();
 		HashMap<Integer, String> result = dbConnModul.sqlGetAllModul();
+
+		modules.clear();
+
 		for (Map.Entry<Integer, String> eintrag : result.entrySet()) {
 			modules.add(new Modul(eintrag.getKey(), eintrag.getValue()));
 		}
