@@ -14,6 +14,7 @@ public class Main  extends Application {
         benutzerKonto konto = new benutzerKonto();
         //konto.adminModulErstellen("Betriebssysteme");
         //konto.adminModulErstellen("Software Engineering 2");
+        initUser();
         launch(args);
 
         //Nutzer konto = new Nutzer(1,"max","1234");
@@ -29,6 +30,10 @@ public class Main  extends Application {
         benutzerKonto konto = new benutzerKonto();
         konto.antwortloeaschen(antwort);
          */
+    }
+
+    public static void initUser() throws SQLException {
+        Modul.getAllModul();
     }
 
     @Override

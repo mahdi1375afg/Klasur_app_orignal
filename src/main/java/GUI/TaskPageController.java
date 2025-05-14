@@ -75,10 +75,10 @@ public class TaskPageController extends SceneController {
     private ComboBox<String> modulDropdown;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
         //wird zu Beginn ausgeführt und sorgt dafür, dass bei Änderungen in den Textfeldern automatisch die entsprechenden Setter aufgerufen werden
 
-        modulDropdown.getItems().addAll(Modul.getAllModul());
+        modulDropdown.getItems().addAll(Modul.getAllNames());
 
         textFieldTaskTitle.textProperty().addListener((observable, oldValue, newValue) -> setTaskTitle());
 
@@ -101,10 +101,12 @@ public class TaskPageController extends SceneController {
         modulTitleText = modulDropdown.getValue();
     }
 
-    public void setNewModul() {
+    public void setNewModul() throws SQLException {
         //ToDo: Neues Modul in DB einfügen
         modulTitleText = textFieldNewModul.getText();
-
+        benutzerKonto konto = new benutzerKonto();
+        konto.createModul(modulTitleText);
+        modulDropdown.getItems().add(modulTitleText);
     }
 
     public String getModulTitle() {

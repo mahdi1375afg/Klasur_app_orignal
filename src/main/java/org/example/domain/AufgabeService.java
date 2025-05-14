@@ -79,7 +79,6 @@ public class AufgabeService {
 
         System.out.println("QuestionName: " + QuestionName);
         System.out.println("Question: " + QuestionQuestion);
-        System.out.println("Antworten: " + antworten.size());
 
     }
 

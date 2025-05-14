@@ -292,12 +292,15 @@ public class benutzerKonto {
 
 	public void createTaskToModul(int aufgabe_id, String modul_name) throws SQLException {
 		int modul_id = -1;
+		/*
 		HashMap<Integer, String> result = dbConnModul.sqlGetAllModul();
 		for (Map.Entry<Integer, String> eintrag : result.entrySet()) {
 			if(eintrag.getValue().equals(modul_name)) {
 				modul_id = eintrag.getKey();
 			}
 		}
+		 */
+		modul_id = Modul.getId(modul_name);
 		if(modul_id == -1) {
 			//break
 			System.out.println("Modul nicht gefunden!");
@@ -460,7 +463,7 @@ public class benutzerKonto {
 
 
 			// Assign the Modul to the Klausur
-			k.setModul(new Modul(modul, result.get(0).get("name").toString(), result.get(0).get("beschreibung").toString()));
+			k.setModul(new Modul(modul, result.get(0).get("name").toString()));
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -489,5 +492,14 @@ public class benutzerKonto {
 	public void KlarsurLoeschen(int Klasur) {
 		// TODO - implement benutzerKonto.KlarsurLoeschen
 		throw new UnsupportedOperationException();
+	}
+
+	public void createModul(String modulTitleText) {
+		try {
+			DBconn.sqlInsert("modul", new String[]{"name"}, new Object[]{modulTitleText});
+			Modul.getAllModul();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
