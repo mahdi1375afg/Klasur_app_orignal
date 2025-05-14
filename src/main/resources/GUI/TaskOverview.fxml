@@ -1,13 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TaskOverviewController">
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabenübersicht" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+       <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
+           <items>
+               <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+               <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+               <MenuItem fx:id="menuButtonExamPage" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+               <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+               <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SceneController">
-   <children>
-      <Text layoutX="250.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabenübersicht" />
-      <Button layoutX="267.0" layoutY="279.0" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-   </children>
-</AnchorPane>
+           </items>
+       </MenuButton>
+   </top>
+   <center>
+      <TableView fx:id="tableView" prefWidth="605.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="nameColumn" prefWidth="130.0" text="Name" />
+          <TableColumn fx:id="modulColumn" prefWidth="130.0" text="Modul" />
+            <TableColumn fx:id="taxonomieColumn" minWidth="0.0" prefWidth="130.0" text="Taxonomie" />
+            <TableColumn fx:id="typColumn" prefWidth="130.0" text="Typ" />
+            <TableColumn fx:id="punkteColumn" text="Punkte" />
+        </columns>
+      </TableView>
+   </center>
+
+</BorderPane>
