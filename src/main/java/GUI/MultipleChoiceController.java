@@ -108,7 +108,8 @@ public class MultipleChoiceController extends SceneController{
         }
 
         List<String> answers = new ArrayList<>();
-        int correctIndex = -1;
+        List<Integer> correctIndex = new ArrayList<>();
+        correctIndex.add(-1);
 
 
         for (int i = 0; i < answerFields.size(); i++) {
@@ -120,7 +121,10 @@ public class MultipleChoiceController extends SceneController{
             }
 
             if (checkBoxes.get(i).isSelected()) {
-                correctIndex = i;
+                if(correctIndex.contains(-1)) {
+                    correctIndex.remove(correctIndex.indexOf(-1));
+                }
+                correctIndex.add(i);
             }
         }
 
@@ -131,7 +135,7 @@ public class MultipleChoiceController extends SceneController{
         }
 
 
-        if (correctIndex == -1) {
+        if (correctIndex.contains(-1)) {
             showAlert("Fehler", "Mindestens eine richtige Antwort auswählen.");
             return;
         }
@@ -140,7 +144,7 @@ public class MultipleChoiceController extends SceneController{
         System.out.println(question);
         for (int i = 0; i < answers.size(); i++) {
             String answer = answers.get(i);
-            boolean isCorrect = (i == correctIndex);
+            boolean isCorrect = (correctIndex.contains(i)) ? true : false;
             aufgabe.setAnswerPage(answer, isCorrect);
             if (isCorrect) {
                 System.out.println((i) +  answer + " (richtig)");

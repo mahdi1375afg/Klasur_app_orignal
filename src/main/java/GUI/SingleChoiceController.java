@@ -8,9 +8,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.domain.AufgabeService;
 
 import java.io.IOException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,12 @@ public class SingleChoiceController extends SceneController{
     private TextField answer2TextField;
     @FXML
     private CheckBox checkBox2;
+
+    private AufgabeService aufgabe;
+
+    public void setAufgabe(AufgabeService aufgabe) {
+        this.aufgabe = aufgabe;
+    }
 
     @FXML
     public void initialize() {
@@ -89,7 +97,7 @@ public class SingleChoiceController extends SceneController{
 
 
     @FXML
-    public void saveandswitchToStartPage(ActionEvent event)  throws IOException {
+    public void saveandswitchToStartPage(ActionEvent event) throws IOException, SQLException {
 
         String question = questionTextArea.getText().trim();
 
@@ -137,7 +145,7 @@ public class SingleChoiceController extends SceneController{
         for (int i = 0; i < answers.size(); i++) {
             String answer = answers.get(i);
             boolean isCorrect = (i == correctIndex);
-
+            aufgabe.setAnswerPage(answer, isCorrect);
             if (isCorrect) {
                 System.out.println((i) +  answer + " (richtig)");
             } else {
@@ -145,6 +153,8 @@ public class SingleChoiceController extends SceneController{
             }
         }
 
+        aufgabe.setTask(question);
+        aufgabe.save();
 
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.switchToStartPage(stage);
