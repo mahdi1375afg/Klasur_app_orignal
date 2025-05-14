@@ -267,12 +267,28 @@ public class benutzerKonto {
 		}
 	}
 
-	public void antwortErstellenGeschlossen(int fragenId, String key, Boolean value, String questionType) {
+	public void antwortErstellenGeschlossen(int fragenId, String key, Boolean value) {
 			try {
 				DBconn.sqlInsert("antwortmoeglichkeit_geschlossen", new String[]{"antworttext","ist_korrekt","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+	}
+
+	public void antwortErstellenGeschlossenMultipleParts(int fragenId, String key, String value) {
+		try {
+			DBconn.sqlInsert("antwortMehrParts_geschlossen", new String[]{"antworttext","antworttext2","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void antwortErstellenGeschlossenRanking(int fragenId, String key, Integer value) {
+		try {
+			DBconn.sqlInsert("antwortRanking_geschlossen", new String[]{"antworttext","rank","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void antwortErstellen(Frage frage) {

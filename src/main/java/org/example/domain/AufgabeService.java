@@ -17,6 +17,8 @@ public class AufgabeService {
 
     //Antwort
     Map<String, Boolean> antworten = new HashMap<>();
+    Map<String, String> antwortenMultipleParts = new HashMap<>();
+    Map<String, Integer> antwortenRanking = new HashMap<>();
 
     //Modul
     String QuestionModulName;
@@ -37,9 +39,17 @@ public class AufgabeService {
         System.out.println("Antwort: " + answer + " ist " + truth + " (hinzugefügt)");
     }
 
+    public void setAnswerPageMultipleParts(String answer,String answer2) {
+        antwortenMultipleParts.put(answer, answer2);
+        System.out.println("Antwort: " + answer + " ist " + answer2 + " (hinzugefügt)");
+    }
+
+    public void setAnswerPageRanking(String answer,int rank) {
+        antwortenRanking.put(answer, rank);
+        System.out.println("Antwort: " + answer + " ist " + rank + " (hinzugefügt)");
+    }
+
     public void save() throws SQLException {
-
-
         benutzerKonto konto = new benutzerKonto();
         int FragenId = konto.fragenErstellen(QuestionName, QuestionQuestion, QuestionDuration, QuestionType,QuestionPoints,QuestionTaxonomie,benutzerKonto.aktuellerBenutzer.getId());
 
@@ -49,18 +59,27 @@ public class AufgabeService {
             konto.antwortErstellenOffen(FragenId,ersterEintrag.getKey());
         } else {
             konto.frageErstellenGeschlossen(FragenId,QuestionCloseType.getName());
-            for (Map.Entry<String, Boolean> eintrag : antworten.entrySet()) {
-                konto.antwortErstellenGeschlossen(FragenId,eintrag.getKey(),eintrag.getValue(),QuestionCloseType.getName());
+            if(QuestionCloseType.getName() == "Lückentext" || QuestionCloseType.getName() == "Zuordnung") {
+                for (Map.Entry<String, String> eintrag : antwortenMultipleParts.entrySet()) {
+                    konto.antwortErstellenGeschlossenMultipleParts(FragenId,eintrag.getKey(),eintrag.getValue());
+                }
+            } else if(QuestionCloseType.getName() == "Ranking") {
+                for (Map.Entry<String, Integer> eintrag : antwortenRanking.entrySet()) {
+                    konto.antwortErstellenGeschlossenRanking(FragenId,eintrag.getKey(),eintrag.getValue());
+                }
+            } else {
+                for (Map.Entry<String, Boolean> eintrag : antworten.entrySet()) {
+                    konto.antwortErstellenGeschlossen(FragenId,eintrag.getKey(),eintrag.getValue());
+                }
             }
         }
-
 
         System.out.println("Save die Aufgabe!");
 
         System.out.println("QuestionName: " + QuestionName);
         System.out.println("Question: " + QuestionQuestion);
         System.out.println("Antworten: " + antworten.size());
-        System.out.println(antworten);
+
     }
 
     public void setTask(String question) {
