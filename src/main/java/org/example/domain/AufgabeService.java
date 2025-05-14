@@ -29,7 +29,6 @@ public class AufgabeService {
         this.QuestionType = QuestionType;
         this.QuestionTaxonomie = QuestionTaxonomie;
         this.QuestionCloseType = closeType;
-
         this.QuestionModulName = QuestionModulName;
     }
 

@@ -214,7 +214,20 @@ public class TaskPageController extends SceneController {
             stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.multipleChoiceFragen){
-            switchScene(event, "/GUI/MultipleChoicePage.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/MultipleChoicePage.fxml"));
+            Parent root = loader.load();
+
+            MultipleChoiceController controller = loader.getController(); //Change das zu jeweils Controller
+            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            double sceneWidth = stage.getScene().getWidth();
+            double sceneHeight = stage.getScene().getHeight();
+
+            Scene scene = new Scene(root, sceneWidth, sceneHeight);
+            stage.setScene(scene);
+            stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.zuordnung){
             switchScene(event, "/GUI/AssignPage.fxml");
