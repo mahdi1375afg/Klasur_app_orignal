@@ -6,6 +6,7 @@ import org.postgresql.util.PGobject;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
@@ -62,10 +63,10 @@ public class benutzerKonto {
 	}
 
 
-	public boolean adminModulErstellen(String modulName, String modulBeschreibung) {
+	public boolean adminModulErstellen(String modulName) {
 		DBconn db = new DBconn();
-		String[] values = {modulName, modulBeschreibung};
-		String[] columns = {"name", "beschreibung"};
+		String[] values = {modulName};
+		String[] columns = {"name"};
 
 		try {
 			db.sqlInsert("modul", columns, values); // Beispiel für SQL Insert
@@ -199,8 +200,6 @@ public class benutzerKonto {
 
 
 	public boolean fragenLoeschen(int id) {
-
-
 		try {
 			DBconn.sqlDelete("aufgaben_modul", "aufgabe_id", id);
 			System.out.println("Aufgabe von tabelle aufgaben_modul erfolgreich gelöscht.");
@@ -286,6 +285,25 @@ public class benutzerKonto {
 	public void antwortErstellenGeschlossenRanking(int fragenId, String key, Integer value) {
 		try {
 			DBconn.sqlInsert("antwortRanking_geschlossen", new String[]{"antworttext","rank","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void createTaskToModul(int aufgabe_id, String modul_name) throws SQLException {
+		int modul_id = -1;
+		HashMap<Integer, String> result = dbConnModul.sqlGetAllModul();
+		for (Map.Entry<Integer, String> eintrag : result.entrySet()) {
+			if(eintrag.getValue().equals(modul_name)) {
+				modul_id = eintrag.getKey();
+			}
+		}
+		if(modul_id == -1) {
+			//break
+			System.out.println("Modul nicht gefunden!");
+		}
+		try {
+			DBconn.sqlInsert("aufgaben_modul", new String[]{"aufgabe_id","modul_id"}, new Object[]{aufgabe_id,modul_id});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

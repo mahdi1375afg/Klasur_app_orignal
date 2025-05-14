@@ -11,7 +11,11 @@ import org.example.domain.*;
 
 public class Main  extends Application {
     public static void main(String[] args) throws SQLException {
+        benutzerKonto konto = new benutzerKonto();
+        //konto.adminModulErstellen("Betriebssysteme");
+        //konto.adminModulErstellen("Software Engineering 2");
         launch(args);
+
         //Nutzer konto = new Nutzer(1,"max","1234");
         //benutzerKonto konto2 = new benutzerKonto();
         //int id = konto2.fragenErstellen("Was ist Java?", "Java ist eine Programmiersprache", 1, "Multiple Choice", 1, "Anwenden", konto.getId());

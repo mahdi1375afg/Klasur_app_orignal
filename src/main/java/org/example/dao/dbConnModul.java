@@ -1,5 +1,4 @@
 package org.example.dao;
-import org.example.dao.DBconn;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,6 +43,37 @@ public class dbConnModul {
             for (Map.Entry<String, Object> Eintrag : result.entrySet()) {
                 System.out.print(Eintrag.getKey() + ": " + Eintrag.getValue() + ", ");
             }
+            System.out.println(); // Neue Zeile für jeden Datensatz
+        }
+        return results;
+    }
+
+    public static HashMap<Integer, String> sqlGetAllModul() throws SQLException {
+        String table = "modul";
+        DBconn db = new DBconn();
+
+        // Liste, die die Ergebnisse speichert
+        HashMap<Integer, String> results = new HashMap<>();
+
+        PreparedStatement ps;
+        try {
+            ps = db.getConn().prepareStatement("SELECT * FROM " + table); //"SELECT * FROM " + table + " WHERE " + column + " = ?"
+            //ps.setString(1, value);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        ResultSet rs = ps.executeQuery();
+
+        // Alle Ergebnisse in der Liste speichern
+        while (rs.next()) {
+            results.put(rs.getInt("id"), rs.getString("name"));
+        }
+        rs.close();
+
+        // Ergebnisse in der Konsole ausgeben
+        for (Map.Entry<Integer, String> eintrag : results.entrySet()) {
+            System.out.print(eintrag.getKey() + ": " + eintrag.getValue() + ", ");
             System.out.println(); // Neue Zeile für jeden Datensatz
         }
         return results;

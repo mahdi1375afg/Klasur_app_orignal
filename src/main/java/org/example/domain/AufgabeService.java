@@ -49,10 +49,11 @@ public class AufgabeService {
         System.out.println("Antwort: " + answer + " ist " + rank + " (hinzugefügt)");
     }
 
+
     public void save() throws SQLException {
         benutzerKonto konto = new benutzerKonto();
         int FragenId = konto.fragenErstellen(QuestionName, QuestionQuestion, QuestionDuration, QuestionType,QuestionPoints,QuestionTaxonomie,benutzerKonto.aktuellerBenutzer.getId());
-
+        konto.createTaskToModul(FragenId,QuestionModulName);
         if(QuestionType.equals(AntwortType.offeneAntwort.getName())) {
             Map.Entry<String, Boolean> ersterEintrag = antworten.entrySet().iterator().next();
             ersterEintrag.getKey();
