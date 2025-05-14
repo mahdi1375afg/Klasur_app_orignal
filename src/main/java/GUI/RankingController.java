@@ -10,8 +10,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.domain.AufgabeService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,12 @@ public class RankingController extends SceneController {
 
     private final List<TextArea> statementAreas = new ArrayList<>();
     private final List<TextArea> numbers = new ArrayList<>();
+
+    private AufgabeService aufgabe;
+
+    public void setAufgabe(AufgabeService aufgabe) {
+        this.aufgabe = aufgabe;
+    }
 
     @FXML
     public void initialize() {
@@ -93,7 +101,7 @@ public class RankingController extends SceneController {
     }
 
     @FXML
-    public void saveAndSwitchToStartPage()  throws IOException {
+    public void saveAndSwitchToStartPage() throws IOException, SQLException {
         //Speichert alle gesammelten Daten und sendet sie an DB --> Wechsel zum Startbildschirm
         //ToDo: Daten an DB senden
 
@@ -124,7 +132,11 @@ public class RankingController extends SceneController {
         for (int i = 0; i < statements.size(); i++) {
             String answer = statements.get(i);
             System.out.println((i+1) +"."+answer);
+            aufgabe.setAnswerPageRanking(answer, i+1);
         }
+
+        aufgabe.setTask(question);
+        aufgabe.save();
 
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.switchToStartPage(stage);
@@ -179,6 +191,4 @@ private void showAlert(String title, String message) {
             super.logout(stage);
         }
     }
-
-
 }

@@ -4,8 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.domain.AufgabeService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class GapTextController extends SceneController{
 
@@ -24,6 +26,12 @@ public class GapTextController extends SceneController{
     private String taskText;
     private String gapText;
     private String completeText;
+
+    private AufgabeService aufgabe;
+
+    public void setAufgabe(AufgabeService aufgabe) {
+        this.aufgabe = aufgabe;
+    }
 
     @FXML
     public void initialize() {
@@ -52,7 +60,7 @@ public class GapTextController extends SceneController{
     }
 
     @FXML
-    public void saveTask() throws IOException {
+    public void saveTask() throws IOException, SQLException {
         //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
 
         if(taskText == null ||taskText.isEmpty()) {
@@ -69,13 +77,14 @@ public class GapTextController extends SceneController{
             return;
         }
 
-        //ToDo: Daten an die Anwendungsschicht übergeben
-
 
         System.out.println(taskText);
         System.out.println(gapText);
         System.out.println(completeText);
 
+        aufgabe.setAnswerPageMultipleParts(gapText, completeText);
+        aufgabe.setTask(taskText);
+        aufgabe.save();
         savedSwitchToStartPage();
     }
 
@@ -125,5 +134,4 @@ public class GapTextController extends SceneController{
             super.logout(stage);
         }
     }
-
 }

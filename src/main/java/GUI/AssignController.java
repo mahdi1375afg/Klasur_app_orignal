@@ -7,9 +7,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.domain.AufgabeService;
 
 import java.io.IOException;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,12 @@ public class AssignController extends SceneController{
 
     private final List<TextField> answerFields = new ArrayList<>();
     private final List<TextField> solutionFields = new ArrayList<>();
+
+    private AufgabeService aufgabe;
+
+    public void setAufgabe(AufgabeService aufgabe) {
+        this.aufgabe = aufgabe;
+    }
 
     @FXML
     public void initialize() {
@@ -87,7 +95,7 @@ public class AssignController extends SceneController{
 
 
     @FXML
-    public void saveAndSwitchToStartPage()  throws IOException {
+    public void saveAndSwitchToStartPage() throws IOException, SQLException {
         //Speichert alle gesammelten Daten und sendet sie an DB --> Wechsel zum Startbildschirm
         //ToDo: Daten an DB senden
 
@@ -108,6 +116,7 @@ public class AssignController extends SceneController{
 
 
             if (!answer.isEmpty() && !solution.isEmpty()) {
+                aufgabe.setAnswerPageMultipleParts(answer, solution);
                 answers.add(answer);
                 solutions.add(solution);
             }
@@ -126,6 +135,9 @@ public class AssignController extends SceneController{
 
             System.out.println(answer + " " + solution);
         }
+
+        aufgabe.setTask(question);
+        aufgabe.save();
 
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.switchToStartPage(stage);
@@ -180,6 +192,5 @@ public class AssignController extends SceneController{
             super.logout(stage);
         }
     }
-
 }
 

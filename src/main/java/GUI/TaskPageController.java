@@ -256,13 +256,52 @@ public class TaskPageController extends SceneController {
             stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.zuordnung){
-            switchScene(event, "/GUI/AssignPage.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AssignPage.fxml"));
+            Parent root = loader.load();
+
+            AssignController controller = loader.getController(); //Change das zu jeweils Controller
+            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            double sceneWidth = stage.getScene().getWidth();
+            double sceneHeight = stage.getScene().getHeight();
+
+            Scene scene = new Scene(root, sceneWidth, sceneHeight);
+            stage.setScene(scene);
+            stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.leerstellen){
-            switchScene(event, "/GUI/GapText.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/GapText.fxml"));
+            Parent root = loader.load();
+
+            GapTextController controller = loader.getController(); //Change das zu jeweils Controller
+            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            double sceneWidth = stage.getScene().getWidth();
+            double sceneHeight = stage.getScene().getHeight();
+
+            Scene scene = new Scene(root, sceneWidth, sceneHeight);
+            stage.setScene(scene);
+            stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.ranking){
-            switchScene(event, "/GUI/RankingPage.fxml");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/RankingPage.fxml"));
+            Parent root = loader.load();
+
+            RankingController controller = loader.getController(); //Change das zu jeweils Controller
+            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            double sceneWidth = stage.getScene().getWidth();
+            double sceneHeight = stage.getScene().getHeight();
+
+            Scene scene = new Scene(root, sceneWidth, sceneHeight);
+            stage.setScene(scene);
+            stage.show();
         }
         else {
             super.switchToStartPage(event);
