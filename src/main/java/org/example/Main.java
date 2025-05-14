@@ -11,8 +11,10 @@ import org.example.domain.*;
 
 public class Main  extends Application {
     public static void main(String[] args) throws SQLException {
+
         initUser();
         launch(args);
+
     }
 
     public static void initUser() throws SQLException {

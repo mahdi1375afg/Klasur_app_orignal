@@ -73,15 +73,12 @@ public class dbConnUser {
                     //System.out.println("Account Exist!");
                     return true;
                 } else {
-                    System.out.println("Account doesnt Exists!");
                     return false;
                 }
             } else {
-                System.out.println("Account doesnt Exist!");
                 return false;
             }
         } catch (PSQLException e) {
-            System.out.println("Account doesnt Exist!");
             return false;
         }
     }

@@ -33,23 +33,22 @@ public class benutzerKonto {
 		}
     }
 
-	public String anmelden(String name, String password) throws SQLException {
+	public int anmelden(String name, String password) throws SQLException {
 		dbConnUser connection = new dbConnUser();
 		if(connection.getNameUsed(name)) {
 			Nutzer nutzer = connection.getNutzer(name);
 			try {
 				if(nutzer.getPassword().equals(password)) {
 					this.aktuellerBenutzer = nutzer;
-					return "Erfolgreich";
+					return 0;
 				} else {
-					System.out.println("Falsches Passwort");
-					return "Fehler beim anmelden";
+					return 1;
 				}
 			} catch (NullPointerException e) {
-				return "Fehler beim anmelden";
+				return 1;
 			}
 		} else {
-			return "Fehler beim anmelden: Account nicht vorhanden";
+			return 2;
 		}
 	}
 

@@ -29,7 +29,15 @@ public class LoginController extends SceneController {
         }
 
         benutzerKonto konto = new benutzerKonto();
-        konto.anmelden(username,password);
+        int signIn = konto.anmelden(username,password);
+
+        if(signIn == 1) {
+            showAlert("Falsches Passwort");
+            return;
+        }
+        else if(signIn == 2) {
+            showAlert("Benutzername existiert nicht");
+        }
         try {
             //konto.aktuellerBenutzer.printNutzer();
             if(konto.aktuellerBenutzer != null){
