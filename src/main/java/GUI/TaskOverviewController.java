@@ -8,9 +8,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import java.util.Optional;
 
 import java.io.IOException;
 import java.net.URL;
@@ -89,6 +94,8 @@ public class TaskOverviewController extends SceneController implements Initializ
         taxonomieColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
         typColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
         punkteColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
+
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE); addRightClickMenu();
     }
 
     private void testTable(){
@@ -108,6 +115,39 @@ public class TaskOverviewController extends SceneController implements Initializ
         taxonomieColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[2]));
         typColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[3]));
         punkteColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty((Integer) cellData.getValue()[4]).asObject());
+    }
+
+    private void addRightClickMenu() {
+        ContextMenu rightClickMenu = new ContextMenu();
+        MenuItem deleteTaskItem = new MenuItem("Aufgabe löschen");
+
+        deleteTaskItem.setOnAction(event -> {
+            ObservableList<Object[]> selectedTasks = tableView.getSelectionModel().getSelectedItems();
+
+            if (selectedTasks.isEmpty())
+                return;
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Löschen bestätigen");
+            alert.setHeaderText("Aufgabe löschen");
+            alert.setContentText("Möchten Sie die ausgewählte Aufgabe wirklich löschen?");
+
+            Optional<ButtonType> userResponse = alert.showAndWait();
+            if (userResponse.isPresent() && userResponse.get() == ButtonType.OK) {
+                tableView.getItems().removeAll(selectedTasks);
+            }
+
+        });
+
+        rightClickMenu.getItems().add(deleteTaskItem);
+
+        tableView.setOnMouseClicked(click -> {
+            if (click.getButton() == MouseButton.SECONDARY) {
+                rightClickMenu.show(tableView, click.getScreenX(), click.getScreenY());
+            } else {
+                rightClickMenu.hide();
+            }
+        });
     }
 
 }
