@@ -72,9 +72,15 @@ public class TaskOverviewController extends SceneController implements Initializ
         super.logout(stage);
     }
 
+    @FXML
+    public void switchToAddTaskPage(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToAddTaskPage(stage);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //setzt die Attribute so dass die Ansicht passend mit skaliert
+        //setzt die Attribute, sodass die Ansicht passend mit skaliert
 
         testTable();
 
@@ -118,6 +124,7 @@ public class TaskOverviewController extends SceneController implements Initializ
     }
 
     private void addRightClickMenu() {
+        //ToDo: Mit DB verbinden
         ContextMenu rightClickMenu = new ContextMenu();
         MenuItem deleteTaskItem = new MenuItem("Aufgabe löschen");
 

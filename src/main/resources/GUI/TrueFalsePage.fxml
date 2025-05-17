@@ -50,7 +50,7 @@
                 </padding>
 
 
-                <TextArea fx:id="questionTextField" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben">
+                <TextArea fx:id="questionTextField" prefHeight="80.0" prefWidth="564.0" promptText="Frage eingeben">
                     <font>
                         <Font size="20.0" />
                     </font></TextArea>
@@ -58,7 +58,7 @@
                 <VBox fx:id="answerContainer" spacing="10" VBox.vgrow="ALWAYS">
 
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextField fx:id="answer1Button" HBox.hgrow="ALWAYS" promptText="Antwort">
+                        <TextField fx:id="answer1Button" promptText="Antwort" HBox.hgrow="ALWAYS">
                             <font>
                                 <Font size="15.0" />
                             </font></TextField>
@@ -79,7 +79,7 @@
 
 
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextField fx:id="answer2Button" HBox.hgrow="ALWAYS" promptText="Antwort">
+                        <TextField fx:id="answer2Button" promptText="Antwort" HBox.hgrow="ALWAYS">
                             <font>
                                 <Font size="15.0" />
                             </font></TextField>
