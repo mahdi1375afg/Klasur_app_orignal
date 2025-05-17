@@ -163,7 +163,7 @@ public class TaskPageController extends SceneController {
          //    ToDo: Title, Modul, Typ. Taxonomie und Punkte an Anwendungsschicht schicken
 
         if (taskTitleText == null || taskTitleText.trim().isEmpty()) {
-            showAlert(null, "Bitte geben Sie einen Title an!");
+            showAlert(null, "Bitte geben Sie einen Namen an!");
             return;
         }
 

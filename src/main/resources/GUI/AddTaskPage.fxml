@@ -28,7 +28,7 @@
             <ColumnConstraints hgrow="ALWAYS" percentWidth="80" />
          </columnConstraints>
 
-         <Text text="Titel:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+         <Text text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
          <TextField fx:id="textFieldTaskTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
          <Text text="Modul:" GridPane.columnIndex="0" GridPane.rowIndex="2" />

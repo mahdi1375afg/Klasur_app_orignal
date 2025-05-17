@@ -1,12 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SceneController">
-   <children>
-      <Button fx:id="buttonExamStartPage" layoutX="267.0" layoutY="249.0" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-      <Text layoutX="257.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Klausur erstellen" />
-   </children>
-</AnchorPane>
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamController">
+
+   <center>
+      <GridPane hgap="15" vgap="10">
+         <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+         </padding>
+         <columnConstraints>
+            <ColumnConstraints percentWidth="20" />
+            <ColumnConstraints hgrow="ALWAYS" percentWidth="80" />
+         </columnConstraints>
+
+         <Text text="Titel:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+         <TextField fx:id="textFieldExamTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+         <Text text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+         <TextField fx:id="textFieldExamDate" prefHeight="25" promptText="Format: dd.MM.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+         <Text style="-fx-font-size:18;" text="Typ:" GridPane.rowIndex="4" />
+         <VBox spacing="5" GridPane.rowIndex="5" GridPane.rowSpan="6">
+            <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen">
+               <toggleGroup>
+                  <ToggleGroup fx:id="taskType" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypTrueFalsch" onAction="#setTaskType" text="Wahr/Falsch" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypGapText" onAction="#setTaskType" text="Lückentext" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypAssign" onAction="#setTaskType" text="Zuordnen" toggleGroup="$taskType" />
+            <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking" toggleGroup="$taskType" />
+         </VBox>
+
+         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="6">
+            <RadioButton fx:id="rButtonTaxonomieRemember" onAction="#setTaskTaxonomie" text="Erinnern">
+               <toggleGroup>
+                  <ToggleGroup fx:id="taskTaxonomie" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="rButtonTaxonomieUnderstand" onAction="#setTaskTaxonomie" text="Verstehen" toggleGroup="$taskTaxonomie" />
+            <RadioButton fx:id="rButtonTaxonomieApply" onAction="#setTaskTaxonomie" text="Anwenden" toggleGroup="$taskTaxonomie" />
+            <RadioButton fx:id="rButtonTaxonomieAnalyze" onAction="#setTaskTaxonomie" text="Analysieren" toggleGroup="$taskTaxonomie" />
+            <RadioButton fx:id="rButtonTaxonomieRate" onAction="#setTaskTaxonomie" text="Bewerten" toggleGroup="$taskTaxonomie" />
+            <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen" toggleGroup="$taskTaxonomie" />
+         </VBox>
+         <Button onAction="#generateExam" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl Punkte:" GridPane.rowIndex="3" />
+         <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <Text style="-fx-font-size:30;" text="Klausur erstellen" GridPane.columnIndex="1" />
+         <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.valignment="TOP">
+            <items>
+               <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+               <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
+               <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+               <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+               <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            </items>
+         </MenuButton>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+      </GridPane>
+   </center>
+
+</BorderPane>
