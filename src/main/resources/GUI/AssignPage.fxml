@@ -12,6 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.TextArea?>
 <BorderPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AssignController">
 
 
@@ -41,42 +42,45 @@
 
     <center>
         <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
-            <VBox fx:id="mainVBox" alignment="TOP_CENTER" spacing="15">
+            <VBox fx:id="mainVBox" alignment="TOP_CENTER"  fillWidth="true" spacing="15">
                 <padding>
                     <Insets bottom="20" left="20" right="20" top="20" />
                 </padding>
 
-
-                <TextField fx:id="textFieldQuestion" maxWidth="564.0" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben">
+                <TextArea fx:id="textFieldQuestion" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben" VBox.vgrow="ALWAYS">
                     <font>
                         <Font size="20.0" />
-                    </font></TextField>
+                    </font></TextArea>
 
-                <VBox fx:id="answerContainer" spacing="10"> <!-- Container für Antwortfelder (dynamisch erstellbar) -->
 
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextField fx:id="answer1TextField" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
+                <VBox fx:id="answerContainer" fillWidth="true" spacing="10"> <!-- Container für Antwortfelder (dynamisch erstellbar) -->
+
+                    <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="answer1TextField" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
                             <font>
                                 <Font size="15.0" />
-                            </font></TextField>
-                  <TextField fx:id="solution1TextField" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
+                            </font>
+                        </TextArea>
+                        <TextArea fx:id="solution1TextField" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </TextArea>
                     </HBox>
 
 
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextField fx:id="answer2TextField" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 2">
+                    <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="answer2TextField" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
                             <font>
                                 <Font size="15.0" />
-                            </font></TextField>
-                  <TextField fx:id="solution2TextField" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 2">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </TextField>
+                            </font>
+                        </TextArea>
+                        <TextArea fx:id="solution2TextField" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                        </TextArea>
+
                     </HBox>
 
                 </VBox>
@@ -88,7 +92,7 @@
 
 
     <bottom>
-        <HBox alignment="CENTER" spacing="20">
+        <HBox alignment="CENTER" spacing="20" HBox.hgrow="ALWAYS">
             <padding>
                 <Insets bottom="20" left="10" right="10" top="10" />
             </padding>

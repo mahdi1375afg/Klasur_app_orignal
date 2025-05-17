@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -24,18 +25,18 @@ public class AssignController extends SceneController{
     private VBox answerContainer;
 
     @FXML
-    private TextField textFieldQuestion;
+    private TextArea textFieldQuestion;
     @FXML
-    private TextField  answer1TextField;
+    private TextArea  answer1TextField;
     @FXML
-    private TextField  answer2TextField;
+    private TextArea  answer2TextField;
     @FXML
-    private TextField solution1TextField;
+    private TextArea solution1TextField;
     @FXML
-    private TextField solution2TextField;
+    private TextArea solution2TextField;
 
-    private final List<TextField> answerFields = new ArrayList<>();
-    private final List<TextField> solutionFields = new ArrayList<>();
+    private final List<TextArea> answerFields = new ArrayList<>();
+    private final List<TextArea> solutionFields = new ArrayList<>();
 
     private AufgabeService aufgabe;
 
@@ -51,6 +52,12 @@ public class AssignController extends SceneController{
 
     solutionFields.add(solution1TextField);
     solutionFields.add(solution2TextField);
+
+        HBox.setHgrow(answer1TextField, Priority.ALWAYS);
+        HBox.setHgrow(answer2TextField, Priority.ALWAYS);
+
+        HBox.setHgrow(solution1TextField, Priority.ALWAYS);
+        HBox.setHgrow(solution2TextField, Priority.ALWAYS);
     }
 
 
@@ -58,18 +65,24 @@ public class AssignController extends SceneController{
     public void addAnswerField() {
         //Fügt in der Oberfläche ein neues Antwort-Lösung-Paar ein
 
-        TextField answerField = new TextField();
-        answerField.setPromptText("Antwort");
+        TextArea answerField = new TextArea();
+        answerField.setPromptText("Antwort " + (answerFields.size() + 1));
         answerField.setPrefWidth(370.0);
         answerField.setPrefHeight(60.0);
         answerField.setFont(new Font(15.0));
 
-        TextField solutionField = new TextField();
-        answerField.setPromptText("Lösung");
-        answerField.setPrefWidth(370.0);
-        answerField.setPrefHeight(60.0);
-        answerField.setFont(new Font(15.0));
 
+        answerField.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(answerField, Priority.ALWAYS);
+
+        TextArea solutionField = new TextArea();
+        solutionField.setPromptText("Lösung " + (solutionFields.size() + 1));
+        solutionField.setPrefWidth(370.0);
+        solutionField.setPrefHeight(60.0);
+        solutionField.setFont(new Font(15.0));
+
+        answerField.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(solutionField, Priority.ALWAYS);
 
         answerFields.add(answerField);
         solutionFields.add(solutionField);
