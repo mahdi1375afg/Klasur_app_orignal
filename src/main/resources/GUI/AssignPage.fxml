@@ -47,7 +47,7 @@
                     <Insets bottom="20" left="20" right="20" top="20" />
                 </padding>
 
-                <TextArea fx:id="textFieldQuestion" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben" VBox.vgrow="ALWAYS">
+                <TextArea fx:id="textAreaQuestion" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben" VBox.vgrow="ALWAYS">
                     <font>
                         <Font size="20.0" />
                     </font></TextArea>
@@ -56,12 +56,12 @@
                 <VBox fx:id="answerContainer" fillWidth="true" spacing="10"> <!-- Container für Antwortfelder (dynamisch erstellbar) -->
 
                     <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
-                        <TextArea fx:id="answer1TextField" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
+                        <TextArea fx:id="answer1TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </TextArea>
-                        <TextArea fx:id="solution1TextField" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
+                        <TextArea fx:id="solution1TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
                             <font>
                                 <Font size="15.0" />
                             </font>
@@ -70,12 +70,12 @@
 
 
                     <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
-                        <TextArea fx:id="answer2TextField" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
+                        <TextArea fx:id="answer2TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </TextArea>
-                        <TextArea fx:id="solution2TextField" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
+                        <TextArea fx:id="solution2TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
                             <font>
                                 <Font size="15.0" />
                             </font>

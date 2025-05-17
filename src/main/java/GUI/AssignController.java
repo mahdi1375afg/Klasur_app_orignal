@@ -25,15 +25,15 @@ public class AssignController extends SceneController{
     private VBox answerContainer;
 
     @FXML
-    private TextArea textFieldQuestion;
+    private TextArea textAreaQuestion;
     @FXML
-    private TextArea  answer1TextField;
+    private TextArea answer1TextArea;
     @FXML
-    private TextArea  answer2TextField;
+    private TextArea answer2TextArea;
     @FXML
-    private TextArea solution1TextField;
+    private TextArea solution1TextArea;
     @FXML
-    private TextArea solution2TextField;
+    private TextArea solution2TextArea;
 
     private final List<TextArea> answerFields = new ArrayList<>();
     private final List<TextArea> solutionFields = new ArrayList<>();
@@ -47,17 +47,17 @@ public class AssignController extends SceneController{
     @FXML
     public void initialize() {
         //Fügt die default Textfelder zur jeweiligen Liste hinzu
-    answerFields.add(answer1TextField);
-    answerFields.add(answer2TextField);
+    answerFields.add(answer1TextArea);
+    answerFields.add(answer2TextArea);
 
-    solutionFields.add(solution1TextField);
-    solutionFields.add(solution2TextField);
+    solutionFields.add(solution1TextArea);
+    solutionFields.add(solution2TextArea);
 
-        HBox.setHgrow(answer1TextField, Priority.ALWAYS);
-        HBox.setHgrow(answer2TextField, Priority.ALWAYS);
+        HBox.setHgrow(answer1TextArea, Priority.ALWAYS);
+        HBox.setHgrow(answer2TextArea, Priority.ALWAYS);
 
-        HBox.setHgrow(solution1TextField, Priority.ALWAYS);
-        HBox.setHgrow(solution2TextField, Priority.ALWAYS);
+        HBox.setHgrow(solution1TextArea, Priority.ALWAYS);
+        HBox.setHgrow(solution2TextArea, Priority.ALWAYS);
     }
 
 
@@ -112,7 +112,7 @@ public class AssignController extends SceneController{
         //Speichert alle gesammelten Daten und sendet sie an DB --> Wechsel zum Startbildschirm
         //ToDo: Daten an DB senden
 
-        String question = textFieldQuestion.getText().trim();
+        String question = textAreaQuestion.getText().trim();
 
         if (question.isEmpty()) {
             showAlert("Fehler", "Frage eingeben.");
