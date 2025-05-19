@@ -38,13 +38,6 @@ public class dbConnModul {
         }
         rs.close();
 
-        // Ergebnisse in der Konsole ausgeben
-        for (Map<String, Object> result : results) {
-            for (Map.Entry<String, Object> Eintrag : result.entrySet()) {
-                System.out.print(Eintrag.getKey() + ": " + Eintrag.getValue() + ", ");
-            }
-            System.out.println(); // Neue Zeile für jeden Datensatz
-        }
         return results;
     }
 
@@ -71,10 +64,8 @@ public class dbConnModul {
         }
         rs.close();
 
-        // Ergebnisse in der Konsole ausgeben
         for (Map.Entry<Integer, String> eintrag : results.entrySet()) {
-            System.out.print(eintrag.getKey() + ": " + eintrag.getValue() + ", ");
-            System.out.println(); // Neue Zeile für jeden Datensatz
+            System.out.println(eintrag.getKey() + ": " + eintrag.getValue() + ", ");
         }
         return results;
     }

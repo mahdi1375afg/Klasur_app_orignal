@@ -23,7 +23,6 @@ public class Modul {
 	}
 
     public static List<Modul> getAllModul() throws SQLException {
-		dbConnModul.sqlGetAllModul();
 		HashMap<Integer, String> result = dbConnModul.sqlGetAllModul();
 
 		modules.clear();
