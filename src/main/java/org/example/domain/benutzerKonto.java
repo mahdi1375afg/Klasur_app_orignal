@@ -86,7 +86,7 @@ public class benutzerKonto {
 		String format = questionType;
 		int benutzer_id = id;
 		int punkte = questionPoints;
-		connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
+		//connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
 		return connection.getId(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
 
 	}
