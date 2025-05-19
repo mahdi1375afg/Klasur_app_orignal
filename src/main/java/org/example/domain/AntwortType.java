@@ -13,6 +13,15 @@ public enum AntwortType {
         this.beschreibung = beschreibung;
     }
 
+    public static AntwortType fromName(String name) {
+        for (AntwortType type : AntwortType.values()) {
+            if (type.getName().equalsIgnoreCase(name)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Unbekannter AntwortType: " + name);
+    }
+
     public String getName() {
         return name;
     }

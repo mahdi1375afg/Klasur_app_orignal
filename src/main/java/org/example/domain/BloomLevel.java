@@ -13,6 +13,16 @@ public enum BloomLevel {
 	private  final String katagorie;
 	private  final String beschreibung;
 
+	public static BloomLevel fromKategorie(String kategorie) {
+		for (BloomLevel level : BloomLevel.values()) {
+			if (level.getKategorie().equalsIgnoreCase(kategorie)) {
+				return level;
+			}
+		}
+		throw new IllegalArgumentException("Unbekannte BloomLevel-Kategorie: " + kategorie);
+	}
+
+
 	BloomLevel(int nummer, String katagorie, String beschreibung) {
 		this.nummer = nummer;
 		this.katagorie = katagorie;

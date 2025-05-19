@@ -34,18 +34,18 @@ public class dbConnFrage {
             Map<String, Object> row = new HashMap<>();
             row.put("id", rs.getInt("id"));
             row.put("name", rs.getString("name"));
-            row.put("aufgabetext", rs.getString("aufgabetext"));
+            row.put("aufgabentext", rs.getString("aufgabentext"));
             PGInterval interval = (PGInterval) rs.getObject("zeit");
             int minuten = interval.getHours() * 60 + interval.getMinutes();
             if (interval.getSeconds() >= 30) {
                 minuten += 1;
             }
             row.put("zeit", minuten);
-            AntwortType antwortType = AntwortType.valueOf(rs.getString("format"));
+            AntwortType antwortType = AntwortType.fromName(rs.getString("format"));
             row.put("format", antwortType);
             row.put("punkte", rs.getObject("punkte"));
             String oldtaxonomie = rs.getString("taxonomie");
-            BloomLevel taxonomie = BloomLevel.valueOf(oldtaxonomie);
+            BloomLevel taxonomie = BloomLevel.fromKategorie(oldtaxonomie);
             row.put("taxonomie", taxonomie);
             row.put("benutzer_id", rs.getInt("benutzer_id"));
             results.add(row);

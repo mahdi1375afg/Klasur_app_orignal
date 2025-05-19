@@ -45,26 +45,32 @@ public class Antwort {
 			while(sr.next()) {
 				result.add(new Antwort(sr.getInt("aufgabe_id"),sr.getString("musterloesung"),true,format));
 			}
+			sr.close();
 		} else if(format == AntwortType.geschlosseneAntwort) {
 			ResultSet sr = DBconn.sqlSelect("geschlossene_aufgabe","aufgabe_id",id);
-			CloseType closeType = CloseType.valueOf((String) sr.getObject("typ"));
-			if(closeType == CloseType.wahrOderFalsch || closeType == CloseType.multipleChoiceFragen || closeType == CloseType.singleChoiceFragen) {
-				while(sr.next()) {
+			if(sr.next()) {
+				CloseType closeType = CloseType.fromName(sr.getString("typ"));
+				if(closeType == CloseType.wahrOderFalsch || closeType == CloseType.multipleChoiceFragen || closeType == CloseType.singleChoiceFragen) {
 					ResultSet srAntwort = DBconn.sqlSelect("antwortmoeglichkeit_geschlossen","geschlossene_aufgabe_id",id);
-					result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getBoolean("ist_korrekt"),format));
-				}
-			} else if(closeType == CloseType.leerstellen || closeType == CloseType.zuordnung) {
-				while(sr.next()) {
+					while(srAntwort.next()) {
+						result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getBoolean("ist_korrekt"),format));
+					}
+				} else if(closeType == CloseType.leerstellen || closeType == CloseType.zuordnung) {
 					ResultSet srAntwort = DBconn.sqlSelect("antwortMehrParts_geschlossen","geschlossene_aufgabe_id",id);
-					result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getString("antworttext2"),format));
-				}
-			} else if(closeType == CloseType.ranking) {
-				while(sr.next()) {
+					while(srAntwort.next()) {
+						result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getString("antworttext2"),format));srAntwort.close();
+					}
+				} else if(closeType == CloseType.ranking) {
 					ResultSet srAntwort = DBconn.sqlSelect("antwortRanking_geschlossen","geschlossene_aufgabe_id",id);
-					result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getInt("rank"),format));
+					while(srAntwort.next()) {
+						result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getInt("rank"),format));
+					}
+					srAntwort.close();
 				}
 			}
+			sr.close();
 		}
+
 		return result;
 	}
 

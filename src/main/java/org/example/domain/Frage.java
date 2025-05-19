@@ -2,6 +2,7 @@ package org.example.domain;
 
 import org.example.dao.dbConnFrage;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,9 @@ public class Frage {
 		List<Map<String, Object>> result = dbConnFrage.sqlSelect(userid);
 
 		for (Map<String, Object> row : result) {
-
-			Frage frage = new Frage((Integer)row.get("id"),(String)row.get("name"),(String)row.get("aufgabentext"), (Integer) row.get("zeit"),(AntwortType) row.get("format"),(Integer)row.get("punkte"),(BloomLevel) row.get("taxonomie"));
+			BigDecimal punkteDecimal = (BigDecimal) row.get("punkte");
+			int punkte = punkteDecimal.intValue();
+			Frage frage = new Frage((int)row.get("id"),(String)row.get("name"),(String)row.get("aufgabentext"), (int) row.get("zeit"),(AntwortType) row.get("format"),punkte,(BloomLevel) row.get("taxonomie"));
 			fragen.add(frage);
 		}
 

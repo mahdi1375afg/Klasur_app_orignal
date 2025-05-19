@@ -13,11 +13,20 @@ public enum CloseType {
 	private final String name;
 	private final String beschreibung;
 
+	public static CloseType fromName(String label) {
+		for (CloseType type : CloseType.values()) {
+			if (type.getName().equalsIgnoreCase(label)) {
+				return type;
+			}
+		}
+		throw new IllegalArgumentException("Unbekannter CloseType: " + label);
+	}
+
 	CloseType(String name, String beschreibung) {
 		this.name = name;
 		this.beschreibung = beschreibung;
 	}
-	public String getName() {
+	public  String getName() {
 		return name;
 	}
 
