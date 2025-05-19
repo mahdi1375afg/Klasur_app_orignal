@@ -135,11 +135,10 @@ public class benutzerKonto {
 				break;
 			case 3:
 				System.out.println("Bitte geben Sie den neues Dauer ein:");
-				String dauer = scanner.nextLine();
+				int dauer = Integer.parseInt(scanner.nextLine());
 
 				try {
-					Duration dauer1 = Duration.parse(dauer);
-					DBconn.sqlUpdate("aufgabe", new String[]{"zeit"}, new Object[]{dauer1.toString()}, "id", id);
+					DBconn.sqlUpdate("aufgabe", new String[]{"zeit"}, new Object[]{dauer}, "id", id);
 					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
 
 				} catch (SQLException e) {

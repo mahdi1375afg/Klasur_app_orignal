@@ -86,14 +86,18 @@ public class DBconn {
         PreparedStatement ps;
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < column.length; i++) {
-            if (column[i].equalsIgnoreCase("isKorrekt")) {
-                sb.append("isKorrekt = CAST(? AS " + "bloom" + ")");}
-            else{
-                sb.append(column[i]).append(" = ?");
+            if (column[i].equalsIgnoreCase("zeit")) {
+                sb.append("zeit = CAST(? AS interval)");
             }
-            if (i < column.length - 1) {
-                sb.append(", ");
-            }
+                else if (column[i].equalsIgnoreCase("isKorrekt")) {
+                    sb.append("isKorrekt = CAST(? AS " + "bloom" + ")");}
+                else{
+                    sb.append(column[i]).append(" = ?");
+                }
+                if (i < column.length - 1) {
+                    sb.append(", ");
+                }
+
         }
 
         String listColumn = sb.toString();
@@ -102,9 +106,11 @@ public class DBconn {
         try {
             ps = getConn().prepareStatement(query);
             for (int i = 0; i < value.length; i++) {
-
-
-                 if(value[i] instanceof String){
+                if (column[i].equalsIgnoreCase("zeit")) {
+                    // Integer-Wert zu einem korrekten Intervall-String umwandeln
+                    ps.setString(i + 1, value[i] + " minutes");
+                }
+                 else if(value[i] instanceof String){
                     ps.setString(i + 1, (String) value[i]);
                 } else if (value[i] instanceof Integer) {
                     ps.setInt(i + 1, (Integer) value[i]);
