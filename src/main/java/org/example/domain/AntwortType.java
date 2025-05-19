@@ -12,6 +12,7 @@ public enum AntwortType {
         this.name = name;
         this.beschreibung = beschreibung;
     }
+
     public String getName() {
         return name;
     }

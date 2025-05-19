@@ -1,4 +1,8 @@
 package org.example.dao;
+import org.example.domain.AntwortType;
+import org.example.domain.BloomLevel;
+import org.postgresql.util.PGInterval;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +11,9 @@ import java.util.Map;
 
 public class dbConnFrage {
 
-    public static List<Map<String, Object>> sqlSelect(String column, String value) throws SQLException {
+    public static List<Map<String, Object>> sqlSelect(int id) throws SQLException {
         String table = "aufgabe";
+        String column = "benutzer_id";
         DBconn db = new DBconn();
 
         // Liste, die die Ergebnisse speichert
@@ -16,8 +21,8 @@ public class dbConnFrage {
 
         PreparedStatement ps;
         try {
-            ps = db.getConn().prepareStatement("SELECT * FROM " + table); //"SELECT * FROM " + table + " WHERE " + column + " = ?"
-            //ps.setString(1, value);
+            ps = db.getConn().prepareStatement("SELECT * FROM " + table + " WHERE " + column + " = ?"); //"SELECT * FROM " + table + " WHERE " + column + " = ?"
+            ps.setInt(1, id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -30,11 +35,19 @@ public class dbConnFrage {
             row.put("id", rs.getInt("id"));
             row.put("name", rs.getString("name"));
             row.put("aufgabetext", rs.getString("aufgabetext"));
-            row.put("zeit", rs.getInt("zeit"));
-            row.put("bloomlevel", rs.getObject("bloomlevel"));
-            row.put("type", rs.getObject("type"));
-            row.put("modulid", rs.getInt("modulid"));
-            row.put("punkte", rs.getInt("punkte"));
+            PGInterval interval = (PGInterval) rs.getObject("zeit");
+            int minuten = interval.getHours() * 60 + interval.getMinutes();
+            if (interval.getSeconds() >= 30) {
+                minuten += 1;
+            }
+            row.put("zeit", minuten);
+            AntwortType antwortType = AntwortType.valueOf(rs.getString("format"));
+            row.put("format", antwortType);
+            row.put("punkte", rs.getObject("punkte"));
+            String oldtaxonomie = rs.getString("taxonomie");
+            BloomLevel taxonomie = BloomLevel.valueOf(oldtaxonomie);
+            row.put("taxonomie", taxonomie);
+            row.put("benutzer_id", rs.getInt("benutzer_id"));
             results.add(row);
         }
         rs.close();

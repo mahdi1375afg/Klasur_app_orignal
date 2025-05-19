@@ -1,6 +1,10 @@
 package org.example.domain;
 
 import java.time.Duration;
+
+import org.example.Main;
+
+import org.example.Main;
 import org.example.dao.*;
 import org.postgresql.util.PGobject;
 
@@ -19,7 +23,7 @@ public class benutzerKonto {
 	private boolean aktiv;
 
 	public benutzerKonto() {
-		// WIP
+		// WIP: vielleicht?
 	}
 
 	public Boolean register(String name, String password) throws SQLException {
@@ -40,6 +44,7 @@ public class benutzerKonto {
 			try {
 				if(nutzer.getPassword().equals(password)) {
 					this.aktuellerBenutzer = nutzer;
+					Main.initUser(nutzer.getId());
 					return 0;
 				} else {
 					return 1;
@@ -86,7 +91,6 @@ public class benutzerKonto {
 		String format = questionType;
 		int benutzer_id = id;
 		int punkte = questionPoints;
-		//connection.sqlInsert(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
 		return connection.getId(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
 
 	}
@@ -237,14 +241,14 @@ public class benutzerKonto {
 	}
 
 
-	/**
-	 * @param Fragen
-	 */
+
+	/*
 	public List<Map<String, Object>> fragenfiltern(int Fragen) throws SQLException {
 		dbConnFrage connection = new dbConnFrage();
-		List<Map<String, Object>> result = connection.sqlSelect("Egal","Egal");
+		List<Map<String, Object>> result = connection.sqlSelect(1);
 		return result;
 	}
+	 */
 
 	public void antwortErstellenOffen(int fragenId, String key) {
 		try {
@@ -310,7 +314,7 @@ public class benutzerKonto {
 			e.printStackTrace();
 		}
 	}
-
+/*
 	public void antwortErstellen(Frage frage) {
 		Antwort antwort = new Antwort();
 		Scanner scanner = new Scanner(System.in);
@@ -356,6 +360,8 @@ public class benutzerKonto {
 
 		}
 	}
+
+ */
 
 	//noch nicht fertig
 	public void antwortBearbeiten(Antwort ant) {

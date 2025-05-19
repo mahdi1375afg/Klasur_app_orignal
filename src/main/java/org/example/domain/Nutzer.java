@@ -30,15 +30,4 @@ public class Nutzer {
 		System.out.println("Nutzer: " + this.Name + " " + this.password + " " + this.id);
 	}
 
-	// WIP: WIRD IN benutzerKonto GEHANDLED
-	public void kontoErstellen() {
-		// TODO - implement Nutzer.kontoErstellen
-		throw new UnsupportedOperationException();
-	}
-
-	public void kontoLoeschen() {
-		// TODO - implement Nutzer.kontoLoeschen
-		throw new UnsupportedOperationException();
-	}
-
 }

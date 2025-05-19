@@ -1,7 +1,9 @@
 package org.example.domain;
 
+import org.example.dao.DBconn;
 import org.example.dao.dbConnModul;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +40,22 @@ public class Modul {
 			modulNames.add(eintrag.getName());
 		}
 		return modulNames;
+	}
+
+	public static Modul getModul(int questionid) throws SQLException {
+		ResultSet rs = DBconn.sqlSelect("aufgaben_modul", "aufgabe_id", questionid);
+
+		Modul modul = null;
+		if (rs.next()) {
+			for(Modul eintrag : modules) {
+				if(eintrag.getId() == rs.getInt("modul_id")) {
+					return eintrag;
+				}
+			}
+		}
+
+		rs.close();
+		return modul;
 	}
 
 	public String getName() throws SQLException {

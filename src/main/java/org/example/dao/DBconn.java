@@ -24,21 +24,17 @@ public class DBconn {
         return conn;
     }
 
-    public static void sqlSelect(String table,String column, String value) throws SQLException {
-
+    public static ResultSet  sqlSelect(String table,String column, Object value) throws SQLException {
         PreparedStatement ps;
         try {
             ps = getConn().prepareStatement("select * from " + table + " where " + column + " = ?");//? ist platzhalter für value
-            ps.setString(1,value);
+            ps.setObject(1,value);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         ResultSet rs = ps.executeQuery();
 
-        while (rs.next()){
-            System.out.println(rs.getInt("id")+rs.getString(column));
-        }
-        rs.close();
+        return rs;
     }
 
     public static void sqlInsert(String table, String[] column,Object[] value)throws SQLException {

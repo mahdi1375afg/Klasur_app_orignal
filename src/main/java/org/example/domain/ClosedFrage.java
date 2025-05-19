@@ -4,8 +4,8 @@ public class ClosedFrage extends Frage {
 
 	private CloseType closedFragentype;
 
-	public ClosedFrage(int id, String frageText, BloomLevel bloomLevel, Modul module, int geschaetzeZeit, FragenArt fragenArt, CloseType closedFragentype) {
-		super(id, frageText, bloomLevel, module, geschaetzeZeit, fragenArt);
+	public ClosedFrage(int id, String name, String questionText, int time, AntwortType format, int points, BloomLevel taxonomie, CloseType closedFragentype) {
+		super(id, name, questionText, time, format, points, taxonomie);
 		this.closedFragentype = closedFragentype;
 	}
 

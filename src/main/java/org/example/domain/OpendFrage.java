@@ -5,8 +5,8 @@ public class OpendFrage extends Frage {
 
 	private String antwortBogen;
 
-	public OpendFrage(int id, String frageText, BloomLevel bloomLevel, Modul module, int geschaetzeZeit, FragenArt fragenArt, String antwortBogen) {
-		super(id, frageText, bloomLevel, module, geschaetzeZeit, fragenArt);
+	public OpendFrage(int id, String name, String questionText, int time, AntwortType format, int points, BloomLevel taxonomie, String antwortBogen) {
+		super(id, name, questionText, time, format, points, taxonomie);
 		this.antwortBogen = antwortBogen;
 	}
 
