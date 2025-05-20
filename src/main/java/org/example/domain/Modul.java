@@ -57,7 +57,7 @@ public class Modul {
 		return modul;
 	}
 
-	public String getName() throws SQLException {
+	public String getName(){
 		return name;
 	}
 

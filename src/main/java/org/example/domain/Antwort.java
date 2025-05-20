@@ -40,30 +40,37 @@ public class Antwort {
 
 	public static List<Antwort> getAntwort(int id, AntwortType format) throws SQLException {
 		List<Antwort> result = new ArrayList<>();
-		if(format == AntwortType.offeneAntwort) {
-			ResultSet sr = DBconn.sqlSelect("offene_aufgabe","aufgabe_id",id);
-			while(sr.next()) {
-				result.add(new Antwort(sr.getInt("aufgabe_id"),sr.getString("musterloesung"),true,format));
+
+		if (format == AntwortType.offeneAntwort) {
+			ResultSet sr = DBconn.sqlSelect("offene_aufgabe", "aufgabe_id", id);
+			while (sr.next()) {
+				result.add(new Antwort(sr.getInt("aufgabe_id"), sr.getString("musterloesung"), true, format));
 			}
 			sr.close();
-		} else if(format == AntwortType.geschlosseneAntwort) {
-			ResultSet sr = DBconn.sqlSelect("geschlossene_aufgabe","aufgabe_id",id);
-			if(sr.next()) {
+
+		} else if (format == AntwortType.geschlosseneAntwort) {
+			ResultSet sr = DBconn.sqlSelect("geschlossene_aufgabe", "aufgabe_id", id);
+			if (sr.next()) {
 				CloseType closeType = CloseType.fromName(sr.getString("typ"));
-				if(closeType == CloseType.wahrOderFalsch || closeType == CloseType.multipleChoiceFragen || closeType == CloseType.singleChoiceFragen) {
-					ResultSet srAntwort = DBconn.sqlSelect("antwortmoeglichkeit_geschlossen","geschlossene_aufgabe_id",id);
-					while(srAntwort.next()) {
-						result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getBoolean("ist_korrekt"),format));
+
+				if (closeType == CloseType.wahrOderFalsch || closeType == CloseType.multipleChoiceFragen || closeType == CloseType.singleChoiceFragen) {
+					ResultSet srAntwort = DBconn.sqlSelect("antwortmoeglichkeit_geschlossen", "geschlossene_aufgabe_id", id);
+					while (srAntwort.next()) {
+						result.add(new Antwort(srAntwort.getInt("id"), srAntwort.getString("antworttext"), srAntwort.getBoolean("ist_korrekt"), format));
 					}
-				} else if(closeType == CloseType.leerstellen || closeType == CloseType.zuordnung) {
-					ResultSet srAntwort = DBconn.sqlSelect("antwortMehrParts_geschlossen","geschlossene_aufgabe_id",id);
-					while(srAntwort.next()) {
-						result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getString("antworttext2"),format));srAntwort.close();
+					srAntwort.close();
+
+				} else if (closeType == CloseType.leerstellen || closeType == CloseType.zuordnung) {
+					ResultSet srAntwort = DBconn.sqlSelect("antwortMehrParts_geschlossen", "geschlossene_aufgabe_id", id);
+					while (srAntwort.next()) {
+						result.add(new Antwort(srAntwort.getInt("id"), srAntwort.getString("antworttext"), srAntwort.getString("antworttext2"), format));
 					}
-				} else if(closeType == CloseType.ranking) {
-					ResultSet srAntwort = DBconn.sqlSelect("antwortRanking_geschlossen","geschlossene_aufgabe_id",id);
-					while(srAntwort.next()) {
-						result.add(new Antwort(srAntwort.getInt("id"),srAntwort.getString("antworttext"),srAntwort.getInt("rank"),format));
+					srAntwort.close();
+
+				} else if (closeType == CloseType.ranking) {
+					ResultSet srAntwort = DBconn.sqlSelect("antwortRanking_geschlossen", "geschlossene_aufgabe_id", id);
+					while (srAntwort.next()) {
+						result.add(new Antwort(srAntwort.getInt("id"), srAntwort.getString("antworttext"), srAntwort.getInt("rank"), format));
 					}
 					srAntwort.close();
 				}
@@ -73,6 +80,7 @@ public class Antwort {
 
 		return result;
 	}
+
 
 	public AntwortType getAntwortType() {
 		return antwortType;

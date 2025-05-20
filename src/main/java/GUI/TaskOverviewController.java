@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import org.example.domain.Task;
+
+import java.sql.SQLException;
 import java.util.Optional;
 
 import java.io.IOException;
@@ -27,18 +30,18 @@ public class TaskOverviewController extends SceneController implements Initializ
     private MenuButton menuBar;
 
     @FXML
-    private TableView<Object[]> tableView;
+    private TableView<Task> tableView;
 
     @FXML
-    private TableColumn<Object[], String> nameColumn;
+    private TableColumn<Task, String> nameColumn;
     @FXML
-    private TableColumn<Object[], String> modulColumn;
+    private TableColumn<Task, String> modulColumn;
     @FXML
-    private TableColumn<Object[], String> taxonomieColumn;
+    private TableColumn<Task, String> taxonomieColumn;
     @FXML
-    private TableColumn<Object[], String> typColumn;
+    private TableColumn<Task, String> typColumn;
     @FXML
-    private TableColumn<Object[], Integer> punkteColumn;
+    private TableColumn<Task, Integer> pointsColumn;
 
 
 
@@ -82,7 +85,7 @@ public class TaskOverviewController extends SceneController implements Initializ
     public void initialize(URL location, ResourceBundle resources) {
         //setzt die Attribute, sodass die Ansicht passend mit skaliert
 
-        testTable();
+        loadData();
 
         nameColumn.setResizable(true);
         nameColumn.setMaxWidth(Double.MAX_VALUE);
@@ -92,44 +95,44 @@ public class TaskOverviewController extends SceneController implements Initializ
         taxonomieColumn.setMaxWidth(Double.MAX_VALUE);
         typColumn.setResizable(true);
         typColumn.setMaxWidth(Double.MAX_VALUE);
-        punkteColumn.setResizable(true);
-        punkteColumn.setMaxWidth(Double.MAX_VALUE);
+        pointsColumn.setResizable(true);
+        pointsColumn.setMaxWidth(Double.MAX_VALUE);
 
-        nameColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));//0.2, da jede der 5 Spaltem 1/5 des Platzes bekommt
+        nameColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));//0.2, da jede der 5 Spalten 1/5 des Platzes bekommt
         modulColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
         taxonomieColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
         typColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
-        punkteColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
+        pointsColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
 
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE); addRightClickMenu();
     }
 
-    private void testTable(){
-        //Methode zum Testen der Sortierfunktion der Tabelle
+    private void loadData() {
+        //ToDo: Richtige ID eintragen & Format der Aufgabe richtig ausgeben
+        try{
+            Task.getAllTasks(2);
+            ObservableList<Task> tasks = FXCollections.observableArrayList(Task.tasks);
+            tableView.setItems(tasks);
 
-        ObservableList<Object[]> data = FXCollections.observableArrayList(
-                new Object[]{"Aufgabe 1", "Mathematik", "Wissen", "Multiple Choice", 10},
-                new Object[]{"Aufgabe 2", "Informatik", "Anwenden", "Kurzantwort", 8},
-                new Object[]{"Aufgabe 3", "Biologie", "Verstehen", "Wahlaufgabe", 12},
-                new Object[]{"Aufgabe 4", "Chemie", "Analysieren", "Multiple Choice", 15}
-        );
+            nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getName()));
+            modulColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModul().getName()));
+            taxonomieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getTaxonomie().name()));
+            typColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getFormat().name()));
+            pointsColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuestion().getPoints()).asObject());
+        }
+        catch(SQLException ignored) {
+        }
 
-        tableView.setItems(data);
-
-        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[0]));
-        modulColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[1]));
-        taxonomieColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[2]));
-        typColumn.setCellValueFactory(cellData -> new SimpleStringProperty((String) cellData.getValue()[3]));
-        punkteColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty((Integer) cellData.getValue()[4]).asObject());
     }
 
+
     private void addRightClickMenu() {
-        //ToDo: Mit DB verbinden
+        //ToDo: Mit DB verbinden und richtige Aufgaben löschen
         ContextMenu rightClickMenu = new ContextMenu();
         MenuItem deleteTaskItem = new MenuItem("Aufgabe löschen");
 
         deleteTaskItem.setOnAction(event -> {
-            ObservableList<Object[]> selectedTasks = tableView.getSelectionModel().getSelectedItems();
+            ObservableList<Task> selectedTasks = tableView.getSelectionModel().getSelectedItems();
 
             if (selectedTasks.isEmpty())
                 return;

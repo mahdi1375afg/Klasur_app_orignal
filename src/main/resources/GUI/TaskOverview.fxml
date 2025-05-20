@@ -33,7 +33,7 @@
           <TableColumn fx:id="modulColumn" prefWidth="130.0" text="Modul" />
             <TableColumn fx:id="taxonomieColumn" minWidth="0.0" prefWidth="130.0" text="Taxonomie" />
             <TableColumn fx:id="typColumn" prefWidth="130.0" text="Typ" />
-            <TableColumn fx:id="punkteColumn" text="Punkte" />
+            <TableColumn fx:id="pointsColumn" text="Punkte" />
         </columns>
       </TableView>
    </center>
