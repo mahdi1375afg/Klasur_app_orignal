@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import org.example.domain.Task;
+import org.example.domain.benutzerKonto;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -110,7 +111,7 @@ public class TaskOverviewController extends SceneController implements Initializ
     private void loadData() {
         //ToDo: Richtige ID eintragen & Format der Aufgabe richtig ausgeben
         try{
-            Task.getAllTasks(2);
+            Task.getAllTasks(benutzerKonto.aktuellerBenutzer.getId());
             ObservableList<Task> tasks = FXCollections.observableArrayList(Task.tasks);
             tableView.setItems(tasks);
 
