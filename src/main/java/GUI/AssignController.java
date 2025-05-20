@@ -101,8 +101,8 @@ public class AssignController extends SceneController{
 
         if (childCount > 2) {
             answerContainer.getChildren().remove(childCount - 1);
-            answerFields.remove(answerFields.size() - 1);
-            solutionFields.remove(solutionFields.size() - 1);
+            answerFields.removeLast();
+            solutionFields.removeLast();
         }
     }
 

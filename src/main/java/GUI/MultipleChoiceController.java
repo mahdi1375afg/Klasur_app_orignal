@@ -91,14 +91,14 @@ public class MultipleChoiceController extends SceneController{
 
         if (childCount > 2) {
             answerContainer.getChildren().remove(childCount - 1);
-            answerFields.remove(answerFields.size() - 1);
-            checkBoxes.remove(checkBoxes.size() - 1);
+            answerFields.removeLast();
+            checkBoxes.removeLast();
         }
     }
 
 
     @FXML
-    public void saveandswitchToStartPage(ActionEvent event) throws IOException, SQLException {
+    public void saveAndSwitchToStartPage() throws IOException, SQLException {
 
         String question = questionTextArea.getText().trim();
 
