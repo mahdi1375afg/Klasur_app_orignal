@@ -5,14 +5,13 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.TextArea?>
 <BorderPane prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.AssignController">
 
 
@@ -42,7 +41,7 @@
 
     <center>
         <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
-            <VBox fx:id="mainVBox" alignment="TOP_CENTER"  fillWidth="true" spacing="15">
+            <VBox fx:id="mainVBox" alignment="TOP_CENTER" fillWidth="true" spacing="15">
                 <padding>
                     <Insets bottom="20" left="20" right="20" top="20" />
                 </padding>
@@ -70,12 +69,12 @@
 
 
                     <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
-                        <TextArea fx:id="answer2TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1">
+                        <TextArea fx:id="answer2TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 2">
                             <font>
                                 <Font size="15.0" />
                             </font>
                         </TextArea>
-                        <TextArea fx:id="solution2TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 1">
+                        <TextArea fx:id="solution2TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Lösung 2">
                             <font>
                                 <Font size="15.0" />
                             </font>
