@@ -5,62 +5,72 @@
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamController">
-
    <center>
-      <GridPane hgap="15" vgap="10">
+      <GridPane hgap="15" vgap="10" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="20" left="20" right="20" top="20" />
          </padding>
          <columnConstraints>
-            <ColumnConstraints percentWidth="20" />
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="80" />
+            <ColumnConstraints maxWidth="112.0" minWidth="80.0" percentWidth="20.0" prefWidth="112.0" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="290.0" minWidth="258.0" percentWidth="80.0" prefWidth="258.0" />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
          </columnConstraints>
 
          <Text text="Titel:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-         <TextField fx:id="textFieldExamTitle" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <TextField fx:id="textFieldExamTitle" prefHeight="25" promptText="Musterklausur" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
          <Text text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
          <TextField fx:id="textFieldExamDate" prefHeight="25" promptText="Format: dd.MM.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-         <Text style="-fx-font-size:18;" text="Typ:" GridPane.rowIndex="4" />
-         <VBox spacing="5" GridPane.rowIndex="5" GridPane.rowSpan="6">
-            <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen">
-               <toggleGroup>
-                  <ToggleGroup fx:id="taskType" />
-               </toggleGroup></RadioButton>
-            <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice" toggleGroup="$taskType" />
-            <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice" toggleGroup="$taskType" />
-            <RadioButton fx:id="rButtonTypTrueFalsch" onAction="#setTaskType" text="Wahr/Falsch" toggleGroup="$taskType" />
-            <RadioButton fx:id="rButtonTypGapText" onAction="#setTaskType" text="Lückentext" toggleGroup="$taskType" />
-            <RadioButton fx:id="rButtonTypAssign" onAction="#setTaskType" text="Zuordnen" toggleGroup="$taskType" />
-            <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking" toggleGroup="$taskType" />
-         </VBox>
 
-         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-         <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="5" GridPane.rowSpan="6">
-            <RadioButton fx:id="rButtonTaxonomieRemember" onAction="#setTaskTaxonomie" text="Erinnern">
-               <toggleGroup>
-                  <ToggleGroup fx:id="taskTaxonomie" />
-               </toggleGroup></RadioButton>
-            <RadioButton fx:id="rButtonTaxonomieUnderstand" onAction="#setTaskTaxonomie" text="Verstehen" toggleGroup="$taskTaxonomie" />
-            <RadioButton fx:id="rButtonTaxonomieApply" onAction="#setTaskTaxonomie" text="Anwenden" toggleGroup="$taskTaxonomie" />
-            <RadioButton fx:id="rButtonTaxonomieAnalyze" onAction="#setTaskTaxonomie" text="Analysieren" toggleGroup="$taskTaxonomie" />
-            <RadioButton fx:id="rButtonTaxonomieRate" onAction="#setTaskTaxonomie" text="Bewerten" toggleGroup="$taskTaxonomie" />
-            <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen" toggleGroup="$taskTaxonomie" />
+         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+         <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.rowSpan="6">
+            <RadioButton fx:id="rButtonTaxonomieRemember" onAction="#setTaskTaxonomie" text="Erinnern" />
+            <RadioButton fx:id="rButtonTaxonomieUnderstand" onAction="#setTaskTaxonomie" text="Verstehen" />
+            <RadioButton fx:id="rButtonTaxonomieApply" onAction="#setTaskTaxonomie" text="Anwenden" />
+            <RadioButton fx:id="rButtonTaxonomieAnalyze" onAction="#setTaskTaxonomie" text="Analysieren" />
+            <RadioButton fx:id="rButtonTaxonomieRate" onAction="#setTaskTaxonomie" text="Bewerten" />
+            <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen" />
          </VBox>
-         <Button onAction="#generateExam" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl Punkte:" GridPane.rowIndex="3" />
-         <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <HBox prefHeight="149.0" prefWidth="352.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.rowSpan="6">
+            <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen" />
+            <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice" />
+            <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice" />
+            <RadioButton fx:id="rButtonTypTrueFalsch" onAction="#setTaskType" text="Wahr/Falsch" />
+            <RadioButton fx:id="rButtonTypGapText" onAction="#setTaskType" text="Lückentext" />
+            <RadioButton fx:id="rButtonTypAssign" onAction="#setTaskType" text="Zuordnen" />
+            <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking" />
+         </VBox>
+            <VBox maxHeight="60.0" prefHeight="200.0" prefWidth="60.0">
+               <children>
+                  <Spinner fx:id="spinnerAmountOpenQuestion" editable="true" />
+                  <Spinner fx:id="spinnerAmountSingleChoice" editable="true" />
+                  <Spinner fx:id="spinnerAmountMultipleChoice" editable="true" />
+                  <Spinner fx:id="SpinnerAmountTrueFalse" editable="true" />
+                  <Spinner fx:id="spinnerAmountAssign" editable="true" />
+                  <Spinner fx:id="spinnerAmountRanking" editable="true" />
+               </children>
+            </VBox>
+         </HBox>
+         <Button onAction="#generateExam" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl Punkte:" GridPane.rowIndex="4" />
+         <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          <Text style="-fx-font-size:30;" text="Klausur erstellen" GridPane.columnIndex="1" />
          <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.valignment="TOP">
             <items>
@@ -71,10 +81,24 @@
                <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
             </items>
          </MenuButton>
+         <TextField prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prüfer:" GridPane.rowIndex="3" />
+         <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="376.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <children>
+      
+               <Text style="-fx-font-size:18;" text="Typ:" />
+               <Text style="-fx-font-size: 18;" text="Anzahl:">
+                  <HBox.margin>
+                     <Insets left="80.0" />
+                  </HBox.margin>
+               </Text>
+            </children>
+         </HBox>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints />
             <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />

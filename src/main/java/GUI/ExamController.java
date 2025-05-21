@@ -62,6 +62,7 @@ public class ExamController extends SceneController {
 
 
     private String examTitle;
+    private String examiner;
     private Date examDate;
     private Integer numberPoints;
     private BloomLevel bloomLevel;

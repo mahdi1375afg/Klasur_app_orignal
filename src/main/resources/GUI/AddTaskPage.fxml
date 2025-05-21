@@ -19,7 +19,7 @@
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TaskPageController">
 
    <center>
-      <GridPane hgap="15" vgap="10">
+      <GridPane alignment="TOP_CENTER" hgap="15" vgap="10">
          <padding>
             <Insets bottom="20" left="20" right="20" top="20" />
          </padding>
@@ -36,8 +36,8 @@
          <Text text="Anzahl Punkte:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
          <TextField fx:id="textFieldNumberPoints" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-         <Text style="-fx-font-size:18;" text="Typ:" GridPane.rowIndex="5" />
-         <VBox spacing="5" GridPane.rowIndex="6" GridPane.rowSpan="6">
+         <Text style="-fx-font-size:18;" text="Typ:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         <VBox spacing="5" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="6" GridPane.vgrow="ALWAYS">
             <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen">
                <toggleGroup>
                   <ToggleGroup fx:id="taskType" />
@@ -50,8 +50,8 @@
             <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking" toggleGroup="$taskType" />
          </VBox>
 
-         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-         <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.rowSpan="6">
+         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+         <VBox spacing="5" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="6" GridPane.vgrow="ALWAYS">
             <RadioButton fx:id="rButtonTaxonomieRemember" onAction="#setTaskTaxonomie" text="Erinnern">
                <toggleGroup>
                   <ToggleGroup fx:id="taskTaxonomie" />
