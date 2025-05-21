@@ -1,12 +1,10 @@
 package org.example.domain;
 
-import org.example.dao.dbConnModul;
+import org.example.dao.DBconn;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Task {
     public static List<Task> tasks = new ArrayList<Task>();
@@ -34,6 +32,36 @@ public class Task {
             Modul modul = Modul.getModul(frage.getId());
             tasks.add(new Task(frage, antwort, modul));
         }
+    }
+
+    public static void deleteTask(Task task) throws SQLException {
+        // Delete Antwortmoeglichkeit;
+        for(Antwort antwort : task.getAnswer()) {
+            if(antwort.getTyp() == QuestionType.offen) {
+                // Musterlösung ist in OffeneAufgabe
+            } else if(antwort.getTyp() == QuestionType.wahrOderFalsch || antwort.getTyp() == QuestionType.multipleChoiceFragen || antwort.getTyp() == QuestionType.singleChoiceFragen) {
+                DBconn.sqlDelete("antwortmoeglichkeit_geschlossen", "geschlossene_aufgabe_id", task.getQuestion().getId());
+            } else if(antwort.getTyp() == QuestionType.leerstellen || antwort.getTyp() == QuestionType.zuordnung) {
+                DBconn.sqlDelete("antwortMehrParts_geschlossen", "geschlossene_aufgabe_id", task.getQuestion().getId());
+            } else if(antwort.getTyp() == QuestionType.ranking) {
+                DBconn.sqlDelete("antwortRanking_geschlossen", "geschlossene_aufgabe_id", task.getQuestion().getId());
+            }
+        }
+
+        // Delete Zusammenhang: aufgaben_modul where aufgabe_id, klausur_id equal sind
+        DBconn.sqlDelete("aufgaben_modul", "aufgabe_id", task.getQuestion().getId(), "modul_id", task.getModul().getId());  // z. B. task.getModulId()
+
+        // Delete Offene_aufgabe, geschlossene_aufgabe
+        if(task.getQuestion().getFormat() == AntwortType.offeneAntwort) {
+            DBconn.sqlDelete("offene_aufgabe", "aufgabe_id", task.getQuestion().getId());
+        } else {
+            DBconn.sqlDelete("geschlossene_aufgabe", "aufgabe_id", task.getQuestion().getId());
+        }
+
+        // Delete aufgabe
+        DBconn.sqlDelete("aufgabe", "id", task.getQuestion().getId());
+
+        tasks.remove(task);
     }
 
 

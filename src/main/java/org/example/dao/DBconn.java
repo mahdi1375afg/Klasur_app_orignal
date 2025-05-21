@@ -142,4 +142,30 @@ public class DBconn {
             ps.executeUpdate();
         }
     }
+
+    public static void sqlDelete(String table, String column1, Object value1, String column2, Object value2) throws SQLException {
+        String query = "DELETE FROM " + table + " WHERE " + column1 + " = ? AND " + column2 + " = ?";
+        try (Connection conn = getConn();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            if (value1 instanceof Integer) {
+                ps.setInt(1, (Integer) value1);
+            } else if (value1 instanceof String) {
+                ps.setString(1, (String) value1);
+            } else {
+                throw new SQLException("Invalid data type for value1");
+            }
+
+            if (value2 instanceof Integer) {
+                ps.setInt(2, (Integer) value2);
+            } else if (value2 instanceof String) {
+                ps.setString(2, (String) value2);
+            } else {
+                throw new SQLException("Invalid data type for value2");
+            }
+
+            ps.executeUpdate();
+        }
+    }
+
 }

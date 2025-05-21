@@ -140,6 +140,14 @@ public class TaskOverviewController extends SceneController implements Initializ
 
             Optional<ButtonType> userResponse = alert.showAndWait();
             if (userResponse.isPresent() && userResponse.get() == ButtonType.OK) {
+                for(Task task : selectedTasks) {
+                    try {
+                        System.out.println("Task löschen" + task.getQuestion().getId());
+                        Task.deleteTask(task);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 tableView.getItems().removeAll(selectedTasks);
             }
 
