@@ -68,7 +68,7 @@
                </children>
             </VBox>
          </HBox>
-         <Button onAction="#generateExam" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+         <Button onAction="#switchToExamPreview" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="12" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl Punkte:" GridPane.rowIndex="4" />
          <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          <Text style="-fx-font-size:30;" text="Klausur erstellen" GridPane.columnIndex="1" />
@@ -95,10 +95,10 @@
             </children>
          </HBox>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints />
             <RowConstraints />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints />
+            <RowConstraints />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />

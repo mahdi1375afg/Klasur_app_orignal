@@ -218,4 +218,9 @@ public class ExamController extends SceneController {
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.logout(stage);
     }
+    @FXML
+    public void switchToExamPreview(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchScene(stage, "/GUI/ExamPreview.fxml");
+    }
 }
