@@ -20,6 +20,11 @@ public class Main  extends Application {
         Task.getAllTasks(id);
     }
 
+    public static void terminateUser() throws SQLException {
+        Modul.modules.clear();
+        Task.tasks.clear();
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         //System.out.println(name);
