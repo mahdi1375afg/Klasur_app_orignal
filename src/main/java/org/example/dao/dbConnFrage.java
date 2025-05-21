@@ -1,104 +1,95 @@
 package org.example.dao;
+
 import org.example.domain.AntwortType;
 import org.example.domain.BloomLevel;
 import org.postgresql.util.PGInterval;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class dbConnFrage {
 
     public static List<Map<String, Object>> sqlSelect(int id) throws SQLException {
-        String table = "aufgabe";
-        String column = "benutzer_id";
-        DBconn db = new DBconn();
-
-        // Liste, die die Ergebnisse speichert
+        String sql = "SELECT * FROM aufgabe WHERE benutzer_id = ?";
         List<Map<String, Object>> results = new ArrayList<>();
 
-        PreparedStatement ps;
-        try {
-            ps = db.getConn().prepareStatement("SELECT * FROM " + table + " WHERE " + column + " = ?"); //"SELECT * FROM " + table + " WHERE " + column + " = ?"
+        try (
+                Connection conn = new DBconn().getConn();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
             ps.setInt(1, id);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
-        ResultSet rs = ps.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("id", rs.getInt("id"));
+                    row.put("name", rs.getString("name"));
+                    row.put("aufgabentext", rs.getString("aufgabentext"));
 
-        // Alle Ergebnisse in der Liste speichern
-        while (rs.next()) {
-            Map<String, Object> row = new HashMap<>();
-            row.put("id", rs.getInt("id"));
-            row.put("name", rs.getString("name"));
-            row.put("aufgabentext", rs.getString("aufgabentext"));
-            PGInterval interval = (PGInterval) rs.getObject("zeit");
-            int minuten = interval.getHours() * 60 + interval.getMinutes();
-            if (interval.getSeconds() >= 30) {
-                minuten += 1;
+                    PGInterval interval = (PGInterval) rs.getObject("zeit");
+                    int minuten = interval.getHours() * 60 + interval.getMinutes();
+                    if (interval.getSeconds() >= 30) {
+                        minuten += 1;
+                    }
+                    row.put("zeit", minuten);
+
+                    AntwortType antwortType = AntwortType.fromName(rs.getString("format"));
+                    row.put("format", antwortType);
+                    row.put("punkte", rs.getObject("punkte"));
+
+                    String oldTaxonomie = rs.getString("taxonomie");
+                    BloomLevel taxonomie = BloomLevel.fromKategorie(oldTaxonomie);
+                    row.put("taxonomie", taxonomie);
+
+                    row.put("benutzer_id", rs.getInt("benutzer_id"));
+
+                    results.add(row);
+                }
             }
-            row.put("zeit", minuten);
-            AntwortType antwortType = AntwortType.fromName(rs.getString("format"));
-            row.put("format", antwortType);
-            row.put("punkte", rs.getObject("punkte"));
-            String oldtaxonomie = rs.getString("taxonomie");
-            BloomLevel taxonomie = BloomLevel.fromKategorie(oldtaxonomie);
-            row.put("taxonomie", taxonomie);
-            row.put("benutzer_id", rs.getInt("benutzer_id"));
-            results.add(row);
         }
-        rs.close();
 
         // Ergebnisse in der Konsole ausgeben
         for (Map<String, Object> result : results) {
-            for (Map.Entry<String, Object> Eintrag : result.entrySet()) {
-                System.out.print(Eintrag.getKey() + ": " + Eintrag.getValue() + ", ");
+            for (Map.Entry<String, Object> entry : result.entrySet()) {
+                System.out.print(entry.getKey() + ": " + entry.getValue() + ", ");
             }
-            System.out.println(); // Neue Zeile für jeden Datensatz
+            System.out.println();
         }
+
         return results;
     }
 
     public static void sqlInsert(String name, String aufgabentext, int zeit, String format, int punkte, String taxonomie, int benutzer_id) throws SQLException {
-        String table = "aufgabe";
-        DBconn db = new DBconn();
-        String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " + "VALUES (?, ?, ?::interval, ?, ?, ?::taxonomie_stufe, ?)";
+        String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " +
+                "VALUES (?, ?, ?::interval, ?, ?, ?::taxonomie_stufe, ?)";
 
-        try (PreparedStatement ps = db.getConn().prepareStatement(sql)) {
+        try (
+                Connection conn = new DBconn().getConn();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
             ps.setString(1, name);
             ps.setString(2, aufgabentext);
-
-            String intervalString = zeit + " minutes";
-            ps.setString(3, intervalString);
-
+            ps.setString(3, zeit + " minutes");
             ps.setString(4, format);
             ps.setInt(5, punkte);
             ps.setObject(6, taxonomie);
             ps.setInt(7, benutzer_id);
 
-            int insertCount = ps.executeUpdate();
-            //System.out.println("Insert count: " + insertCount);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e; // oder: throw new RuntimeException(e);
+            ps.executeUpdate();
         }
     }
 
     public int getId(String name, String aufgabentext, int zeit, String format, int punkte, String taxonomie, int benutzerId) throws SQLException {
-        DBconn db = new DBconn();
         String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " +
-                "VALUES (?, ?, ?, ?, ?, ?::taxonomie_stufe, ?)";
+                "VALUES (?, ?, ?::interval, ?, ?, ?::taxonomie_stufe, ?)";
 
-        try (PreparedStatement ps = db.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (
+                Connection conn = new DBconn().getConn();
+                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
+        ) {
             ps.setString(1, name);
             ps.setString(2, aufgabentext);
-
-            String intervalString = zeit + " minutes";
-            ps.setObject(3, intervalString, java.sql.Types.OTHER);
-
+            ps.setObject(3, zeit + " minutes", Types.OTHER);
             ps.setString(4, format);
             ps.setInt(5, punkte);
             ps.setObject(6, taxonomie);
@@ -113,62 +104,45 @@ public class dbConnFrage {
                     throw new SQLException("ID konnte nicht ermittelt werden.");
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
         }
     }
 
-
-    public static void sqlUpdate(String[] column,String[] value,String conditionColumn,String conditionValue)throws SQLException {
-        String table = "aufgabe";
-        DBconn db = new DBconn();
-        PreparedStatement ps;
+    public static void sqlUpdate(String[] column, String[] value, String conditionColumn, String conditionValue) throws SQLException {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < column.length; i++) {
-
             sb.append(column[i]).append(" = ?");
-            if (i < column.length - 1) {
-                sb.append(", ");
-            }
+            if (i < column.length - 1) sb.append(", ");
         }
 
-        String listColumn = sb.toString();
-        String query = "update " + table + " set " + listColumn + " where " + conditionColumn + " = ?";
-        System.out.println(query);
-        try {
-            ps = db.getConn().prepareStatement(query);
+        String sql = "UPDATE aufgabe SET " + sb + " WHERE " + conditionColumn + " = ?";
+
+        try (
+                Connection conn = new DBconn().getConn();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
             for (int i = 0; i < value.length; i++) {
                 ps.setString(i + 1, value[i]);
             }
-            if (conditionColumn.equals("id")) {
+
+            if ("id".equals(conditionColumn)) {
                 ps.setInt(value.length + 1, Integer.parseInt(conditionValue));
             } else {
                 ps.setString(value.length + 1, conditionValue);
             }
-            int updatecount = ps.executeUpdate();
-            //System.out.println("Update count: " + updatecount);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+            ps.executeUpdate();
         }
-        ps.close();
     }
 
-    public static void sqlDelete (String column, String value) throws SQLException {
-        String table = "aufgabe";
-        DBconn db = new DBconn();
-        PreparedStatement ps;
-        try {
-            ps = db.getConn().prepareStatement("delete from " + table + " where " + column + " = ?");
+    public static void sqlDelete(String column, String value) throws SQLException {
+        String sql = "DELETE FROM aufgabe WHERE " + column + " = ?";
+
+        try (
+                Connection conn = new DBconn().getConn();
+                PreparedStatement ps = conn.prepareStatement(sql)
+        ) {
             ps.setString(1, value);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            ps.executeUpdate();
         }
-        int deleteCount = ps.executeUpdate();
-        //System.out.println("Delete count: " + deleteCount);
-        ps.close();
     }
 }
-
-
-

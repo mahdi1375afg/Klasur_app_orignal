@@ -110,19 +110,14 @@ public class TaskOverviewController extends SceneController implements Initializ
 
     private void loadData() {
         //ToDo: Richtige ID eintragen & Format der Aufgabe richtig ausgeben
-        try{
-            Task.getAllTasks(benutzerKonto.aktuellerBenutzer.getId());
-            ObservableList<Task> tasks = FXCollections.observableArrayList(Task.tasks);
-            tableView.setItems(tasks);
+        ObservableList<Task> tasks = FXCollections.observableArrayList(Task.tasks);
+        tableView.setItems(tasks);
 
-            nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getName()));
-            modulColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModul().getName()));
-            taxonomieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getTaxonomie().name()));
-            typColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getFormat().name()));
-            pointsColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuestion().getPoints()).asObject());
-        }
-        catch(SQLException ignored) {
-        }
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getName()));
+        modulColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModul().getName()));
+        taxonomieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getTaxonomie().name()));
+        typColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getFormat().name()));
+        pointsColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuestion().getPoints()).asObject());
 
     }
 

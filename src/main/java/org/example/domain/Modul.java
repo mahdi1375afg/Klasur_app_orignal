@@ -42,20 +42,20 @@ public class Modul {
 	}
 
 	public static Modul getModul(int questionid) throws SQLException {
-		ResultSet rs = DBconn.sqlSelect("aufgaben_modul", "aufgabe_id", questionid);
+		List<Map<String, Object>> rows = DBconn.sqlSelect("aufgaben_modul", "aufgabe_id", questionid);
 
-		Modul modul = null;
-		if (rs.next()) {
-			for(Modul eintrag : modules) {
-				if(eintrag.getId() == rs.getInt("modul_id")) {
+		if (!rows.isEmpty()) {
+			int modulId = (Integer) rows.get(0).get("modul_id");
+			for (Modul eintrag : modules) {
+				if (eintrag.getId() == modulId) {
 					return eintrag;
 				}
 			}
 		}
 
-		rs.close();
-		return modul;
+		return null;
 	}
+
 
 	public String getName(){
 		return name;

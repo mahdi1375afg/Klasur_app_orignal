@@ -1,16 +1,14 @@
 package org.example.domain;
 
-import java.time.Duration;
+import java.sql.Connection;
 
 import org.example.Main;
 
-import org.example.Main;
 import org.example.dao.*;
 import org.postgresql.util.PGobject;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 
 import java.util.Map;
@@ -68,18 +66,18 @@ public class benutzerKonto {
 
 
 	public boolean adminModulErstellen(String modulName) {
-		DBconn db = new DBconn();
 		String[] values = {modulName};
 		String[] columns = {"name"};
 
-		try {
-			db.sqlInsert("modul", columns, values); // Beispiel für SQL Insert
+		try (Connection conn = DBconn.getConn()) {
+			DBconn.sqlInsert(conn, "modul", columns, values); // sicheres Insert mit übergebener Connection
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace(); // Fehlerbehandlung für Insert
+			return false;
 		}
+	}
 
-        return true;
-    }
 
 	public int fragenErstellen(String questionName, String questionQuestion, int questionDuration, String questionType, int questionPoints, String questionTaxonomie, int id) throws SQLException {
 		dbConnFrage connection = new dbConnFrage();
@@ -250,69 +248,77 @@ public class benutzerKonto {
 	 */
 
 	public void antwortErstellenOffen(int fragenId, String key) {
-		try {
-			DBconn.sqlInsert("offene_aufgabe", new String[]{"musterloesung","aufgabe_id"}, new Object[]{key,fragenId});
+		try (Connection conn = DBconn.getConn()) {
+			DBconn.sqlInsert(conn, "offene_aufgabe",
+					new String[]{"musterloesung", "aufgabe_id"},
+					new Object[]{key, fragenId});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void frageErstellenGeschlossen(int fragenId, String questionType) {
-		try {
+		try (Connection conn = DBconn.getConn()) {
 			PGobject enumObj = new PGobject();
 			enumObj.setType("aufgaben_typ");
 			enumObj.setValue(questionType);
-			DBconn.sqlInsert("geschlossene_aufgabe", new String[]{"typ","aufgabe_id"}, new Object[]{enumObj, fragenId});
+			DBconn.sqlInsert(conn, "geschlossene_aufgabe", new String[]{"typ", "aufgabe_id"}, new Object[]{enumObj, fragenId});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	public void antwortErstellenGeschlossen(int fragenId, String key, Boolean value) {
-			try {
-				DBconn.sqlInsert("antwortmoeglichkeit_geschlossen", new String[]{"antworttext","ist_korrekt","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+		try (Connection conn = DBconn.getConn()) {
+			DBconn.sqlInsert(conn, "antwortmoeglichkeit_geschlossen",
+					new String[]{"antworttext", "ist_korrekt", "geschlossene_aufgabe_id"},
+					new Object[]{key, value, fragenId});
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
+
 
 	public void antwortErstellenGeschlossenMultipleParts(int fragenId, String key, String value) {
-		try {
-			DBconn.sqlInsert("antwortMehrParts_geschlossen", new String[]{"antworttext","antworttext2","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
+		try (Connection conn = DBconn.getConn()) {
+			DBconn.sqlInsert(conn, "antwortMehrParts_geschlossen",
+					new String[]{"antworttext", "antworttext2", "geschlossene_aufgabe_id"},
+					new Object[]{key, value, fragenId});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	public void antwortErstellenGeschlossenRanking(int fragenId, String key, Integer value) {
-		try {
-			DBconn.sqlInsert("antwortRanking_geschlossen", new String[]{"antworttext","rank","geschlossene_aufgabe_id"}, new Object[]{key,value,fragenId});
+		try (Connection conn = DBconn.getConn()) {
+			DBconn.sqlInsert(conn, "antwortRanking_geschlossen",
+					new String[]{"antworttext", "rank", "geschlossene_aufgabe_id"},
+					new Object[]{key, value, fragenId});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
+
 	public void createTaskToModul(int aufgabe_id, String modul_name) throws SQLException {
-		int modul_id = -1;
-		/*
-		HashMap<Integer, String> result = dbConnModul.sqlGetAllModul();
-		for (Map.Entry<Integer, String> eintrag : result.entrySet()) {
-			if(eintrag.getValue().equals(modul_name)) {
-				modul_id = eintrag.getKey();
-			}
-		}
-		 */
-		modul_id = Modul.getId(modul_name);
-		if(modul_id == -1) {
-			//break
+		int modul_id = Modul.getId(modul_name);
+
+		if (modul_id == -1) {
 			System.out.println("Modul nicht gefunden!");
+			return;
 		}
-		try {
-			DBconn.sqlInsert("aufgaben_modul", new String[]{"aufgabe_id","modul_id"}, new Object[]{aufgabe_id,modul_id});
+
+		try (Connection conn = DBconn.getConn()) {
+			DBconn.sqlInsert(conn, "aufgaben_modul",
+					new String[]{"aufgabe_id", "modul_id"},
+					new Object[]{aufgabe_id, modul_id});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
 /*
 	public void antwortErstellen(Frage frage) {
 		Antwort antwort = new Antwort();
@@ -499,9 +505,9 @@ public class benutzerKonto {
 	}
 
 	public void createModul(String modulTitleText) {
-		try {
-			DBconn.sqlInsert("modul", new String[]{"name"}, new Object[]{modulTitleText});
-			Modul.getAllModul();
+		try (Connection conn = DBconn.getConn()) {
+			DBconn.sqlInsert(conn, "modul", new String[]{"name"}, new Object[]{modulTitleText});
+			Modul.getAllModul(); // Optional: Hier evtl. Cache-Update oder UI-Refresh
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

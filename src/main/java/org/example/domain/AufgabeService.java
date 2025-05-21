@@ -79,6 +79,7 @@ public class AufgabeService {
 
         System.out.println("QuestionName: " + QuestionName);
         System.out.println("Question: " + QuestionQuestion);
+        Task.getAllTasks(benutzerKonto.aktuellerBenutzer.getId());
 
     }
 
