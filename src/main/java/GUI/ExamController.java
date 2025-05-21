@@ -2,9 +2,7 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.domain.AntwortType;
 import org.example.domain.BloomLevel;
@@ -57,6 +55,16 @@ public class ExamController extends SceneController {
     @FXML
     private RadioButton rButtonTaxonomieCreate;
 
+    // Spinner für Aufgabentyp
+    @FXML private Spinner<Integer> spinnerAmountOpenQuestion;
+    @FXML private Spinner<Integer> spinnerAmountSingleChoice;
+    @FXML private Spinner<Integer> spinnerAmountMultipleChoice;
+    @FXML private Spinner<Integer> SpinnerAmountTrueFalse;
+    @FXML private Spinner<Integer> SpinnerAmountGapText;
+    @FXML private Spinner<Integer> spinnerAmountAssign;
+    @FXML private Spinner<Integer> spinnerAmountRanking;
+
+
     @FXML
     private MenuButton menuBar;
 
@@ -69,6 +77,15 @@ public class ExamController extends SceneController {
     private AntwortType antwortType;
     private QuestionType closeType;
 
+    private int amountOpen;
+    private int amountSingleChoice;
+    private int amountMultipleChoice;
+    private int amountTrueFalse;
+    private int amountGapText;
+    private int amountAssign;
+    private int amountRanking;
+
+
     @FXML
     public void initialize() {
 
@@ -78,6 +95,49 @@ public class ExamController extends SceneController {
         textFieldNumberPoints.textProperty().addListener((observable, oldValue, newValue) -> setNumberPoints());
 
         textFieldExamDate.textProperty().addListener((observable, oldValue, newValue) -> setExamDate());
+
+
+
+        spinnerAmountOpenQuestion.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+        spinnerAmountSingleChoice.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+        spinnerAmountMultipleChoice.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+        SpinnerAmountTrueFalse.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+        SpinnerAmountGapText.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+        spinnerAmountAssign.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+        spinnerAmountRanking.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+
+        //Spinner deaktivieren
+        spinnerAmountOpenQuestion.setDisable(true);
+        spinnerAmountSingleChoice.setDisable(true);
+        spinnerAmountMultipleChoice.setDisable(true);
+        SpinnerAmountTrueFalse.setDisable(true);
+        SpinnerAmountGapText.setDisable(true);
+        spinnerAmountAssign.setDisable(true);
+        spinnerAmountRanking.setDisable(true);
+
+        // Spinner aktivieren wenn Aufgabnetyp ausgewählt wird
+        rButtonTypOpen.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
+            spinnerAmountOpenQuestion.setDisable(!newSelected);
+        });
+        rButtonTypSingle.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
+            spinnerAmountSingleChoice.setDisable(!newSelected);
+        });
+        rButtonTypMultiple.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
+            spinnerAmountMultipleChoice.setDisable(!newSelected);
+        });
+        rButtonTypTrueFalsch.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
+            SpinnerAmountTrueFalse.setDisable(!newSelected);
+        });
+        rButtonTypGapText.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
+            SpinnerAmountGapText.setDisable(!newSelected);
+        });
+        rButtonTypAssign.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
+            spinnerAmountAssign.setDisable(!newSelected);
+        });
+        rButtonTypRanking.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
+            spinnerAmountRanking.setDisable(!newSelected);
+        });
+
     }
 
     public void setExamDate() {
@@ -132,11 +192,41 @@ public class ExamController extends SceneController {
             return;
         }
 
+        amountOpen = spinnerAmountOpenQuestion.getValue();
+        amountSingleChoice = spinnerAmountSingleChoice.getValue();
+        amountMultipleChoice = spinnerAmountMultipleChoice.getValue();
+        amountTrueFalse = SpinnerAmountTrueFalse.getValue();
+        amountGapText = SpinnerAmountGapText.getValue();
+        amountAssign = spinnerAmountAssign.getValue();
+        amountRanking = spinnerAmountRanking.getValue();
+
+
         System.out.println("Exam Title: " + examTitle);
         System.out.println("Number Points: " + numberPoints);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         String formattedDate = formatter.format(examDate);
         System.out.println("Exam Date: " + formattedDate);
+        if (amountOpen > 0) {
+            System.out.println("Anzahl offene Aufgaben: " + amountOpen);
+        }
+        if (amountSingleChoice > 0) {
+            System.out.println("Anzahl Single-Choice Aufgaben: " + amountSingleChoice);
+        }
+        if (amountMultipleChoice > 0) {
+            System.out.println("Anzahl Multiple-Choice Aufgaben: " + amountMultipleChoice);
+        }
+        if (amountTrueFalse > 0) {
+            System.out.println(" Anzahl True/False Aufgaben: " + amountTrueFalse);
+        }
+        if (amountGapText > 0) {
+            System.out.println(" Anzahl Lückentext Aufgaben: " + amountTrueFalse);
+        }
+        if (amountAssign > 0) {
+            System.out.println(" Anzahl Zuordnungsaufgaben: " + amountAssign);
+        }
+        if (amountRanking > 0) {
+            System.out.println("Anzahl Ranking Aufgaben: " + amountRanking);
+        }
 
         super.switchToStartPage(event);
 

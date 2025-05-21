@@ -48,7 +48,7 @@
             <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen" />
          </VBox>
          <HBox prefHeight="149.0" prefWidth="352.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="6">
-         <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.rowSpan="6">
+         <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.rowSpan="6">
             <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen" />
             <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice" />
             <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice" />
@@ -63,6 +63,7 @@
                   <Spinner fx:id="spinnerAmountSingleChoice" editable="true" />
                   <Spinner fx:id="spinnerAmountMultipleChoice" editable="true" />
                   <Spinner fx:id="SpinnerAmountTrueFalse" editable="true" />
+                  <Spinner fx:id="SpinnerAmountGapText" />
                   <Spinner fx:id="spinnerAmountAssign" editable="true" />
                   <Spinner fx:id="spinnerAmountRanking" editable="true" />
                </children>
