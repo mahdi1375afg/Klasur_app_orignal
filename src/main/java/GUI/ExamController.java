@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.domain.AntwortType;
 import org.example.domain.BloomLevel;
-import org.example.domain.CloseType;
+import org.example.domain.QuestionType;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -66,7 +66,7 @@ public class ExamController extends SceneController {
     private Integer numberPoints;
     private BloomLevel bloomLevel;
     private AntwortType antwortType;
-    private CloseType closeType;
+    private QuestionType closeType;
 
     @FXML
     public void initialize() {
@@ -168,22 +168,22 @@ public class ExamController extends SceneController {
             antwortType = AntwortType.offeneAntwort;
         } else if (rButtonTypSingle.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.singleChoiceFragen;
+            closeType = QuestionType.singleChoiceFragen;
         } else if (rButtonTypMultiple.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.multipleChoiceFragen;
+            closeType = QuestionType.multipleChoiceFragen;
         } else if (rButtonTypTrueFalsch.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.wahrOderFalsch;
+            closeType = QuestionType.wahrOderFalsch;
         } else if (rButtonTypGapText.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.leerstellen;
+            closeType = QuestionType.leerstellen;
         } else if (rButtonTypAssign.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.zuordnung;
+            closeType = QuestionType.zuordnung;
         } else if (rButtonTypRanking.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.ranking;
+            closeType = QuestionType.ranking;
         }
     }
 

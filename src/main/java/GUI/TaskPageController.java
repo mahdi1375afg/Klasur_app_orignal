@@ -69,7 +69,7 @@ public class TaskPageController extends SceneController {
     private AntwortType antwortType;
     private BloomLevel bloomLevel;
     private Integer durationNumber;
-    private CloseType closeType;
+    private QuestionType closeType;
 
     @FXML
     private ComboBox<String> modulDropdown;
@@ -221,7 +221,7 @@ public class TaskPageController extends SceneController {
             stage.setScene(scene);
             stage.show();
         }
-        else if (antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.singleChoiceFragen){
+        else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/SingleChoicePage.fxml"));
             Parent root = loader.load();
 
@@ -237,7 +237,7 @@ public class TaskPageController extends SceneController {
             stage.setScene(scene);
             stage.show();
         }
-        else if (antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.wahrOderFalsch){
+        else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/TrueFalsePage.fxml"));
             Parent root = loader.load();
 
@@ -253,7 +253,7 @@ public class TaskPageController extends SceneController {
             stage.setScene(scene);
             stage.show();
         }
-        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.multipleChoiceFragen){
+        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/MultipleChoicePage.fxml"));
             Parent root = loader.load();
 
@@ -269,7 +269,7 @@ public class TaskPageController extends SceneController {
             stage.setScene(scene);
             stage.show();
         }
-        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.zuordnung){
+        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.zuordnung){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AssignPage.fxml"));
             Parent root = loader.load();
 
@@ -285,7 +285,7 @@ public class TaskPageController extends SceneController {
             stage.setScene(scene);
             stage.show();
         }
-        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.leerstellen){
+        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/GapText.fxml"));
             Parent root = loader.load();
 
@@ -301,7 +301,7 @@ public class TaskPageController extends SceneController {
             stage.setScene(scene);
             stage.show();
         }
-        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == CloseType.ranking){
+        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.ranking){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/RankingPage.fxml"));
             Parent root = loader.load();
 
@@ -329,22 +329,22 @@ public class TaskPageController extends SceneController {
             antwortType = AntwortType.offeneAntwort;
         } else if (rButtonTypSingle.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.singleChoiceFragen;
+            closeType = QuestionType.singleChoiceFragen;
         } else if (rButtonTypMultiple.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.multipleChoiceFragen;
+            closeType = QuestionType.multipleChoiceFragen;
         } else if (rButtonTypTrueFalsch.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.wahrOderFalsch;
+            closeType = QuestionType.wahrOderFalsch;
         } else if (rButtonTypGapText.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.leerstellen;
+            closeType = QuestionType.leerstellen;
         } else if (rButtonTypAssign.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.zuordnung;
+            closeType = QuestionType.zuordnung;
         } else if (rButtonTypRanking.isSelected()) {
             antwortType = AntwortType.geschlosseneAntwort;
-            closeType = CloseType.ranking;
+            closeType = QuestionType.ranking;
         }
     }
 

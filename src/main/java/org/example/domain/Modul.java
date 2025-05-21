@@ -56,7 +56,6 @@ public class Modul {
 		return null;
 	}
 
-
 	public String getName(){
 		return name;
 	}

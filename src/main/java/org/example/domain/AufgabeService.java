@@ -11,7 +11,7 @@ public class AufgabeService {
     int QuestionDuration;
     String QuestionType;
     String QuestionTaxonomie;
-    private CloseType QuestionCloseType;
+    private QuestionType QuestionCloseType;
 
     String QuestionQuestion;
 
@@ -24,7 +24,7 @@ public class AufgabeService {
     String QuestionModulName;
     int QuestionModulNumber;
 
-    public void setTaskPageData(String QuestionName, int QuestionPoints, int QuestionDuration, String QuestionType, String QuestionTaxonomie, String QuestionModulName, CloseType closeType) {
+    public void setTaskPageData(String QuestionName, int QuestionPoints, int QuestionDuration, String QuestionType, String QuestionTaxonomie, String QuestionModulName, QuestionType closeType) {
         this.QuestionName = QuestionName;
         this.QuestionPoints = QuestionPoints;
         this.QuestionDuration = QuestionDuration;
