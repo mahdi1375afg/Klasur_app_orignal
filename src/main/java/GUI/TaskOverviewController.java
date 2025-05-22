@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import org.example.domain.Task;
-import org.example.domain.benutzerKonto;
 
 import java.sql.SQLException;
 import java.util.Optional;

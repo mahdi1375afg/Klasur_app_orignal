@@ -102,8 +102,7 @@ public class RankingController extends SceneController {
 
     @FXML
     public void saveAndSwitchToStartPage() throws IOException, SQLException {
-        //Speichert alle gesammelten Daten und sendet sie an DB --> Wechsel zum Startbildschirm
-        //ToDo: Daten an DB senden
+        //Speichert alle gesammelten Daten und sendet sie an DB → Wechsel zum Startbildschirm
 
         String question = questionTextArea.getText().trim();
 
@@ -114,24 +113,19 @@ public class RankingController extends SceneController {
 
         List<String> statements = new ArrayList<>();
 
-        for (int i = 0; i < statementAreas.size(); i++) {
-            String statement = statementAreas.get(i).getText().trim();
+        for (TextArea statementArea : statementAreas) {
+            String statement = statementArea.getText().trim();
 
             if (!statement.isEmpty()) {
                 statements.add(statement);
-            }
-            else{
+            } else {
                 showAlert("Fehler", "Bitte alle Felder ausfüllen ");
                 return;
             }
         }
 
-        System.out.println("Frage: "+question);
-        System.out.println("Reihenfolge:");
-
         for (int i = 0; i < statements.size(); i++) {
             String answer = statements.get(i);
-            System.out.println((i+1) +"."+answer);
             aufgabe.setAnswerPageRanking(answer, i+1);
         }
 

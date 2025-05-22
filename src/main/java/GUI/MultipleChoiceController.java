@@ -144,7 +144,7 @@ public class MultipleChoiceController extends SceneController{
         System.out.println(question);
         for (int i = 0; i < answers.size(); i++) {
             String answer = answers.get(i);
-            boolean isCorrect = (correctIndex.contains(i)) ? true : false;
+            boolean isCorrect = correctIndex.contains(i);
             aufgabe.setAnswerPage(answer, isCorrect);
             if (isCorrect) {
                 System.out.println((i) +  answer + " (richtig)");

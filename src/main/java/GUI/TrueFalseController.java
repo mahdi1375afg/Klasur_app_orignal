@@ -100,9 +100,9 @@ public class TrueFalseController extends SceneController{
 
             if (childCount > 2) {
                 answerContainer.getChildren().remove(childCount - 1);
-                answerFields.remove(answerFields.size() - 1);
-                trueButtons.remove(trueButtons.size() - 1);
-                falseButtons.remove(falseButtons.size() - 1);            }
+                answerFields.removeLast();
+                trueButtons.removeLast();
+                falseButtons.removeLast();            }
         }
 
 

@@ -10,8 +10,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import org.example.domain.benutzerKonto;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -131,7 +129,7 @@ public class SceneController {
 
     @FXML
     public void switchToSignUpPage(ActionEvent event) throws IOException {
-        //Methode sorgt für den Wechsel von Titelseite zur  Registrierungsseite
+        //Methode sorgt für den Wechsel von Titelseite zur Registrierungsseite
         switchScene(event, "/GUI/SignUpPage.fxml");
     }
 

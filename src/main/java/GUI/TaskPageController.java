@@ -60,9 +60,6 @@ public class TaskPageController extends SceneController {
     @FXML
     private MenuButton menuBar;
 
-    @FXML
-    private Button buttonAddModul;
-
     private String taskTitleText ;
     private String modulTitleText;
     private Integer numberPointsInteger;
@@ -128,7 +125,7 @@ public class TaskPageController extends SceneController {
     public void setNumberPoints() {
         String points = textFieldNumberPoints.getText();
         try {
-            Integer pointsInteger = Integer.parseInt(points);
+            int pointsInteger = Integer.parseInt(points);
 
             if (pointsInteger >= 0) {
                 numberPointsInteger = pointsInteger;
@@ -145,7 +142,7 @@ public class TaskPageController extends SceneController {
     public void setDurationNumber() {
         String temp = textFieldDuration.getText();
         try {
-            Integer tempInteger = Integer.parseInt(temp);
+            int tempInteger = Integer.parseInt(temp);
 
             if (tempInteger >= 0) {
                 durationNumber = tempInteger;
@@ -191,136 +188,62 @@ public class TaskPageController extends SceneController {
             return;
         }
 
-        /*
-        System.out.println(getTextFieldTaskTitle());
-        System.out.println(getModulTitle());
-        System.out.println(getTextFieldNumberPoints());
-        System.out.println(getDurationNumber());
-        System.out.println(getAntwortType());
-        System.out.println(getTaskTaxonomie());
-         */
-
         //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
         AufgabeService aufgabe = new AufgabeService();
         aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(),getDurationNumber(),getAntwortType(),getTaskTaxonomie(),getModulTitle(),closeType);
 
 
         if(antwortType == AntwortType.offeneAntwort){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/OpenQuestionPage.fxml"));
-            Parent root = loader.load();
-
-            OpenQuestionController controller = loader.getController(); //Change das zu jeweils Controller
-            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            double sceneWidth = stage.getScene().getWidth();
-            double sceneHeight = stage.getScene().getHeight();
-
-            Scene scene = new Scene(root, sceneWidth, sceneHeight);
-            stage.setScene(scene);
-            stage.show();
+            OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
+            controller.setAufgabe(aufgabe);
         }
         else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/SingleChoicePage.fxml"));
-            Parent root = loader.load();
-
-            SingleChoiceController controller = loader.getController(); //Change das zu jeweils Controller
+            SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml"); //Change das zu jeweils Controller
             controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            double sceneWidth = stage.getScene().getWidth();
-            double sceneHeight = stage.getScene().getHeight();
-
-            Scene scene = new Scene(root, sceneWidth, sceneHeight);
-            stage.setScene(scene);
-            stage.show();
         }
         else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/TrueFalsePage.fxml"));
-            Parent root = loader.load();
-
-            TrueFalseController controller = loader.getController();
+            TrueFalseController controller = switchSceneAndGetController(event, "/GUI/TrueFalsePage.fxml");
             controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            double sceneWidth = stage.getScene().getWidth();
-            double sceneHeight = stage.getScene().getHeight();
-
-            Scene scene = new Scene(root, sceneWidth, sceneHeight);
-            stage.setScene(scene);
-            stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/MultipleChoicePage.fxml"));
-            Parent root = loader.load();
-
-            MultipleChoiceController controller = loader.getController(); //Change das zu jeweils Controller
+            MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml"); //Change das zu jeweils Controller
             controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            double sceneWidth = stage.getScene().getWidth();
-            double sceneHeight = stage.getScene().getHeight();
-
-            Scene scene = new Scene(root, sceneWidth, sceneHeight);
-            stage.setScene(scene);
-            stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.zuordnung){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AssignPage.fxml"));
-            Parent root = loader.load();
-
-            AssignController controller = loader.getController(); //Change das zu jeweils Controller
+            AssignController controller = switchSceneAndGetController(event, "/GUI/AssignPage.fxml"); //Change das zu jeweils Controller
             controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            double sceneWidth = stage.getScene().getWidth();
-            double sceneHeight = stage.getScene().getHeight();
-
-            Scene scene = new Scene(root, sceneWidth, sceneHeight);
-            stage.setScene(scene);
-            stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/GapText.fxml"));
-            Parent root = loader.load();
 
-            GapTextController controller = loader.getController(); //Change das zu jeweils Controller
+            GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml"); //Change das zu jeweils Controller
             controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            double sceneWidth = stage.getScene().getWidth();
-            double sceneHeight = stage.getScene().getHeight();
-
-            Scene scene = new Scene(root, sceneWidth, sceneHeight);
-            stage.setScene(scene);
-            stage.show();
         }
         else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.ranking){
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/RankingPage.fxml"));
-            Parent root = loader.load();
-
-            RankingController controller = loader.getController(); //Change das zu jeweils Controller
+            RankingController controller = switchSceneAndGetController(event, "/GUI/RankingPage.fxml"); //Change das zu jeweils Controller
             controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            double sceneWidth = stage.getScene().getWidth();
-            double sceneHeight = stage.getScene().getHeight();
-
-            Scene scene = new Scene(root, sceneWidth, sceneHeight);
-            stage.setScene(scene);
-            stage.show();
         }
         else {
             super.switchToStartPage(event);
         }
     }
+
+    private <T> T switchSceneAndGetController(ActionEvent event, String fxmlPath) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+        Parent root = loader.load();
+
+        T controller = loader.getController();
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        double sceneWidth = stage.getScene().getWidth();
+        double sceneHeight = stage.getScene().getHeight();
+
+        Scene scene = new Scene(root, sceneWidth, sceneHeight);
+        stage.setScene(scene);
+        stage.show();
+
+        return controller;
+    }
+
 
     @FXML
     public void setTaskType() {
