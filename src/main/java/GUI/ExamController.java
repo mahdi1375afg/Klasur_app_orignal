@@ -20,9 +20,11 @@ public class ExamController extends SceneController {
     @FXML
     private TextField textFieldExamTitle;
     @FXML
-    private TextField textFieldNumberPoints;
-    @FXML
     private TextField textFieldExamDate;
+    @FXML
+    private TextField textFieldExaminer;
+    @FXML
+    private TextField textFieldNumberPoints;
 
 
     //RadioButtons für Aufgabentyp
@@ -56,13 +58,20 @@ public class ExamController extends SceneController {
     private RadioButton rButtonTaxonomieCreate;
 
     // Spinner für Aufgabentyp
-    @FXML private Spinner<Integer> spinnerAmountOpenQuestion;
-    @FXML private Spinner<Integer> spinnerAmountSingleChoice;
-    @FXML private Spinner<Integer> spinnerAmountMultipleChoice;
-    @FXML private Spinner<Integer> SpinnerAmountTrueFalse;
-    @FXML private Spinner<Integer> SpinnerAmountGapText;
-    @FXML private Spinner<Integer> spinnerAmountAssign;
-    @FXML private Spinner<Integer> spinnerAmountRanking;
+    @FXML
+    private Spinner<Integer> spinnerAmountOpenQuestion;
+    @FXML
+    private Spinner<Integer> spinnerAmountSingleChoice;
+    @FXML
+    private Spinner<Integer> spinnerAmountMultipleChoice;
+    @FXML
+    private Spinner<Integer> SpinnerAmountTrueFalse;
+    @FXML
+    private Spinner<Integer> SpinnerAmountGapText;
+    @FXML
+    private Spinner<Integer> spinnerAmountAssign;
+    @FXML
+    private Spinner<Integer> spinnerAmountRanking;
 
 
     @FXML
@@ -92,11 +101,11 @@ public class ExamController extends SceneController {
 
         textFieldExamTitle.textProperty().addListener((observable, oldValue, newValue) -> setExamTitle());
 
-        textFieldNumberPoints.textProperty().addListener((observable, oldValue, newValue) -> setNumberPoints());
-
         textFieldExamDate.textProperty().addListener((observable, oldValue, newValue) -> setExamDate());
 
+        textFieldExaminer.textProperty().addListener((observable, oldValue, newValue) -> setExaminer());
 
+        textFieldNumberPoints.textProperty().addListener((observable, oldValue, newValue) -> setNumberPoints());
 
         spinnerAmountOpenQuestion.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
         spinnerAmountSingleChoice.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
@@ -154,7 +163,6 @@ public class ExamController extends SceneController {
     }
 
 
-
     public void setNumberPoints() {
         String points = textFieldNumberPoints.getText();
         try {
@@ -169,10 +177,11 @@ public class ExamController extends SceneController {
     }
 
     public void setExamTitle() {
-        //ToDO: Daten an DB schicken um die Aufgabe zu erstellen
-        //ToDo: Wechsel zur richtigen nächsten Seite
-
         examTitle = textFieldExamTitle.getText();
+    }
+
+    public void setExaminer() {
+        examiner = textFieldExaminer.getText();
     }
 
     @FXML
@@ -184,6 +193,11 @@ public class ExamController extends SceneController {
 
         if (examDate == null) {
             showAlert("Bitte geben Sie ein korrektes Datum an!");
+            return;
+        }
+
+        if (examiner == null) {
+            showAlert("Bitte geben Sie einen Prüfer an!");
             return;
         }
 
@@ -202,10 +216,12 @@ public class ExamController extends SceneController {
 
 
         System.out.println("Exam Title: " + examTitle);
-        System.out.println("Number Points: " + numberPoints);
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         String formattedDate = formatter.format(examDate);
         System.out.println("Exam Date: " + formattedDate);
+        System.out.println("Examiner:" + examiner);
+        System.out.println("Number Points: " + numberPoints);
+
         if (amountOpen > 0) {
             System.out.println("Anzahl offene Aufgaben: " + amountOpen);
         }
@@ -231,7 +247,6 @@ public class ExamController extends SceneController {
         super.switchToStartPage(event);
 
     }
-
 
 
     @FXML
@@ -286,7 +301,7 @@ public class ExamController extends SceneController {
 
 
     @FXML
-    public void switchToTaskOverview(ActionEvent event) throws IOException{
+    public void switchToTaskOverview(ActionEvent event) throws IOException {
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.switchToTaskOverview(stage);
     }
@@ -298,7 +313,7 @@ public class ExamController extends SceneController {
     }
 
     @FXML
-    public void switchToExamOverview() throws IOException{
+    public void switchToExamOverview() throws IOException {
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.switchToExamCollection(stage);
     }
@@ -308,9 +323,17 @@ public class ExamController extends SceneController {
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.logout(stage);
     }
-    @FXML
-    public void switchToExamPreview(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchScene(stage, "/GUI/ExamPreview.fxml");
+
+    @Override
+    protected boolean showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Achtung!");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.getButtonTypes().setAll(ButtonType.OK);
+
+        alert.showAndWait();
+        return true;
     }
 }
