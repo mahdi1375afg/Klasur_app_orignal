@@ -17,13 +17,6 @@ import java.util.Scanner; // nur für ohne GUI testing
 public class benutzerKonto {
 	public static Nutzer aktuellerBenutzer;
 
-	private LocalDateTime lastLogin;
-	private boolean aktiv;
-
-	public benutzerKonto() {
-		// WIP: vielleicht?
-	}
-
 	public Boolean register(String name, String password) throws SQLException {
 		dbConnUser connection = new dbConnUser();
 		if(!connection.getNameUsed(name)) {
@@ -61,20 +54,6 @@ public class benutzerKonto {
 		} else {
 			aktuellerBenutzer = null;
 			return "Erfolgreich";
-		}
-	}
-
-
-	public boolean adminModulErstellen(String modulName) {
-		String[] values = {modulName};
-		String[] columns = {"name"};
-
-		try (Connection conn = DBconn.getConn()) {
-			DBconn.sqlInsert(conn, "modul", columns, values); // sicheres Insert mit übergebener Connection
-			return true;
-		} catch (SQLException e) {
-			e.printStackTrace(); // Fehlerbehandlung für Insert
-			return false;
 		}
 	}
 
@@ -239,14 +218,6 @@ public class benutzerKonto {
 
 
 
-	/*
-	public List<Map<String, Object>> fragenfiltern(int Fragen) throws SQLException {
-		dbConnFrage connection = new dbConnFrage();
-		List<Map<String, Object>> result = connection.sqlSelect(1);
-		return result;
-	}
-	 */
-
 	public void antwortErstellenOffen(int fragenId, String key) {
 		try (Connection conn = DBconn.getConn()) {
 			DBconn.sqlInsert(conn, "offene_aufgabe",
@@ -319,54 +290,6 @@ public class benutzerKonto {
 		}
 	}
 
-/*
-	public void antwortErstellen(Frage frage) {
-		Antwort antwort = new Antwort();
-		Scanner scanner = new Scanner(System.in);
-
-		if (frage.getFragenArt().equals(FragenArt.OffeneFrage)) {
-			//name eingeben
-			System.out.println("Bitte geben Sie den Antwort ein:");
-			String name = scanner.nextLine();
-			antwort.setAntwortText(name);
-
-			try {
-
-				DBconn.sqlInsert("antwortmoeglichkeit_geschlossen", new String[]{"antworttext","ist_korrekt","geschlossene_aufgabe_id"}, new Object[]{antwort.getAntwortText(),"true",1});
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		} else {
-			System.out.println("Bitte geben Sie den Antwort ein:");
-			String name = scanner.nextLine();
-			antwort.setAntwortText(name);
-
-
-			System.out.println("Bitte geben Sie Richtig oder Falsch ein:");
-			if (scanner.nextLine().equals("Richtig")) {
-				antwort.setKorrekt(true);
-			} else {
-				antwort.setKorrekt(false);
-			}
-			// nur beim fragen die von art zuordnung sind einsetzen
-			System.out.println("Bitte geben Sie den Rank der Antwort ein:");
-			int rank = Integer.parseInt(scanner.nextLine());
-			antwort.setRank(rank);
-
-			try {
-
-				DBconn.sqlInsert("antwortmoeglichkeit_geschlossen", new String[]{"antworttext","ist_korrekt","geschlossene_aufgabe_id"}, new Object[]{antwort.getAntwortText(),"true",1});
-				System.out.println("erfogreich im im antwort table eingefügt");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-
-		}
-	}
-
- */
 
 	//noch nicht fertig
 	public void antwortBearbeiten(Antwort ant) {
@@ -432,18 +355,7 @@ public class benutzerKonto {
 		}
 	}
 
-	public void antwortloeaschen(Antwort ant) {
-
-		if (ant.getAntwortType().equals(AntwortType.geschlosseneAntwort)) {
-			try {
-				DBconn.sqlDelete("antwortmoeglichkeit_geschlossen", "id", ant.getId());
-				System.out.println("geschlosseneantwort erfolgreich gelöscht.");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	// noch nicht fertig klasur erstellen
+	// noch nicht fertig Klausur erstellen
 	public void klasurErstellen(){
 		Klausur k = new Klausur();
 		Scanner scanner = new Scanner(System.in);
@@ -507,7 +419,7 @@ public class benutzerKonto {
 	public void createModul(String modulTitleText) {
 		try (Connection conn = DBconn.getConn()) {
 			DBconn.sqlInsert(conn, "modul", new String[]{"name"}, new Object[]{modulTitleText});
-			Modul.getAllModul(); // Optional: Hier evtl. Cache-Update oder UI-Refresh
+			Modul.getAllModul();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
