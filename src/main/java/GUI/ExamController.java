@@ -26,6 +26,9 @@ public class ExamController extends SceneController {
     private TextField textFieldExaminer;
     @FXML
     private TextField textFieldNumberPoints;
+    @FXML
+    private TextField textFieldDuration;
+
 
 
     //RadioButtons für Aufgabentyp
@@ -78,11 +81,16 @@ public class ExamController extends SceneController {
     @FXML
     private MenuButton menuBar;
 
+    @FXML
+    private ComboBox<String> modulDropdown;
+
 
     private String examTitle;
     private String examiner;
     private LocalDate examDate;
     private Integer numberPoints;
+    private Modul modul;
+    private int time;
     private List<BloomLevel> bloomLevel = new ArrayList<>();
     private List<AntwortType> antwortType = new ArrayList<>();
     private List<QuestionType> questionType = new ArrayList<>();
@@ -97,8 +105,9 @@ public class ExamController extends SceneController {
 
 
     @FXML
-    public void initialize() {
-
+    public void initialize() throws SQLException {
+        modulDropdown.getItems().clear();
+        modulDropdown.getItems().addAll(Modul.getAllNames());
 
         textFieldExamTitle.textProperty().addListener((observable, oldValue, newValue) -> setExamTitle());
 
@@ -169,6 +178,28 @@ public class ExamController extends SceneController {
         }
     }
 
+    public void setTime() {
+        String time = textFieldDuration.getText();
+        try {
+            Integer timeInteger = Integer.parseInt(time);
+
+            if (timeInteger >= 0) {
+                this.time = timeInteger;
+            }
+        } catch (NumberFormatException ignored) {
+            this.time = Integer.parseInt(null);
+        }
+    }
+
+    public void setModul() throws SQLException {
+        for(Modul modul : Modul.modules) {
+            if(modul.getName().equals(modulDropdown.getValue())) {
+                this.modul = modul;
+            }
+        }
+    }
+
+
 
     public void setNumberPoints() {
         String points = textFieldNumberPoints.getText();
@@ -193,8 +224,14 @@ public class ExamController extends SceneController {
 
     @FXML
     public void generateExam(ActionEvent event) throws SQLException, IOException {
-
+        setModul();
+        setTime();
         setExamDate();
+
+        if(modul == null) {
+            showAlert("Bitte geben sie ein Modul an!");
+            return;
+        }
 
         if (examTitle == null || examTitle.trim().isEmpty()) {
             showAlert("Bitte geben Sie einen korrekten Titel an!");
@@ -227,6 +264,7 @@ public class ExamController extends SceneController {
 
         System.out.println("Exam Title: " + examTitle);
         System.out.println("Examiner:" + examiner);
+        System.out.println("Time: " + time);
         System.out.println("Number Points: " + numberPoints);
 
         if (amountOpen > 0) {
@@ -272,7 +310,7 @@ public class ExamController extends SceneController {
         }
 
 
-        ExamService exam = new ExamService(examTitle,examDate,numberPoints,10,Modul.modules.getFirst(),questionTypes,bloomLevel,benutzerKonto.aktuellerBenutzer.getId());
+        ExamService exam = new ExamService(examTitle,examDate,numberPoints,time,modul,questionTypes,bloomLevel,benutzerKonto.aktuellerBenutzer.getId());
 
         switch(exam.createKlausur()) {
             case 0:

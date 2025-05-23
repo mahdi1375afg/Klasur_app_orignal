@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ComboBox?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamController">
    <center>
       <GridPane hgap="15" vgap="10" BorderPane.alignment="CENTER">
@@ -38,8 +39,10 @@
          <TextField fx:id="textFieldExamDate" prefHeight="25" promptText="Format: dd.MM.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
 
-         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-         <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.rowSpan="6">
+
+
+         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+         <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.rowSpan="6">
             <RadioButton fx:id="rButtonTaxonomieRemember" onAction="#setTaskTaxonomie" text="Erinnern" />
             <RadioButton fx:id="rButtonTaxonomieUnderstand" onAction="#setTaskTaxonomie" text="Verstehen" />
             <RadioButton fx:id="rButtonTaxonomieApply" onAction="#setTaskTaxonomie" text="Anwenden" />
@@ -47,8 +50,8 @@
             <RadioButton fx:id="rButtonTaxonomieRate" onAction="#setTaskTaxonomie" text="Bewerten" />
             <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen" />
          </VBox>
-         <HBox prefHeight="149.0" prefWidth="352.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="6">
-         <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="6" GridPane.rowSpan="6">
+         <HBox prefHeight="149.0" prefWidth="352.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="8">
+         <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.rowSpan="6">
             <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen" />
             <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice" />
             <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice" />
@@ -70,8 +73,17 @@
             </VBox>
          </HBox>
          <Button onAction="#generateExam" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl Punkte:" GridPane.rowIndex="4" />
-         <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+         <Text text="Modul:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+         <ComboBox fx:id="modulDropdown" prefHeight="25" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+         <Text text="Zeit (in Minuten):" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+         <TextField fx:id="textFieldDuration" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl Punkte:" GridPane.rowIndex="6" />
+         <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
          <Text style="-fx-font-size:30;" text="Klausur erstellen" GridPane.columnIndex="1" />
          <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.valignment="TOP">
             <items>
@@ -82,9 +94,12 @@
                <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
             </items>
          </MenuButton>
+
+
          <TextField fx:id="textFieldExaminer" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Prüfer:" GridPane.rowIndex="3" />
-         <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="376.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+
+         <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="376.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
             <children>
       
                <Text style="-fx-font-size:18;" text="Typ:" />
@@ -95,6 +110,7 @@
                </Text>
             </children>
          </HBox>
+
          <rowConstraints>
             <RowConstraints />
             <RowConstraints />
