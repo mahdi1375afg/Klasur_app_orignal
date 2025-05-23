@@ -11,6 +11,8 @@ import java.util.Map;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
+import java.awt.Color;
+
 
 public class ExamService {
 
@@ -207,21 +209,29 @@ public class ExamService {
         PdfContentByte cb = writer.getDirectContent();
 
         Font headerFont = new Font(Font.HELVETICA, 16, Font.BOLD);
-        Font questionFont = new Font(Font.HELVETICA, 12, Font.BOLDITALIC);
+        Font questionHeaderFont = new Font(Font.HELVETICA, 14);
+        questionHeaderFont.setColor(Color.blue);
+        Font questionFont = new Font(Font.HELVETICA, 12);
         Font answerFont = new Font(Font.HELVETICA, 10);
         Font punktFont = new Font(Font.HELVETICA, 10, Font.ITALIC);
 
-        document.add(new Paragraph("Klausur: " + name + "                           " + "Datum: " + date.toString(), headerFont));
+        document.add(new Paragraph("Klausur: " + name + "                                " + "Datum: " + date.toString(), headerFont));
         //document.add(new Paragraph("Prüfer: " + Pruefer));
         document.add(new Paragraph(" "));
 
 
         int aufgabeNummer = 1;
         for(Task task : tasks) {
+            Paragraph taskHeadParagraph = new Paragraph();
+            taskHeadParagraph.add(new Chunk("Aufgabe " + aufgabeNummer + " (" + task.getQuestion().getPoints() + " Punkte)", questionHeaderFont));
+            taskHeadParagraph.setSpacingBefore(10);
+            taskHeadParagraph.setSpacingAfter(2);
+            document.add(taskHeadParagraph);
+
             Paragraph taskParagraph = new Paragraph();
-            taskParagraph.add(new Chunk(aufgabeNummer + ". " + task.getQuestion().getQuestionText(), questionFont));
-            taskParagraph.setSpacingBefore(10);
-            taskParagraph.setSpacingAfter(5);
+            taskParagraph.add(new Chunk(task.getQuestion().getQuestionText(), questionFont));
+            taskParagraph.setSpacingBefore(15);
+            taskParagraph.setSpacingAfter(2);
             document.add(taskParagraph);
 
             QuestionType typ = task.getAnswer().getFirst().getTyp();
@@ -236,8 +246,6 @@ public class ExamService {
                     document.add(antwortParagraph);
                 }
             }
-
-            document.add(new Paragraph("Punkte: " + task.getQuestion().getPoints(), punktFont));
             document.add(new Paragraph(" "));
 
             aufgabeNummer++;
@@ -245,9 +253,6 @@ public class ExamService {
 
         document.close();
         System.out.println("PDF wurde erstellt");
-
-
-
     }
 
 
