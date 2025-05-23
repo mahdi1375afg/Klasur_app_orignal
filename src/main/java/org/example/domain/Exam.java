@@ -1,40 +1,38 @@
 package org.example.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Klausur {
+public class Exam {
+
+	public static List<Exam> Exams = new ArrayList<Exam>();
 
 	private int id;
 	private LocalDate erstellungsdatum;
 	private String name;
 	private String beschreibung;
 
-	List<Frage> fragen;
+	List<Task> tasks;
 
 	private Modul modul;
 
 
 	private int dauer;
 
-	public Klausur (int id, LocalDate erstellungsdatum, String name, List<Frage> fragen, String beschreibung, Modul modul, int dauer) {
+	public Exam(int id, LocalDate erstellungsdatum, String name, List<Task> tasks, String beschreibung, Modul modul, int dauer) {
 		this.id = id;
 		this.erstellungsdatum = erstellungsdatum;
 		this.name = name;
-		this.fragen = fragen;
+		this.tasks = tasks;
 		this.beschreibung = beschreibung;
 		this.modul = modul;
 		this.dauer = dauer;
 	}
 
-	public Klausur(){
-		this.id = 0;
-		this.erstellungsdatum = LocalDate.now();
-		this.name = "";
-		this.beschreibung = "";
-		this.modul = null;
-		this.dauer = 0;
-	}
+
+
+
 
 	public int getId () {
 		return id;
@@ -73,10 +71,10 @@ public class Klausur {
 		this.dauer = dauer;
 	}
 
-	public List<Frage> getFragen() {
-		return fragen;
+	public List<Task> getTasks() {
+		return tasks;
 	}
-	public void setFragen(List<Frage> fragen) {
-		this.fragen = fragen;
+	public void setFragen(List<Task> tasks) {
+		this.tasks = tasks;
 	}
 }

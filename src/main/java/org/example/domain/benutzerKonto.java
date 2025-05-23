@@ -8,7 +8,6 @@ import org.example.dao.*;
 import org.postgresql.util.PGobject;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import java.util.Map;
@@ -60,15 +59,7 @@ public class benutzerKonto {
 
 	public int fragenErstellen(String questionName, String questionQuestion, int questionDuration, String questionType, int questionPoints, String questionTaxonomie, int id) throws SQLException {
 		dbConnFrage connection = new dbConnFrage();
-
-		String name = questionName;
-		String aufgabentext = questionQuestion;
-		int zeit = questionDuration;
-		String taxonomie = questionTaxonomie;
-		String format = questionType;
-		int benutzer_id = id;
-		int punkte = questionPoints;
-		return connection.getId(name,aufgabentext,zeit,format,punkte,taxonomie,benutzer_id);
+		return connection.getId(questionName,questionQuestion,questionDuration,questionType,questionPoints,questionTaxonomie,id);
 
 	}
 
@@ -175,45 +166,6 @@ public class benutzerKonto {
 				System.out.println("Ungültige Auswahl.");
 		}
 
-	}
-
-
-	public boolean fragenLoeschen(int id) {
-		try {
-			DBconn.sqlDelete("aufgaben_modul", "aufgabe_id", id);
-			System.out.println("Aufgabe von tabelle aufgaben_modul erfolgreich gelöscht.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			DBconn.sqlDelete("antwortmoeglichkeit_geschlossen", "geschlossene_aufgabe_id", id);
-			System.out.println("Aufgabe von tabelle antwortmoeglichkeit_geschlossen erfolgreich gelöscht.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			DBconn.sqlDelete("geschlossene_aufgabe", "aufgabe_id", id);
-			System.out.println("Aufgabe von tabelle geschlossene_aufgabe erfolgreich gelöscht.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			DBconn.sqlDelete("offene_aufgabe", "aufgabe_id", id);
-			System.out.println("Aufgabe von tabelle offene_aufgabe erfolgreich gelöscht.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		try {
-			DBconn.sqlDelete("aufgabe", "id", id);
-			System.out.println("Aufgabe von tabelle aufgabe erfolgreich gelöscht.");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return true;
 	}
 
 
@@ -356,8 +308,9 @@ public class benutzerKonto {
 	}
 
 	// noch nicht fertig Klausur erstellen
-	public void klasurErstellen(){
-		Klausur k = new Klausur();
+	/*
+	public void klausurErstellen(){
+		Exam k = new Exam();
 		Scanner scanner = new Scanner(System.in);
 		//name eingeben
 		System.out.println("Bitte geben Sie den Namen der Klausur ein:");
@@ -393,24 +346,17 @@ public class benutzerKonto {
 		}
 
 
-
 		// TODO - implement benutzerKonto.klasurErstellen
 		throw new UnsupportedOperationException();
 	}
+*/
 
-	/**
-	 * 
-	 * @param Klasur
-	 */
 	public void klasurBearbeiten(int Klasur) {
 		// TODO - implement benutzerKonto.klasurBearbeiten
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * 
-	 * @param Klasur
-	 */
+
 	public void KlarsurLoeschen(int Klasur) {
 		// TODO - implement benutzerKonto.KlarsurLoeschen
 		throw new UnsupportedOperationException();
