@@ -1,15 +1,21 @@
 package org.example.domain;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.*;
+
 public class ExamService {
 
-    String name;
-    LocalDate date;
+    static String name;
+    static LocalDate date;
     int totalPoints;
     int totalTime;
     Modul modul;
@@ -17,7 +23,7 @@ public class ExamService {
     List<BloomLevel> bloomLevels;
     int user_id;
 
-    List<Task> tasks;
+    static List<Task> tasks;
 
     public ExamService(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, int user_id) {
         this.name = name;
@@ -48,7 +54,7 @@ public class ExamService {
     }
 
 
-    public int createKlausur() {
+    public int createKlausur() throws IOException {
         List<Task> allTasks = Task.tasks;
         // Filter
         List<Task> moduleTasks = new ArrayList<>();
@@ -105,9 +111,9 @@ public class ExamService {
                             retry = false;
                             if (task.getQuestion().getTime() <= remainingTime && task.getQuestion().getPoints() <= remainingPoints) {
                                 selectedTasks.add(task);
-                                iterator.remove(); // Sichere Entfernung!
+                                iterator.remove();
                                 remainingPoints -= task.getQuestion().getPoints();
-                                remainingTime -= task.getQuestion().getTime(); // FIXED: subtrahieren statt ersetzen
+                                remainingTime -= task.getQuestion().getTime();
                                 --typeSum;
                                 foundTask = true;
                             } else {
@@ -164,7 +170,6 @@ public class ExamService {
                         }
                     }
                 }
-
                 if (!foundTask) return 4;
             }
         }
@@ -182,18 +187,67 @@ public class ExamService {
                         iterator.remove();
                     }
                 }
-            } else {
-                System.out.println("Punkte übrig: " + remainingPoints);
-                System.out.println("Zeit übrig: " + remainingTime);
-            }
-        } else {
-            System.out.println("Punkte übrig: " + remainingPoints);
-            System.out.println("Zeit übrig: " + remainingTime);
-        }
+            } else {}
+        } else {}
 
+        System.out.println("Punkte übrig: " + remainingPoints);
+        System.out.println("Zeit übrig: " + remainingTime);
         tasks = selectedTasks;
         System.out.println("Exam könnte erstellt werden mit: " + selectedTasks.size() + " Tasks");
+        generatePdf();
         return 0; // Erfolgreich erstellt
+    }
+
+
+    public static void generatePdf() throws IOException {
+        Document document = new Document(PageSize.A4);
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(name + ".pdf"));
+        document.open();
+
+        PdfContentByte cb = writer.getDirectContent();
+
+        Font headerFont = new Font(Font.HELVETICA, 16, Font.BOLD);
+        Font questionFont = new Font(Font.HELVETICA, 12, Font.BOLDITALIC);
+        Font answerFont = new Font(Font.HELVETICA, 10);
+        Font punktFont = new Font(Font.HELVETICA, 10, Font.ITALIC);
+
+        document.add(new Paragraph("Klausur: " + name + "                           " + "Datum: " + date.toString(), headerFont));
+        //document.add(new Paragraph("Prüfer: " + Pruefer));
+        document.add(new Paragraph(" "));
+
+
+        int aufgabeNummer = 1;
+        for(Task task : tasks) {
+            Paragraph taskParagraph = new Paragraph();
+            taskParagraph.add(new Chunk(aufgabeNummer + ". " + task.getQuestion().getQuestionText(), questionFont));
+            taskParagraph.setSpacingBefore(10);
+            taskParagraph.setSpacingAfter(5);
+            document.add(taskParagraph);
+
+            QuestionType typ = task.getAnswer().getFirst().getTyp();
+
+            if(typ == QuestionType.multipleChoiceFragen || typ == QuestionType.singleChoiceFragen || typ == QuestionType.wahrOderFalsch) {
+                for(int i = 0; i < task.getAnswer().size(); i++) {
+                    String antwortText = task.getAnswer().get(i).getAntwortText();
+
+                    Paragraph antwortParagraph = new Paragraph("[  ]  " + antwortText, answerFont);
+                    antwortParagraph.setIndentationLeft(20f);
+                    antwortParagraph.setSpacingAfter(2f);
+                    document.add(antwortParagraph);
+                }
+            }
+
+            document.add(new Paragraph("Punkte: " + task.getQuestion().getPoints(), punktFont));
+            document.add(new Paragraph(" "));
+
+            aufgabeNummer++;
+        }
+
+        document.close();
+        System.out.println("PDF wurde erstellt");
+
+
+
     }
 
 

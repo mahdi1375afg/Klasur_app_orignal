@@ -330,7 +330,6 @@ public class ExamController extends SceneController {
                 showAlert("Kein Task mit passendem Typ gefunden");
                 break;
         }
-        System.out.println(exam.createKlausur());
 
 
     }
