@@ -4,15 +4,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.domain.AntwortType;
-import org.example.domain.BloomLevel;
-import org.example.domain.QuestionType;
+import org.example.domain.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 
 public class ExamController extends SceneController {
 
@@ -80,11 +81,11 @@ public class ExamController extends SceneController {
 
     private String examTitle;
     private String examiner;
-    private Date examDate;
+    private LocalDate examDate;
     private Integer numberPoints;
-    private BloomLevel bloomLevel;
-    private AntwortType antwortType;
-    private QuestionType closeType;
+    private List<BloomLevel> bloomLevel = new ArrayList<>();
+    private List<AntwortType> antwortType = new ArrayList<>();
+    private List<QuestionType> questionType = new ArrayList<>();
 
     private int amountOpen;
     private int amountSingleChoice;
@@ -100,8 +101,6 @@ public class ExamController extends SceneController {
 
 
         textFieldExamTitle.textProperty().addListener((observable, oldValue, newValue) -> setExamTitle());
-
-        textFieldExamDate.textProperty().addListener((observable, oldValue, newValue) -> setExamDate());
 
         textFieldExaminer.textProperty().addListener((observable, oldValue, newValue) -> setExaminer());
 
@@ -149,16 +148,24 @@ public class ExamController extends SceneController {
 
     }
 
-    public void setExamDate() {
-        String input = textFieldExamDate.getText();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        formatter.setLenient(false); // kein "32.01.2025" o.ä.
 
-        try {
-            Date parsedDate = formatter.parse(input);
-            this.examDate = parsedDate;
-        } catch (ParseException e) {
-            examDate = null;
+    public void setExamDate() {
+        String input = textFieldExamDate.getText().trim();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        if (input.matches("\\d{2}\\.\\d{2}\\.\\d{4}")) {
+            try {
+                LocalDate parsedDate = LocalDate.parse(input, formatter);
+                this.examDate = parsedDate;
+
+                // Nur wenn erfolgreich: Rückschreiben formatiert
+                textFieldExamDate.setText(parsedDate.format(formatter));
+            } catch (DateTimeParseException e) {
+                // Optional: Fehlermeldung oder leer lassen
+                this.examDate = null;
+            }
+        } else {
+            this.examDate = null;
         }
     }
 
@@ -186,6 +193,9 @@ public class ExamController extends SceneController {
 
     @FXML
     public void generateExam(ActionEvent event) throws SQLException, IOException {
+
+        setExamDate();
+
         if (examTitle == null || examTitle.trim().isEmpty()) {
             showAlert("Bitte geben Sie einen korrekten Titel an!");
             return;
@@ -216,9 +226,6 @@ public class ExamController extends SceneController {
 
 
         System.out.println("Exam Title: " + examTitle);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
-        String formattedDate = formatter.format(examDate);
-        System.out.println("Exam Date: " + formattedDate);
         System.out.println("Examiner:" + examiner);
         System.out.println("Number Points: " + numberPoints);
 
@@ -244,52 +251,115 @@ public class ExamController extends SceneController {
             System.out.println("Anzahl Ranking Aufgaben: " + amountRanking);
         }
 
-        super.switchToStartPage(event);
+        Map<QuestionType, Integer> questionTypes = new HashMap<QuestionType, Integer>();
+
+        for(QuestionType questionType : questionType) {
+            if(questionType == QuestionType.offen) {
+                questionTypes.put(questionType, amountOpen);
+            } else if(questionType == QuestionType.singleChoiceFragen) {
+                questionTypes.put(questionType, amountSingleChoice);
+            } else if(questionType == QuestionType.multipleChoiceFragen) {
+                questionTypes.put(questionType, amountMultipleChoice);
+            } else if(questionType == QuestionType.wahrOderFalsch) {
+                questionTypes.put(questionType, amountTrueFalse);
+            } else if(questionType == QuestionType.leerstellen) {
+                questionTypes.put(questionType, amountGapText);
+            } else if(questionType == QuestionType.zuordnung) {
+                questionTypes.put(questionType, amountAssign);
+            } else if(questionType == QuestionType.ranking) {
+                questionTypes.put(questionType, amountRanking);
+            }
+        }
+
+
+        ExamService exam = new ExamService(examTitle,examDate,numberPoints,10,Modul.modules.getFirst(),questionTypes,bloomLevel,benutzerKonto.aktuellerBenutzer.getId());
+
+        switch(exam.createKlausur()) {
+            case 0:
+                System.out.println("Erfolgreich erstellt!");
+                super.switchToStartPage(event);
+                break;
+            case 1:
+                showAlert("Nach Filter Modul, sind nicht mehr genug Aufgaben da. Es werden mehr Aufgabe unter diesem Modul gebraucht!");
+                break;
+            case 2:
+                showAlert("Nach Filter Bloom, sind nicht mehr genug Aufgaben da. Es werden mehr Aufgabe unter einem Bloom gebraucht!");
+                break;
+            case 3:
+                showAlert("Nach Filter Typ, sind nicht mehr genug Aufgaben da. Es werden mehr Aufgabe unter einem Typ gebraucht!");
+                break;
+            case 4:
+                showAlert("Kein Task mit passendem Typ gefunden");
+                break;
+        }
+        System.out.println(exam.createKlausur());
+
 
     }
 
 
     @FXML
     public void setTaskTaxonomie() {
+        if(bloomLevel != null) {
+            bloomLevel.clear();
+        }
 
         if (rButtonTaxonomieRemember.isSelected()) {
-            bloomLevel = BloomLevel.erinnern;
-        } else if (rButtonTaxonomieUnderstand.isSelected()) {
-            bloomLevel = BloomLevel.verstehen;
-        } else if (rButtonTaxonomieApply.isSelected()) {
-            bloomLevel = BloomLevel.anwenden;
-        } else if (rButtonTaxonomieAnalyze.isSelected()) {
-            bloomLevel = BloomLevel.analysieren;
-        } else if (rButtonTaxonomieRate.isSelected()) {
-            bloomLevel = BloomLevel.bewerten;
-        } else if (rButtonTaxonomieCreate.isSelected()) {
-            bloomLevel = BloomLevel.erschaffen;
+            bloomLevel.add(BloomLevel.erinnern);
+        }
+        if (rButtonTaxonomieUnderstand.isSelected()) {
+            bloomLevel.add(BloomLevel.verstehen);
+        }
+        if (rButtonTaxonomieApply.isSelected()) {
+            bloomLevel.add(BloomLevel.anwenden);
+        }
+        if (rButtonTaxonomieAnalyze.isSelected()) {
+            bloomLevel.add(BloomLevel.analysieren);
+        }
+        if (rButtonTaxonomieRate.isSelected()) {
+            bloomLevel.add(BloomLevel.bewerten);
+        }
+        if (rButtonTaxonomieCreate.isSelected()) {
+            bloomLevel.add(BloomLevel.erschaffen);
         }
     }
 
     @FXML
     public void setTaskType() {
+        if(antwortType != null) {
+            antwortType.clear();
+        }
+        if(questionType != null) {
+            questionType.clear();
+        }
 
         if (rButtonTypOpen.isSelected()) {
-            antwortType = AntwortType.offeneAntwort;
-        } else if (rButtonTypSingle.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
-            closeType = QuestionType.singleChoiceFragen;
-        } else if (rButtonTypMultiple.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
-            closeType = QuestionType.multipleChoiceFragen;
-        } else if (rButtonTypTrueFalsch.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
-            closeType = QuestionType.wahrOderFalsch;
-        } else if (rButtonTypGapText.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
-            closeType = QuestionType.leerstellen;
-        } else if (rButtonTypAssign.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
-            closeType = QuestionType.zuordnung;
-        } else if (rButtonTypRanking.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
-            closeType = QuestionType.ranking;
+            antwortType.add(AntwortType.offeneAntwort);
+            questionType.add(QuestionType.offen);
+        }
+        if (rButtonTypSingle.isSelected()) {
+            antwortType.add(AntwortType.geschlosseneAntwort);
+            questionType.add(QuestionType.singleChoiceFragen);
+        }
+        if (rButtonTypMultiple.isSelected()) {
+            antwortType.add(AntwortType.geschlosseneAntwort);
+            questionType.add(QuestionType.multipleChoiceFragen);
+        }
+        if (rButtonTypTrueFalsch.isSelected()) {
+            antwortType.add(AntwortType.geschlosseneAntwort);
+            questionType.add(QuestionType.wahrOderFalsch);
+        }
+        if (rButtonTypGapText.isSelected()) {
+            antwortType.add(AntwortType.geschlosseneAntwort);
+            questionType.add(QuestionType.leerstellen);
+        }
+        if (rButtonTypAssign.isSelected()) {
+            antwortType.add(AntwortType.geschlosseneAntwort);
+            questionType.add(QuestionType.zuordnung);
+        }
+        if (rButtonTypRanking.isSelected()) {
+            antwortType.add(AntwortType.geschlosseneAntwort);
+            questionType.add(QuestionType.ranking);
         }
     }
 

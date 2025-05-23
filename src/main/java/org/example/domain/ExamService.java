@@ -2,6 +2,7 @@ package org.example.domain;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -49,24 +50,23 @@ public class ExamService {
 
     public int createKlausur() {
         List<Task> allTasks = Task.tasks;
-        List<Task> moduleTasks = new ArrayList<>(); // NACH MODUL FILTER
-        List<Task> bloomTasks = new ArrayList<>(); // NACH BLOOM FILTER
-        List<Task> typeTasks = new ArrayList<>(); // NACH TYPE FILTER
-
+        // Filter
+        List<Task> moduleTasks = new ArrayList<>();
+        List<Task> bloomTasks = new ArrayList<>();
+        List<Task> typeTasks = new ArrayList<>();
+        // Ergebnis
         List<Task> selectedTasks = new ArrayList<>();
 
-        //FILTER MODUL
-        for (Task task : allTasks) { // Geh alle Aufgaben durch
-            if(modul.equals(task.getModul())) { // Ist das Modul der Klausur gleich dem Modul der Aufgabe?
+        // FILTER: Modul
+        for (Task task : allTasks) {
+            if (modul.equals(task.getModul())) {
                 moduleTasks.add(task);
             }
         }
 
-        if(!checkIfTimeAndPoints(moduleTasks)) { //Check ob noch möglich!!! Punkte, Zeit
-            return 1; // Nach Modul fehlgeschlagen!!! Nicht genug Aufgaben
-        }
+        if (!checkIfTimeAndPoints(moduleTasks)) return 1;
 
-        //FILTER BLOOMSCHE TAXONOMIE
+        // FILTER: Bloom
         for (Task task : moduleTasks) {
             for (BloomLevel bloomLevel : bloomLevels) {
                 if (task.getQuestion().getTaxonomie().equals(bloomLevel)) {
@@ -75,111 +75,127 @@ public class ExamService {
             }
         }
 
-        if(!checkIfTimeAndPoints(bloomTasks)) { //Check ob noch möglich!!! Punkte, Zeit
-            return 2; // Nach Bloom fehlgeschlagen!!! Nicht genug Aufgaben
-        }
+        if (!checkIfTimeAndPoints(bloomTasks)) return 2;
 
-        // FILTER AUFGABEN TYPE
-        for (Task task : bloomTasks) { // Geh Alle Aufgaben durch
-            for (QuestionType questionType : questionType.keySet()) { // Für Jede Aufgabe geh alle gewünschten QuestionTypes durch
-                if(task.getAnswer().getFirst().getTyp().equals(questionType)) { // Hat die Aufgabe eine der gewünschten QuestionTypes?
+        // FILTER: Typ
+        for (Task task : bloomTasks) {
+            for (QuestionType questionTypeKey : questionType.keySet()) {
+                if (task.getAnswer().getFirst().getTyp().equals(questionTypeKey)) {
                     typeTasks.add(task);
                 }
             }
         }
 
-        if(!checkIfTimeAndPoints(typeTasks)) { //Check ob noch möglich!!! Punkte, Zeit
-            return 3; // Nach Type fehlgeschlagen!!! Nicht genug Aufgaben
-        }
+        if (!checkIfTimeAndPoints(typeTasks)) return 3;
 
-        //SELECTION
-        //Pick Aufgaben so das min Anzahl an Aufgabentyp erreicht.
-        List<Task> tempTasks = typeTasks;
+        List<Task> tempTasks = new ArrayList<>(typeTasks);
         int remainingPoints = totalPoints;
         int remainingTime = totalTime;
-        for(QuestionType Type : questionType.keySet()) { // Hol dir die min Aufgaben für jeden Type also geh alle Types durch
-            int typeSum = questionType.get(Type); // Wie viel von diesem Type müssen wir haben?
-            for(;typeSum > 0;) { // Wenn wir 1 oder mehr Tasks von dem Type brauchen
-                for (Task task : tempTasks) { // geh alle gefilterten Tasks druch
-                    boolean retry = true;
-                    if(task.getAnswer().getFirst().getTyp().equals(Type)) { // Hat die gefilterte Task den richtigen Typ?
-                        while(retry) {
+
+        for (QuestionType type : questionType.keySet()) {
+            int typeSum = questionType.get(type);
+            while (typeSum > 0) {
+                boolean foundTask = false;
+                Iterator<Task> iterator = tempTasks.iterator();
+                while (iterator.hasNext()) {
+                    Task task = iterator.next();
+                    if (task.getAnswer().getFirst().getTyp().equals(type)) {
+                        boolean retry = true;
+                        while (retry) {
                             retry = false;
-                            if(task.getQuestion().getTime() <= remainingTime) { // Ist noch genug Zeit vorhanden für die Task?
-                                if(task.getQuestion().getPoints() <= remainingPoints) { // Ist noch genug Points vorhanden für die Task?
-                                    selectedTasks.add(task); // Task passt soweit. für sie in selected hinzu
-                                    tempTasks.remove(task); // remove sie von temp damit sie nicht doppelt kommen kann
-                                    remainingPoints -= task.getQuestion().getPoints(); // remove die Points, welche die Aufgabe braucht
-                                    remainingTime = task.getQuestion().getTime(); // remove die Zeit, welche die Aufgabe braucht
-                                    --typeSum; // -1 min Task von diesem Type
-                                } else {
-                                    // NICHT GENUG POINTS VORHANDEN MEHR
-                                    int neededPoints = task.getQuestion().getPoints();
-                                    for(Task exchTask : selectedTasks) {
-                                        for(Task tempTask : tempTasks) {
-                                            if(exchTask.getAnswer().getFirst().getTyp().equals(tempTask.getAnswer().getFirst().getTyp()) && exchTask.getQuestion().getPoints() > tempTask.getQuestion().getPoints())  {
-                                                selectedTasks.remove(exchTask);
+                            if (task.getQuestion().getTime() <= remainingTime && task.getQuestion().getPoints() <= remainingPoints) {
+                                selectedTasks.add(task);
+                                iterator.remove(); // Sichere Entfernung!
+                                remainingPoints -= task.getQuestion().getPoints();
+                                remainingTime -= task.getQuestion().getTime(); // FIXED: subtrahieren statt ersetzen
+                                --typeSum;
+                                foundTask = true;
+                            } else {
+                                boolean swapped = false;
+
+                                int neededPoints = task.getQuestion().getPoints();
+                                int neededTime = task.getQuestion().getTime();
+
+                                boolean needsPoints = neededPoints > remainingPoints;
+                                boolean needsTime = neededTime > remainingTime;
+
+                                if (needsPoints) {
+                                    Iterator<Task> selectedIterator = selectedTasks.iterator();
+                                    while (selectedIterator.hasNext() && !swapped) {
+                                        Task exchTask = selectedIterator.next();
+                                        for (Task tempTask : tempTasks) {
+                                            if (exchTask.getAnswer().getFirst().getTyp().equals(tempTask.getAnswer().getFirst().getTyp())
+                                                    && exchTask.getQuestion().getPoints() > tempTask.getQuestion().getPoints()) {
+                                                selectedIterator.remove();
                                                 selectedTasks.add(tempTask);
                                                 tempTasks.remove(tempTask);
-                                                remainingPoints += (exchTask.getQuestion().getPoints()-tempTask.getQuestion().getPoints());
+                                                remainingPoints += (exchTask.getQuestion().getPoints() - tempTask.getQuestion().getPoints());
                                                 if (neededPoints <= remainingPoints) {
                                                     retry = true;
+                                                    swapped = true;
                                                     break;
                                                 }
                                             }
                                         }
-                                        if(retry) {
-                                            break;
-                                        }
                                     }
-
                                 }
-                            } else {
-                                // NICHT GENUG TIME VORHANDEN MEHR
-                                int neededTime = task.getQuestion().getTime();
-                                for(Task exchTask : selectedTasks) {
-                                    for(Task tempTask : tempTasks) {
-                                        if(exchTask.getAnswer().getFirst().getTyp().equals(tempTask.getAnswer().getFirst().getTyp()) && exchTask.getQuestion().getTime() > tempTask.getQuestion().getTime()) {
-                                            selectedTasks.remove(exchTask);
-                                            selectedTasks.add(tempTask);
-                                            tempTasks.remove(tempTask);
-                                            remainingTime += (exchTask.getQuestion().getTime()-tempTask.getQuestion().getTime());
-                                            if(neededTime <= remainingTime) {
-                                                retry = true;
-                                                break;
+
+                                if (!swapped && needsTime) {
+                                    Iterator<Task> selectedIterator = selectedTasks.iterator();
+                                    while (selectedIterator.hasNext() && !swapped) {
+                                        Task exchTask = selectedIterator.next();
+                                        for (Task tempTask : tempTasks) {
+                                            if (exchTask.getAnswer().getFirst().getTyp().equals(tempTask.getAnswer().getFirst().getTyp())
+                                                    && exchTask.getQuestion().getTime() > tempTask.getQuestion().getTime()) {
+                                                selectedIterator.remove();
+                                                selectedTasks.add(tempTask);
+                                                tempTasks.remove(tempTask);
+                                                remainingTime += (exchTask.getQuestion().getTime() - tempTask.getQuestion().getTime());
+                                                if (neededTime <= remainingTime) {
+                                                    retry = true;
+                                                    swapped = true;
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
                                 }
-                                if(retry) {
-                                    break;
-                                }
                             }
                         }
-                    } else {
-                        return 4; // NICHT GENUG AUFGABEN (Kann das überhaupt aufgerufen werden wenn wir min aufgaben cappen auf Max anzahl?)
                     }
                 }
-            }
-            if(remainingPoints > 0) {
-                if(remainingTime > 0) {
-                    for (Task task : tempTasks) {
-                        if(task.getQuestion().getTime() <= remainingTime && task.getQuestion().getPoints() <= remainingPoints) {
-                            selectedTasks.add(task);
-                            remainingPoints -= task.getQuestion().getPoints();
-                            remainingTime = task.getQuestion().getTime();
-                        }
-                    }
-                } else {
-                    return 6;
-                }
-            } else {
-                return 5;
+
+                if (!foundTask) return 4;
             }
         }
+
+        if (remainingPoints > 0) {
+            if (remainingTime > 0) {
+                Iterator<Task> iterator = tempTasks.iterator();
+                while (iterator.hasNext()) {
+                    Task task = iterator.next();
+                    if (task.getQuestion().getTime() <= remainingTime &&
+                            task.getQuestion().getPoints() <= remainingPoints) {
+                        selectedTasks.add(task);
+                        remainingPoints -= task.getQuestion().getPoints();
+                        remainingTime -= task.getQuestion().getTime();
+                        iterator.remove();
+                    }
+                }
+            } else {
+                System.out.println("Punkte übrig: " + remainingPoints);
+                System.out.println("Zeit übrig: " + remainingTime);
+            }
+        } else {
+            System.out.println("Punkte übrig: " + remainingPoints);
+            System.out.println("Zeit übrig: " + remainingTime);
+        }
+
         tasks = selectedTasks;
-        return 1;
+        System.out.println("Exam könnte erstellt werden mit: " + selectedTasks.size() + " Tasks");
+        return 0; // Erfolgreich erstellt
     }
+
 
 
     public String getName() {
