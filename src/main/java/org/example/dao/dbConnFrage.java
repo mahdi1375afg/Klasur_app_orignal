@@ -2,7 +2,7 @@ package org.example.dao;
 
 import org.example.domain.AntwortType;
 import org.example.domain.BloomLevel;
-import org.postgresql.util.PGInterval;
+// org.postgresql.util.PGInterval;
 
 import java.sql.*;
 import java.util.*;
@@ -26,10 +26,12 @@ public class dbConnFrage {
                     row.put("name", rs.getString("name"));
                     row.put("aufgabentext", rs.getString("aufgabentext"));
 
-                    PGInterval interval = (PGInterval) rs.getObject("zeit");
-                    int minuten = interval.getHours() * 60 + interval.getMinutes();
-                    if (interval.getSeconds() >= 30) {
-                        minuten += 1;
+                    // Lese den Interval-Wert als String, z. B. "7 minutes"
+                    String intervalStr = rs.getString("zeit");
+                    int minuten = 0;
+                    if (intervalStr != null && intervalStr.matches(".*\\d+.*")) {
+                        // Extrahiere die Zahl aus dem String
+                        minuten = Integer.parseInt(intervalStr.replaceAll("\\D", ""));
                     }
                     row.put("zeit", minuten);
 
@@ -48,7 +50,6 @@ public class dbConnFrage {
             }
         }
 
-        // Ergebnisse in der Konsole ausgeben
         for (Map<String, Object> result : results) {
             for (Map.Entry<String, Object> entry : result.entrySet()) {
                 System.out.print(entry.getKey() + ": " + entry.getValue() + ", ");
@@ -81,7 +82,7 @@ public class dbConnFrage {
 
     public int getId(String name, String aufgabentext, int zeit, String format, int punkte, String taxonomie, int benutzerId) throws SQLException {
         String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " +
-                "VALUES (?, ?, ?::interval, ?, ?, ?::taxonomie_stufe, ?)";
+                "VALUES (?, ?, INTERVAL '" + zeit + "' MINUTE, ?, ?, ?::taxonomie_stufe, ?)";
 
         try (
                 Connection conn = new DBconn().getConn();
@@ -89,11 +90,11 @@ public class dbConnFrage {
         ) {
             ps.setString(1, name);
             ps.setString(2, aufgabentext);
-            ps.setObject(3, zeit + " minutes", Types.OTHER);
-            ps.setString(4, format);
-            ps.setInt(5, punkte);
-            ps.setObject(6, taxonomie);
-            ps.setInt(7, benutzerId);
+            //ps.setObject(3, zeit + " minutes", Types.OTHER);
+            ps.setString(3, format);
+            ps.setInt(4, punkte);
+            ps.setObject(5, taxonomie);
+            ps.setInt(6, benutzerId);
 
             ps.executeUpdate();
 

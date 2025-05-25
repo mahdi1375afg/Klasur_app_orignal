@@ -27,25 +27,25 @@ public class benutzerKonto {
 		}
     }
 
-	public int anmelden(String name, String password) throws SQLException {
-		dbConnUser connection = new dbConnUser();
-		if(connection.getNameUsed(name)) {
-			Nutzer nutzer = connection.getNutzer(name);
-			try {
-				if(nutzer.getPassword().equals(password)) {
-					this.aktuellerBenutzer = nutzer;
-					Main.initUser(nutzer.getId());
-					return 0;
-				} else {
-					return 1;
-				}
-			} catch (NullPointerException e) {
-				return 1;
-			}
-		} else {
-			return 2;
-		}
-	}
+public int anmelden(String name, String password) throws SQLException {
+    dbConnUser connection = new dbConnUser();
+    if (connection.getNameUsed(name)) {
+        Nutzer nutzer = connection.getNutzer(name);
+        try {
+            if (nutzer.getPassword().trim().equals(password.trim())) {
+                this.aktuellerBenutzer = nutzer;
+                Main.initUser(nutzer.getId());
+                return 0;
+            } else {
+                return 1;
+            }
+        } catch (NullPointerException e) {
+            return 1;
+        }
+    } else {
+        return 2;
+    }
+}
 
 	public String abmelden() {
 		if(aktuellerBenutzer == null) {

@@ -48,20 +48,16 @@ public class Antwort {
 		if (format == AntwortType.offeneAntwort) {
 			List<Map<String, Object>> rows = DBconn.sqlSelect("offene_aufgabe", "aufgabe_id", id);
 			for (Map<String, Object> row : rows) {
-				result.add(new Antwort(
-						(Integer) row.get("aufgabe_id"),
-						QuestionType.offen,
-						(String) row.get("musterloesung"),
-						true,
-						format
-				));
+				Integer aufgabeId = (row.get("aufgabe_id") != null) ? (Integer) row.get("aufgabe_id") : 0;
+				String musterloesung = (row.get("musterloesung") != null) ? row.get("musterloesung").toString() : "";
+				result.add(new Antwort(aufgabeId, QuestionType.offen, musterloesung, true, format));
 			}
-
 		} else if (format == AntwortType.geschlosseneAntwort) {
 			List<Map<String, Object>> rows = DBconn.sqlSelect("geschlossene_aufgabe", "aufgabe_id", id);
 			if (!rows.isEmpty()) {
 				Map<String, Object> firstRow = rows.get(0);
-				QuestionType closeType = QuestionType.fromName((String) firstRow.get("typ"));
+				String typStr = (firstRow.get("typ") != null) ? firstRow.get("typ").toString() : "";
+				QuestionType closeType = QuestionType.fromName(typStr);
 
 				if (closeType == QuestionType.wahrOderFalsch ||
 						closeType == QuestionType.multipleChoiceFragen ||
@@ -69,44 +65,32 @@ public class Antwort {
 
 					List<Map<String, Object>> antwortRows = DBconn.sqlSelect("antwortmoeglichkeit_geschlossen", "geschlossene_aufgabe_id", id);
 					for (Map<String, Object> row : antwortRows) {
-						result.add(new Antwort(
-								(Integer) row.get("id"),
-								closeType,
-								(String) row.get("antworttext"),
-								(Boolean) row.get("ist_korrekt"),
-								format
-						));
+						Integer antwortId = (row.get("id") != null) ? (Integer) row.get("id") : 0;
+						String antworttext = (row.get("antworttext") != null) ? row.get("antworttext").toString() : "";
+						Boolean istKorrekt = (row.get("ist_korrekt") != null) ? (Boolean) row.get("ist_korrekt") : false;
+						result.add(new Antwort(antwortId, closeType, antworttext, istKorrekt, format));
 					}
-
 				} else if (closeType == QuestionType.leerstellen || closeType == QuestionType.zuordnung) {
 
 					List<Map<String, Object>> antwortRows = DBconn.sqlSelect("antwortMehrParts_geschlossen", "geschlossene_aufgabe_id", id);
 					for (Map<String, Object> row : antwortRows) {
-						result.add(new Antwort(
-								(Integer) row.get("id"),
-								closeType,
-								(String) row.get("antworttext"),
-								(String) row.get("antworttext2"),
-								format
-						));
+						Integer antwortId = (row.get("id") != null) ? (Integer) row.get("id") : 0;
+						String antworttext = (row.get("antworttext") != null) ? row.get("antworttext").toString() : "";
+						String antworttext2 = (row.get("antworttext2") != null) ? row.get("antworttext2").toString() : "";
+						result.add(new Antwort(antwortId, closeType, antworttext, antworttext2, format));
 					}
-
 				} else if (closeType == QuestionType.ranking) {
 
 					List<Map<String, Object>> antwortRows = DBconn.sqlSelect("antwortRanking_geschlossen", "geschlossene_aufgabe_id", id);
 					for (Map<String, Object> row : antwortRows) {
-						result.add(new Antwort(
-								(Integer) row.get("id"),
-								closeType,
-								(String) row.get("antworttext"),
-								(Integer) row.get("rank"),
-								format
-						));
+						Integer antwortId = (row.get("id") != null) ? (Integer) row.get("id") : 0;
+						String antworttext = (row.get("antworttext") != null) ? row.get("antworttext").toString() : "";
+						Integer rank = (row.get("rank") != null) ? (Integer) row.get("rank") : 0;
+						result.add(new Antwort(antwortId, closeType, antworttext, rank, format));
 					}
 				}
 			}
 		}
-
 		return result;
 	}
 
