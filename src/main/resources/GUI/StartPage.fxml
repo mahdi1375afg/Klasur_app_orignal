@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -27,9 +26,9 @@
                   <Font size="36.0" />
                </font>
             </Text>
-             <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
-                  <PieChart fx:id="pieChartTax" prefHeight="400.0" title="Taxonomie" HBox.hgrow="ALWAYS" />
-                  <PieChart fx:id="pieChartModul" prefHeight="400.0" title="Module" HBox.hgrow="ALWAYS" />
+             <HBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+                 <VBox fx:id="vBoxPieChartTax" alignment="TOP_CENTER" HBox.hgrow="ALWAYS" />
+                 <VBox fx:id="vBoxPieChartModul" alignment="TOP_CENTER" HBox.hgrow="ALWAYS" />
              </HBox>
 
 
