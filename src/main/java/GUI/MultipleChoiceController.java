@@ -2,6 +2,7 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -28,15 +29,15 @@ public class MultipleChoiceController extends SceneController{
     @FXML
     private VBox answerContainer;
 
-    private final List<TextField> answerFields = new ArrayList<>();
+    private final List<TextArea> answerAreas = new ArrayList<>();
     private final List<CheckBox> checkBoxes = new ArrayList<>();
 
     @FXML
-    private TextField answer1TextField;
+    private TextArea answer1TextArea;
     @FXML
     private CheckBox checkBox1;
     @FXML
-    private TextField answer2TextField;
+    private TextArea answer2TextArea;
     @FXML
     private CheckBox checkBox2;
 
@@ -48,41 +49,42 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void initialize() {
-        answerFields.add(answer1TextField);
+        answerAreas.add(answer1TextArea);
         checkBoxes.add(checkBox1);
 
-        answerFields.add(answer2TextField);
+        answerAreas.add(answer2TextArea);
         checkBoxes.add(checkBox2);
 
-        HBox.setHgrow(answer1TextField, Priority.ALWAYS);
-        HBox.setHgrow(answer2TextField, Priority.ALWAYS);
+        HBox.setHgrow(answer1TextArea, Priority.ALWAYS);
+        HBox.setHgrow(answer2TextArea, Priority.ALWAYS);
     }
 
 
     @FXML
     public void addAnswerField() {
 
-        TextField answerField = new TextField();
-        answerField.setPromptText("Antwort");
-        answerField.setPrefWidth(450.0);
-        answerField.setPrefHeight(31.0);
-        answerField.setFont(new Font(15.0));
+        TextArea answerArea = new TextArea();
+        answerArea.setPromptText("Antwort "+ (answerAreas.size() + 1));
+        answerArea.setPrefWidth(370.0);
+        answerArea.setPrefHeight(60.0);
+        answerArea.setFont(new Font(15.0));
 
-        answerField.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(answerField, Priority.ALWAYS);
+        answerArea.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(answerArea, Priority.ALWAYS);
 
         CheckBox correctCheckBox = new CheckBox("Richtig");
         correctCheckBox.setFont(new Font(15.0));
 
 
-        answerFields.add(answerField);
+        answerAreas.add(answerArea);
         checkBoxes.add(correctCheckBox);
 
 
-        HBox answerRow = new HBox(10, answerField, correctCheckBox);
+        HBox answerRow = new HBox(10, answerArea, correctCheckBox);
 
         // Fügt HBox  VBox answerContainer hinzu
         answerContainer.getChildren().add(answerRow);
+        answerRow.setAlignment(Pos.CENTER_LEFT);
     }
 
     @FXML
@@ -91,7 +93,7 @@ public class MultipleChoiceController extends SceneController{
 
         if (childCount > 2) {
             answerContainer.getChildren().remove(childCount - 1);
-            answerFields.removeLast();
+            answerAreas.removeLast();
             checkBoxes.removeLast();
         }
     }
@@ -112,8 +114,8 @@ public class MultipleChoiceController extends SceneController{
         correctIndex.add(-1);
 
 
-        for (int i = 0; i < answerFields.size(); i++) {
-            String answer = answerFields.get(i).getText().trim();
+        for (int i = 0; i < answerAreas.size(); i++) {
+            String answer = answerAreas.get(i).getText().trim();
 
 
             if (!answer.isEmpty()) {

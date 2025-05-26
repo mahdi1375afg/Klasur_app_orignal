@@ -2,6 +2,7 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -27,19 +28,19 @@ public class TrueFalseController extends SceneController{
         private VBox answerContainer;
 
         @FXML
-        private TextField answer1Button;
+        private TextArea answer1Button;
         @FXML
         private RadioButton rButton11;
         @FXML
         private RadioButton rButton12;
         @FXML
-        private TextField answer2Button;
+        private TextArea answer2Button;
         @FXML
         private RadioButton rButton21;
         @FXML
         private RadioButton rButton22;
 
-        private final List<TextField> answerFields = new ArrayList<>();
+        private final List<TextArea> answerAreas = new ArrayList<>();
         private final List<RadioButton> trueButtons = new ArrayList<>();
         private final List<RadioButton> falseButtons = new ArrayList<>();
 
@@ -53,26 +54,30 @@ public class TrueFalseController extends SceneController{
     public void initialize() {
         //Fügt die default Textfelder und Buttons zur jeweiligen Liste hinzu
 
-        answerFields.add(answer1Button);
-        answerFields.add(answer2Button);
+        answerAreas.add(answer1Button);
+        answerAreas.add(answer2Button);
 
         trueButtons.add(rButton11);
         trueButtons.add(rButton21);
         falseButtons.add(rButton12);
         falseButtons.add(rButton22);
+
+        HBox.setHgrow(answer1Button, Priority.ALWAYS);
+        HBox.setHgrow(answer2Button, Priority.ALWAYS);
+
     }
 
     @FXML
     public void addAnswerField() {
         // Fügt in der Oberfläche ein neues Aufgabe-Status-Paar ein
 
-        TextField answerField = new TextField();
-        answerField.setPromptText("Antwort");
-        answerField.setPrefHeight(30.0);
-        answerField.setFont(new Font(15.0));
-        answerField.setMaxWidth(Double.MAX_VALUE);
+        TextArea answerArea = new TextArea();
+        answerArea.setPromptText("Antwort "+ (answerAreas.size() + 1));
+        answerArea.setPrefHeight(60.0);
+        answerArea.setFont(new Font(15.0));
+        answerArea.setMaxWidth(Double.MAX_VALUE);
 
-        HBox.setHgrow(answerField, Priority.ALWAYS);
+        HBox.setHgrow(answerArea, Priority.ALWAYS);
 
         RadioButton trueButton = new RadioButton("Richtig");
         trueButton.setFont(new Font(15.0));
@@ -83,11 +88,12 @@ public class TrueFalseController extends SceneController{
         trueButton.setToggleGroup(group);
         falseButton.setToggleGroup(group);
 
-        answerFields.add(answerField);
+        answerAreas.add(answerArea);
         trueButtons.add(trueButton);
         falseButtons.add(falseButton);
 
-        HBox answerRow = new HBox(10, answerField, trueButton, falseButton);
+        HBox answerRow = new HBox(10, answerArea, trueButton, falseButton);
+        answerRow.setAlignment(Pos.CENTER_LEFT);
         answerContainer.getChildren().add(answerRow);
     }
 
@@ -100,7 +106,7 @@ public class TrueFalseController extends SceneController{
 
             if (childCount > 2) {
                 answerContainer.getChildren().remove(childCount - 1);
-                answerFields.removeLast();
+                answerAreas.removeLast();
                 trueButtons.removeLast();
                 falseButtons.removeLast();            }
         }
@@ -124,8 +130,8 @@ public class TrueFalseController extends SceneController{
             List<Boolean> correctValues = new ArrayList<>();
 
 
-            for (int i = 0; i < answerFields.size(); i++) {
-                String answer = answerFields.get(i).getText().trim();
+            for (int i = 0; i < answerAreas.size(); i++) {
+                String answer = answerAreas.get(i).getText().trim();
 
                 if (answer.isEmpty()) {
                     continue;

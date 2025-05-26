@@ -57,11 +57,12 @@
 
                 <VBox fx:id="answerContainer" spacing="10" VBox.vgrow="ALWAYS">
 
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextField fx:id="answer1Button" promptText="Antwort" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="answer1Button" promptText="Antwort 1" prefHeight="60.0" wrapText="true">
                             <font>
                                 <Font size="15.0" />
-                            </font></TextField>
+                            </font>
+                        </TextArea>
                   <RadioButton fx:id="rButton11" mnemonicParsing="false" text="Richtig">
                      <font>
                         <Font size="15.0" />
@@ -78,11 +79,12 @@
                     </HBox>
 
 
-                    <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextField fx:id="answer2Button" promptText="Antwort" HBox.hgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="answer2Button" promptText="Antwort 2" prefHeight="60.0"  wrapText="true">
                             <font>
                                 <Font size="15.0" />
-                            </font></TextField>
+                            </font>
+                        </TextArea>
                   <RadioButton fx:id="rButton21" mnemonicParsing="false" text="Richtig">
                      <font>
                         <Font size="15.0" />

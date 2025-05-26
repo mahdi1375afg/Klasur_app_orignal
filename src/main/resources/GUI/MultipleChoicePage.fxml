@@ -53,11 +53,11 @@
                 <VBox fx:id="answerContainer" fillWidth="true" spacing="10">
 
                     <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
-                        <TextField fx:id="answer1TextField" prefHeight="31.0" prefWidth="450.0" promptText="Antwort">
+                        <TextArea fx:id="answer1TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 1" wrapText="true">
                             <font>
                                 <Font size="15.0" />
                             </font>
-                        </TextField>
+                        </TextArea>
                         <CheckBox fx:id="checkBox1" text="Richtig">
                             <font>
                                 <Font size="15.0" />
@@ -66,11 +66,11 @@
                     </HBox>
 
                     <HBox alignment="CENTER_LEFT" spacing="10" HBox.hgrow="ALWAYS">
-                        <TextField fx:id="answer2TextField" prefHeight="31.0" prefWidth="450.0" promptText="Antwort">
+                        <TextArea fx:id="answer2TextArea" prefHeight="60.0" prefWidth="370.0" promptText="Antwort 2" wrapText="true">
                             <font>
                                 <Font size="15.0" />
                             </font>
-                        </TextField>
+                        </TextArea>
                         <CheckBox fx:id="checkBox2" text="Richtig">
                             <font>
                                 <Font size="15.0" />

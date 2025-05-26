@@ -2,6 +2,7 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -82,6 +83,7 @@ public class SingleChoiceController extends SceneController{
 
         // Fügt HBox  VBox answerContainer hinzu
         answerContainer.getChildren().add(answerRow);
+        answerRow.setAlignment(Pos.CENTER_LEFT);
     }
 
     @FXML
