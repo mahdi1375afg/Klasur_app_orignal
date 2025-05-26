@@ -35,8 +35,8 @@ public class AssignController extends SceneController{
     @FXML
     private TextArea solution2TextArea;
 
-    private final List<TextArea> answerFields = new ArrayList<>();
-    private final List<TextArea> solutionFields = new ArrayList<>();
+    private final List<TextArea> answerAreas = new ArrayList<>();
+    private final List<TextArea> solutionAreas = new ArrayList<>();
 
     private AufgabeService aufgabe;
 
@@ -47,11 +47,11 @@ public class AssignController extends SceneController{
     @FXML
     public void initialize() {
         //Fügt die default Textfelder zur jeweiligen Liste hinzu
-    answerFields.add(answer1TextArea);
-    answerFields.add(answer2TextArea);
+    answerAreas.add(answer1TextArea);
+    answerAreas.add(answer2TextArea);
 
-    solutionFields.add(solution1TextArea);
-    solutionFields.add(solution2TextArea);
+    solutionAreas.add(solution1TextArea);
+    solutionAreas.add(solution2TextArea);
 
         HBox.setHgrow(answer1TextArea, Priority.ALWAYS);
         HBox.setHgrow(answer2TextArea, Priority.ALWAYS);
@@ -65,30 +65,30 @@ public class AssignController extends SceneController{
     public void addAnswerField() {
         //Fügt in der Oberfläche ein neues Antwort-Lösung-Paar ein
 
-        TextArea answerField = new TextArea();
-        answerField.setPromptText("Antwort " + (answerFields.size() + 1));
-        answerField.setPrefWidth(370.0);
-        answerField.setPrefHeight(60.0);
-        answerField.setFont(new Font(15.0));
+        TextArea answerArea = new TextArea();
+        answerArea.setPromptText("Antwort " + (answerAreas.size() + 1));
+        answerArea.setPrefWidth(370.0);
+        answerArea.setPrefHeight(60.0);
+        answerArea.setFont(new Font(15.0));
 
 
-        answerField.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(answerField, Priority.ALWAYS);
+        answerArea.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(answerArea, Priority.ALWAYS);
 
-        TextArea solutionField = new TextArea();
-        solutionField.setPromptText("Lösung " + (solutionFields.size() + 1));
-        solutionField.setPrefWidth(370.0);
-        solutionField.setPrefHeight(60.0);
-        solutionField.setFont(new Font(15.0));
+        TextArea solutionArea = new TextArea();
+        solutionArea.setPromptText("Lösung " + (solutionAreas.size() + 1));
+        solutionArea.setPrefWidth(370.0);
+        solutionArea.setPrefHeight(60.0);
+        solutionArea.setFont(new Font(15.0));
 
-        answerField.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(solutionField, Priority.ALWAYS);
+        answerArea.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(solutionArea, Priority.ALWAYS);
 
-        answerFields.add(answerField);
-        solutionFields.add(solutionField);
+        answerAreas.add(answerArea);
+        solutionAreas.add(solutionArea);
 
 
-        HBox answerRow = new HBox(10, answerField, solutionField);
+        HBox answerRow = new HBox(10, answerArea, solutionArea);
 
         answerContainer.getChildren().add(answerRow);
     }
@@ -101,8 +101,8 @@ public class AssignController extends SceneController{
 
         if (childCount > 2) {
             answerContainer.getChildren().remove(childCount - 1);
-            answerFields.removeLast();
-            solutionFields.removeLast();
+            answerAreas.removeLast();
+            solutionAreas.removeLast();
         }
     }
 
@@ -123,9 +123,9 @@ public class AssignController extends SceneController{
         List<String> solutions = new ArrayList<>();
 
 
-        for (int i = 0; i < answerFields.size(); i++) {
-            String answer = answerFields.get(i).getText().trim();
-            String solution = solutionFields.get(i).getText().trim();
+        for (int i = 0; i < answerAreas.size(); i++) {
+            String answer = answerAreas.get(i).getText().trim();
+            String solution = solutionAreas.get(i).getText().trim();
 
 
             if (!answer.isEmpty() && !solution.isEmpty()) {
