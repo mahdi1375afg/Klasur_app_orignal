@@ -67,6 +67,7 @@ public class TaskPageController extends SceneController {
     private BloomLevel bloomLevel;
     private Integer durationNumber;
     private QuestionType closeType;
+    private boolean isEditMode = false;
 
     @FXML
     private ComboBox<String> modulDropdown;
@@ -87,6 +88,39 @@ public class TaskPageController extends SceneController {
         textFieldDuration.textProperty().addListener((observable, oldValue, newValue) -> setDurationNumber());
     }
 
+    public void initializeEditMode(Task aufgabe) {
+        //Methode mit der die Inhalte einer bereits vorhandenen Aufgabe übertragen werden können
+        this.isEditMode = true;
+
+        textFieldTaskTitle.setText(aufgabe.getQuestion().getName());
+        textFieldNumberPoints.setText(String.valueOf(aufgabe.getQuestion().getPoints()));
+        textFieldDuration.setText(String.valueOf((aufgabe).getQuestion().getTime()));
+
+        modulDropdown.setValue(aufgabe.getModul().getName());
+
+        switch (aufgabe.getAnswer().getFirst().getTyp().getName()) {
+            case "offen" -> rButtonTypOpen.setSelected(true);
+            case "single" -> rButtonTypSingle.setSelected(true);
+            case "multiple" -> rButtonTypMultiple.setSelected(true);
+            case "wahrFalsch" -> rButtonTypTrueFalsch.setSelected(true);
+            case "luecke" -> rButtonTypGapText.setSelected(true);
+            case "zuordnung" -> rButtonTypAssign.setSelected(true);
+            case "ranking" -> rButtonTypRanking.setSelected(true);
+        }
+        setTaskType();
+
+        switch (aufgabe.getQuestion().getTaxonomie().getKategorie()) {
+            case "Erinnern" -> rButtonTaxonomieRemember.setSelected(true);
+            case "Verstehen" -> rButtonTaxonomieUnderstand.setSelected(true);
+            case "Anwenden" -> rButtonTaxonomieApply.setSelected(true);
+            case "Analysieren" -> rButtonTaxonomieAnalyze.setSelected(true);
+            case "Bewerten" -> rButtonTaxonomieRate.setSelected(true);
+            case "Erschaffen" -> rButtonTaxonomieCreate.setSelected(true);
+        }
+        setTaskTaxonomie();
+    }
+
+
     public String getTextFieldTaskTitle() {
         return taskTitleText;
     }
@@ -100,7 +134,6 @@ public class TaskPageController extends SceneController {
     }
 
     public void setNewModul() throws SQLException {
-        //ToDo: Neues Modul in DB einfügen
         modulTitleText = textFieldNewModul.getText();
         benutzerKonto konto = new benutzerKonto();
 
@@ -157,7 +190,6 @@ public class TaskPageController extends SceneController {
     @FXML
     public void switchToAddTaskPageContent(ActionEvent event) throws IOException, SQLException {
         //Schickt alle gesammelten Informationen beim Seitenwechsel an Anwendungsschicht
-         //    ToDo: Title, Modul, Typ. Taxonomie und Punkte an Anwendungsschicht schicken
 
         if (taskTitleText == null || taskTitleText.trim().isEmpty()) {
             showAlert(null, "Bitte geben Sie einen Namen an!");
@@ -174,7 +206,7 @@ public class TaskPageController extends SceneController {
             return;
         }
 
-        if(durationNumber == null){
+        if (durationNumber == null) {
             showAlert("Fehler", "Bitte geben Sie die Dauer an!");
             return;
         }
@@ -188,41 +220,40 @@ public class TaskPageController extends SceneController {
             return;
         }
 
-        //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
-        AufgabeService aufgabe = new AufgabeService();
-        aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(),getDurationNumber(),getAntwortType(),getTaskTaxonomie(),getModulTitle(),closeType);
+        if (!isEditMode) {
+            //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
+            AufgabeService aufgabe = new AufgabeService();
+            aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(), getDurationNumber(), getAntwortType(), getTaskTaxonomie(), getModulTitle(), closeType);
 
 
-        if(antwortType == AntwortType.offeneAntwort){
-            OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
-            controller.setAufgabe(aufgabe);
-        }
-        else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen){
-            SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml"); //Change das zu jeweils Controller
-            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-        }
-        else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch){
-            TrueFalseController controller = switchSceneAndGetController(event, "/GUI/TrueFalsePage.fxml");
-            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-        }
-        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen){
-            MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml"); //Change das zu jeweils Controller
-            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-        }
-        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.zuordnung){
-            AssignController controller = switchSceneAndGetController(event, "/GUI/AssignPage.fxml"); //Change das zu jeweils Controller
-            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-        }
-        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen){
+            if (antwortType == AntwortType.offeneAntwort) {
+                OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
+                controller.setAufgabe(aufgabe);
+            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
+                SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml"); //Change das zu jeweils Controller
+                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch) {
+                TrueFalseController controller = switchSceneAndGetController(event, "/GUI/TrueFalsePage.fxml");
+                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen) {
+                MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml"); //Change das zu jeweils Controller
+                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.zuordnung) {
+                AssignController controller = switchSceneAndGetController(event, "/GUI/AssignPage.fxml"); //Change das zu jeweils Controller
+                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
 
-            GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml"); //Change das zu jeweils Controller
-            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+                GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml"); //Change das zu jeweils Controller
+                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.ranking) {
+                RankingController controller = switchSceneAndGetController(event, "/GUI/RankingPage.fxml"); //Change das zu jeweils Controller
+                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+            } else {
+                super.switchToStartPage(event);
+            }
         }
-        else if(antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.ranking){
-            RankingController controller = switchSceneAndGetController(event, "/GUI/RankingPage.fxml"); //Change das zu jeweils Controller
-            controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
-        }
-        else {
+        else{
+            //Todo: Bei bearbeiten richtigen wechsel zur  nächsten Seite setzen
             super.switchToStartPage(event);
         }
     }

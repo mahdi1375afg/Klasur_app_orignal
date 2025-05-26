@@ -6,7 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -108,7 +111,6 @@ public class TaskOverviewController extends SceneController implements Initializ
     }
 
     private void loadData() {
-        //ToDo: Richtige ID eintragen & Format der Aufgabe richtig ausgeben
         ObservableList<Task> tasks = FXCollections.observableArrayList(Task.tasks);
         tableView.setItems(tasks);
 
@@ -122,9 +124,9 @@ public class TaskOverviewController extends SceneController implements Initializ
 
 
     private void addRightClickMenu() {
-        //ToDo: Mit DB verbinden und richtige Aufgaben löschen
         ContextMenu rightClickMenu = new ContextMenu();
         MenuItem deleteTaskItem = new MenuItem("Aufgabe löschen");
+        MenuItem editTaskItem = new MenuItem("Aufgabe bearbeiten");
 
         deleteTaskItem.setOnAction(event -> {
             ObservableList<Task> selectedTasks = tableView.getSelectionModel().getSelectedItems();
@@ -152,7 +154,30 @@ public class TaskOverviewController extends SceneController implements Initializ
 
         });
 
-        rightClickMenu.getItems().add(deleteTaskItem);
+        editTaskItem.setOnAction(event -> {
+            //ToDO: alle Arten von Aufgabe implementieren
+            Task selectedTask = tableView.getSelectionModel().getSelectedItem();
+            if (selectedTask == null) return;
+
+            if(selectedTask.getAnswer().getFirst().getTyp().getName().equals("offen")){
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AddTaskPage.fxml"));
+                    Parent root = loader.load();
+
+                    TaskPageController controller = loader.getController();
+
+                    controller.initializeEditMode(selectedTask);
+
+                    Stage stage = (Stage) tableView.getScene().getWindow();
+                    Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
+                    stage.setScene(scene);
+                    stage.show();
+
+                } catch (IOException ignored) {}
+            }
+        });
+
+        rightClickMenu.getItems().addAll(editTaskItem, deleteTaskItem);
 
         tableView.setOnMouseClicked(click -> {
             if (click.getButton() == MouseButton.SECONDARY) {
