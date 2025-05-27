@@ -68,7 +68,7 @@ public class TaskPageController extends SceneController {
     private Integer durationNumber;
     private QuestionType closeType;
     private boolean isEditMode = false;
-
+    private Task selectedTask;
     @FXML
     private ComboBox<String> modulDropdown;
 
@@ -91,6 +91,7 @@ public class TaskPageController extends SceneController {
     public void initializeEditMode(Task aufgabe) {
         //Methode mit der die Inhalte einer bereits vorhandenen Aufgabe übertragen werden können
         this.isEditMode = true;
+        selectedTask = aufgabe;
 
         textFieldTaskTitle.setText(aufgabe.getQuestion().getName());
         textFieldNumberPoints.setText(String.valueOf(aufgabe.getQuestion().getPoints()));
@@ -100,12 +101,12 @@ public class TaskPageController extends SceneController {
 
         switch (aufgabe.getAnswer().getFirst().getTyp().getName()) {
             case "offen" -> rButtonTypOpen.setSelected(true);
-            case "single" -> rButtonTypSingle.setSelected(true);
-            case "multiple" -> rButtonTypMultiple.setSelected(true);
-            case "wahrFalsch" -> rButtonTypTrueFalsch.setSelected(true);
-            case "luecke" -> rButtonTypGapText.setSelected(true);
-            case "zuordnung" -> rButtonTypAssign.setSelected(true);
-            case "ranking" -> rButtonTypRanking.setSelected(true);
+            case "Single-Choice" -> rButtonTypSingle.setSelected(true);
+            case "Multiple-Choice" -> rButtonTypMultiple.setSelected(true);
+            case "Wahr/Falsch" -> rButtonTypTrueFalsch.setSelected(true);
+            case "Lückentext" -> rButtonTypGapText.setSelected(true);
+            case "Zuordnung" -> rButtonTypAssign.setSelected(true);
+            case "Ranking" -> rButtonTypRanking.setSelected(true);
         }
         setTaskType();
 
@@ -220,12 +221,11 @@ public class TaskPageController extends SceneController {
             return;
         }
 
+        //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
+        AufgabeService aufgabe = new AufgabeService();
+        aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(), getDurationNumber(), getAntwortType(), getTaskTaxonomie(), getModulTitle(), closeType);
+
         if (!isEditMode) {
-            //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
-            AufgabeService aufgabe = new AufgabeService();
-            aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(), getDurationNumber(), getAntwortType(), getTaskTaxonomie(), getModulTitle(), closeType);
-
-
             if (antwortType == AntwortType.offeneAntwort) {
                 OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
                 controller.setAufgabe(aufgabe);
@@ -253,8 +253,13 @@ public class TaskPageController extends SceneController {
             }
         }
         else{
-            //Todo: Bei bearbeiten richtigen wechsel zur  nächsten Seite setzen
-            super.switchToStartPage(event);
+            //ToDo:Bearbeiten für alle Aufgaben
+
+            if (antwortType == AntwortType.offeneAntwort) {
+                OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
+                controller.initializeNode(selectedTask);
+                controller.setAufgabe(aufgabe);
+            }
         }
     }
 

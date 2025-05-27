@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.domain.AufgabeService;
+import org.example.domain.Task;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -25,6 +26,8 @@ public class OpenQuestionController extends SceneController{
     private String sampleSolutionText = null;
 
     private AufgabeService aufgabe;
+    private Task selectedTask;
+    private boolean editMode = false;
 
     public void setAufgabe(AufgabeService aufgabe) {
         this.aufgabe = aufgabe;
@@ -37,6 +40,16 @@ public class OpenQuestionController extends SceneController{
         taskTextField.textProperty().addListener((observable, oldValue, newValue) -> setTask());
 
         taskSampleSolution.textProperty().addListener((observable, oldValue, newValue) -> setSampleSolution());
+
+    }
+
+    public void initializeNode(Task selectedTask){
+
+        taskTextField.setText(selectedTask.getQuestion().getQuestionText());
+        taskSampleSolution.setText(selectedTask.getAnswer().getLast().getAntwortText());
+
+        this.selectedTask = selectedTask;
+        editMode = true;
 
     }
 
@@ -62,15 +75,18 @@ public class OpenQuestionController extends SceneController{
                 return;
         }
 
-        //ToDo: Daten an die Anwendungsschicht übergeben
-
-
-        System.out.println(taskText);
-        System.out.println(sampleSolutionText);
-        aufgabe.setAnswerPage(sampleSolutionText, true);
-        aufgabe.setTask(taskText);
-        aufgabe.save();
-
+        if(!editMode) {
+            aufgabe.setAnswerPage(sampleSolutionText, true);
+            aufgabe.setTask(taskText);
+            aufgabe.save();
+        }
+        else {
+            //ToDo: Aufgabe updaten statt löschen und neu speichern
+            aufgabe.setAnswerPage(sampleSolutionText, true);
+            aufgabe.setTask(taskText);
+            aufgabe.save();
+            Task.deleteTask(selectedTask);
+        }
         savedSwitchToStartPage();
     }
 

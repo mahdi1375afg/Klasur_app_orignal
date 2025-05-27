@@ -155,26 +155,23 @@ public class TaskOverviewController extends SceneController implements Initializ
         });
 
         editTaskItem.setOnAction(event -> {
-            //ToDO: alle Arten von Aufgabe implementieren
             Task selectedTask = tableView.getSelectionModel().getSelectedItem();
             if (selectedTask == null) return;
 
-            if(selectedTask.getAnswer().getFirst().getTyp().getName().equals("offen")){
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AddTaskPage.fxml"));
-                    Parent root = loader.load();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/AddTaskPage.fxml"));
+                Parent root = loader.load();
 
-                    TaskPageController controller = loader.getController();
+                TaskPageController controller = loader.getController();
 
-                    controller.initializeEditMode(selectedTask);
+                controller.initializeEditMode(selectedTask);
 
-                    Stage stage = (Stage) tableView.getScene().getWindow();
-                    Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
-                    stage.setScene(scene);
-                    stage.show();
+                Stage stage = (Stage) tableView.getScene().getWindow();
+                Scene scene = new Scene(root, stage.getScene().getWidth(), stage.getScene().getHeight());
+                stage.setScene(scene);
+                stage.show();
 
                 } catch (IOException ignored) {}
-            }
         });
 
         rightClickMenu.getItems().addAll(editTaskItem, deleteTaskItem);
