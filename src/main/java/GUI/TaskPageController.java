@@ -161,8 +161,11 @@ public class TaskPageController extends SceneController {
         try {
             int pointsInteger = Integer.parseInt(points);
 
-            if (pointsInteger >= 0) {
+            if (pointsInteger >= 0 && pointsInteger < 1000) {
                 numberPointsInteger = pointsInteger;
+            }
+            else{
+                numberPointsInteger = null;
             }
         } catch (NumberFormatException ignored) {
 
@@ -178,8 +181,11 @@ public class TaskPageController extends SceneController {
         try {
             int tempInteger = Integer.parseInt(temp);
 
-            if (tempInteger >= 0) {
+            if (tempInteger >= 0 && tempInteger < 1000) {
                 durationNumber = tempInteger;
+            }
+            else{
+                durationNumber = null;
             }
         } catch (NumberFormatException ignored) {}
     }
@@ -203,12 +209,12 @@ public class TaskPageController extends SceneController {
         }
 
         if (numberPointsInteger == null) {
-            showAlert("Fehler", "Bitte geben Sie eine Punktezahl an!");
+            showAlert("Fehler", "Bitte geben Sie eine korrekte Punktezahl an!");
             return;
         }
 
         if (durationNumber == null) {
-            showAlert("Fehler", "Bitte geben Sie die Dauer an!");
+            showAlert("Fehler", "Bitte geben Sie eine korrekte Dauer an!");
             return;
         }
         if (antwortType == null) {
@@ -230,24 +236,23 @@ public class TaskPageController extends SceneController {
                 OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
                 controller.setAufgabe(aufgabe);
             } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
-                SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml"); //Change das zu jeweils Controller
-                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+                SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml");
+                controller.setAufgabe(aufgabe);
             } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch) {
                 TrueFalseController controller = switchSceneAndGetController(event, "/GUI/TrueFalsePage.fxml");
-                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+                controller.setAufgabe(aufgabe);
             } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen) {
-                MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml"); //Change das zu jeweils Controller
-                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+                MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml");
+                controller.setAufgabe(aufgabe);
             } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.zuordnung) {
-                AssignController controller = switchSceneAndGetController(event, "/GUI/AssignPage.fxml"); //Change das zu jeweils Controller
-                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+                AssignController controller = switchSceneAndGetController(event, "/GUI/AssignPage.fxml");
+                controller.setAufgabe(aufgabe);
             } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
-
-                GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml"); //Change das zu jeweils Controller
-                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+                GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml");
+                controller.setAufgabe(aufgabe);
             } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.ranking) {
-                RankingController controller = switchSceneAndGetController(event, "/GUI/RankingPage.fxml"); //Change das zu jeweils Controller
-                controller.setAufgabe(aufgabe);  //Aufgabe weitergabe
+                RankingController controller = switchSceneAndGetController(event, "/GUI/RankingPage.fxml");
+                controller.setAufgabe(aufgabe);
             } else {
                 super.switchToStartPage(event);
             }
@@ -257,9 +262,15 @@ public class TaskPageController extends SceneController {
 
             if (antwortType == AntwortType.offeneAntwort) {
                 OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
-                controller.initializeNode(selectedTask);
+                controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
+            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
+                GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml");
+                controller.initializeEditMode(selectedTask);
+                controller.setAufgabe(aufgabe);
+            }
+
         }
     }
 

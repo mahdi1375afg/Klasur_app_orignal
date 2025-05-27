@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.domain.AufgabeService;
+import org.example.domain.Task;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -28,6 +29,8 @@ public class GapTextController extends SceneController{
     private String completeText;
 
     private AufgabeService aufgabe;
+    private Task selectedTask;
+    private boolean editMode = false;
 
     public void setAufgabe(AufgabeService aufgabe) {
         this.aufgabe = aufgabe;
@@ -42,7 +45,17 @@ public class GapTextController extends SceneController{
         textAreaGapText.textProperty().addListener((observable, oldValue, newValue) -> setGapText());
 
         textAreaCompleteText.textProperty().addListener((observable, oldValue, newValue) -> setCompleteText());
+    }
 
+    public void initializeEditMode(Task selectedTask) {
+
+        textAreaTask.setText(selectedTask.getQuestion().getQuestionText());
+        textAreaGapText.setText(selectedTask.getAnswer().getLast().getAntwortText());
+        textAreaCompleteText.setText(selectedTask.getAnswer().getLast().getAntwortText2());
+
+
+        this.selectedTask = selectedTask;
+        editMode = true;
 
     }
 
@@ -77,14 +90,19 @@ public class GapTextController extends SceneController{
             return;
         }
 
+        if(!editMode) {
+            aufgabe.setAnswerPageMultipleParts(gapText, completeText);
+            aufgabe.setTask(taskText);
+            aufgabe.save();
+        }
+        else {
+            //ToDo: Aufgabe updaten statt löschen und neu speichern
+            aufgabe.setAnswerPageMultipleParts(gapText, completeText);
+            aufgabe.setTask(taskText);
+            aufgabe.save();
+            Task.deleteTask(selectedTask);
+        }
 
-        System.out.println(taskText);
-        System.out.println(gapText);
-        System.out.println(completeText);
-
-        aufgabe.setAnswerPageMultipleParts(gapText, completeText);
-        aufgabe.setTask(taskText);
-        aufgabe.save();
         savedSwitchToStartPage();
     }
 

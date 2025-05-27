@@ -43,7 +43,7 @@ public class OpenQuestionController extends SceneController{
 
     }
 
-    public void initializeNode(Task selectedTask){
+    public void initializeEditMode(Task selectedTask){
 
         taskTextField.setText(selectedTask.getQuestion().getQuestionText());
         taskSampleSolution.setText(selectedTask.getAnswer().getLast().getAntwortText());
