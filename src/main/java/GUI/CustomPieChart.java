@@ -1,6 +1,5 @@
 package GUI;
 
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,26 +21,17 @@ import java.util.List;
 public class CustomPieChart extends PieChart {
 
     private final List<Color> colorPalette = new ArrayList<>();
-    private boolean legendSetupDone = false;
 
     public CustomPieChart(ObservableList<Data> data) {
         //erstellt das chart, sowie die Legende unter berücksichtigung der richtigen Reihenfolge
-
         super(data);
         setLegendSide(Side.RIGHT);
         setClockwise(true);
 
         sceneProperty().addListener((obs, oldScene, newScene) -> {
-            if (newScene != null && !legendSetupDone) {
-                Platform.runLater(() -> {
-                    generateColorPalette(getData().size());
-                    applyCustomColors();
-                    Platform.runLater(() -> {
-                        createCustomScrollableLegend();
-                        legendSetupDone = true;
-                    });
-                });
-            }
+            generateColorPalette(getData().size());
+            applyCustomColors();
+            createCustomScrollableLegend();
         });
     }
 
