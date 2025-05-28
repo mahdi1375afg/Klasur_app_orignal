@@ -270,6 +270,11 @@ public class TaskPageController extends SceneController {
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
+            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
+                SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml");
+                controller.initializeEditMode(selectedTask);
+                controller.setAufgabe(aufgabe);
+            }
 
         }
     }

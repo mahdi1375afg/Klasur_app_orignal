@@ -10,12 +10,15 @@ import javafx.stage.Stage;
 import org.example.domain.*;
 
 public class Main  extends Application {
+
+    public static int id;
     public static void main(String[] args) throws SQLException {
         launch(args);
 
     }
 
     public static void initUser(int id) throws SQLException {
+        Main.id = id;
         Modul.getAllModul();
         Task.getAllTasks(id);
     }

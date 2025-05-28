@@ -9,6 +9,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.Main;
+import org.example.domain.Antwort;
 import org.example.domain.AufgabeService;
 
 import java.io.IOException;
@@ -16,6 +18,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.example.domain.Task;
 
 public class SingleChoiceController extends SceneController{
 
@@ -42,6 +46,8 @@ public class SingleChoiceController extends SceneController{
     private CheckBox checkBox2;
 
     private AufgabeService aufgabe;
+    private Task selectedTask;
+    private boolean editMode = false;
 
     public void setAufgabe(AufgabeService aufgabe) {
         this.aufgabe = aufgabe;
@@ -59,7 +65,28 @@ public class SingleChoiceController extends SceneController{
         HBox.setHgrow(answer2TextArea, Priority.ALWAYS);
     }
 
+    public void initializeEditMode(Task selectedTask){
 
+        editMode = true;
+        this.selectedTask = selectedTask;
+
+        questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
+
+        List<Antwort> answers = selectedTask.getAnswer();
+
+        for(int i=2; i<=answers.size(); i++){
+            addAnswerField();
+        }
+
+        for(int i=0; i<answers.size(); i++){
+            answerAreas.get(i).setText(answers.get(i).getAntwortText());
+            if(answers.get(i).isKorrekt()){
+                checkBoxes.get(i).setSelected(true);
+            }
+        }
+
+
+    }
     @FXML
     public void addAnswerField() {
 
@@ -99,7 +126,7 @@ public class SingleChoiceController extends SceneController{
 
 
     @FXML
-    public void saveAndSwitchToStartPage() throws IOException, SQLException {
+    public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
 
         String question = questionTextArea.getText().trim();
 
@@ -155,11 +182,24 @@ public class SingleChoiceController extends SceneController{
             }
         }
 
-        aufgabe.setTask(question);
-        aufgabe.save();
+        if(!editMode){
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToStartPage(stage);
+        }
+        else{
+            //ToDo: Aufgabe updaten statt löschen und neu speichern
 
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Task.deleteTask(selectedTask);
+            Task.getAllTasks(Main.id);
+            super.switchToTaskOverview(event);
+        }
+
+
+
     }
 
     private void showAlert(String title, String message) {

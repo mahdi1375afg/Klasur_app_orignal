@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.Main;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 
@@ -63,7 +64,7 @@ public class OpenQuestionController extends SceneController{
     }
 
     @FXML
-    public void saveTask() throws IOException, SQLException {
+    public void saveTask(ActionEvent event) throws IOException, SQLException {
         //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
 
         if(taskText == null || taskText.isEmpty()) {
@@ -79,6 +80,7 @@ public class OpenQuestionController extends SceneController{
             aufgabe.setAnswerPage(sampleSolutionText, true);
             aufgabe.setTask(taskText);
             aufgabe.save();
+            savedSwitchToStartPage();
         }
         else {
             //ToDo: Aufgabe updaten statt löschen und neu speichern
@@ -86,8 +88,10 @@ public class OpenQuestionController extends SceneController{
             aufgabe.setTask(taskText);
             aufgabe.save();
             Task.deleteTask(selectedTask);
+            Task.getAllTasks(Main.id);
+            super.switchToTaskOverview(event);
         }
-        savedSwitchToStartPage();
+
     }
 
 
