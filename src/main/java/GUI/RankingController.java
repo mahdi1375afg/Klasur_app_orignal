@@ -2,7 +2,6 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
@@ -10,7 +9,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.Main;
+import org.example.domain.Antwort;
 import org.example.domain.AufgabeService;
+import org.example.domain.Task;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -40,6 +42,8 @@ public class RankingController extends SceneController {
     private final List<TextArea> numbers = new ArrayList<>();
 
     private AufgabeService aufgabe;
+    Task selectedTask;
+    boolean editMode;
 
     public void setAufgabe(AufgabeService aufgabe) {
         this.aufgabe = aufgabe;
@@ -56,9 +60,25 @@ public class RankingController extends SceneController {
 
     }
 
+    public void initializeEditMode(Task selectedTask) {
+        this.editMode = true;
+        this.selectedTask = selectedTask;
+
+        questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
+        List<Antwort> answers = selectedTask.getAnswer();
+
+        for(int i=2; i<answers.size(); i++){
+            addStatementArea();
+        }
+
+        for(int i=0; i<answers.size(); i++){
+            statementAreas.get(i).setText(answers.get(i).getAntwortText());
+        }
+    }
+
 
     @FXML
-    public void addStatementField() {
+    public void addStatementArea() {
         //Fügt in der Oberfläche ein neues Antwort-Lösung-Paar ein
 
         TextArea numberArea = new TextArea();
@@ -101,13 +121,13 @@ public class RankingController extends SceneController {
     }
 
     @FXML
-    public void saveAndSwitchToStartPage() throws IOException, SQLException {
+    public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
         //Speichert alle gesammelten Daten und sendet sie an DB → Wechsel zum Startbildschirm
 
         String question = questionTextArea.getText().trim();
 
         if (question.isEmpty()) {
-            showAlert("Fehler", "Frage eingeben.");
+            showAlert("Frage eingeben.");
             return;
         }
 
@@ -119,7 +139,7 @@ public class RankingController extends SceneController {
             if (!statement.isEmpty()) {
                 statements.add(statement);
             } else {
-                showAlert("Fehler", "Bitte alle Felder ausfüllen ");
+                showAlert("Bitte alle Felder ausfüllen ");
                 return;
             }
         }
@@ -129,22 +149,21 @@ public class RankingController extends SceneController {
             aufgabe.setAnswerPageRanking(answer, i+1);
         }
 
-        aufgabe.setTask(question);
-        aufgabe.save();
-
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
+        if(!editMode) {
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToStartPage(stage);
+        }
+        else {
+            //ToDo: Aufgabe updaten statt löschen und neu speichern
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Task.deleteTask(selectedTask);
+            Task.getAllTasks(Main.id);
+            super.switchToTaskOverview(event);
+        }
     }
-
-private void showAlert(String title, String message) {
-    //Gibt Fehlermeldung mit bestimmten Text aus
-
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle(title);
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.showAndWait();
-}
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {

@@ -2,6 +2,7 @@ package org.example.domain;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AufgabeService {
@@ -16,9 +17,9 @@ public class AufgabeService {
     String QuestionQuestion;
 
     //Antwort
-    Map<String, Boolean> antworten = new HashMap<>();
-    Map<String, String> antwortenMultipleParts = new HashMap<>();
-    Map<String, Integer> antwortenRanking = new HashMap<>();
+    Map<String, Boolean> antworten = new LinkedHashMap<>();
+    Map<String, String> antwortenMultipleParts = new LinkedHashMap<>();
+    Map<String, Integer> antwortenRanking = new LinkedHashMap<>();
 
     //Modul
     String QuestionModulName;
