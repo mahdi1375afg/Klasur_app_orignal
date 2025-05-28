@@ -72,7 +72,6 @@ public class MultipleChoiceController extends SceneController{
 
         List<Antwort> answers = selectedTask.getAnswer();
 
-        // Ergänze nur so viele Felder, wie fehlen (2 sind statisch vorhanden)
         for (int i = 2; i < answers.size(); i++) {
             addAnswerField();
         }

@@ -274,18 +274,23 @@ public class TaskPageController extends SceneController {
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
-            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
-                GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml");
-                controller.initializeEditMode(selectedTask);
-                controller.setAufgabe(aufgabe);
-            }
             else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
                 SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
+            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch) {
+                TrueFalseController controller = switchSceneAndGetController(event, "/GUI/TrueFalsePage.fxml");
+                controller.initializeEditMode(selectedTask);
+                controller.setAufgabe(aufgabe);
+            }
             else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen) {
                 MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml");
+                controller.initializeEditMode(selectedTask);
+                controller.setAufgabe(aufgabe);
+            }
+            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
+                GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }

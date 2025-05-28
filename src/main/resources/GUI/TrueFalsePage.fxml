@@ -50,7 +50,7 @@
                 </padding>
 
 
-                <TextArea fx:id="questionTextField" prefHeight="80.0" prefWidth="564.0" promptText="Frage eingeben">
+                <TextArea fx:id="questionTextArea" prefHeight="80.0" prefWidth="564.0" promptText="Frage eingeben">
                     <font>
                         <Font size="20.0" />
                     </font></TextArea>
@@ -113,8 +113,8 @@
             <padding>
                 <Insets bottom="20" left="10" right="10" top="10" />
             </padding>
-            <Button fx:id="addAnswerButton" onAction="#addAnswerField" text="Antwort hinzufügen" />
-            <Button fx:id="removeAnswerButton" onAction="#removeLastAnswerField" text="Antwort löschen" />
+            <Button fx:id="addAnswerButton" onAction="#addAnswerArea" text="Antwort hinzufügen" />
+            <Button fx:id="removeAnswerButton" onAction="#removeLastAnswerArea" text="Antwort löschen" />
             <Button fx:id="savetButton" onAction="#saveAndSwitchToStartPage" text="Speichern" />
         </HBox>
     </bottom>

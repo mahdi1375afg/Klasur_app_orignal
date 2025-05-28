@@ -9,7 +9,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.Main;
+import org.example.domain.Antwort;
 import org.example.domain.AufgabeService;
+import org.example.domain.Task;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -22,7 +25,7 @@ public class TrueFalseController extends SceneController{
         private MenuButton menuBar;
 
         @FXML
-        private TextArea questionTextField;
+        private TextArea questionTextArea;
 
         @FXML
         private VBox answerContainer;
@@ -45,6 +48,8 @@ public class TrueFalseController extends SceneController{
         private final List<RadioButton> falseButtons = new ArrayList<>();
 
         private AufgabeService aufgabe;
+        private boolean editMode = false;
+        private Task selectedTask;
 
         public void setAufgabe(AufgabeService aufgabe) {
             this.aufgabe = aufgabe;
@@ -67,8 +72,30 @@ public class TrueFalseController extends SceneController{
 
     }
 
+    public void initializeEditMode(Task selectedTask) {
+            editMode = true;
+            this.selectedTask = selectedTask;
+
+            questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
+
+            List<Antwort> answers = selectedTask.getAnswer();
+
+            for(int i = 2; i < answers.size(); i++) {
+                addAnswerArea();
+            }
+            for(int i=0; i<answers.size(); i++) {
+                answerAreas.get(i).setText(answers.get(i).getAntwortText());
+                if(answers.get(i).isKorrekt()) {
+                    trueButtons.get(i).setSelected(true);
+                }
+                else {
+                    falseButtons.get(i).setSelected(true);
+                }
+            }
+    }
+
     @FXML
-    public void addAnswerField() {
+    public void addAnswerArea() {
         // Fügt in der Oberfläche ein neues Aufgabe-Status-Paar ein
 
         TextArea answerArea = new TextArea();
@@ -99,7 +126,7 @@ public class TrueFalseController extends SceneController{
 
 
     @FXML
-        public void removeLastAnswerField() {
+        public void removeLastAnswerArea() {
             //löscht das letzte Aufgabe-Status-Paar in der Oberfläche einschließlich der gespeicherten Daten
 
             int childCount = answerContainer.getChildren().size();
@@ -113,22 +140,16 @@ public class TrueFalseController extends SceneController{
 
 
         @FXML
-        public void saveAndSwitchToStartPage() throws IOException, SQLException {
-            //Speichert alle gesammelten Daten und sendet sie an DB --> Wechsel zum Startbildschirm
-            //ToDo: Daten an DB senden
-
-            String question = questionTextField.getText().trim();
+        public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
+            //Speichert alle gesammelten Daten und sendet sie an DB → Wechsel zum Startbildschirm
+            String question = questionTextArea.getText().trim();
 
             if (question.isEmpty()) {
-                showAlert("Fehler", "Frage eingeben.");
+                showAlert( "Frage eingeben.");
                 return;
             }
 
-
-
             List<String> answers = new ArrayList<>();
-            List<Boolean> correctValues = new ArrayList<>();
-
 
             for (int i = 0; i < answerAreas.size(); i++) {
                 String answer = answerAreas.get(i).getText().trim();
@@ -141,37 +162,35 @@ public class TrueFalseController extends SceneController{
                 boolean isFalseSelected = falseButtons.get(i).isSelected();
 
                 if (!isTrueSelected && !isFalseSelected) {
-                    showAlert("Fehler", "Jede Antwort muss mit 'Richtig' oder 'Falsch' markiert werden.");
+                    showAlert("Jede Antwort muss mit 'Richtig' oder 'Falsch' markiert werden.");
                     return;
                 }
 
                 answers.add(answer);
-                correctValues.add(isTrueSelected); // true = Richtig, false = Falsch
                 aufgabe.setAnswerPage(answer, isTrueSelected);
             }
 
 
             if (answers.isEmpty()) {
-                showAlert("Fehler", "Mindestens eine Aussage angeben werden.");
+                showAlert("Mindestens eine Aussage angeben werden.");
                 return;
             }
 
-            //ToDO: Daten an Datenbank senden
-            aufgabe.setTask(question);
-            aufgabe.save();
+            if(!editMode) {
+                aufgabe.setTask(question);
+                aufgabe.save();
+                Stage stage = (Stage) menuBar.getScene().getWindow();
+                super.switchToStartPage(stage);
+            }
+            else {
+                aufgabe.setTask(question);
+                aufgabe.save();
+                Task.deleteTask(selectedTask);
+                Task.getAllTasks(Main.id);
+                super.switchToTaskOverview(event);
+            }
 
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToStartPage(stage);
-        }
 
-        private void showAlert(String title, String message) {
-            //Zeigt Fehlermeldung mit bestimmten Text an
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(title);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
         }
 
     @FXML
