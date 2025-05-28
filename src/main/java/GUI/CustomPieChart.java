@@ -76,7 +76,7 @@ public class CustomPieChart extends PieChart {
         scrollPane.setFitToWidth(true);
         scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
-        scrollPane.setPrefViewportHeight(120);
+        scrollPane.setPrefViewportHeight(300);
 
         pane.getChildren().add(scrollPane);
     }

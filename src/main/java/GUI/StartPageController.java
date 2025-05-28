@@ -54,7 +54,6 @@ public class StartPageController extends SceneController {
         pieChartModul.setTitle("Modul");
 
         vBoxPieChartTax.getChildren().add(pieChartTax);
-
         vBoxPieChartModul.getChildren().add(pieChartModul);
     }
 }
