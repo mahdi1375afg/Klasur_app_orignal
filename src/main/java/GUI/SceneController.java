@@ -169,7 +169,7 @@ public class SceneController {
         //Zeigt Fehlermeldung an
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Achtung!");
+        alert.setTitle("Fehler!");
         alert.setHeaderText(null);
         alert.setContentText(message);
 

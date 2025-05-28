@@ -289,6 +289,11 @@ public class TaskPageController extends SceneController {
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
+            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.zuordnung) {
+                AssignController controller = switchSceneAndGetController(event, "/GUI/AssignPage.fxml");
+                controller.setEditMode(selectedTask);
+                controller.setAufgabe(aufgabe);
+            }
             else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
                 GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml");
                 controller.initializeEditMode(selectedTask);

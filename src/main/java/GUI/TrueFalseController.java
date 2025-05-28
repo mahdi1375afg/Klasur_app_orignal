@@ -183,6 +183,7 @@ public class TrueFalseController extends SceneController{
                 super.switchToStartPage(stage);
             }
             else {
+                //ToDo: Aufgabe updaten statt löschen und neu speichern
                 aufgabe.setTask(question);
                 aufgabe.save();
                 Task.deleteTask(selectedTask);

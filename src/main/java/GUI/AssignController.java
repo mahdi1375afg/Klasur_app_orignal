@@ -8,7 +8,10 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.Main;
+import org.example.domain.Antwort;
 import org.example.domain.AufgabeService;
+import org.example.domain.Task;
 
 import java.io.IOException;
 
@@ -39,6 +42,8 @@ public class AssignController extends SceneController{
     private final List<TextArea> solutionAreas = new ArrayList<>();
 
     private AufgabeService aufgabe;
+    private boolean editMode = false;
+    private Task selectedTask;
 
     public void setAufgabe(AufgabeService aufgabe) {
         this.aufgabe = aufgabe;
@@ -60,9 +65,26 @@ public class AssignController extends SceneController{
         HBox.setHgrow(solution2TextArea, Priority.ALWAYS);
     }
 
+    public void setEditMode(Task selectedTask){
+        editMode = true;
+        this.selectedTask = selectedTask;
+
+        textAreaQuestion.setText(selectedTask.getQuestion().getQuestionText());
+
+        List<Antwort> answers = selectedTask.getAnswer();
+
+        for(int i=2; i<answers.size(); i++){
+            addAnswerAreas();
+        }
+
+        for(int i=0; i<solutionAreas.size(); i++){
+            answerAreas.get(i).setText(answers.get(i).getAntwortText());
+            solutionAreas.get(i).setText(answers.get(i).getAntwortText2());
+        }
+    }
 
     @FXML
-    public void addAnswerField() {
+    public void addAnswerAreas() {
         //Fügt in der Oberfläche ein neues Antwort-Lösung-Paar ein
 
         TextArea answerArea = new TextArea();
@@ -108,20 +130,15 @@ public class AssignController extends SceneController{
 
 
     @FXML
-    public void saveAndSwitchToStartPage() throws IOException, SQLException {
-        //Speichert alle gesammelten Daten und sendet sie an DB --> Wechsel zum Startbildschirm
-        //ToDo: Daten an DB senden
+    public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
+        //Speichert alle gesammelten Daten und sendet sie an DB → Wechsel zum Startbildschirm
 
         String question = textAreaQuestion.getText().trim();
 
         if (question.isEmpty()) {
-            showAlert("Fehler", "Frage eingeben.");
+            showAlert("Frage eingeben.");
             return;
         }
-
-        List<String> answers = new ArrayList<>();
-        List<String> solutions = new ArrayList<>();
-
 
         for (int i = 0; i < answerAreas.size(); i++) {
             String answer = answerAreas.get(i).getText().trim();
@@ -130,40 +147,27 @@ public class AssignController extends SceneController{
 
             if (!answer.isEmpty() && !solution.isEmpty()) {
                 aufgabe.setAnswerPageMultipleParts(answer, solution);
-                answers.add(answer);
-                solutions.add(solution);
             }
             else{
-                showAlert("Fehler", "Bitte alle Felder ausfüllen ");
+                showAlert("Bitte alle Felder ausfüllen ");
                 return;
             }
         }
 
-        System.out.println(question);
-        System.out.println("Paare:");
-
-        for (int i = 0; i < answers.size(); i++) {
-            String answer = answers.get(i);
-            String solution = solutions.get(i);
-
-            System.out.println(answer + " " + solution);
+        if(!editMode) {
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToStartPage(stage);
         }
-
-        aufgabe.setTask(question);
-        aufgabe.save();
-
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
-    }
-
-    private void showAlert(String title, String message) {
-        //Gibt Fehlermeldung mit bestimmten Text aus
-
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        else {
+            //ToDo: Aufgabe updaten statt löschen und neu speichern
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Task.deleteTask(selectedTask);
+            Task.getAllTasks(Main.id);
+            super.switchToTaskOverview(event);
+        }
     }
 
     @FXML

@@ -95,7 +95,7 @@
             <padding>
                 <Insets bottom="20" left="10" right="10" top="10" />
             </padding>
-            <Button fx:id="addAnswerButton" onAction="#addAnswerField" text="Antwort hinzufügen" />
+            <Button fx:id="addAnswerButton" onAction="#addAnswerAreas" text="Antwort hinzufügen" />
             <Button fx:id="removeAnswerButton" onAction="#removeLastAnswerField" text="Antwort löschen" />
             <Button fx:id="savetButton" onAction="#saveAndSwitchToStartPage" text="Speichern" />
         </HBox>
