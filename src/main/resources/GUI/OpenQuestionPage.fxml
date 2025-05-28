@@ -12,19 +12,48 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.OpenQuestionController">
+    <top>
+        <VBox spacing="0">
+
+            <HBox alignment="CENTER_LEFT" spacing="10" BorderPane.alignment="CENTER">
+                <padding>
+                    <Insets bottom="10" left="10" right="10" top="10" />
+                </padding>
+
+                <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
+                    <items>
+                        <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                        <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                        <MenuItem fx:id="menuButtonAddExam" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+                        <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                        <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+                    </items>
+                </MenuButton>
+
+                <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                    <Text style="-fx-font-size: 24;" text="Offene Aufgabe erstellen" />
+                </HBox>
+            </HBox>
+            <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
+        </VBox>
+    </top>
+
     <center>
         <GridPane vgap="10.0" BorderPane.alignment="CENTER">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" />
+                <ColumnConstraints prefWidth="150.0" minWidth="150.0" maxWidth="150.0"/>
                 <ColumnConstraints hgrow="ALWAYS" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints vgrow="ALWAYS" />
-                <RowConstraints maxHeight="24.800018310546875" minHeight="6.399993896484375" prefHeight="16.800018310546875" vgrow="ALWAYS" />
+                <RowConstraints vgrow="SOMETIMES" />
                 <RowConstraints vgrow="ALWAYS" />
-            <RowConstraints maxHeight="68.00002441406252" minHeight="30.399987792968773" prefHeight="60.00002441406252" vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
             </rowConstraints>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aufgabentext:" GridPane.rowIndex="1">
@@ -35,25 +64,7 @@
                <font>
                   <Font size="20.0" />
                </font></Text>
-            <Button mnemonicParsing="false" onAction="#saveTask" text="Fertig" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
-               <font>
-                  <Font size="20.0" />
-               </font></Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Offene Aufgabe erstellen" GridPane.columnIndex="1" GridPane.halignment="CENTER">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Text>
-            <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.halignment="LEFT" GridPane.valignment="TOP">
-              <items>
-                  <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-                  <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
-                  <MenuItem fx:id="menuButtonExamPage" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
-                  <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
-                  <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
 
-              </items>
-            </MenuButton>
             <TextArea fx:id="taskTextField" prefHeight="130.0" prefWidth="450.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <opaqueInsets>
                   <Insets />
@@ -65,4 +76,14 @@
          </padding>
       </GridPane>
    </center>
+
+    <bottom>
+        <VBox spacing="0">
+            <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
+            <HBox alignment="CENTER" spacing="15" style="-fx-padding: 20; ">
+
+                <Button mnemonicParsing="false" onAction="#saveTask" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 16;" text="Speichern" />
+            </HBox>
+        </VBox>
+    </bottom>
 </BorderPane>

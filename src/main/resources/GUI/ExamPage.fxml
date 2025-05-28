@@ -16,7 +16,34 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.layout.Region?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamController">
+   <top>
+      <VBox spacing="0">
+
+         <HBox alignment="CENTER_LEFT" spacing="10" BorderPane.alignment="CENTER">
+            <padding>
+               <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+
+            <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
+               <items>
+                  <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                  <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                  <MenuItem fx:id="menuButtonAddExam" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+                  <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                  <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+               </items>
+            </MenuButton>
+
+            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+               <Text style="-fx-font-size: 30;" text="Klausur erstellen" />
+            </HBox>
+         </HBox>
+         <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
+      </VBox>
+   </top>
+
    <center>
       <GridPane hgap="15" vgap="10" BorderPane.alignment="CENTER">
          <padding>
@@ -51,15 +78,15 @@
             <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen" />
          </VBox>
          <HBox prefHeight="149.0" prefWidth="352.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="8">
-         <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.rowSpan="6">
-            <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen" />
-            <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice" />
-            <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice" />
-            <RadioButton fx:id="rButtonTypTrueFalsch" onAction="#setTaskType" text="Wahr/Falsch" />
-            <RadioButton fx:id="rButtonTypGapText" onAction="#setTaskType" text="Lückentext" />
-            <RadioButton fx:id="rButtonTypAssign" onAction="#setTaskType" text="Zuordnen" />
-            <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking" />
-         </VBox>
+            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.rowSpan="6">
+               <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen" />
+               <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice" />
+               <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice" />
+               <RadioButton fx:id="rButtonTypTrueFalsch" onAction="#setTaskType" text="Wahr/Falsch" />
+               <RadioButton fx:id="rButtonTypGapText" onAction="#setTaskType" text="Lückentext" />
+               <RadioButton fx:id="rButtonTypAssign" onAction="#setTaskType" text="Zuordnen" />
+               <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking" />
+            </VBox>
             <VBox maxHeight="60.0" prefHeight="200.0" prefWidth="60.0">
                <children>
                   <Spinner fx:id="spinnerAmountOpenQuestion" editable="true" />
@@ -72,7 +99,7 @@
                </children>
             </VBox>
          </HBox>
-         <Button onAction="#generateExam" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+         <Button onAction="#generateExam" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="12" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 15;" />
 
          <Text text="Modul:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
          <ComboBox fx:id="modulDropdown" prefHeight="25" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -84,16 +111,6 @@
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Anzahl Punkte:" GridPane.rowIndex="6" />
          <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="6" />
 
-         <Text style="-fx-font-size:30;" text="Klausur erstellen" GridPane.columnIndex="1" />
-         <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.valignment="TOP">
-            <items>
-               <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-               <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
-               <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
-               <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
-               <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
-            </items>
-         </MenuButton>
 
 
          <TextField fx:id="textFieldExaminer" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -101,7 +118,7 @@
 
          <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="376.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
             <children>
-      
+
                <Text style="-fx-font-size:18;" text="Typ:" />
                <Text style="-fx-font-size: 18;" text="Anzahl:">
                   <HBox.margin>

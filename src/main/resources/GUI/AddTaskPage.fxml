@@ -16,7 +16,33 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.layout.Region?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.TaskPageController">
+   <top>
+      <VBox spacing="0">
+
+         <HBox alignment="CENTER_LEFT" spacing="10" BorderPane.alignment="CENTER">
+            <padding>
+               <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+
+            <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
+               <items>
+                  <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                  <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                  <MenuItem fx:id="menuButtonAddExam" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+                  <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                  <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+               </items>
+            </MenuButton>
+
+            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+               <Text style="-fx-font-size: 30;" text="Aufgabe hinzufügen" />
+            </HBox>
+         </HBox>
+         <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
+      </VBox>
+   </top>
 
    <center>
       <GridPane alignment="TOP_CENTER" hgap="15" vgap="10">
@@ -62,19 +88,10 @@
             <RadioButton fx:id="rButtonTaxonomieRate" onAction="#setTaskTaxonomie" text="Bewerten" toggleGroup="$taskTaxonomie" />
             <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen" toggleGroup="$taskTaxonomie" />
          </VBox>
-         <Button onAction="#switchToAddTaskPageContent" text="weiter" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+         <Button onAction="#switchToAddTaskPageContent" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="12" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 15;"/>
          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dauer in Minuten:" GridPane.rowIndex="4" />
          <TextField fx:id="textFieldDuration" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-         <Text style="-fx-font-size:30;" text="Aufgabe hinzufügen" GridPane.columnIndex="1" />
-         <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü" GridPane.valignment="TOP">
-           <items>
-             <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-             <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
-               <MenuItem fx:id="menuButtonAddExam" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
-               <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
-               <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
-           </items>
-         </MenuButton>
+
          <HBox prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <children>
                <ComboBox fx:id="modulDropdown" prefHeight="25" prefWidth="120.0" />
@@ -83,7 +100,6 @@
             </children>
          </HBox>
          <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" />
             <RowConstraints />
             <RowConstraints />
             <RowConstraints />
