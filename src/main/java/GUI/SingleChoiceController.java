@@ -74,7 +74,7 @@ public class SingleChoiceController extends SceneController{
 
         List<Antwort> answers = selectedTask.getAnswer();
 
-        for(int i=2; i<=answers.size(); i++){
+        for(int i=2; i<answers.size(); i++){
             addAnswerField();
         }
 
@@ -169,17 +169,10 @@ public class SingleChoiceController extends SceneController{
             return;
         }
 
-
-        System.out.println(question);
         for (int i = 0; i < answers.size(); i++) {
             String answer = answers.get(i);
             boolean isCorrect = (i == correctIndex);
             aufgabe.setAnswerPage(answer, isCorrect);
-            if (isCorrect) {
-                System.out.println((i) +  answer + " (richtig)");
-            } else {
-                System.out.println((i)  + answer);
-            }
         }
 
         if(!editMode){
@@ -190,16 +183,12 @@ public class SingleChoiceController extends SceneController{
         }
         else{
             //ToDo: Aufgabe updaten statt löschen und neu speichern
-
             aufgabe.setTask(question);
             aufgabe.save();
             Task.deleteTask(selectedTask);
             Task.getAllTasks(Main.id);
             super.switchToTaskOverview(event);
         }
-
-
-
     }
 
     private void showAlert(String title, String message) {

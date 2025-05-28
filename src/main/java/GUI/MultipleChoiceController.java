@@ -9,7 +9,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.example.Main;
+import org.example.domain.Antwort;
 import org.example.domain.AufgabeService;
+import org.example.domain.Task;
 
 import java.io.IOException;
 
@@ -42,6 +45,8 @@ public class MultipleChoiceController extends SceneController{
     private CheckBox checkBox2;
 
     private AufgabeService aufgabe;
+    private Task selectedTask;
+    private boolean editMode = false;
 
     public void setAufgabe(AufgabeService aufgabe) {
         this.aufgabe = aufgabe;
@@ -57,6 +62,25 @@ public class MultipleChoiceController extends SceneController{
 
         HBox.setHgrow(answer1TextArea, Priority.ALWAYS);
         HBox.setHgrow(answer2TextArea, Priority.ALWAYS);
+    }
+
+    public void initializeEditMode(Task selectedTask){
+        this.editMode = true;
+        this.selectedTask = selectedTask;
+
+        questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
+
+        List<Antwort> answers = selectedTask.getAnswer();
+
+        // Ergänze nur so viele Felder, wie fehlen (2 sind statisch vorhanden)
+        for (int i = 2; i < answers.size(); i++) {
+            addAnswerField();
+        }
+
+        for (int i = 0; i < answers.size(); i++) {
+            answerAreas.get(i).setText(answers.get(i).getAntwortText());
+            checkBoxes.get(i).setSelected(answers.get(i).isKorrekt());
+        }
     }
 
 
@@ -100,7 +124,7 @@ public class MultipleChoiceController extends SceneController{
 
 
     @FXML
-    public void saveAndSwitchToStartPage() throws IOException, SQLException {
+    public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
 
         String question = questionTextArea.getText().trim();
 
@@ -130,37 +154,31 @@ public class MultipleChoiceController extends SceneController{
             }
         }
 
-
         if (answers.size() < 2) {
             showAlert("Fehler", "Mindestens zwei Antworten angeben.");
             return;
         }
 
-
-        if (correctIndex.contains(-1)) {
-            showAlert("Fehler", "Mindestens eine richtige Antwort auswählen.");
-            return;
-        }
-
-
-        System.out.println(question);
         for (int i = 0; i < answers.size(); i++) {
             String answer = answers.get(i);
             boolean isCorrect = correctIndex.contains(i);
             aufgabe.setAnswerPage(answer, isCorrect);
-            if (isCorrect) {
-                System.out.println((i) +  answer + " (richtig)");
-            } else {
-                System.out.println((i)  + answer);
-            }
         }
 
-
-        aufgabe.setTask(question);
-        aufgabe.save();
-
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
+        if(!editMode){
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToStartPage(stage);
+        }
+        else{
+            //ToDo: Aufgabe updaten statt löschen und neu speichern
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Task.deleteTask(selectedTask);
+            Task.getAllTasks(Main.id);
+            super.switchToTaskOverview(event);
+        }
     }
 
     private void showAlert(String title, String message) {

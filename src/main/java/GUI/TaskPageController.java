@@ -60,6 +60,9 @@ public class TaskPageController extends SceneController {
     @FXML
     private MenuButton menuBar;
 
+    @FXML
+    private ToggleGroup taskType;
+
     private String taskTitleText ;
     private String modulTitleText;
     private Integer numberPointsInteger;
@@ -119,6 +122,12 @@ public class TaskPageController extends SceneController {
             case "Erschaffen" -> rButtonTaxonomieCreate.setSelected(true);
         }
         setTaskTaxonomie();
+
+        for (Toggle toggle : taskType.getToggles()) {
+            if (toggle instanceof Node) {
+                ((Node) toggle).setDisable(true);  // Deaktiviert z.B. RadioButton oder ToggleButton
+            }
+        }
     }
 
 
@@ -272,6 +281,11 @@ public class TaskPageController extends SceneController {
             }
             else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
                 SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml");
+                controller.initializeEditMode(selectedTask);
+                controller.setAufgabe(aufgabe);
+            }
+            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen) {
+                MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
