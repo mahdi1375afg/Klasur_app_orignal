@@ -58,7 +58,7 @@
                   </font>
                  </Button>
 
-                    <Button fx:id="buttonLogin2" onAction="#switchToStartPage" style="-fx-padding: 10 15; -fx-background-color: #4CAF50;-fx-text-fill: white;" text="Anmelden" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Button fx:id="buttonLogin2" onAction="#switchToStartPage" defaultButton="true"  style="-fx-padding: 10 15; -fx-background-color: #4CAF50;-fx-text-fill: white;" text="Anmelden" GridPane.columnIndex="1" GridPane.rowIndex="2">
                   <font>
                      <Font size="18.0" />
                   </font></Button>

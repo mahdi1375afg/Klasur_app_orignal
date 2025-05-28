@@ -63,7 +63,7 @@
                         </font>
                     </Button>
 
-                    <Button fx:id="buttonSignUp2" onAction="#switchToLoginPage" style="-fx-padding: 10 15; -fx-background-color: #4CAF50;-fx-text-fill: white;" text="Registrieren" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <Button fx:id="buttonSignUp2" onAction="#switchToLoginPage" defaultButton="true" style="-fx-padding: 10 15; -fx-background-color: #4CAF50;-fx-text-fill: white;" text="Registrieren" GridPane.columnIndex="1" GridPane.rowIndex="3">
                         <font>
                             <Font size="18.0" />
                         </font></Button>
