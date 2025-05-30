@@ -9,7 +9,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.example.Main;
 import org.example.domain.Antwort;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
@@ -121,7 +120,7 @@ public class RankingController extends SceneController {
     }
 
     @FXML
-    public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
+    public void saveAndSwitchToStartPage() throws IOException, SQLException {
         //Speichert alle gesammelten Daten und sendet sie an DB → Wechsel zum Startbildschirm
 
         String question = questionTextArea.getText().trim();
@@ -149,20 +148,8 @@ public class RankingController extends SceneController {
             aufgabe.setAnswerPageRanking(answer, i+1);
         }
 
-        if(!editMode) {
-            aufgabe.setTask(question);
-            aufgabe.save();
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToStartPage(stage);
-        }
-        else {
-            //ToDo: Aufgabe updaten statt löschen und neu speichern
-            aufgabe.setTask(question);
-            aufgabe.save();
-            Task.deleteTask(selectedTask);
-            Task.getAllTasks(Main.id);
-            super.switchToTaskOverview(event);
-        }
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.saveTask(editMode, selectedTask, aufgabe, question, stage);
     }
 
     @FXML

@@ -2,170 +2,51 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.example.Main;
-import org.example.domain.Antwort;
-import org.example.domain.AufgabeService;
 
 import java.io.IOException;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.example.domain.Task;
+public class SingleChoiceController extends MultipleChoiceController {
 
-public class SingleChoiceController extends SceneController{
-
-    @FXML
-    private MenuButton menuBar;
-
-    @FXML
-    private TextArea questionTextArea;
-
-
-    @FXML
-    private VBox answerContainer;
-
-    private final List<TextArea> answerAreas = new ArrayList<>();
-    private final List<CheckBox> checkBoxes = new ArrayList<>();
-
-    @FXML
-    private TextArea answer1TextArea;
-    @FXML
-    private CheckBox checkBox1;
-    @FXML
-    private TextArea answer2TextArea;
-    @FXML
-    private CheckBox checkBox2;
-
-    private AufgabeService aufgabe;
-    private Task selectedTask;
-    private boolean editMode = false;
-
-    public void setAufgabe(AufgabeService aufgabe) {
-        this.aufgabe = aufgabe;
-    }
-
-    @FXML
-    public void initialize() {
-        answerAreas.add(answer1TextArea);
-        checkBoxes.add(checkBox1);
-
-        answerAreas.add(answer2TextArea);
-        checkBoxes.add(checkBox2);
-
-        HBox.setHgrow(answer1TextArea, Priority.ALWAYS);
-        HBox.setHgrow(answer2TextArea, Priority.ALWAYS);
-    }
-
-    public void initializeEditMode(Task selectedTask){
-
-        editMode = true;
-        this.selectedTask = selectedTask;
-
-        questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
-
-        List<Antwort> answers = selectedTask.getAnswer();
-
-        for(int i=2; i<answers.size(); i++){
-            addAnswerField();
-        }
-
-        for(int i=0; i<answers.size(); i++){
-            answerAreas.get(i).setText(answers.get(i).getAntwortText());
-            if(answers.get(i).isKorrekt()){
-                checkBoxes.get(i).setSelected(true);
-            }
-        }
-
-
-    }
-    @FXML
-    public void addAnswerField() {
-
-        TextArea answerArea = new TextArea();
-        answerArea.setPromptText("Antwort "+ (answerAreas.size() + 1));
-        answerArea.setPrefWidth(370.0);
-        answerArea.setPrefHeight(60.0);
-        answerArea.setFont(new Font(15.0));
-
-        CheckBox correctCheckBox = new CheckBox("Richtig");
-        correctCheckBox.setFont(new Font(15.0));
-
-        answerArea.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(answerArea, Priority.ALWAYS);
-
-        answerAreas.add(answerArea);
-        checkBoxes.add(correctCheckBox);
-
-
-        HBox answerRow = new HBox(10, answerArea, correctCheckBox);
-
-        // Fügt HBox  VBox answerContainer hinzu
-        answerContainer.getChildren().add(answerRow);
-        answerRow.setAlignment(Pos.CENTER_LEFT);
-    }
-
-    @FXML
-    public void removeLastAnswerField() {
-        int childCount = answerContainer.getChildren().size();
-
-        if (childCount > 2) {
-            answerContainer.getChildren().remove(childCount - 1);
-            answerAreas.removeLast();
-            checkBoxes.removeLast();
-        }
-    }
-
-
+    @Override
     @FXML
     public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
-
         String question = questionTextArea.getText().trim();
 
         if (question.isEmpty()) {
-            showAlert("Fehler", "Frage eingeben.");
+            showAlert("Frage eingeben.");
             return;
         }
 
         List<String> answers = new ArrayList<>();
         int correctIndex = -1;
 
-
         for (int i = 0; i < answerAreas.size(); i++) {
             String answer = answerAreas.get(i).getText().trim();
-
 
             if (!answer.isEmpty()) {
                 answers.add(answer);
             }
 
             if (checkBoxes.get(i).isSelected()) {
-
                 if (correctIndex != -1) {
-                    showAlert("Fehler", "Nur eine Antwort darf als richtig markiert sein.");
+                    showAlert("Nur eine Antwort darf als richtig markiert sein.");
                     return;
                 }
                 correctIndex = i;
             }
         }
 
-
         if (answers.size() < 2) {
-            showAlert("Fehler", "Mindestens zwei Antworten angeben.");
+            showAlert("Mindestens zwei Antworten angeben.");
             return;
         }
 
-
         if (correctIndex == -1) {
-            showAlert("Fehler", "Eine richtige Antwort auswählen.");
+            showAlert("Eine richtige Antwort auswählen.");
             return;
         }
 
@@ -175,69 +56,7 @@ public class SingleChoiceController extends SceneController{
             aufgabe.setAnswerPage(answer, isCorrect);
         }
 
-        if(!editMode){
-            aufgabe.setTask(question);
-            aufgabe.save();
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToStartPage(stage);
-        }
-        else{
-            //ToDo: Aufgabe updaten statt löschen und neu speichern
-            aufgabe.setTask(question);
-            aufgabe.save();
-            Task.deleteTask(selectedTask);
-            Task.getAllTasks(Main.id);
-            super.switchToTaskOverview(event);
-        }
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.saveTask(editMode, selectedTask, aufgabe, question, stage);
     }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    @FXML
-    public void switchToStartPage(ActionEvent event) throws IOException {
-        if(showAlert()) {
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToStartPage(stage);
-        }
-    }
-
-    @FXML
-    public void switchToTaskOverview(ActionEvent event) throws IOException{
-        if(showAlert()){
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToTaskOverview(stage);
-        }
-    }
-
-    @FXML
-    public void switchToExamOverview() throws IOException{
-        if(showAlert()) {
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToExamCollection(stage);
-        }
-    }
-
-    @FXML
-    public void switchToExamPage(ActionEvent event) throws IOException {
-        if(showAlert()) {
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToExamPage(stage);
-        }
-    }
-
-    @FXML
-    public void logout(ActionEvent event) throws IOException {
-        if(showAlert()) {
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.logout(stage);
-        }
-    }
-
 }
-

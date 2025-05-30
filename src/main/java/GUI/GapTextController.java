@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.Main;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 
@@ -74,7 +73,7 @@ public class GapTextController extends SceneController{
     }
 
     @FXML
-    public void saveTask(ActionEvent event) throws IOException, SQLException {
+    public void saveTask() throws IOException, SQLException {
         //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
 
         if(taskText == null ||taskText.isEmpty()) {
@@ -90,22 +89,10 @@ public class GapTextController extends SceneController{
             showAlert("Sie haben keinen vollständigen Text angegeben.");
             return;
         }
+        aufgabe.setAnswerPageMultipleParts(gapText, completeText);
 
-        if(!editMode) {
-            aufgabe.setAnswerPageMultipleParts(gapText, completeText);
-            aufgabe.setTask(taskText);
-            aufgabe.save();
-            savedSwitchToStartPage();
-        }
-        else {
-            //ToDo: Aufgabe updaten statt löschen und neu speichern
-            aufgabe.setAnswerPageMultipleParts(gapText, completeText);
-            aufgabe.setTask(taskText);
-            aufgabe.save();
-            Task.deleteTask(selectedTask);
-            Task.getAllTasks(Main.id);
-            super.switchToTaskOverview(event);
-        }
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.saveTask(editMode, selectedTask, aufgabe, taskText, stage);
     }
 
     @FXML
@@ -114,12 +101,6 @@ public class GapTextController extends SceneController{
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
         }
-    }
-
-    @FXML
-    public void savedSwitchToStartPage() throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
     }
 
 

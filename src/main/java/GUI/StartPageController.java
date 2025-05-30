@@ -25,35 +25,38 @@ public class StartPageController extends SceneController {
         Map<String, Integer> modulCounter = new HashMap<>();
         Map<String, Integer> taxonomieCounter = new HashMap<>();
 
-        for (Task task : tasks) {
-            String modul = task.getModul().getName();
-            String taxonomie = task.getQuestion().getTaxonomie().name();
+        if (!tasks.isEmpty()) {
 
-            modulCounter.put(modul, modulCounter.getOrDefault(modul, 0) + 1);
-            taxonomieCounter.put(taxonomie, taxonomieCounter.getOrDefault(taxonomie, 0) + 1);
+            for (Task task : tasks) {
+                String modul = task.getModul().getName();
+                String taxonomie = task.getQuestion().getTaxonomie().name();
+
+                modulCounter.put(modul, modulCounter.getOrDefault(modul, 0) + 1);
+                taxonomieCounter.put(taxonomie, taxonomieCounter.getOrDefault(taxonomie, 0) + 1);
+            }
+
+            ObservableList<PieChart.Data> modulData = FXCollections.observableArrayList();
+            ObservableList<PieChart.Data> taxData = FXCollections.observableArrayList();
+
+            modulCounter.forEach((key, value) -> modulData.add(new PieChart.Data(key, value)));
+            taxonomieCounter.forEach((key, value) -> taxData.add(new PieChart.Data(key, value)));
+
+            CustomPieChart pieChartTax = new CustomPieChart(taxData);
+            CustomPieChart pieChartModul = new CustomPieChart(modulData);
+
+            pieChartTax.setPrefSize(300, 300);
+            pieChartModul.setPrefSize(300, 300);
+
+            pieChartTax.setLabelsVisible(false);
+            pieChartTax.setLegendVisible(false);
+            pieChartModul.setLabelsVisible(false);
+            pieChartModul.setLegendVisible(false);
+
+            pieChartTax.setTitle("Taxonomien");
+            pieChartModul.setTitle("Modul");
+
+            vBoxPieChartTax.getChildren().add(pieChartTax);
+            vBoxPieChartModul.getChildren().add(pieChartModul);
         }
-
-        ObservableList<PieChart.Data> modulData = FXCollections.observableArrayList();
-        ObservableList<PieChart.Data> taxData = FXCollections.observableArrayList();
-
-        modulCounter.forEach((key, value) -> modulData.add(new PieChart.Data(key, value)));
-        taxonomieCounter.forEach((key, value) -> taxData.add(new PieChart.Data(key, value)));
-
-        CustomPieChart pieChartTax = new CustomPieChart(taxData);
-        CustomPieChart pieChartModul = new CustomPieChart(modulData);
-
-        pieChartTax.setPrefSize(300, 300);
-        pieChartModul.setPrefSize(300, 300);
-
-        pieChartTax.setLabelsVisible(false);
-        pieChartTax.setLegendVisible(false);
-        pieChartModul.setLabelsVisible(false);
-        pieChartModul.setLegendVisible(false);
-
-        pieChartTax.setTitle("Taxonomien");
-        pieChartModul.setTitle("Modul");
-
-        vBoxPieChartTax.getChildren().add(pieChartTax);
-        vBoxPieChartModul.getChildren().add(pieChartModul);
     }
 }

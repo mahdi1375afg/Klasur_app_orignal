@@ -15,21 +15,18 @@ public class LoginController extends SceneController {
     @FXML
     private PasswordField passwordLoginField;
 
-    private String username;
-    private String password;
-
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException, SQLException {
-        username = usernameLoginTextField.getText().trim();
-        password = passwordLoginField.getText();
+        String username = usernameLoginTextField.getText().trim();
+        String password = passwordLoginField.getText();
 
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Fehler", "Bitte alle Felder ausfüllen.");
+            showAlert( "Bitte alle Felder ausfüllen.");
             return;
         }
 
         benutzerKonto konto = new benutzerKonto();
-        int signIn = konto.anmelden(username,password);
+        int signIn = konto.anmelden(username, password);
 
         if(signIn == 1) {
             showAlert("Falsches Passwort");
@@ -40,18 +37,11 @@ public class LoginController extends SceneController {
         }
         try {
             //konto.aktuellerBenutzer.printNutzer();
-            if(konto.aktuellerBenutzer != null){
+            if(benutzerKonto.aktuellerBenutzer != null){
                 super.switchToStartPage(event);
             }
         } catch (NullPointerException e) {
             super.switchToTitlePage(event);
         }
-    }
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

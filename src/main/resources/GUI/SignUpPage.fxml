@@ -45,7 +45,7 @@
                             <Font size="26.0" />
                         </font>
                     </Label>
-                    <PasswordField fx:id="passwordSignUp1Field" promptText="Passwort" style="-fx-padding: 10 15; -fx-background-radius: 8; -fx-font-size: 20px;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <PasswordField fx:id="passwordSignUpField" promptText="Passwort" style="-fx-padding: 10 15; -fx-background-radius: 8; -fx-font-size: 20px;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     </PasswordField>
 
                     <Label text="Passwort bestätigen:" GridPane.columnIndex="0" GridPane.rowIndex="2">
@@ -54,7 +54,7 @@
                         </font>
                     </Label>
 
-                    <PasswordField fx:id="passwordSignUp2Field" promptText="Passwort bestätigen" style="-fx-padding: 10 15; -fx-background-radius: 8; -fx-font-size: 20px;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <PasswordField fx:id="passwordSignUpVerifyField" promptText="Passwort bestätigen" style="-fx-padding: 10 15; -fx-background-radius: 8; -fx-font-size: 20px;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     </PasswordField>
 
                     <Button fx:id="buttonlogin2" onAction="#switchToTitlePage" style="-fx-background-color: transparent; -fx-padding: 10 15; -fx-text-fill: #4CAF50; " text="Startseite" GridPane.columnIndex="0" GridPane.rowIndex="3">

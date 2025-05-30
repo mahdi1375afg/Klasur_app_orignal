@@ -14,42 +14,38 @@ public class SignUpController  extends SceneController {
     private TextField usernameSignUpTextField;
 
     @FXML
-    private PasswordField passwordSignUp1Field;
+    private PasswordField passwordSignUpField;
 
     @FXML
-    private PasswordField passwordSignUp2Field;
-
-    private String username;
-    private String password1;
-    private String password2;
+    private PasswordField passwordSignUpVerifyField;
 
     @FXML
     public void switchToLoginPage(ActionEvent event) throws IOException, SQLException {
         //registriert den neuen User bei der DB und wechselt bein erfolgreichem registrieren
         //zur LoginPage
 
-        username = usernameSignUpTextField.getText().trim();
-        password1 = passwordSignUp1Field.getText();
-        password2 = passwordSignUp2Field.getText();
+        String username = usernameSignUpTextField.getText().trim();
+        String password = passwordSignUpField.getText();
+        String passwordVerify = passwordSignUpVerifyField.getText();
 
-        if (username.isEmpty() || password1.isEmpty() || password2.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty() || passwordVerify.isEmpty()) {
             showAlert("Bitte alle Felder ausfüllen.");
             return;
         }
 
-        if (!password1.equals(password2)) {
+        if (!password.equals(passwordVerify)) {
             showAlert("Passwörter stimmen nicht überein.");
             return;
         }
 
-        if (password1.length() < 6) {
+        if (password.length() < 6) {
             showAlert("Passwort muss mindestens 6 Zeichen lang sein.");
             return;
         }
 
         benutzerKonto konto = new benutzerKonto();
 
-        if(!konto.register(username,password1)){
+        if(!konto.register(username, password)){
             showAlert("Der Benutzername ist schon vergeben. Bitte wählen Sie einen anderen Benutzernamen. ");
             return;
         }

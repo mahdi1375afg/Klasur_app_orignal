@@ -8,8 +8,6 @@ import org.example.domain.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -91,11 +89,10 @@ public class ExamController extends SceneController {
     private Integer numberPoints;
     private Modul modul;
     private int time;
-    private List<BloomLevel> bloomLevel = new ArrayList<>();
-    private List<AntwortType> antwortType = new ArrayList<>();
-    private List<QuestionType> questionType = new ArrayList<>();
+    private final List<BloomLevel> bloomLevel = new ArrayList<>();
+    private final List<AntwortType> antwortType = new ArrayList<>();
+    private final List<QuestionType> questionType = new ArrayList<>();
 
-    private int amountOpen;
     private int amountSingleChoice;
     private int amountMultipleChoice;
     private int amountTrueFalse;
@@ -132,7 +129,7 @@ public class ExamController extends SceneController {
         spinnerAmountAssign.setDisable(true);
         spinnerAmountRanking.setDisable(true);
 
-        // Spinner aktivieren wenn Aufgabnetyp ausgewählt wird
+        // Spinner aktivieren, wenn Aufgabetyp ausgewählt wird
         rButtonTypOpen.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
             spinnerAmountOpenQuestion.setDisable(!newSelected);
         });
@@ -253,7 +250,7 @@ public class ExamController extends SceneController {
             return;
         }
 
-        amountOpen = spinnerAmountOpenQuestion.getValue();
+        int amountOpen = spinnerAmountOpenQuestion.getValue();
         amountSingleChoice = spinnerAmountSingleChoice.getValue();
         amountMultipleChoice = spinnerAmountMultipleChoice.getValue();
         amountTrueFalse = SpinnerAmountTrueFalse.getValue();
@@ -289,7 +286,7 @@ public class ExamController extends SceneController {
             System.out.println("Anzahl Ranking Aufgaben: " + amountRanking);
         }
 
-        Map<QuestionType, Integer> questionTypes = new HashMap<QuestionType, Integer>();
+        Map<QuestionType, Integer> questionTypes = new HashMap<>();
 
         for(QuestionType questionType : questionType) {
             if(questionType == QuestionType.offen) {

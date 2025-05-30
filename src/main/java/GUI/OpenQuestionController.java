@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.example.Main;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 
@@ -64,7 +63,7 @@ public class OpenQuestionController extends SceneController{
     }
 
     @FXML
-    public void saveTask(ActionEvent event) throws IOException, SQLException {
+    public void saveTask() throws IOException, SQLException {
         //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
 
         if(taskText == null || taskText.isEmpty()) {
@@ -76,22 +75,9 @@ public class OpenQuestionController extends SceneController{
                 return;
         }
 
-        if(!editMode) {
-            aufgabe.setAnswerPage(sampleSolutionText, true);
-            aufgabe.setTask(taskText);
-            aufgabe.save();
-            savedSwitchToStartPage();
-        }
-        else {
-            //ToDo: Aufgabe updaten statt löschen und neu speichern
-            aufgabe.setAnswerPage(sampleSolutionText, true);
-            aufgabe.setTask(taskText);
-            aufgabe.save();
-            Task.deleteTask(selectedTask);
-            Task.getAllTasks(Main.id);
-            super.switchToTaskOverview(event);
-        }
-
+        aufgabe.setAnswerPage(sampleSolutionText, true);
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.saveTask(editMode, selectedTask, aufgabe, taskText, stage);
     }
 
 
@@ -103,13 +89,6 @@ public class OpenQuestionController extends SceneController{
             super.switchToStartPage(stage);
         }
     }
-
-    @FXML
-    public void savedSwitchToStartPage() throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
-    }
-
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{

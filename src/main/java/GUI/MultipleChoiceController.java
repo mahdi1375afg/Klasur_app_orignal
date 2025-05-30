@@ -9,7 +9,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.example.Main;
 import org.example.domain.Antwort;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
@@ -23,30 +22,30 @@ import java.util.List;
 public class MultipleChoiceController extends SceneController{
 
     @FXML
-    private MenuButton menuBar;
+    protected MenuButton menuBar;
 
     @FXML
-    private TextArea questionTextArea;
+    protected TextArea questionTextArea;
 
 
     @FXML
-    private VBox answerContainer;
+    protected VBox answerContainer;
 
-    private final List<TextArea> answerAreas = new ArrayList<>();
-    private final List<CheckBox> checkBoxes = new ArrayList<>();
+    protected final List<TextArea> answerAreas = new ArrayList<>();
+    protected final List<CheckBox> checkBoxes = new ArrayList<>();
 
     @FXML
-    private TextArea answer1TextArea;
+    protected TextArea answer1TextArea;
     @FXML
-    private CheckBox checkBox1;
+    protected CheckBox checkBox1;
     @FXML
-    private TextArea answer2TextArea;
+    protected TextArea answer2TextArea;
     @FXML
-    private CheckBox checkBox2;
+    protected CheckBox checkBox2;
 
-    private AufgabeService aufgabe;
-    private Task selectedTask;
-    private boolean editMode = false;
+    protected AufgabeService aufgabe;
+    protected Task selectedTask;
+    protected boolean editMode = false;
 
     public void setAufgabe(AufgabeService aufgabe) {
         this.aufgabe = aufgabe;
@@ -98,14 +97,11 @@ public class MultipleChoiceController extends SceneController{
         CheckBox correctCheckBox = new CheckBox("Richtig");
         correctCheckBox.setFont(new Font(15.0));
 
-
         answerAreas.add(answerArea);
         checkBoxes.add(correctCheckBox);
 
-
         HBox answerRow = new HBox(10, answerArea, correctCheckBox);
 
-        // Fügt HBox  VBox answerContainer hinzu
         answerContainer.getChildren().add(answerRow);
         answerRow.setAlignment(Pos.CENTER_LEFT);
     }
@@ -128,7 +124,7 @@ public class MultipleChoiceController extends SceneController{
         String question = questionTextArea.getText().trim();
 
         if (question.isEmpty()) {
-            showAlert("Fehler", "Frage eingeben.");
+            showAlert("Frage eingeben.");
             return;
         }
 
@@ -154,7 +150,7 @@ public class MultipleChoiceController extends SceneController{
         }
 
         if (answers.size() < 2) {
-            showAlert("Fehler", "Mindestens zwei Antworten angeben.");
+            showAlert( "Mindestens zwei Antworten angeben.");
             return;
         }
 
@@ -164,28 +160,8 @@ public class MultipleChoiceController extends SceneController{
             aufgabe.setAnswerPage(answer, isCorrect);
         }
 
-        if(!editMode){
-            aufgabe.setTask(question);
-            aufgabe.save();
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            super.switchToStartPage(stage);
-        }
-        else{
-            //ToDo: Aufgabe updaten statt löschen und neu speichern
-            aufgabe.setTask(question);
-            aufgabe.save();
-            Task.deleteTask(selectedTask);
-            Task.getAllTasks(Main.id);
-            super.switchToTaskOverview(event);
-        }
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.saveTask(editMode, selectedTask, aufgabe, question, stage);
     }
 
     @FXML

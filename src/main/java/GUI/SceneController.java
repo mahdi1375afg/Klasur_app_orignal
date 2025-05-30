@@ -9,6 +9,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import org.example.Main;
+import org.example.domain.AufgabeService;
+import org.example.domain.Task;
 import org.example.domain.benutzerKonto;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,20 +19,15 @@ import java.sql.SQLException;
 public class SceneController {
     //Klasse die Wechsel zwischen Verschiedenen "Bildschirmen" verwaltet
 
-    private Stage stage;
-    private Scene scene;
-    private double sceneWidth, sceneHeight;
-
     @FXML
     protected void switchScene(ActionEvent event, String newScene) throws IOException {
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-        sceneWidth = stage.getScene().getWidth();
-        sceneHeight = stage.getScene().getHeight();
+        double sceneWidth = stage.getScene().getWidth();
+        double sceneHeight = stage.getScene().getHeight();
 
         Parent root = FXMLLoader.load(getClass().getResource(newScene));
-        //stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root, sceneWidth, sceneHeight);
+        Scene scene = new Scene(root, sceneWidth, sceneHeight);
         stage.setScene(scene);
 
         stage.show();
@@ -85,9 +83,7 @@ public class SceneController {
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException {
         //Methode sorgt für den Wechsel von Startseite zur Klausurerstellungsseite
-
         switchScene(event, "/GUI/TaskOverview.fxml");
-
     }
 
     @FXML
@@ -116,6 +112,7 @@ public class SceneController {
 
     @FXML
     public void logout(Stage stage) throws IOException {
+
         benutzerKonto konto = new benutzerKonto();
         konto.abmelden();
         switchToTitlePage(stage);
@@ -183,4 +180,20 @@ public class SceneController {
         });
         return result[0];
     }
+    public void saveTask(boolean editMode, Task selectedTask, AufgabeService aufgabe, String question, Stage stage) throws SQLException, IOException {
+        if(!editMode){
+            aufgabe.setTask(question);
+            aufgabe.save();
+            switchToStartPage(stage);
+        }
+        else{
+            //ToDo: Aufgabe updaten statt löschen und neu speichern
+            aufgabe.setTask(question);
+            aufgabe.save();
+            Task.deleteTask(selectedTask);
+            Task.getAllTasks(Main.id);
+            switchToTaskOverview(stage);
+        }
+    }
+
 }
