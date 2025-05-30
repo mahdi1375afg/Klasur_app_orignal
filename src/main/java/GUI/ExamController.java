@@ -75,13 +75,11 @@ public class ExamController extends SceneController {
     @FXML
     private Spinner<Integer> spinnerAmountRanking;
 
-
     @FXML
     private MenuButton menuBar;
 
     @FXML
     private ComboBox<String> modulDropdown;
-
 
     private String examTitle;
     private String examiner;
@@ -92,13 +90,6 @@ public class ExamController extends SceneController {
     private final List<BloomLevel> bloomLevel = new ArrayList<>();
     private final List<AntwortType> antwortType = new ArrayList<>();
     private final List<QuestionType> questionType = new ArrayList<>();
-
-    private int amountSingleChoice;
-    private int amountMultipleChoice;
-    private int amountTrueFalse;
-    private int amountGapText;
-    private int amountAssign;
-    private int amountRanking;
 
 
     @FXML
@@ -178,7 +169,7 @@ public class ExamController extends SceneController {
     public void setTime() {
         String time = textFieldDuration.getText();
         try {
-            Integer timeInteger = Integer.parseInt(time);
+            int timeInteger = Integer.parseInt(time);
 
             if (timeInteger >= 0) {
                 this.time = timeInteger;
@@ -201,7 +192,7 @@ public class ExamController extends SceneController {
     public void setNumberPoints() {
         String points = textFieldNumberPoints.getText();
         try {
-            Integer pointsInteger = Integer.parseInt(points);
+            int pointsInteger = Integer.parseInt(points);
 
             if (pointsInteger >= 0) {
                 numberPoints = pointsInteger;
@@ -251,12 +242,12 @@ public class ExamController extends SceneController {
         }
 
         int amountOpen = spinnerAmountOpenQuestion.getValue();
-        amountSingleChoice = spinnerAmountSingleChoice.getValue();
-        amountMultipleChoice = spinnerAmountMultipleChoice.getValue();
-        amountTrueFalse = SpinnerAmountTrueFalse.getValue();
-        amountGapText = SpinnerAmountGapText.getValue();
-        amountAssign = spinnerAmountAssign.getValue();
-        amountRanking = spinnerAmountRanking.getValue();
+        int amountSingleChoice = spinnerAmountSingleChoice.getValue();
+        int amountMultipleChoice = spinnerAmountMultipleChoice.getValue();
+        int amountTrueFalse = SpinnerAmountTrueFalse.getValue();
+        int amountGapText = SpinnerAmountGapText.getValue();
+        int amountAssign = spinnerAmountAssign.getValue();
+        int amountRanking = spinnerAmountRanking.getValue();
 
 
         System.out.println("Exam Title: " + examTitle);

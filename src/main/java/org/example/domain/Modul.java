@@ -3,7 +3,6 @@ package org.example.domain;
 import org.example.dao.DBconn;
 import org.example.dao.dbConnModul;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
