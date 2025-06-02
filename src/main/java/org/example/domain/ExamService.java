@@ -55,16 +55,13 @@ public class ExamService {
         return true;
     }
 
-
     public int createKlausur() throws IOException {
         //ToDo: Algorithmus robuster machen und darauf achten, dass Algorithmus oprimale und nicht erste Lösung verwendet
 
         List<Task> allTasks = Task.tasks;
-        // Filter
         List<Task> moduleTasks = new ArrayList<>();
         List<Task> bloomTasks = new ArrayList<>();
         List<Task> typeTasks = new ArrayList<>();
-        // Ergebnis
         List<Task> selectedTasks = new ArrayList<>();
 
         // FILTER: Modul
@@ -73,7 +70,6 @@ public class ExamService {
                 moduleTasks.add(task);
             }
         }
-
         if (!checkIfTimeAndPoints(moduleTasks)) return 1;
 
         // FILTER: Bloom
@@ -84,7 +80,6 @@ public class ExamService {
                 }
             }
         }
-
         if (!checkIfTimeAndPoints(bloomTasks)) return 2;
 
         // FILTER: Typ
@@ -95,15 +90,43 @@ public class ExamService {
                 }
             }
         }
-
         if (!checkIfTimeAndPoints(typeTasks)) return 3;
 
         List<Task> tempTasks = new ArrayList<>(typeTasks);
         int remainingPoints = totalPoints;
         int remainingTime = totalTime;
 
+        // Kopie der erlaubten Mengen pro Typ
+        Map<QuestionType, Integer> remainingTypeCounts = new java.util.HashMap<>(questionType);
+
+        // 1. Für jeden gewünschten Bloom-Level eine Aufgabe auswählen
+        for (BloomLevel bloomLevel : bloomLevels) {
+            boolean found = false;
+            Iterator<Task> it = tempTasks.iterator();
+            while (it.hasNext()) {
+                Task task = it.next();
+                if (task.getQuestion().getTaxonomie().equals(bloomLevel)) {
+                    QuestionType type = task.getAnswer().getFirst().getTyp();
+                    if (remainingTypeCounts.getOrDefault(type, 0) > 0 &&
+                            task.getQuestion().getPoints() <= remainingPoints &&
+                            task.getQuestion().getTime() <= remainingTime) {
+
+                        selectedTasks.add(task);
+                        it.remove();
+                        remainingPoints -= task.getQuestion().getPoints();
+                        remainingTime -= task.getQuestion().getTime();
+                        remainingTypeCounts.put(type, remainingTypeCounts.get(type) - 1);
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if (!found) return 5; // Keine passende Bloom-Aufgabe gefunden
+        }
+
+        //2. Weitere Aufgaben füllen, solange Typanzahl & Ressourcen passen
         for (QuestionType type : questionType.keySet()) {
-            int typeSum = questionType.get(type);
+            int typeSum = remainingTypeCounts.getOrDefault(type, 0);
             while (typeSum > 0) {
                 boolean foundTask = false;
                 Iterator<Task> iterator = tempTasks.iterator();
@@ -113,12 +136,15 @@ public class ExamService {
                         boolean retry = true;
                         while (retry) {
                             retry = false;
-                            if (task.getQuestion().getTime() <= remainingTime && task.getQuestion().getPoints() <= remainingPoints) {
+                            if (task.getQuestion().getTime() <= remainingTime &&
+                                    task.getQuestion().getPoints() <= remainingPoints) {
+
                                 selectedTasks.add(task);
                                 iterator.remove();
                                 remainingPoints -= task.getQuestion().getPoints();
                                 remainingTime -= task.getQuestion().getTime();
                                 --typeSum;
+                                remainingTypeCounts.put(type, typeSum);
                                 foundTask = true;
                             } else {
                                 boolean swapped = false;
@@ -174,25 +200,28 @@ public class ExamService {
                         }
                     }
                 }
-                if (!foundTask) return 4;
+                if (!foundTask) break; // Kann keine weitere passende Aufgabe dieses Typs finden
             }
         }
 
-        if (remainingPoints > 0) {
-            if (remainingTime > 0) {
-                Iterator<Task> iterator = tempTasks.iterator();
-                while (iterator.hasNext()) {
-                    Task task = iterator.next();
-                    if (task.getQuestion().getTime() <= remainingTime &&
-                            task.getQuestion().getPoints() <= remainingPoints) {
-                        selectedTasks.add(task);
-                        remainingPoints -= task.getQuestion().getPoints();
-                        remainingTime -= task.getQuestion().getTime();
-                        iterator.remove();
-                    }
+        // 3. Falls noch Punkte/Zeit übrig -> Rest füllen (ohne Typgrenze zu verletzen)
+        if (remainingPoints > 0 && remainingTime > 0) {
+            Iterator<Task> iterator = tempTasks.iterator();
+            while (iterator.hasNext()) {
+                Task task = iterator.next();
+                QuestionType type = task.getAnswer().getFirst().getTyp();
+                if (remainingTypeCounts.getOrDefault(type, 0) > 0 &&
+                        task.getQuestion().getPoints() <= remainingPoints &&
+                        task.getQuestion().getTime() <= remainingTime) {
+
+                    selectedTasks.add(task);
+                    remainingPoints -= task.getQuestion().getPoints();
+                    remainingTime -= task.getQuestion().getTime();
+                    remainingTypeCounts.put(type, remainingTypeCounts.get(type) - 1);
+                    iterator.remove();
                 }
-            } else {}
-        } else {}
+            }
+        }
 
         System.out.println("Punkte übrig: " + remainingPoints);
         System.out.println("Zeit übrig: " + remainingTime);
@@ -201,6 +230,7 @@ public class ExamService {
         generatePdf();
         return 0; // Erfolgreich erstellt
     }
+
 
 
     public static void generatePdf() throws IOException {
@@ -273,9 +303,5 @@ public class ExamService {
     public int getUser_id() {
         return user_id;
     }
-
-
-
-
 
 }

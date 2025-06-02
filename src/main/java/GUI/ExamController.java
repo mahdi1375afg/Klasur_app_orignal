@@ -313,6 +313,9 @@ public class ExamController extends SceneController {
             case 4:
                 showAlert("Keine passenden Aufgaben vorhanden. Bitte wählen Sie eine anderer Konfiguration zum Erstellen aus!");
                 break;
+            case 5:
+                showAlert("Keine passenden Aufgaben vorhanden. Bitte füge mehr Aufgaben unter den gewählten Bloom hinzu!");
+                break;
         }
     }
 
