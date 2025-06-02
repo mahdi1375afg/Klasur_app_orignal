@@ -361,14 +361,6 @@ public class ExamController extends SceneController {
         antwortType.clear();
         questionType.clear();
 
-        int amountOpen = spinnerAmountOpenQuestion.getValue();
-        int amountSingleChoice = spinnerAmountSingleChoice.getValue();
-        int amountMultipleChoice = spinnerAmountMultipleChoice.getValue();
-        int amountTrueFalse = SpinnerAmountTrueFalse.getValue();
-        int amountGapText = SpinnerAmountGapText.getValue();
-        int amountAssign = spinnerAmountAssign.getValue();
-        int amountRanking = spinnerAmountRanking.getValue();
-
         if (rButtonTypOpen.isSelected()) {
             if(spinnerAmountOpenQuestion.getValue() <= 0) {
                 showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
