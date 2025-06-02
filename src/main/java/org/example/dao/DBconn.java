@@ -1,26 +1,43 @@
 package org.example.dao;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.postgresql.util.PGobject;
 
-import java.io.Closeable;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class DBconn {
+public class dbConn {
 
-    private static final String url = "jdbc:postgresql://localhost:5432/klausurapp";
-    private static final String user = "postgres";
-    private static final String password = "1234";
+    private static final HikariDataSource dataSource;
 
+    static {
+        HikariConfig config = new HikariConfig();
 
-    public static Connection getConn() throws SQLException {
-        return DriverManager.getConnection(url, user, password);
+        config.setJdbcUrl("jdbc:postgresql://localhost:5432/klausurapp");
+        config.setUsername("postgres");
+        config.setPassword("1234");
+
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(2);
+        config.setIdleTimeout(30000);      // 30 Sekunden
+        config.setConnectionTimeout(10000); // 10 Sekunden
+        config.setMaxLifetime(1800000);     // 30 Minuten
+
+        dataSource = new HikariDataSource(config);
     }
 
-        public static List<Map<String, Object>> sqlSelect(String table, String column, Object value) throws SQLException {
+    public static Connection getConn() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    public static void closePool() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+        }
+    }
+
+    public static List<Map<String, Object>> sqlSelect(String table, String column, Object value) throws SQLException {
         String query = "SELECT * FROM " + table + " WHERE " + column + " = ?";
         List<Map<String, Object>> results = new ArrayList<>();
 
@@ -42,7 +59,6 @@ public class DBconn {
         }
         return results;
     }
-
 
     public static void sqlInsert(Connection conn, String table, String[] column, Object[] value) throws SQLException {
         StringBuilder placeholders = new StringBuilder();
@@ -167,5 +183,4 @@ public class DBconn {
             ps.executeUpdate();
         }
     }
-
 }

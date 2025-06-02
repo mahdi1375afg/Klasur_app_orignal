@@ -13,10 +13,8 @@ public class dbConnFrage {
         String sql = "SELECT * FROM aufgabe WHERE benutzer_id = ?";
         List<Map<String, Object>> results = new ArrayList<>();
 
-        try (
-                Connection conn = new DBconn().getConn();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+        try (Connection conn = dbConn.getConn();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -48,7 +46,7 @@ public class dbConnFrage {
             }
         }
 
-        // Ergebnisse in der Konsole ausgeben
+        // Debug-Ausgabe
         for (Map<String, Object> result : results) {
             for (Map.Entry<String, Object> entry : result.entrySet()) {
                 System.out.print(entry.getKey() + ": " + entry.getValue() + ", ");
@@ -63,10 +61,8 @@ public class dbConnFrage {
         String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " +
                 "VALUES (?, ?, ?::interval, ?, ?, ?::taxonomie_stufe, ?)";
 
-        try (
-                Connection conn = new DBconn().getConn();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+        try (Connection conn = dbConn.getConn();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, name);
             ps.setString(2, aufgabentext);
             ps.setString(3, zeit + " minutes");
@@ -83,10 +79,8 @@ public class dbConnFrage {
         String sql = "INSERT INTO aufgabe (name, aufgabentext, zeit, format, punkte, taxonomie, benutzer_id) " +
                 "VALUES (?, ?, ?::interval, ?, ?, ?::taxonomie_stufe, ?)";
 
-        try (
-                Connection conn = new DBconn().getConn();
-                PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)
-        ) {
+        try (Connection conn = dbConn.getConn();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, name);
             ps.setString(2, aufgabentext);
             ps.setObject(3, zeit + " minutes", Types.OTHER);
@@ -116,10 +110,8 @@ public class dbConnFrage {
 
         String sql = "UPDATE aufgabe SET " + sb + " WHERE " + conditionColumn + " = ?";
 
-        try (
-                Connection conn = new DBconn().getConn();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+        try (Connection conn = dbConn.getConn();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             for (int i = 0; i < value.length; i++) {
                 ps.setString(i + 1, value[i]);
             }
@@ -137,10 +129,8 @@ public class dbConnFrage {
     public static void sqlDelete(String column, String value) throws SQLException {
         String sql = "DELETE FROM aufgabe WHERE " + column + " = ?";
 
-        try (
-                Connection conn = new DBconn().getConn();
-                PreparedStatement ps = conn.prepareStatement(sql)
-        ) {
+        try (Connection conn = dbConn.getConn();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, value);
             ps.executeUpdate();
         }

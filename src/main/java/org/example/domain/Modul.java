@@ -1,6 +1,6 @@
 package org.example.domain;
 
-import org.example.dao.DBconn;
+import org.example.dao.dbConn;
 import org.example.dao.dbConnModul;
 
 import java.sql.SQLException;
@@ -41,7 +41,7 @@ public class Modul {
 	}
 
 	public static Modul getModul(int questionid) throws SQLException {
-		List<Map<String, Object>> rows = DBconn.sqlSelect("aufgaben_modul", "aufgabe_id", questionid);
+		List<Map<String, Object>> rows = dbConn.sqlSelect("aufgaben_modul", "aufgabe_id", questionid);
 
 		if (!rows.isEmpty()) {
 			int modulId = (Integer) rows.get(0).get("modul_id");

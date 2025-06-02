@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import org.example.Main;
+import org.example.dao.dbConn;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 import org.example.domain.benutzerKonto;
@@ -107,6 +108,7 @@ public class SceneController {
     public void logout(ActionEvent event) throws IOException {
         benutzerKonto konto = new benutzerKonto();
         konto.abmelden();
+        dbConn.closePool();
         switchToTitlePage(event);
     }
 
@@ -115,6 +117,7 @@ public class SceneController {
 
         benutzerKonto konto = new benutzerKonto();
         konto.abmelden();
+        dbConn.closePool();
         switchToTitlePage(stage);
     }
 

@@ -1,6 +1,6 @@
 package org.example.domain;
 
-import org.example.dao.DBconn;
+import org.example.dao.dbConn;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class Antwort {
 		List<Antwort> result = new ArrayList<>();
 
 		if (format == AntwortType.offeneAntwort) {
-			List<Map<String, Object>> rows = DBconn.sqlSelect("offene_aufgabe", "aufgabe_id", id);
+			List<Map<String, Object>> rows = dbConn.sqlSelect("offene_aufgabe", "aufgabe_id", id);
 			for (Map<String, Object> row : rows) {
 				result.add(new Antwort(
 						(Integer) row.get("aufgabe_id"),
@@ -58,7 +58,7 @@ public class Antwort {
 			}
 
 		} else if (format == AntwortType.geschlosseneAntwort) {
-			List<Map<String, Object>> rows = DBconn.sqlSelect("geschlossene_aufgabe", "aufgabe_id", id);
+			List<Map<String, Object>> rows = dbConn.sqlSelect("geschlossene_aufgabe", "aufgabe_id", id);
 			if (!rows.isEmpty()) {
 				Map<String, Object> firstRow = rows.get(0);
 				QuestionType closeType = QuestionType.fromName((String) firstRow.get("typ"));
@@ -67,7 +67,7 @@ public class Antwort {
 						closeType == QuestionType.multipleChoiceFragen ||
 						closeType == QuestionType.singleChoiceFragen) {
 
-					List<Map<String, Object>> antwortRows = DBconn.sqlSelect("antwortmoeglichkeit_geschlossen", "geschlossene_aufgabe_id", id);
+					List<Map<String, Object>> antwortRows = dbConn.sqlSelect("antwortmoeglichkeit_geschlossen", "geschlossene_aufgabe_id", id);
 					for (Map<String, Object> row : antwortRows) {
 						result.add(new Antwort(
 								(Integer) row.get("id"),
@@ -80,7 +80,7 @@ public class Antwort {
 
 				} else if (closeType == QuestionType.leerstellen || closeType == QuestionType.zuordnung) {
 
-					List<Map<String, Object>> antwortRows = DBconn.sqlSelect("antwortMehrParts_geschlossen", "geschlossene_aufgabe_id", id);
+					List<Map<String, Object>> antwortRows = dbConn.sqlSelect("antwortMehrParts_geschlossen", "geschlossene_aufgabe_id", id);
 					for (Map<String, Object> row : antwortRows) {
 						result.add(new Antwort(
 								(Integer) row.get("id"),
@@ -93,7 +93,7 @@ public class Antwort {
 
 				} else if (closeType == QuestionType.ranking) {
 
-					List<Map<String, Object>> antwortRows = DBconn.sqlSelect("antwortRanking_geschlossen", "geschlossene_aufgabe_id", id);
+					List<Map<String, Object>> antwortRows = dbConn.sqlSelect("antwortRanking_geschlossen", "geschlossene_aufgabe_id", id);
 					for (Map<String, Object> row : antwortRows) {
 						result.add(new Antwort(
 								(Integer) row.get("id"),

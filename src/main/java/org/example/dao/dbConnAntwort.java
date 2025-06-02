@@ -8,18 +8,15 @@ import java.util.Map;
 
 public class dbConnAntwort {
 
-    public static List<Map<String, Object>> sqlSelectAntwortId() throws SQLException {
+    public static List<Map<String, Object>> sqlSelectAntwortId(){
         String table = "antwort";
-        DBconn db = new DBconn();
-
         List<Map<String, Object>> results = new ArrayList<>();
-
         String sql = "SELECT * FROM " + table;
 
-        try (
-                PreparedStatement ps = db.getConn().prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()
-        ) {
+        try (Connection conn = dbConn.getConn();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
             while (rs.next()) {
                 Map<String, Object> row = new HashMap<>();
                 row.put("id", rs.getInt("id"));
@@ -40,22 +37,18 @@ public class dbConnAntwort {
         return results;
     }
 
-    public static void sqlInsertGeschlosseneAnt(String Antwort, String iskorrekt, int antwortId) throws SQLException {
+    public static void sqlInsertGeschlosseneAnt(String Antwort, String isCorrect, int antwortId) throws SQLException {
         String sql = "INSERT INTO geschlosseneantwort (antwort, iskorrekt, antwortid) " +
                 "VALUES (?, CAST(? AS bloom), ?)";
 
-        DBconn db = new DBconn();
+        try (Connection conn = dbConn.getConn();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        try (PreparedStatement ps = db.getConn().prepareStatement(sql)) {
             ps.setString(1, Antwort);
-            ps.setString(2, iskorrekt);
+            ps.setString(2, isCorrect);
             ps.setInt(3, antwortId);
 
-            int insertCount = ps.executeUpdate();
-            // System.out.println("Insert count: " + insertCount);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
+            ps.executeUpdate();
         }
     }
 }
