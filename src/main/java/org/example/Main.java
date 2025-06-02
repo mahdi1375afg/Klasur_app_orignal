@@ -1,6 +1,7 @@
 package org.example;
 
 import java.sql.SQLException;
+import java.util.Objects;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,7 @@ import org.example.domain.*;
 public class Main  extends Application {
 
     public static int id;
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
         launch(args);
 
     }
@@ -23,21 +24,15 @@ public class Main  extends Application {
         Task.getAllTasks(id);
     }
 
-    public static void terminateUser() throws SQLException {
-        Modul.modules.clear();
-        Task.tasks.clear();
-    }
-
     @Override
-    public void start(Stage stage) throws Exception {
-        //System.out.println(name);
+    public void start(Stage stage){
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/GUI/TitlePage.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/GUI/TitlePage.fxml")));
             Scene startScene = new Scene(root);
             stage.setScene(startScene);
+            stage.setTitle("Klausurgenerator");
+            stage.setMaximized(true);
             stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
     }
 }

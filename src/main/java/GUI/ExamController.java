@@ -98,11 +98,10 @@ public class ExamController extends SceneController {
         modulDropdown.getItems().addAll(Modul.getAllNames());
 
         textFieldExamTitle.textProperty().addListener((observable, oldValue, newValue) -> setExamTitle());
-
         textFieldExaminer.textProperty().addListener((observable, oldValue, newValue) -> setExaminer());
-
         textFieldNumberPoints.textProperty().addListener((observable, oldValue, newValue) -> setNumberPoints());
 
+        // Alle Spinner initial mit min=0, max=10, start=0
         spinnerAmountOpenQuestion.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
         spinnerAmountSingleChoice.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
         spinnerAmountMultipleChoice.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
@@ -111,7 +110,7 @@ public class ExamController extends SceneController {
         spinnerAmountAssign.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
         spinnerAmountRanking.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
 
-        //Spinner deaktivieren
+        // Alle Spinner deaktivieren
         spinnerAmountOpenQuestion.setDisable(true);
         spinnerAmountSingleChoice.setDisable(true);
         spinnerAmountMultipleChoice.setDisable(true);
@@ -120,31 +119,28 @@ public class ExamController extends SceneController {
         spinnerAmountAssign.setDisable(true);
         spinnerAmountRanking.setDisable(true);
 
-        // Spinner aktivieren, wenn Aufgabetyp ausgewählt wird
-        rButtonTypOpen.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
-            spinnerAmountOpenQuestion.setDisable(!newSelected);
-        });
-        rButtonTypSingle.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
-            spinnerAmountSingleChoice.setDisable(!newSelected);
-        });
-        rButtonTypMultiple.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
-            spinnerAmountMultipleChoice.setDisable(!newSelected);
-        });
-        rButtonTypTrueFalsch.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
-            SpinnerAmountTrueFalse.setDisable(!newSelected);
-        });
-        rButtonTypGapText.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
-            SpinnerAmountGapText.setDisable(!newSelected);
-        });
-        rButtonTypAssign.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
-            spinnerAmountAssign.setDisable(!newSelected);
-        });
-        rButtonTypRanking.selectedProperty().addListener((observable, oldSelected, newSelected) -> {
-            spinnerAmountRanking.setDisable(!newSelected);
-        });
-
+        // RadioButton-Listener mit Logik zur Spinner-Aktivierung
+        setupSpinnerWithRadio(rButtonTypOpen, spinnerAmountOpenQuestion);
+        setupSpinnerWithRadio(rButtonTypSingle, spinnerAmountSingleChoice);
+        setupSpinnerWithRadio(rButtonTypMultiple, spinnerAmountMultipleChoice);
+        setupSpinnerWithRadio(rButtonTypTrueFalsch, SpinnerAmountTrueFalse);
+        setupSpinnerWithRadio(rButtonTypGapText, SpinnerAmountGapText);
+        setupSpinnerWithRadio(rButtonTypAssign, spinnerAmountAssign);
+        setupSpinnerWithRadio(rButtonTypRanking, spinnerAmountRanking);
     }
 
+
+    private void setupSpinnerWithRadio(RadioButton radio, Spinner<Integer> spinner) {
+        radio.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            if (isSelected) {
+                spinner.setDisable(false);
+                spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 10, 1));
+            } else {
+                spinner.setDisable(true);
+                spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 10, 0));
+            }
+        });
+    }
 
     public void setExamDate() {
         String input = textFieldExamDate.getText().trim();
@@ -179,7 +175,7 @@ public class ExamController extends SceneController {
         }
     }
 
-    public void setModul() throws SQLException {
+    public void setModul(){
         for(Modul modul : Modul.modules) {
             if(modul.getName().equals(modulDropdown.getValue())) {
                 this.modul = modul;
@@ -306,28 +302,26 @@ public class ExamController extends SceneController {
                 super.switchToStartPage(event);
                 break;
             case 1:
-                showAlert("Nach Filter Modul, sind nicht mehr genug Aufgaben da. Es werden mehr Aufgabe unter diesem Modul gebraucht!");
+                showAlert("Nicht genügend Aufgaben für dieses " + modul + " vorhanden. Bitte fügen Sie weitere Aufgaben hinzu!");
                 break;
             case 2:
-                showAlert("Nach Filter Bloom, sind nicht mehr genug Aufgaben da. Es werden mehr Aufgabe unter einem Bloom gebraucht!");
+                showAlert("Nicht genügend Aufgaben für die gewählten Taxonomien vorhanden. Bitte fügen Sie weitere Aufgaben hinzu!");
                 break;
             case 3:
-                showAlert("Nach Filter Typ, sind nicht mehr genug Aufgaben da. Es werden mehr Aufgabe unter einem Typ gebraucht!");
+                showAlert("Nicht genügend Aufgaben für die gewählten Aufgabentypen vorhanden. Bitte fügen Sie weitere Aufgaben hinzu!");
                 break;
             case 4:
-                showAlert("Kein Task mit passendem Typ gefunden");
+                showAlert("Keine passenden Aufgaben vorhanden. Bitte wählen Sie eine anderer Konfiguration zum Erstellen aus!");
                 break;
         }
-
-
     }
 
 
     @FXML
     public void setTaskTaxonomie() {
-        if(bloomLevel != null) {
-            bloomLevel.clear();
-        }
+
+        bloomLevel.clear();
+
 
         if (rButtonTaxonomieRemember.isSelected()) {
             bloomLevel.add(BloomLevel.erinnern);
@@ -351,12 +345,9 @@ public class ExamController extends SceneController {
 
     @FXML
     public void setTaskType() {
-        if(antwortType != null) {
-            antwortType.clear();
-        }
-        if(questionType != null) {
-            questionType.clear();
-        }
+
+        antwortType.clear();
+        questionType.clear();
 
         if (rButtonTypOpen.isSelected()) {
             antwortType.add(AntwortType.offeneAntwort);
@@ -417,18 +408,5 @@ public class ExamController extends SceneController {
     public void logout(ActionEvent event) throws IOException {
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.logout(stage);
-    }
-
-    @Override
-    protected boolean showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Achtung!");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        alert.getButtonTypes().setAll(ButtonType.OK);
-
-        alert.showAndWait();
-        return true;
     }
 }

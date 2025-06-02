@@ -57,6 +57,8 @@ public class ExamService {
 
 
     public int createKlausur() throws IOException {
+        //ToDo: Algorithmus robuster machen und darauf achten, dass Algorithmus oprimale und nicht erste Lösung verwendet
+
         List<Task> allTasks = Task.tasks;
         // Filter
         List<Task> moduleTasks = new ArrayList<>();
@@ -202,6 +204,8 @@ public class ExamService {
 
 
     public static void generatePdf() throws IOException {
+        //ToDo: Deckblatt erstellen, alle Arten von Aufgaben hinzufügen
+
         Document document = new Document(PageSize.A4);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(name + ".pdf"));
         document.open();
@@ -218,7 +222,6 @@ public class ExamService {
         document.add(new Paragraph("Klausur: " + name + "                                " + "Datum: " + date.toString(), headerFont));
         //document.add(new Paragraph("Prüfer: " + Pruefer));
         document.add(new Paragraph(" "));
-
 
         int aufgabeNummer = 1;
         for(Task task : tasks) {
@@ -246,6 +249,7 @@ public class ExamService {
                     document.add(antwortParagraph);
                 }
             }
+
             document.add(new Paragraph(" "));
 
             aufgabeNummer++;
