@@ -48,6 +48,10 @@ public class AssignController extends SceneController{
         this.aufgabe = aufgabe;
     }
 
+    public AufgabeService getAufgabe() {
+        return aufgabe;
+    }
+
     @FXML
     public void initialize() {
         //Fügt die default Textfelder zur jeweiligen Liste hinzu
