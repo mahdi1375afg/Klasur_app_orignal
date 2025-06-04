@@ -8,9 +8,7 @@ import org.example.dao.*;
 import org.postgresql.util.PGobject;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import java.util.Map;
 import java.util.Scanner; // nur für ohne GUI testing
 
 public class benutzerKonto {
@@ -82,7 +80,7 @@ public class benutzerKonto {
 				System.out.println("Bitte geben Sie den neuen Aufgaben Name ein:");
 				String newAntwortText1 = scanner.nextLine();
 				try {
-					DBconn.sqlUpdate("aufgabe", new String[]{"name"}, new Object[]{newAntwortText1}, "id", id);
+					dbConn.sqlUpdate("aufgabe", new String[]{"name"}, new Object[]{newAntwortText1}, "id", id);
 					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
 
 				} catch (SQLException e) {
@@ -94,7 +92,7 @@ public class benutzerKonto {
 				System.out.println("Bitte geben Sie den neuen Aufgaben Text ein:");
 				String aufgabeText = scanner.nextLine();
 				try {
-					DBconn.sqlUpdate("aufgabe", new String[]{"aufgabentext"}, new Object[]{aufgabeText}, "id", id);
+					dbConn.sqlUpdate("aufgabe", new String[]{"aufgabentext"}, new Object[]{aufgabeText}, "id", id);
 					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
 
 				} catch (SQLException e) {
@@ -106,7 +104,7 @@ public class benutzerKonto {
 				int dauer = Integer.parseInt(scanner.nextLine());
 
 				try {
-					DBconn.sqlUpdate("aufgabe", new String[]{"zeit"}, new Object[]{dauer}, "id", id);
+					dbConn.sqlUpdate("aufgabe", new String[]{"zeit"}, new Object[]{dauer}, "id", id);
 					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
 
 				} catch (SQLException e) {
@@ -118,7 +116,7 @@ public class benutzerKonto {
 				System.out.println("Bitte geben Sie den neuen Format (Offen oder Geschlossen) ein:");
 				String format = scanner.nextLine();
 				try {
-					DBconn.sqlUpdate("aufgabe", new String[]{"format"}, new Object[]{format}, "id", id);
+					dbConn.sqlUpdate("aufgabe", new String[]{"format"}, new Object[]{format}, "id", id);
 					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
 
 				} catch (SQLException e) {
@@ -130,7 +128,7 @@ public class benutzerKonto {
 				System.out.println("Bitte geben Sie den neue Taxonomie ein:");
 				String taxonomie= scanner.nextLine();
 				try {
-					DBconn.sqlUpdate("aufgabe", new String[]{"taxonomie"}, new Object[]{taxonomie}, "id", id);
+					dbConn.sqlUpdate("aufgabe", new String[]{"taxonomie"}, new Object[]{taxonomie}, "id", id);
 					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
 
 				} catch (SQLException e) {
@@ -142,7 +140,7 @@ public class benutzerKonto {
 				System.out.println("Bitte geben Sie den neuen Punkte ein:");
 				int punkt = Integer.parseInt(scanner.nextLine());
 				try {
-					DBconn.sqlUpdate("aufgabe", new String[]{"punkte"}, new Object[]{punkt}, "id", id);
+					dbConn.sqlUpdate("aufgabe", new String[]{"punkte"}, new Object[]{punkt}, "id", id);
 					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
 
 				} catch (SQLException e) {
@@ -154,7 +152,7 @@ public class benutzerKonto {
 				System.out.println("Bitte geben Sie den neuen Art der Geschlossenen Frage ein:");
 				String art = scanner.nextLine();
 				try {
-					DBconn.sqlUpdate("geschlossene_aufgabe", new String[]{"typ"}, new Object[]{art}, "id", id);
+					dbConn.sqlUpdate("geschlossene_aufgabe", new String[]{"typ"}, new Object[]{art}, "id", id);
 					System.out.println("Aufgabe tabelle erfolgreich bearbeitet.");
 
 				} catch (SQLException e) {
@@ -171,8 +169,8 @@ public class benutzerKonto {
 
 
 	public void antwortErstellenOffen(int fragenId, String key) {
-		try (Connection conn = DBconn.getConn()) {
-			DBconn.sqlInsert(conn, "offene_aufgabe",
+		try (Connection conn = dbConn.getConn()) {
+			dbConn.sqlInsert(conn, "offene_aufgabe",
 					new String[]{"musterloesung", "aufgabe_id"},
 					new Object[]{key, fragenId});
 		} catch (SQLException e) {
@@ -181,11 +179,11 @@ public class benutzerKonto {
 	}
 
 	public void frageErstellenGeschlossen(int fragenId, String questionType) {
-		try (Connection conn = DBconn.getConn()) {
+		try (Connection conn = dbConn.getConn()) {
 			PGobject enumObj = new PGobject();
 			enumObj.setType("aufgaben_typ");
 			enumObj.setValue(questionType);
-			DBconn.sqlInsert(conn, "geschlossene_aufgabe", new String[]{"typ", "aufgabe_id"}, new Object[]{enumObj, fragenId});
+			dbConn.sqlInsert(conn, "geschlossene_aufgabe", new String[]{"typ", "aufgabe_id"}, new Object[]{enumObj, fragenId});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -193,8 +191,8 @@ public class benutzerKonto {
 
 
 	public void antwortErstellenGeschlossen(int fragenId, String key, Boolean value) {
-		try (Connection conn = DBconn.getConn()) {
-			DBconn.sqlInsert(conn, "antwortmoeglichkeit_geschlossen",
+		try (Connection conn = dbConn.getConn()) {
+			dbConn.sqlInsert(conn, "antwortmoeglichkeit_geschlossen",
 					new String[]{"antworttext", "ist_korrekt", "geschlossene_aufgabe_id"},
 					new Object[]{key, value, fragenId});
 		} catch (SQLException e) {
@@ -204,8 +202,8 @@ public class benutzerKonto {
 
 
 	public void antwortErstellenGeschlossenMultipleParts(int fragenId, String key, String value) {
-		try (Connection conn = DBconn.getConn()) {
-			DBconn.sqlInsert(conn, "antwortMehrParts_geschlossen",
+		try (Connection conn = dbConn.getConn()) {
+			dbConn.sqlInsert(conn, "antwortMehrParts_geschlossen",
 					new String[]{"antworttext", "antworttext2", "geschlossene_aufgabe_id"},
 					new Object[]{key, value, fragenId});
 		} catch (SQLException e) {
@@ -215,8 +213,8 @@ public class benutzerKonto {
 
 
 	public void antwortErstellenGeschlossenRanking(int fragenId, String key, Integer value) {
-		try (Connection conn = DBconn.getConn()) {
-			DBconn.sqlInsert(conn, "antwortRanking_geschlossen",
+		try (Connection conn = dbConn.getConn()) {
+			dbConn.sqlInsert(conn, "antwortRanking_geschlossen",
 					new String[]{"antworttext", "rank", "geschlossene_aufgabe_id"},
 					new Object[]{key, value, fragenId});
 		} catch (SQLException e) {
@@ -233,8 +231,8 @@ public class benutzerKonto {
 			return;
 		}
 
-		try (Connection conn = DBconn.getConn()) {
-			DBconn.sqlInsert(conn, "aufgaben_modul",
+		try (Connection conn = dbConn.getConn()) {
+			dbConn.sqlInsert(conn, "aufgaben_modul",
 					new String[]{"aufgabe_id", "modul_id"},
 					new Object[]{aufgabe_id, modul_id});
 		} catch (SQLException e) {
@@ -254,7 +252,7 @@ public class benutzerKonto {
 			String newAntwortText = scanner.nextLine();
 
 			try {
-				DBconn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"antworttext"}, new Object[]{newAntwortText}, "id", id);
+				dbConn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"antworttext"}, new Object[]{newAntwortText}, "id", id);
 				System.out.println("Antwort erfolgreich bearbeitet.");
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -274,7 +272,7 @@ public class benutzerKonto {
 					ant.setAntwortText(newAntwortText1);
 
 					try {
-						DBconn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"antworttext"}, new Object[]{newAntwortText1}, "id", id);
+						dbConn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"antworttext"}, new Object[]{newAntwortText1}, "id", id);
 						System.out.println("antwort table erfolgreich bearbeitet.");
 
 
@@ -294,7 +292,7 @@ public class benutzerKonto {
 						} else {
 							korrekt = "false";
 						}
-						DBconn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"ist_korrekt"}, new Object[]{korrekt}, "id", id);
+						dbConn.sqlUpdate("antwortmoeglichkeit_geschlossen", new String[]{"ist_korrekt"}, new Object[]{korrekt}, "id", id);
 						System.out.println("antwort table erfolgreich bearbeitet.");
 					} catch (SQLException e) {
 						e.printStackTrace();
@@ -363,8 +361,8 @@ public class benutzerKonto {
 	}
 
 	public void createModul(String modulTitleText) {
-		try (Connection conn = DBconn.getConn()) {
-			DBconn.sqlInsert(conn, "modul", new String[]{"name"}, new Object[]{modulTitleText});
+		try (Connection conn = dbConn.getConn()) {
+			dbConn.sqlInsert(conn, "modul", new String[]{"name"}, new Object[]{modulTitleText});
 			Modul.getAllModul();
 		} catch (SQLException e) {
 			e.printStackTrace();

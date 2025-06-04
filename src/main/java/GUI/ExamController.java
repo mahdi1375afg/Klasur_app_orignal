@@ -250,31 +250,38 @@ public class ExamController extends SceneController {
         System.out.println("Examiner:" + examiner);
         System.out.println("Time: " + time);
         System.out.println("Number Points: " + numberPoints);
+        Map<QuestionType, Integer> questionTypes = new HashMap<>();
 
         if (amountOpen > 0) {
             System.out.println("Anzahl offene Aufgaben: " + amountOpen);
+            questionTypes.put(QuestionType.offen, amountOpen);
         }
         if (amountSingleChoice > 0) {
             System.out.println("Anzahl Single-Choice Aufgaben: " + amountSingleChoice);
+            questionTypes.put(QuestionType.singleChoiceFragen, amountOpen);
         }
         if (amountMultipleChoice > 0) {
             System.out.println("Anzahl Multiple-Choice Aufgaben: " + amountMultipleChoice);
+            questionTypes.put(QuestionType.multipleChoiceFragen, amountOpen);
         }
         if (amountTrueFalse > 0) {
             System.out.println(" Anzahl True/False Aufgaben: " + amountTrueFalse);
+            questionTypes.put(QuestionType.wahrOderFalsch, amountOpen);
         }
         if (amountGapText > 0) {
             System.out.println(" Anzahl Lückentext Aufgaben: " + amountTrueFalse);
+            questionTypes.put(QuestionType.leerstellen, amountOpen);
         }
         if (amountAssign > 0) {
             System.out.println(" Anzahl Zuordnungsaufgaben: " + amountAssign);
+            questionTypes.put(QuestionType.zuordnung, amountOpen);
         }
         if (amountRanking > 0) {
             System.out.println("Anzahl Ranking Aufgaben: " + amountRanking);
+            questionTypes.put(QuestionType.ranking, amountOpen);
         }
 
-        Map<QuestionType, Integer> questionTypes = new HashMap<>();
-
+        /*
         for(QuestionType questionType : questionType) {
             if(questionType == QuestionType.offen) {
                 questionTypes.put(questionType, amountOpen);
@@ -292,6 +299,8 @@ public class ExamController extends SceneController {
                 questionTypes.put(questionType, amountRanking);
             }
         }
+
+         */
 
 
         ExamService exam = new ExamService(examTitle,examDate,numberPoints,time,modul,questionTypes,bloomLevel,examiner,benutzerKonto.aktuellerBenutzer.getId());
@@ -353,30 +362,51 @@ public class ExamController extends SceneController {
         questionType.clear();
 
         if (rButtonTypOpen.isSelected()) {
+            if(spinnerAmountOpenQuestion.getValue() <= 0) {
+                showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
+            }
             antwortType.add(AntwortType.offeneAntwort);
             questionType.add(QuestionType.offen);
         }
         if (rButtonTypSingle.isSelected()) {
+            if(spinnerAmountSingleChoice.getValue() <= 0) {
+                showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
+            }
             antwortType.add(AntwortType.geschlosseneAntwort);
             questionType.add(QuestionType.singleChoiceFragen);
         }
         if (rButtonTypMultiple.isSelected()) {
+            if(spinnerAmountMultipleChoice.getValue() <= 0) {
+                showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
+            }
             antwortType.add(AntwortType.geschlosseneAntwort);
             questionType.add(QuestionType.multipleChoiceFragen);
         }
         if (rButtonTypTrueFalsch.isSelected()) {
+            if(SpinnerAmountTrueFalse.getValue() <= 0) {
+                showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
+            }
             antwortType.add(AntwortType.geschlosseneAntwort);
             questionType.add(QuestionType.wahrOderFalsch);
         }
         if (rButtonTypGapText.isSelected()) {
+            if(SpinnerAmountGapText.getValue() <= 0) {
+                showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
+            }
             antwortType.add(AntwortType.geschlosseneAntwort);
             questionType.add(QuestionType.leerstellen);
         }
         if (rButtonTypAssign.isSelected()) {
+            if(spinnerAmountAssign.getValue() <= 0) {
+                showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
+            }
             antwortType.add(AntwortType.geschlosseneAntwort);
             questionType.add(QuestionType.zuordnung);
         }
         if (rButtonTypRanking.isSelected()) {
+            if(spinnerAmountRanking.getValue() <= 0) {
+                showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
+            }
             antwortType.add(AntwortType.geschlosseneAntwort);
             questionType.add(QuestionType.ranking);
         }

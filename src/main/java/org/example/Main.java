@@ -8,11 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import org.example.dao.dbConn;
 import org.example.domain.*;
 
 public class Main  extends Application {
 
-    public static int id;
+    public static Integer id;
     public static void main(String[] args){
         launch(args);
 
@@ -32,7 +34,14 @@ public class Main  extends Application {
             stage.setScene(startScene);
             stage.setTitle("Klausurgenerator");
             stage.setMaximized(true);
-            stage.show();
+
+            stage.setOnCloseRequest((WindowEvent we) -> {
+                if(Main.id != null) {
+                    dbConn.closePool();
+                }
+            });
+
         } catch (Exception ignored) {}
+            stage.show();
     }
 }
