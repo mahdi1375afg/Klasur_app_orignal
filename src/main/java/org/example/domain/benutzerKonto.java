@@ -9,6 +9,7 @@ import org.postgresql.util.PGobject;
 
 import java.sql.SQLException;
 
+import java.time.LocalDate;
 import java.util.Scanner; // nur für ohne GUI testing
 
 public class benutzerKonto {
@@ -241,6 +242,22 @@ public class benutzerKonto {
 	}
 
 
+	public int ExamErstellen(String name, LocalDate date, int totalPoints, int id) throws SQLException {
+		dbConnExam connection = new dbConnExam();
+		return connection.getId(name, date, totalPoints, id);
+	}
+
+	public void createTaskToExam(int id, int examId) {
+		try (Connection conn = dbConn.getConn()) {
+			dbConn.sqlInsert(conn, "aufgaben_klausur",
+					new String[]{"aufgabe_id", "klausur_id"},
+					new Object[]{id, examId});
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 	//noch nicht fertig
 	public void antwortBearbeiten(Antwort ant) {
 		Scanner scanner = new Scanner(System.in);
@@ -368,4 +385,5 @@ public class benutzerKonto {
 			e.printStackTrace();
 		}
 	}
+
 }

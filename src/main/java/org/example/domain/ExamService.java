@@ -3,6 +3,7 @@ package org.example.domain;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -14,20 +15,20 @@ import java.util.List;
 
 public class ExamService {
 
-    static String name;
-    static LocalDate date;
-    static int totalPoints;
+    String name;
+    LocalDate date;
+    int totalPoints;
     int totalTime;
-    static Modul modul;
-    static String pruefer;
-    static String schule = "Hochschule Furtwangen";
+    Modul modul;
+    String pruefer;
+    String schule = "Hochschule Furtwangen";
     Map<QuestionType, Integer> questionType;
     List<BloomLevel> bloomLevels;
     int user_id;
 
     static List<Task> tasks;
 
-    public ExamService(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, String pruefer, int user_id) {
+    public ExamService(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, int user_id) {
         this.name = name;
         this.date = date;
         this.totalPoints = totalPoints;
@@ -35,8 +36,20 @@ public class ExamService {
         this.modul = modul;
         this.questionType = questionType;
         this.bloomLevels = bloomLevels;
-        this.pruefer = pruefer;
+        this.pruefer = "pruefer";
         this.user_id = user_id;
+    }
+
+    public void save() throws SQLException {
+        benutzerKonto konto = new benutzerKonto();
+        int examId = konto.ExamErstellen(name,date,totalPoints,benutzerKonto.aktuellerBenutzer.getId());
+        for(Task t : tasks) {
+            konto.createTaskToExam(t.getQuestion().getId(),examId);
+        }
+
+        System.out.println("Save das Exam!");
+        Exam.getAllExams(benutzerKonto.aktuellerBenutzer.getId());
+
     }
 
     private boolean checkIfTimeAndPoints(List<Task> tasks) {
@@ -56,7 +69,7 @@ public class ExamService {
         return true;
     }
 
-    public int createKlausur() throws IOException {
+    public int createKlausur() throws IOException, SQLException {
         //ToDo: Algorithmus robuster machen und darauf achten, dass Algorithmus oprimale und nicht erste Lösung verwendet
 
         List<Task> allTasks = Task.tasks;
@@ -108,10 +121,7 @@ public class ExamService {
                 Task task = it.next();
                 if (task.getQuestion().getTaxonomie().equals(bloomLevel)) {
                     QuestionType type = task.getAnswer().getFirst().getTyp();
-                    if (remainingTypeCounts.getOrDefault(type, 0) > 0 &&
-                            task.getQuestion().getPoints() <= remainingPoints &&
-                            task.getQuestion().getTime() <= remainingTime) {
-
+                    if (remainingTypeCounts.getOrDefault(type, 0) > 0 && task.getQuestion().getPoints() <= remainingPoints && task.getQuestion().getTime() <= remainingTime) {
                         selectedTasks.add(task);
                         it.remove();
                         remainingPoints -= task.getQuestion().getPoints();
@@ -228,13 +238,14 @@ public class ExamService {
         System.out.println("Zeit uebrig: " + remainingTime);
         tasks = selectedTasks;
         System.out.println("Exam konnte erstellt werden mit: " + selectedTasks.size() + " Tasks");
-        generatePdf();
+        save();
+        generatePdf(name,date,totalPoints,0,modul,questionType,bloomLevels,pruefer,user_id,schule);
         return 0; // Erfolgreich erstellt
     }
 
 
 
-    public static void generatePdf() throws IOException {
+    public static void generatePdf(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, String pruefer, int user_id, String schule) throws IOException {
         //ToDo: Deckblatt erstellen, alle Arten von Aufgaben hinzufügen
 
         Document document = new Document(PageSize.A4);

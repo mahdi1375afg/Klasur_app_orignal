@@ -258,52 +258,32 @@ public class ExamController extends SceneController {
         }
         if (amountSingleChoice > 0) {
             System.out.println("Anzahl Single-Choice Aufgaben: " + amountSingleChoice);
-            questionTypes.put(QuestionType.singleChoiceFragen, amountOpen);
+            questionTypes.put(QuestionType.singleChoiceFragen, amountSingleChoice);
         }
         if (amountMultipleChoice > 0) {
             System.out.println("Anzahl Multiple-Choice Aufgaben: " + amountMultipleChoice);
-            questionTypes.put(QuestionType.multipleChoiceFragen, amountOpen);
+            System.out.println(amountOpen);
+            questionTypes.put(QuestionType.multipleChoiceFragen, amountMultipleChoice);
         }
         if (amountTrueFalse > 0) {
             System.out.println(" Anzahl True/False Aufgaben: " + amountTrueFalse);
-            questionTypes.put(QuestionType.wahrOderFalsch, amountOpen);
+            questionTypes.put(QuestionType.wahrOderFalsch, amountTrueFalse);
         }
         if (amountGapText > 0) {
-            System.out.println(" Anzahl Lückentext Aufgaben: " + amountTrueFalse);
-            questionTypes.put(QuestionType.leerstellen, amountOpen);
+            System.out.println(" Anzahl Lückentext Aufgaben: " + amountGapText);
+            questionTypes.put(QuestionType.leerstellen, amountGapText);
         }
         if (amountAssign > 0) {
             System.out.println(" Anzahl Zuordnungsaufgaben: " + amountAssign);
-            questionTypes.put(QuestionType.zuordnung, amountOpen);
+            questionTypes.put(QuestionType.zuordnung, amountAssign);
         }
         if (amountRanking > 0) {
             System.out.println("Anzahl Ranking Aufgaben: " + amountRanking);
-            questionTypes.put(QuestionType.ranking, amountOpen);
+            questionTypes.put(QuestionType.ranking, amountRanking);
         }
 
-        /*
-        for(QuestionType questionType : questionType) {
-            if(questionType == QuestionType.offen) {
-                questionTypes.put(questionType, amountOpen);
-            } else if(questionType == QuestionType.singleChoiceFragen) {
-                questionTypes.put(questionType, amountSingleChoice);
-            } else if(questionType == QuestionType.multipleChoiceFragen) {
-                questionTypes.put(questionType, amountMultipleChoice);
-            } else if(questionType == QuestionType.wahrOderFalsch) {
-                questionTypes.put(questionType, amountTrueFalse);
-            } else if(questionType == QuestionType.leerstellen) {
-                questionTypes.put(questionType, amountGapText);
-            } else if(questionType == QuestionType.zuordnung) {
-                questionTypes.put(questionType, amountAssign);
-            } else if(questionType == QuestionType.ranking) {
-                questionTypes.put(questionType, amountRanking);
-            }
-        }
 
-         */
-
-
-        ExamService exam = new ExamService(examTitle,examDate,numberPoints,time,modul,questionTypes,bloomLevel,examiner,benutzerKonto.aktuellerBenutzer.getId());
+        ExamService exam = new ExamService(examTitle,examDate,numberPoints,time,modul,questionTypes,bloomLevel,benutzerKonto.aktuellerBenutzer.getId());
 
         switch(exam.createKlausur()) {
             case 0:
@@ -334,22 +314,26 @@ public class ExamController extends SceneController {
 
         bloomLevel.clear();
 
-
         if (rButtonTaxonomieRemember.isSelected()) {
             bloomLevel.add(BloomLevel.erinnern);
         }
+
         if (rButtonTaxonomieUnderstand.isSelected()) {
             bloomLevel.add(BloomLevel.verstehen);
         }
+
         if (rButtonTaxonomieApply.isSelected()) {
             bloomLevel.add(BloomLevel.anwenden);
         }
+
         if (rButtonTaxonomieAnalyze.isSelected()) {
             bloomLevel.add(BloomLevel.analysieren);
         }
+
         if (rButtonTaxonomieRate.isSelected()) {
             bloomLevel.add(BloomLevel.bewerten);
         }
+
         if (rButtonTaxonomieCreate.isSelected()) {
             bloomLevel.add(BloomLevel.erschaffen);
         }
