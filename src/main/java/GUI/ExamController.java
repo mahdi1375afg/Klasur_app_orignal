@@ -294,7 +294,7 @@ public class ExamController extends SceneController {
         }
 
 
-        ExamService exam = new ExamService(examTitle,examDate,numberPoints,time,modul,questionTypes,bloomLevel,benutzerKonto.aktuellerBenutzer.getId());
+        ExamService exam = new ExamService(examTitle,examDate,numberPoints,time,modul,questionTypes,bloomLevel,examiner,benutzerKonto.aktuellerBenutzer.getId());
 
         switch(exam.createKlausur()) {
             case 0:

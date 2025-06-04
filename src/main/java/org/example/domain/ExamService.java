@@ -4,14 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 import java.awt.Color;
+import java.util.List;
 
 
 public class ExamService {
@@ -20,14 +18,16 @@ public class ExamService {
     static LocalDate date;
     int totalPoints;
     int totalTime;
-    Modul modul;
+    static Modul modul;
+    static String pruefer;
+    static String schule = "Hochschule Furtwangen";
     Map<QuestionType, Integer> questionType;
     List<BloomLevel> bloomLevels;
     int user_id;
 
     static List<Task> tasks;
 
-    public ExamService(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, int user_id) {
+    public ExamService(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, String pruefer, int user_id) {
         this.name = name;
         this.date = date;
         this.totalPoints = totalPoints;
@@ -35,6 +35,7 @@ public class ExamService {
         this.modul = modul;
         this.questionType = questionType;
         this.bloomLevels = bloomLevels;
+        this.pruefer = pruefer;
         this.user_id = user_id;
     }
 
@@ -223,10 +224,10 @@ public class ExamService {
             }
         }
 
-        System.out.println("Punkte übrig: " + remainingPoints);
-        System.out.println("Zeit übrig: " + remainingTime);
+        System.out.println("Punkte uebrig: " + remainingPoints);
+        System.out.println("Zeit uebrig: " + remainingTime);
         tasks = selectedTasks;
-        System.out.println("Exam könnte erstellt werden mit: " + selectedTasks.size() + " Tasks");
+        System.out.println("Exam konnte erstellt werden mit: " + selectedTasks.size() + " Tasks");
         generatePdf();
         return 0; // Erfolgreich erstellt
     }
@@ -239,6 +240,100 @@ public class ExamService {
         Document document = new Document(PageSize.A4);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(name + ".pdf"));
         document.open();
+
+        // Deckblatt erstellen
+        Font titleFont = new Font(Font.HELVETICA, 18, Font.BOLD);
+        Font subTitleFont = new Font(Font.HELVETICA, 14, Font.NORMAL);
+        Font boldFont = new Font(Font.HELVETICA, 12, Font.BOLD);
+        Font normalFont = new Font(Font.HELVETICA, 12);
+
+        //Header
+        Paragraph header = new Paragraph("Klausur zur Vorlesung\n\n" + modul.getName() + "\n\n" + schule + "\n" + date + "\n\n" + pruefer, titleFont);
+        header.setAlignment(Element.ALIGN_CENTER);
+        header.setSpacingAfter(30);
+        document.add(header);
+
+        //Hinweis
+        Paragraph hinweis = new Paragraph("Bitte tragen Sie Ihre Matrikelnummer und Ihren Namen ein!", boldFont);
+        hinweis.setSpacingAfter(10);
+        document.add(hinweis);
+
+        document.add(Chunk.NEWLINE);
+        document.add(Chunk.NEWLINE);
+
+        // Name & Matrikelnummer
+        PdfPTable table1 = new PdfPTable(1);
+        table1.setWidthPercentage(100);
+
+        PdfPCell nameCell = new PdfPCell(new Phrase("Name, Vorname", normalFont));
+        nameCell.setFixedHeight(30);
+        table1.addCell(nameCell);
+
+        PdfPCell matrikelCell = new PdfPCell(new Phrase("Matrikelnummer", normalFont));
+        matrikelCell.setFixedHeight(30);
+        table1.addCell(matrikelCell);
+
+        document.add(table1);
+
+
+        int anzahlAufgaben = tasks.size();
+        int totalCols = anzahlAufgaben + 2;
+
+        float[] spaltenBreiten = new float[totalCols];
+        Arrays.fill(spaltenBreiten, 1f);
+
+        PdfPTable punktetabelle = new PdfPTable(spaltenBreiten);
+        punktetabelle.setWidthPercentage(70);
+        punktetabelle.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+        PdfPCell punkteHeader = new PdfPCell(new Phrase("Punkte", boldFont));
+        punkteHeader.setColspan(anzahlAufgaben + 1);
+        punkteHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
+        punktetabelle.addCell(punkteHeader);
+
+        PdfPCell noteCell = new PdfPCell(new Phrase("Note", boldFont));
+        noteCell.setRowspan(3);
+        noteCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        noteCell.setVerticalAlignment(Element.ALIGN_TOP);
+        punktetabelle.addCell(noteCell);
+
+        for (int i = 1; i <= anzahlAufgaben; i++) {
+            PdfPCell nummerZelle = new PdfPCell(new Phrase(String.valueOf(i), normalFont));
+            nummerZelle.setHorizontalAlignment(Element.ALIGN_CENTER);
+            punktetabelle.addCell(nummerZelle);
+        }
+        PdfPCell summeZelle = new PdfPCell(new Phrase("Σ", normalFont));
+        summeZelle.setHorizontalAlignment(Element.ALIGN_CENTER);
+        punktetabelle.addCell(summeZelle);
+
+        for (int i = 0; i < anzahlAufgaben + 1; i++) {
+            PdfPCell leer = new PdfPCell(new Phrase(" "));
+            punktetabelle.addCell(leer);
+        }
+
+        document.add(punktetabelle);
+
+
+
+        document.add(Chunk.NEWLINE);
+
+        //Hinweise
+        Paragraph hinweise = new Paragraph("Bitte beachten Sie:\n\n" + "   • Ab 45 (von 90 möglichen) Punkten ist die Klausur bestanden (Note 4.0).\n" + "   • Nur Stifte und leere Papierblätter sind als Hilfsmittel erlaubt.\n", normalFont);
+        hinweise.setSpacingBefore(20);
+        document.add(hinweise);
+        document.add(Chunk.NEWLINE);
+
+        // Viel Erfolg
+        Paragraph erfolg = new Paragraph("Viel Erfolg!", boldFont);
+        erfolg.setSpacingBefore(20);
+        document.add(erfolg);
+
+
+        document.newPage();
+
+
+        // HIER GEHT AUFGABEN LOS
+
 
         PdfContentByte cb = writer.getDirectContent();
 
