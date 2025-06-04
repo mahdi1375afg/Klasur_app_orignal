@@ -39,12 +39,13 @@ public class AssignController extends SceneController{
 
     private final List<TextArea> answerAreas = new ArrayList<>();
     private final List<TextArea> solutionAreas = new ArrayList<>();
-
     private AufgabeService aufgabe;
     private boolean editMode = false;
     private Task selectedTask;
 
     public void setAufgabe(AufgabeService aufgabe) {
+        //Grundlegende Informationen zur Aufgabe setzen
+
         this.aufgabe = aufgabe;
     }
 
@@ -54,12 +55,13 @@ public class AssignController extends SceneController{
 
     @FXML
     public void initialize() {
-        //Fügt die default Textfelder zur jeweiligen Liste hinzu
-    answerAreas.add(answer1TextArea);
-    answerAreas.add(answer2TextArea);
+        //Fügt die Default-Textfelder zur jeweiligen Liste hinzu
 
-    solutionAreas.add(solution1TextArea);
-    solutionAreas.add(solution2TextArea);
+        answerAreas.add(answer1TextArea);
+        answerAreas.add(answer2TextArea);
+
+        solutionAreas.add(solution1TextArea);
+        solutionAreas.add(solution2TextArea);
 
         HBox.setHgrow(answer1TextArea, Priority.ALWAYS);
         HBox.setHgrow(answer2TextArea, Priority.ALWAYS);
@@ -69,9 +71,10 @@ public class AssignController extends SceneController{
     }
 
     public void setEditMode(Task selectedTask){
+        //Lädt alle Informationen zur Aufgabe aus der Datenbank beim Bearbeiten der Aufgabe
+
         editMode = true;
         this.selectedTask = selectedTask;
-
         textAreaQuestion.setText(selectedTask.getQuestion().getQuestionText());
 
         List<Antwort> answers = selectedTask.getAnswer();
@@ -95,8 +98,6 @@ public class AssignController extends SceneController{
         answerArea.setPrefWidth(370.0);
         answerArea.setPrefHeight(60.0);
         answerArea.setFont(new Font(15.0));
-
-
         answerArea.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(answerArea, Priority.ALWAYS);
 
@@ -105,16 +106,13 @@ public class AssignController extends SceneController{
         solutionArea.setPrefWidth(370.0);
         solutionArea.setPrefHeight(60.0);
         solutionArea.setFont(new Font(15.0));
-
         answerArea.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(solutionArea, Priority.ALWAYS);
 
         answerAreas.add(answerArea);
         solutionAreas.add(solutionArea);
 
-
         HBox answerRow = new HBox(10, answerArea, solutionArea);
-
         answerContainer.getChildren().add(answerRow);
     }
 
@@ -134,7 +132,9 @@ public class AssignController extends SceneController{
 
     @FXML
     public void saveAndSwitchToStartPage() throws IOException, SQLException {
-        //Speichert alle gesammelten Daten und sendet sie an DB → Wechsel zum Startbildschirm
+        //Speichert alle gesammelten Daten und sendet sie an DB
+        //anschließend erfolgt der Wechsel zum Startbildschirm bzw. zur Aufgabenübersicht
+        //im editMode
 
         String question = textAreaQuestion.getText().trim();
 
@@ -147,7 +147,6 @@ public class AssignController extends SceneController{
             String answer = answerAreas.get(i).getText().trim();
             String solution = solutionAreas.get(i).getText().trim();
 
-
             if (!answer.isEmpty() && !solution.isEmpty()) {
                 aufgabe.setAnswerPageMultipleParts(answer, solution);
             }
@@ -156,13 +155,13 @@ public class AssignController extends SceneController{
                 return;
             }
         }
-
         Stage stage = (Stage) menuBar.getScene().getWindow();
         super.saveTask(editMode, selectedTask, aufgabe, question, stage);
     }
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Startseite
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
@@ -171,6 +170,7 @@ public class AssignController extends SceneController{
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
+        //Wechsel mit Warnung zur Aufgabenübersicht
         if(showAlert()){
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
@@ -179,6 +179,7 @@ public class AssignController extends SceneController{
 
     @FXML
     public void switchToExamOverview() throws IOException{
+        //Wechsel mit Warnung zur Klausurübersicht
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
@@ -187,6 +188,7 @@ public class AssignController extends SceneController{
 
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Seite zum Klausur erstellen
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
@@ -195,6 +197,7 @@ public class AssignController extends SceneController{
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
+        //Abmelden des Nutzers mit Warnung
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);

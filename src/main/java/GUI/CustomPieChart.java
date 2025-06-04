@@ -23,7 +23,7 @@ public class CustomPieChart extends PieChart {
     private final List<Color> colorPalette = new ArrayList<>();
 
     public CustomPieChart(ObservableList<Data> data) {
-        //erstellt das chart, sowie die Legende unter berücksichtigung der richtigen Reihenfolge
+        //erstellt das chart, sowie die Legende mit benutzerdefinierten Farben
         super(data);
         setLegendSide(Side.RIGHT);
         setClockwise(true);
@@ -105,7 +105,7 @@ public class CustomPieChart extends PieChart {
     }
 
     private String toHexString(Color color) {
-        //wandelt die Farbwerte des Color-Objekts in Hex-Werte um
+        //wandelt die Farbwerte eines Color-Objekts in Hex-Werte um
         return String.format("#%02X%02X%02X",
                 (int)(color.getRed()*255),
                 (int)(color.getGreen()*255),

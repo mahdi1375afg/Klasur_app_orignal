@@ -12,7 +12,6 @@ import java.sql.SQLException;
 
 public class GapTextController extends SceneController{
 
-    //Textfelder
     @FXML
     private TextArea textAreaGapText;
     @FXML
@@ -20,19 +19,18 @@ public class GapTextController extends SceneController{
     @FXML
     private TextArea textAreaTask;
 
-
     @FXML
     private MenuButton menuBar;
 
     private String taskText;
     private String gapText;
     private String completeText;
-
     private AufgabeService aufgabe;
     private Task selectedTask;
     private boolean editMode = false;
 
     public void setAufgabe(AufgabeService aufgabe) {
+        //Grundlegende Informationen zur Aufgabe setzen
         this.aufgabe = aufgabe;
     }
 
@@ -40,7 +38,7 @@ public class GapTextController extends SceneController{
     public void initialize() {
         //Setzt Listener auf die Textfelder damit Änderungen sofort erfasst werden
 
-        textAreaTask.textProperty().addListener((observable, oldValue, newValue) -> setTask());
+        textAreaTask.textProperty().addListener((observable, oldValue, newValue) -> setTaskText());
 
         textAreaGapText.textProperty().addListener((observable, oldValue, newValue) -> setGapText());
 
@@ -48,6 +46,7 @@ public class GapTextController extends SceneController{
     }
 
     public void initializeEditMode(Task selectedTask) {
+        //Lädt alle Informationen zur Aufgabe aus der Datenbank beim Bearbeiten der Aufgabe
 
         textAreaTask.setText(selectedTask.getQuestion().getQuestionText());
         textAreaGapText.setText(selectedTask.getAnswer().getLast().getAntwortText());
@@ -56,13 +55,9 @@ public class GapTextController extends SceneController{
 
         this.selectedTask = selectedTask;
         editMode = true;
-
     }
 
-    private void setTask() {
-        taskText = textAreaTask.getText();
-
-    }
+    private void setTaskText() { taskText = textAreaTask.getText();}
 
     private void setGapText(){
         gapText = textAreaGapText.getText();
@@ -74,7 +69,9 @@ public class GapTextController extends SceneController{
 
     @FXML
     public void saveTask() throws IOException, SQLException {
-        //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
+        //Speichert alle gesammelten Daten und sendet sie an DB
+        //anschließend erfolgt der Wechsel zum Startbildschirm bzw. zur Aufgabenübersicht
+        //im editMode
 
         if(taskText == null ||taskText.isEmpty()) {
             showAlert("Sie haben keinen Aufgabentext angegeben.");
@@ -106,6 +103,7 @@ public class GapTextController extends SceneController{
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
+        //Wechsel mit Warnung zur Startseite
         if(showAlert()){
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
@@ -114,6 +112,7 @@ public class GapTextController extends SceneController{
 
     @FXML
     public void switchToExamOverview() throws IOException{
+        //Wechsel mit Warnung zur Klausurübersicht
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
@@ -122,6 +121,7 @@ public class GapTextController extends SceneController{
 
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Seite zum Klausur generieren
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
@@ -130,6 +130,7 @@ public class GapTextController extends SceneController{
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
+        //Abmelden mit Warnung
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);

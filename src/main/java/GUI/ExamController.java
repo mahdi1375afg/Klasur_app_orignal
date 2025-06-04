@@ -94,6 +94,7 @@ public class ExamController extends SceneController {
 
     @FXML
     public void initialize() throws SQLException {
+        //ToDo: Spinner Max-Wert mit DB und Taxonomie anpassen
         modulDropdown.getItems().clear();
         modulDropdown.getItems().addAll(Modul.getAllNames());
 
