@@ -45,12 +45,13 @@ public class TrueFalseController extends SceneController{
         private final List<TextArea> answerAreas = new ArrayList<>();
         private final List<RadioButton> trueButtons = new ArrayList<>();
         private final List<RadioButton> falseButtons = new ArrayList<>();
-
         private AufgabeService aufgabe;
         private boolean editMode = false;
         private Task selectedTask;
 
         public void setAufgabe(AufgabeService aufgabe) {
+            //Grundlegende Informationen zur Aufgabe setzen
+
             this.aufgabe = aufgabe;
         }
 
@@ -72,7 +73,9 @@ public class TrueFalseController extends SceneController{
     }
 
     public void initializeEditMode(Task selectedTask) {
-            editMode = true;
+        //Lädt alle Informationen zur Aufgabe aus der Datenbank beim Bearbeiten der Aufgabe
+
+        editMode = true;
             this.selectedTask = selectedTask;
 
             questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
@@ -140,7 +143,10 @@ public class TrueFalseController extends SceneController{
 
         @FXML
         public void saveAndSwitchToStartPage() throws IOException, SQLException {
-            //Speichert alle gesammelten Daten und sendet sie an DB → Wechsel zum Startbildschirm
+            //Speichert alle gesammelten Daten und sendet sie an DB
+            //anschließend erfolgt der Wechsel zum Startbildschirm bzw. zur Aufgabenübersicht
+            //im editMode
+
             String question = questionTextArea.getText().trim();
 
             if (question.isEmpty()) {
@@ -169,7 +175,6 @@ public class TrueFalseController extends SceneController{
                 aufgabe.setAnswerPage(answer, isTrueSelected);
             }
 
-
             if (answers.isEmpty()) {
                 showAlert("Mindestens eine Aussage angeben werden.");
                 return;
@@ -181,6 +186,8 @@ public class TrueFalseController extends SceneController{
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
+            //Wechsel mit Warnung zur Startseite
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
@@ -189,6 +196,8 @@ public class TrueFalseController extends SceneController{
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
+        //Wechsel mit Warnung zur Aufgabenübersicht
+
         if(showAlert()){
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
@@ -197,6 +206,8 @@ public class TrueFalseController extends SceneController{
 
     @FXML
     public void switchToExamOverview() throws IOException{
+            //Wechsel mit Warnung zur Klausurübersicht
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
@@ -205,6 +216,7 @@ public class TrueFalseController extends SceneController{
 
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
+            //
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
@@ -213,6 +225,8 @@ public class TrueFalseController extends SceneController{
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Seite zum Klausur erstellen
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);

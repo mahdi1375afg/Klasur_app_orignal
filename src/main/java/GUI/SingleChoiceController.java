@@ -14,6 +14,10 @@ public class SingleChoiceController extends MultipleChoiceController {
     @Override
     @FXML
     public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
+        //Speichert alle gesammelten Daten und sendet sie an DB
+        //anschließend erfolgt der Wechsel zum Startbildschirm bzw. zur Aufgabenübersicht
+        //im editMode
+
         String question = questionTextArea.getText().trim();
 
         if (question.isEmpty()) {

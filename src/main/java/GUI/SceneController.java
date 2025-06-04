@@ -18,10 +18,11 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class SceneController {
-    //Klasse die Wechsel zwischen Verschiedenen "Bildschirmen" verwaltet
 
     @FXML
     protected void switchScene(ActionEvent event, String newScene) throws IOException {
+        //steuert Wechsel zwischen verschiedenen Scenes und sorgt dafür, dass Fenstergröße beibehalten wird
+
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         double sceneWidth = stage.getScene().getWidth();
@@ -30,12 +31,13 @@ public class SceneController {
         Parent root = FXMLLoader.load(getClass().getResource(newScene));
         Scene scene = new Scene(root, sceneWidth, sceneHeight);
         stage.setScene(scene);
-
         stage.show();
     }
 
     @FXML
     protected void switchScene(Stage stage, String newScene) throws IOException {
+        //steuert Wechsel zwischen verschiedenen Scenes und sorgt dafür, dass Fenstergröße beibehalten wird
+
         double sceneWidth = stage.getScene().getWidth();
         double sceneHeight = stage.getScene().getHeight();
 
@@ -47,65 +49,79 @@ public class SceneController {
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException, SQLException {
-        //Methode sorgt für den Wechsel zur Startseite
+        //sorgt für den Wechsel zur Startseite
+
         switchScene(event, "/GUI/StartPage.fxml");
     }
 
     @FXML
     public void switchToStartPage(Stage stage) throws IOException {
+        //sorgt für den Wechsel zur Startseite
+
         switchScene(stage, "/GUI/StartPage.fxml");
     }
 
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
-        //Methode sorgt für den Wechsel von Startseite zur Klausurerstellungsseite
+        //sorgt für den Wechsel von Startseite zur Klausurerstellungsseite
 
         switchScene(event, "/GUI/ExamPage.fxml");
     }
 
     @FXML
     public void switchToExamPage(Stage stage) throws IOException {
+        //sorgt für den Wechsel von Startseite zur Klausurerstellungsseite
+
         switchScene(stage, "/GUI/ExamPage.fxml");
     }
 
     @FXML
     public void switchToExamCollection(ActionEvent event) throws IOException {
-        //Methode sorgt für den Wechsel von Startseite zur Klausurerstellungsseite
+        //sorgt für den Wechsel von Startseite zur Klausurerübersichtsseite
 
         switchScene(event, "/GUI/ExamCollection.fxml");
     }
 
     @FXML
     public void switchToExamCollection(Stage stage) throws IOException {
+        //sorgt für den Wechsel von Startseite zur Klausurerübersichtsseite
+
         switchScene(stage, "/GUI/ExamCollection.fxml");
     }
 
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException {
-        //Methode sorgt für den Wechsel von Startseite zur Klausurerstellungsseite
+        //sorgt für den Wechsel von Startseite zur Aufgabenübersicht
+
         switchScene(event, "/GUI/TaskOverview.fxml");
     }
 
     @FXML
     public void switchToTaskOverview(Stage stage) throws IOException {
+        //sorgt für den Wechsel von Startseite zur Aufgabenübersicht
+
         switchScene(stage, "/GUI/TaskOverview.fxml");
     }
 
     @FXML
     public void switchToAddTaskPage(ActionEvent event) throws IOException {
-        //Methode sorgt für den Wechsel von Startseite zur Klausurerstellungsseite
+        //sorgt für den Wechsel von Startseite zur Seite zum Aufgabe hinzufügen
 
         switchScene(event, "/GUI/AddTaskPage.fxml");
     }
 
     @FXML
     public void switchToAddTaskPage(Stage stage) throws IOException {
+        //sorgt für den Wechsel von Startseite zur Seite zum Aufgabe hinzufügen
+
         switchScene(stage, "/GUI/AddTaskPage.fxml");
     }
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
+        //meldet den aktuellen Nutzer ab und wechselt zu Anmeldeseite
+
         benutzerKonto konto = new benutzerKonto();
         konto.abmelden();
         dbConn.closePool();
@@ -114,6 +130,7 @@ public class SceneController {
 
     @FXML
     public void logout(Stage stage) throws IOException {
+        //meldet den aktuellen Nutzer ab und wechselt zu Anmeldeseite
 
         benutzerKonto konto = new benutzerKonto();
         konto.abmelden();
@@ -123,30 +140,30 @@ public class SceneController {
 
     @FXML
     public void switchToLoginPage(ActionEvent event) throws IOException, SQLException {
-        //Methode sorgt für den Wechsel von Titelseite zur Anmeldeseite
+        //sorgt für den Wechsel zur Anmeldeseite
        switchScene(event, "/GUI/LoginPage.fxml");
     }
 
     @FXML
     public void switchToSignUpPage(ActionEvent event) throws IOException {
-        //Methode sorgt für den Wechsel von Titelseite zur Registrierungsseite
+        //sorgt für den Wechsel zur Registrierungsseite
         switchScene(event, "/GUI/SignUpPage.fxml");
     }
 
     @FXML
     protected void switchToTitlePage(ActionEvent event) throws IOException {
-        //Methode sorgt für den Wechsel von Titelseite zur Registrierungsseite
+        //sorgt für den Wechsel zur Anfangsseite
         switchScene(event, "/GUI/TitlePage.fxml");
     }
 
     @FXML
     protected void switchToTitlePage(Stage stage) throws IOException {
-        //Methode sorgt für den Wechsel von Titelseite zur Registrierungsseite
+        //Methode sorgt für den Wechsel zur Startseite
         switchScene(stage, "/GUI/TitlePage.fxml");
     }
 
     protected boolean showAlert() {
-        //Zeigt Fehlermeldung an, falls die Seite verlassen wird
+        //Zeigt Fehlermeldung an, wenn Daten beim Seitenwechsel verloren gehen würden
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Achtung!");
@@ -166,7 +183,7 @@ public class SceneController {
     }
 
     protected boolean showAlert(String message) {
-        //Zeigt Fehlermeldung an
+        //Zeigt Fehlermeldung mit beliebigem Text an
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Fehler!");
@@ -183,7 +200,10 @@ public class SceneController {
         });
         return result[0];
     }
+
     public void saveTask(boolean editMode, Task selectedTask, AufgabeService aufgabe, String question, Stage stage) throws SQLException, IOException {
+        //speichert eine Aufgabe nach dem Erstellen in der Datenbank ab
+
         if(!editMode){
             aufgabe.setTask(question);
             aufgabe.save();

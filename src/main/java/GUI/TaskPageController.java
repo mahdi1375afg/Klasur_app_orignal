@@ -92,7 +92,7 @@ public class TaskPageController extends SceneController {
     }
 
     public void initializeEditMode(Task aufgabe) {
-        //Methode mit der die Inhalte einer bereits vorhandenen Aufgabe übertragen werden können
+        //Inhalte einer bereits vorhandenen Aufgabe können übertragen werden
         this.isEditMode = true;
         selectedTask = aufgabe;
 
@@ -236,7 +236,7 @@ public class TaskPageController extends SceneController {
             return;
         }
 
-        //Aufgabe Objekt erstellen und alle Informationen die wir hier bekommen einfüllen
+        //Aufgabe Objekt erstellen und alle Informationen die wir haben übergeben
         AufgabeService aufgabe = new AufgabeService();
         aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(), getDurationNumber(), getAntwortType(), getTaskTaxonomie(), getModulTitle(), closeType);
 
@@ -267,8 +267,6 @@ public class TaskPageController extends SceneController {
             }
         }
         else{
-            //ToDo:Bearbeiten für alle Aufgaben
-
             if (antwortType == AntwortType.offeneAntwort) {
                 OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
                 controller.initializeEditMode(selectedTask);
@@ -309,6 +307,8 @@ public class TaskPageController extends SceneController {
     }
 
     private <T> T switchSceneAndGetController(ActionEvent event, String fxmlPath) throws IOException {
+        //Methode die in Abhängigkeit der nächsten Seite passenden Controller erstellt
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent root = loader.load();
 
@@ -328,7 +328,6 @@ public class TaskPageController extends SceneController {
 
     @FXML
     public void setTaskType() {
-
         if (rButtonTypOpen.isSelected()) {
             antwortType = AntwortType.offeneAntwort;
         } else if (rButtonTypSingle.isSelected()) {
@@ -362,7 +361,6 @@ public class TaskPageController extends SceneController {
 
     @FXML
     public void setTaskTaxonomie() {
-
         if (rButtonTaxonomieRemember.isSelected()) {
             bloomLevel = BloomLevel.erinnern;
         } else if (rButtonTaxonomieUnderstand.isSelected()) {

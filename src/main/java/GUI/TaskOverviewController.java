@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
-import org.example.domain.Task;
+import org.example.domain.*;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -47,43 +47,6 @@ public class TaskOverviewController extends SceneController implements Initializ
     private TableColumn<Task, Integer> pointsColumn;
 
 
-
-    @FXML
-    public void switchToStartPage(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToStartPage(stage);
-    }
-
-    @FXML
-    public void switchToTaskOverview(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToTaskOverview(stage);
-    }
-
-    @FXML
-    public void switchToExamOverview() throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToExamCollection(stage);
-    }
-
-    @FXML
-    public void switchToExamPage(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToExamPage(stage);
-    }
-
-    @FXML
-    public void logout(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.logout(stage);
-    }
-
-    @FXML
-    public void switchToAddTaskPage(ActionEvent event) throws IOException {
-        Stage stage = (Stage) menuBar.getScene().getWindow();
-        super.switchToAddTaskPage(stage);
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //setzt die Attribute, sodass die Ansicht passend mit skaliert
@@ -111,6 +74,8 @@ public class TaskOverviewController extends SceneController implements Initializ
     }
 
     private void loadData() {
+        //lädt die Aufgaben aus der Datenbank für die Übersicht
+
         ObservableList<Task> tasks = FXCollections.observableArrayList(Task.tasks);
         tableView.setItems(tasks);
 
@@ -124,9 +89,13 @@ public class TaskOverviewController extends SceneController implements Initializ
 
 
     private void addRightClickMenu() {
+        //fügt ein Menü ein, dass durch einen Rechtsklick verschiedenen Optionen anbietet
+        //ToDo: Aufgabe duplizieren funktionalität einfügen
+
         ContextMenu rightClickMenu = new ContextMenu();
         MenuItem deleteTaskItem = new MenuItem("Aufgabe löschen");
         MenuItem editTaskItem = new MenuItem("Aufgabe bearbeiten");
+        MenuItem duplicateTask = new MenuItem("Aufgabe duplizieren");
 
         deleteTaskItem.setOnAction(event -> {
             ObservableList<Task> selectedTasks = tableView.getSelectionModel().getSelectedItems();
@@ -174,7 +143,8 @@ public class TaskOverviewController extends SceneController implements Initializ
                 } catch (IOException ignored) {}
         });
 
-        rightClickMenu.getItems().addAll(editTaskItem, deleteTaskItem);
+
+        rightClickMenu.getItems().addAll(editTaskItem, duplicateTask, deleteTaskItem);
 
         tableView.setOnMouseClicked(click -> {
             if (click.getButton() == MouseButton.SECONDARY) {
@@ -185,4 +155,39 @@ public class TaskOverviewController extends SceneController implements Initializ
         });
     }
 
+    @FXML
+    public void switchToStartPage(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToStartPage(stage);
+    }
+
+    @FXML
+    public void switchToTaskOverview(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToTaskOverview(stage);
+    }
+
+    @FXML
+    public void switchToExamOverview() throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToExamCollection(stage);
+    }
+
+    @FXML
+    public void switchToExamPage(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToExamPage(stage);
+    }
+
+    @FXML
+    public void logout(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.logout(stage);
+    }
+
+    @FXML
+    public void switchToAddTaskPage(ActionEvent event) throws IOException {
+        Stage stage = (Stage) menuBar.getScene().getWindow();
+        super.switchToAddTaskPage(stage);
+    }
 }

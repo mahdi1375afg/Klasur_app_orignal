@@ -13,13 +13,13 @@ import java.util.Map;
 public class StartPageController extends SceneController {
 
     @FXML
-    private VBox vBoxPieChartTax;   // Container im FXML, z.B. VBox oder Pane, wo PieChart rein soll
+    private VBox vBoxPieChartTax;
     @FXML
     private VBox vBoxPieChartModul;
 
     @FXML
     public void initialize() {
-        //erstellt Diagramme zur Übersicht auf der Startseite
+        //erstellt zwei Diagramme zur Übersicht auf der Startseite
 
         ObservableList<Task> tasks = FXCollections.observableArrayList(Task.tasks);
         Map<String, Integer> modulCounter = new HashMap<>();

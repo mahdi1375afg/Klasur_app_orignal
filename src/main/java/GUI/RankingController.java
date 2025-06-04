@@ -45,6 +45,8 @@ public class RankingController extends SceneController {
     boolean editMode;
 
     public void setAufgabe(AufgabeService aufgabe) {
+        //Grundlegende Informationen zur Aufgabe setzen
+
         this.aufgabe = aufgabe;
     }
 
@@ -60,6 +62,8 @@ public class RankingController extends SceneController {
     }
 
     public void initializeEditMode(Task selectedTask) {
+        //Lädt alle Informationen zur Aufgabe aus der Datenbank beim Bearbeiten der Aufgabe
+
         this.editMode = true;
         this.selectedTask = selectedTask;
 
@@ -121,7 +125,9 @@ public class RankingController extends SceneController {
 
     @FXML
     public void saveAndSwitchToStartPage() throws IOException, SQLException {
-        //Speichert alle gesammelten Daten und sendet sie an DB → Wechsel zum Startbildschirm
+        //Speichert alle gesammelten Daten und sendet sie an DB
+        //anschließend erfolgt der Wechsel zum Startbildschirm bzw. zur Aufgabenübersicht
+        //im editMode
 
         String question = questionTextArea.getText().trim();
 
@@ -154,6 +160,8 @@ public class RankingController extends SceneController {
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Startseite
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
@@ -162,6 +170,7 @@ public class RankingController extends SceneController {
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
+        //Wechsel mit Warnung zur Aufgabenübersicht
         if(showAlert()){
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
@@ -170,6 +179,8 @@ public class RankingController extends SceneController {
 
     @FXML
     public void switchToExamOverview() throws IOException{
+        //Wechsel mit Warnung zur Klausurübersicht
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
@@ -178,6 +189,8 @@ public class RankingController extends SceneController {
 
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Seite zum Klausur erstellen
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
@@ -186,6 +199,8 @@ public class RankingController extends SceneController {
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
+        //Abmelden mit Warnung
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);

@@ -22,7 +22,7 @@ public class SignUpController  extends SceneController {
     @FXML
     public void switchToLoginPage(ActionEvent event) throws IOException, SQLException {
         //registriert den neuen User bei der DB und wechselt bein erfolgreichem registrieren
-        //zur LoginPage
+        //zur Anmeldeseite
 
         String username = usernameSignUpTextField.getText().trim();
         String password = passwordSignUpField.getText();
@@ -51,9 +51,5 @@ public class SignUpController  extends SceneController {
         }
 
         super.switchToLoginPage(event);
-    }
-
-    public void switchToTitlePage(ActionEvent event) throws IOException {
-        super.switchToTitlePage(event);
     }
 }
