@@ -16,7 +16,7 @@ public class ExamService {
 
     static String name;
     static LocalDate date;
-    static int totalPoints;
+    int totalPoints;
     int totalTime;
     static Modul modul;
     static String pruefer;
@@ -318,7 +318,7 @@ public class ExamService {
         document.add(Chunk.NEWLINE);
 
         //Hinweise
-        Paragraph hinweise = new Paragraph("Bitte beachten Sie:\n\n" + "   • Ab "+ totalPoints/2 + " (von " + totalPoints + " möglichen) Punkten ist die Klausur bestanden (Note 4.0).\n" + "   • Nur Stifte und leere Papierblätter sind als Hilfsmittel erlaubt.\n", normalFont);
+        Paragraph hinweise = new Paragraph("Bitte beachten Sie:\n\n" + "   • Ab 45 (von 90 möglichen) Punkten ist die Klausur bestanden (Note 4.0).\n" + "   • Nur Stifte und leere Papierblätter sind als Hilfsmittel erlaubt.\n", normalFont);
         hinweise.setSpacingBefore(20);
         document.add(hinweise);
         document.add(Chunk.NEWLINE);
