@@ -162,6 +162,7 @@ public class AssignController extends SceneController{
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
         //Wechsel mit Warnung zur Startseite
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
@@ -171,6 +172,7 @@ public class AssignController extends SceneController{
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
         //Wechsel mit Warnung zur Aufgabenübersicht
+
         if(showAlert()){
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
@@ -180,6 +182,7 @@ public class AssignController extends SceneController{
     @FXML
     public void switchToExamOverview() throws IOException{
         //Wechsel mit Warnung zur Klausurübersicht
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
@@ -189,6 +192,7 @@ public class AssignController extends SceneController{
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
         //Wechsel mit Warnung zur Seite zum Klausur erstellen
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
@@ -198,6 +202,7 @@ public class AssignController extends SceneController{
     @FXML
     public void logout(ActionEvent event) throws IOException {
         //Abmelden des Nutzers mit Warnung
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);

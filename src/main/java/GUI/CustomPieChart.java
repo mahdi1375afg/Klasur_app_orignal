@@ -24,6 +24,7 @@ public class CustomPieChart extends PieChart {
 
     public CustomPieChart(ObservableList<Data> data) {
         //erstellt das chart, sowie die Legende mit benutzerdefinierten Farben
+
         super(data);
         setLegendSide(Side.RIGHT);
         setClockwise(true);
@@ -37,6 +38,7 @@ public class CustomPieChart extends PieChart {
 
     private void createCustomScrollableLegend() {
         //erstellt eine passende scrollbare Legende für das chart
+
         Node oldLegend = lookup(".chart-legend");
         if (oldLegend == null) return;
 
@@ -83,6 +85,7 @@ public class CustomPieChart extends PieChart {
 
     private void generateColorPalette(int size) {
         //erstellt eine individuelle Farbpalette für die Diagramme
+
         colorPalette.clear();
         for (int i = 0; i < size; i++) {
             double hue = 360.0 * i / size;
@@ -93,6 +96,7 @@ public class CustomPieChart extends PieChart {
 
     private void applyCustomColors() {
         //setzt die individuellen Farben für die einzelnen Segmente des Charts
+
         ObservableList<Data> dataList = getData();
         for (int i = 0; i < dataList.size(); i++) {
             Data data = dataList.get(i);
@@ -106,6 +110,7 @@ public class CustomPieChart extends PieChart {
 
     private String toHexString(Color color) {
         //wandelt die Farbwerte eines Color-Objekts in Hex-Werte um
+
         return String.format("#%02X%02X%02X",
                 (int)(color.getRed()*255),
                 (int)(color.getGreen()*255),

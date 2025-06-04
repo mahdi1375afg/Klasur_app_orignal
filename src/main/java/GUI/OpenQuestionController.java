@@ -12,24 +12,23 @@ import java.sql.SQLException;
 
 public class OpenQuestionController extends SceneController{
 
-    //Textfelder
     @FXML
     private TextArea taskTextField;
     @FXML
     private TextArea taskSampleSolution;
-
 
     @FXML
     private MenuButton menuBar;
 
     private String taskText = null;
     private String sampleSolutionText = null;
-
     private AufgabeService aufgabe;
     private Task selectedTask;
     private boolean editMode = false;
 
     public void setAufgabe(AufgabeService aufgabe) {
+        //Grundlegende Informationen zur Aufgabe setzen
+
         this.aufgabe = aufgabe;
     }
 
@@ -40,23 +39,19 @@ public class OpenQuestionController extends SceneController{
         taskTextField.textProperty().addListener((observable, oldValue, newValue) -> setTask());
 
         taskSampleSolution.textProperty().addListener((observable, oldValue, newValue) -> setSampleSolution());
-
     }
 
     public void initializeEditMode(Task selectedTask){
+        //Lädt alle Informationen zur Aufgabe aus der Datenbank beim Bearbeiten der Aufgabe
 
         taskTextField.setText(selectedTask.getQuestion().getQuestionText());
         taskSampleSolution.setText(selectedTask.getAnswer().getLast().getAntwortText());
 
         this.selectedTask = selectedTask;
         editMode = true;
-
     }
 
-    private void setTask() {
-        taskText = taskTextField.getText();
-
-    }
+    private void setTask() { taskText = taskTextField.getText();}
 
     private void setSampleSolution() {
         sampleSolutionText = taskSampleSolution.getText();
@@ -64,7 +59,9 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void saveTask() throws IOException, SQLException {
-        //Speicher die eingegebenen Daten und wechselt zurück zur Startseite
+        //Speichert alle gesammelten Daten und sendet sie an DB
+        //anschließend erfolgt der Wechsel zum Startbildschirm bzw. zur Aufgabenübersicht
+        //im editMode
 
         if(taskText == null || taskText.isEmpty()) {
             showAlert("Sie haben keinen Aufgabentext angegeben.");
@@ -84,6 +81,8 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Startseite
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
@@ -92,6 +91,8 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
+        //Wechsel mit Warnung zur Aufgabenübersicht
+
         if(showAlert()){
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
@@ -100,6 +101,8 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void switchToExamOverview() throws IOException{
+        //Wechsel mit Warnung zur Klausurübersicht
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
@@ -108,6 +111,8 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Seite zum Klausur erstellen
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
@@ -116,6 +121,8 @@ public class OpenQuestionController extends SceneController{
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
+        //Abmelden mit Warnung
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);

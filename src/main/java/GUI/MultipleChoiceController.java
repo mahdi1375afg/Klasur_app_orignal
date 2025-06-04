@@ -27,12 +27,8 @@ public class MultipleChoiceController extends SceneController{
     @FXML
     protected TextArea questionTextArea;
 
-
     @FXML
     protected VBox answerContainer;
-
-    protected final List<TextArea> answerAreas = new ArrayList<>();
-    protected final List<CheckBox> checkBoxes = new ArrayList<>();
 
     @FXML
     protected TextArea answer1TextArea;
@@ -43,16 +39,21 @@ public class MultipleChoiceController extends SceneController{
     @FXML
     protected CheckBox checkBox2;
 
+    protected final List<TextArea> answerAreas = new ArrayList<>();
+    protected final List<CheckBox> checkBoxes = new ArrayList<>();
     protected AufgabeService aufgabe;
     protected Task selectedTask;
     protected boolean editMode = false;
 
     public void setAufgabe(AufgabeService aufgabe) {
+        //Grundlegende Informationen zur Aufgabe setzen
         this.aufgabe = aufgabe;
     }
 
     @FXML
     public void initialize() {
+        //Fügt die Default-textfelder zur jeweiligen Liste hinzu
+
         answerAreas.add(answer1TextArea);
         checkBoxes.add(checkBox1);
 
@@ -64,6 +65,8 @@ public class MultipleChoiceController extends SceneController{
     }
 
     public void initializeEditMode(Task selectedTask){
+        //Lädt alle Informationen zur Aufgabe aus der Datenbank beim Bearbeiten der Aufgabe
+
         this.editMode = true;
         this.selectedTask = selectedTask;
 
@@ -84,6 +87,7 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void addAnswerField() {
+        //Fügt ein neues Antwort-Checkbox-Paar ein
 
         TextArea answerArea = new TextArea();
         answerArea.setPromptText("Antwort "+ (answerAreas.size() + 1));
@@ -108,6 +112,8 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void removeLastAnswerField() {
+        //Löscht das letzte Antwort-Checkbox-Paar
+
         int childCount = answerContainer.getChildren().size();
 
         if (childCount > 2) {
@@ -120,6 +126,9 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void saveAndSwitchToStartPage(ActionEvent event) throws IOException, SQLException {
+        //Speichert alle gesammelten Daten und sendet sie an DB
+        //anschließend erfolgt der Wechsel zum Startbildschirm bzw. zur Aufgabenübersicht
+        //im editMode
 
         String question = questionTextArea.getText().trim();
 
@@ -132,10 +141,8 @@ public class MultipleChoiceController extends SceneController{
         List<Integer> correctIndex = new ArrayList<>();
         correctIndex.add(-1);
 
-
         for (int i = 0; i < answerAreas.size(); i++) {
             String answer = answerAreas.get(i).getText().trim();
-
 
             if (!answer.isEmpty()) {
                 answers.add(answer);
@@ -166,6 +173,8 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Startseite
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
@@ -174,6 +183,8 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
+        //Wechsel mit Warnung zur Aufgabenübersicht
+
         if(showAlert()){
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
@@ -182,6 +193,8 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void switchToExamOverview() throws IOException{
+        //Wechsel mit Warnung zur Klausurübersicht
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
@@ -190,6 +203,8 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Seite zum Klausur generieren
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
@@ -198,6 +213,8 @@ public class MultipleChoiceController extends SceneController{
 
     @FXML
     public void logout(ActionEvent event) throws IOException {
+        //Abmelden mit Warnung
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);

@@ -94,6 +94,8 @@ public class GapTextController extends SceneController{
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Startseite
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
@@ -103,7 +105,8 @@ public class GapTextController extends SceneController{
 
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
-        //Wechsel mit Warnung zur Startseite
+        //Wechsel mit Warnung zur Aufgabenübersicht
+
         if(showAlert()){
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
@@ -113,6 +116,7 @@ public class GapTextController extends SceneController{
     @FXML
     public void switchToExamOverview() throws IOException{
         //Wechsel mit Warnung zur Klausurübersicht
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
@@ -122,6 +126,7 @@ public class GapTextController extends SceneController{
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
         //Wechsel mit Warnung zur Seite zum Klausur generieren
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
@@ -131,6 +136,7 @@ public class GapTextController extends SceneController{
     @FXML
     public void logout(ActionEvent event) throws IOException {
         //Abmelden mit Warnung
+
         if(showAlert()) {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);
