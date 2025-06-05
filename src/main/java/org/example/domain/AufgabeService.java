@@ -3,6 +3,7 @@ package org.example.domain;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AufgabeService {
@@ -48,6 +49,44 @@ public class AufgabeService {
     public void setAnswerPageRanking(String answer,int rank) {
         antwortenRanking.put(answer, rank);
         System.out.println("Antwort: " + answer + " ist " + rank + " (hinzugefügt)");
+    }
+
+    public void duplicateTask(Task original) throws SQLException {
+        Frage frage = original.getQuestion();
+        List<Antwort> antworten = original.getAnswer();
+        Modul modul = original.getModul();
+
+        this.setTaskPageData(
+                frage.getName() + "-Kopie",
+                frage.getPoints(),
+                frage.getTime(),
+                frage.getFormat().getName(),
+                frage.getTaxonomie().getKategorie(),
+                modul.getName(),
+                antworten.getFirst().getTyp()
+        );
+
+        this.setTask(frage.getQuestionText());
+
+        for (Antwort antwort : antworten) {
+            switch (antwort.getTyp()) {
+                case wahrOderFalsch:
+                case multipleChoiceFragen:
+                case singleChoiceFragen:
+                case offen:
+                    this.setAnswerPage(antwort.getAntwortText(), antwort.isKorrekt());
+                    break;
+                case zuordnung:
+                case leerstellen:
+                    this.setAnswerPageMultipleParts(antwort.getAntwortText(), antwort.getAntwortText2());
+                    break;
+                case ranking:
+                    this.setAnswerPageRanking(antwort.getAntwortText(), antwort.getAntwortRanking());
+                    break;
+            }
+        }
+
+        this.save();
     }
 
 

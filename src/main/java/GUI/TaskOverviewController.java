@@ -21,11 +21,11 @@ import javafx.scene.input.MouseButton;
 import org.example.domain.*;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TaskOverviewController extends SceneController implements Initializable {
 
@@ -90,7 +90,6 @@ public class TaskOverviewController extends SceneController implements Initializ
 
     private void addRightClickMenu() {
         //fügt ein Menü ein, dass durch einen Rechtsklick verschiedenen Optionen anbietet
-        //ToDo: Aufgabe duplizieren funktionalität einfügen
 
         ContextMenu rightClickMenu = new ContextMenu();
         MenuItem deleteTaskItem = new MenuItem("Aufgabe löschen");
@@ -103,24 +102,18 @@ public class TaskOverviewController extends SceneController implements Initializ
             if (selectedTasks.isEmpty())
                 return;
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Löschen bestätigen");
-            alert.setHeaderText("Aufgabe löschen");
-            alert.setContentText("Möchten Sie die ausgewählte Aufgabe wirklich löschen?");
+            boolean confirm = showAlert("Möchten Sie die ausgewählte Aufgabe wirklich löschen?");
 
-            Optional<ButtonType> userResponse = alert.showAndWait();
-            if (userResponse.isPresent() && userResponse.get() == ButtonType.OK) {
+            if (confirm) {
                 for(Task task : selectedTasks) {
                     try {
-                        System.out.println("Task löschen" + task.getQuestion().getId());
                         Task.deleteTask(task);
                     } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                        showAlert("Fehler beim Löschen der Aufgabe.");
                     }
                 }
                 tableView.getItems().removeAll(selectedTasks);
             }
-
         });
 
         editTaskItem.setOnAction(event -> {
@@ -140,7 +133,22 @@ public class TaskOverviewController extends SceneController implements Initializ
                 stage.setScene(scene);
                 stage.show();
 
-                } catch (IOException ignored) {}
+                } catch (IOException ignored) {
+                    showErrorAlert("Fehler beim Öffnen der Aufgabe.");
+            }
+        });
+
+        duplicateTask.setOnAction(event -> {
+            Task selectedTask = tableView.getSelectionModel().getSelectedItem();
+            if (selectedTask == null) return;
+
+            AufgabeService aufgabeService = new AufgabeService();
+            try {
+                aufgabeService.duplicateTask(selectedTask);
+                loadData(); // Tabelle neu laden
+            } catch (SQLException e) {
+                showErrorAlert("Fehler beim Duplizieren der Aufgabe.");
+            }
         });
 
 
@@ -153,6 +161,36 @@ public class TaskOverviewController extends SceneController implements Initializ
                 rightClickMenu.hide();
             }
         });
+    }
+
+    @Override
+    protected boolean showAlert(String message) {
+        //Zeigt Fehlermeldung mit beliebigem Text an
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Achtung!");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        AtomicBoolean result = new AtomicBoolean(false);
+
+        //Überprüft, welche Schaltfläche der Benutzer gedrückt hat
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                result.set(true);
+            }
+        });
+        return result.get();
+    }
+
+
+    private void showErrorAlert(String message){
+        //zeigt Alert ohne Auswahlmöglichkeiten
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Fehler");
+        alert.setContentText(message);
+        alert.show();
     }
 
     @FXML

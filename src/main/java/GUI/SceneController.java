@@ -16,6 +16,7 @@ import org.example.domain.Task;
 import org.example.domain.benutzerKonto;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SceneController {
 
@@ -190,15 +191,15 @@ public class SceneController {
         alert.setHeaderText(null);
         alert.setContentText(message);
 
-        boolean[] result = new boolean[1];
+        AtomicBoolean result = new AtomicBoolean(false);
 
         //Überprüft, welche Schaltfläche der Benutzer gedrückt hat
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                result[0] = true;
+                result.set(true);
             }
         });
-        return result[0];
+        return result.get();
     }
 
     public void saveTask(boolean editMode, Task selectedTask, AufgabeService aufgabe, String question, Stage stage) throws SQLException, IOException {
