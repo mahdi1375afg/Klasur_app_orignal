@@ -1,10 +1,7 @@
 package org.example.domain;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AufgabeService {
     //Frage
@@ -52,6 +49,8 @@ public class AufgabeService {
     }
 
     public void duplicateTask(Task original) throws SQLException {
+        //dupliziert eine bestimmte Aufgabe
+
         Frage frage = original.getQuestion();
         List<Antwort> antworten = original.getAnswer();
         Modul modul = original.getModul();
@@ -96,15 +95,14 @@ public class AufgabeService {
         konto.createTaskToModul(FragenId,QuestionModulName);
         if(QuestionType.equals(AntwortType.offeneAntwort.getName())) {
             Map.Entry<String, Boolean> ersterEintrag = antworten.entrySet().iterator().next();
-            ersterEintrag.getKey();
             konto.antwortErstellenOffen(FragenId,ersterEintrag.getKey());
         } else {
             konto.frageErstellenGeschlossen(FragenId,QuestionCloseType.getName());
-            if(QuestionCloseType.getName() == "Lückentext" || QuestionCloseType.getName() == "Zuordnung") {
+            if(Objects.equals(QuestionCloseType.getName(), "Lückentext") || Objects.equals(QuestionCloseType.getName(), "Zuordnung")) {
                 for (Map.Entry<String, String> eintrag : antwortenMultipleParts.entrySet()) {
                     konto.antwortErstellenGeschlossenMultipleParts(FragenId,eintrag.getKey(),eintrag.getValue());
                 }
-            } else if(QuestionCloseType.getName() == "Ranking") {
+            } else if(Objects.equals(QuestionCloseType.getName(), "Ranking")) {
                 for (Map.Entry<String, Integer> eintrag : antwortenRanking.entrySet()) {
                     konto.antwortErstellenGeschlossenRanking(FragenId,eintrag.getKey(),eintrag.getValue());
                 }
