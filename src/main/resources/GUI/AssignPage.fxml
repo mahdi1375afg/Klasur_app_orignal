@@ -34,7 +34,7 @@
             </MenuButton>
 
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                <Text style="-fx-font-size: 24;" text="Zuordnen Aufgabe erstellen" />
+                <Text style="-fx-font-size: 30;" text="Zuordnen Aufgabe erstellen" />
             </HBox>
         </HBox>
         <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
@@ -50,9 +50,9 @@
                     <Insets bottom="20" left="20" right="20" top="20" />
                 </padding>
 
-                <TextArea fx:id="textAreaQuestion" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben" VBox.vgrow="ALWAYS">
+                <TextArea fx:id="textAreaQuestion" prefHeight="125.0" prefWidth="560.0" promptText="Frage eingeben" wrapText="true">
                     <font>
-                        <Font size="20.0" />
+                        <Font size="15.0" />
                     </font></TextArea>
 
 

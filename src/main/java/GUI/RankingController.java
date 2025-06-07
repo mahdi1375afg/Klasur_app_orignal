@@ -88,7 +88,7 @@ public class RankingController extends SceneController {
         String numberStatement = Integer.toString(statementAreas.size()+1);
         numberArea.setText(numberStatement);
         numberArea.setPrefWidth(60.0);
-        numberArea.setPrefHeight(34.0);
+        numberArea.setPrefHeight(60.0);
         numberArea.setMaxWidth(60.0);
         numberArea.setFont(new Font(15.0));
         numberArea.setEditable(false);
@@ -96,7 +96,7 @@ public class RankingController extends SceneController {
         TextArea statementArea = new TextArea();
         statementArea.setPromptText("Aussage "+ (numbers.size()+1));
         statementArea.setPrefWidth(515.0);
-        statementArea.setPrefHeight(34.0);
+        statementArea.setPrefHeight(60.0);
         statementArea.setFont(new Font(15.0));
 
         HBox.setHgrow(numberArea, Priority.NEVER);

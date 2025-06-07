@@ -34,7 +34,7 @@
             </MenuButton>
 
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                <Text style="-fx-font-size: 24;" text="Ranking Aufgabe erstellen" />
+                <Text style="-fx-font-size: 30;" text="Ranking Aufgabe erstellen" />
             </HBox>
         </HBox>
         <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
@@ -51,7 +51,7 @@
                 </padding>
 
 
-                <TextArea fx:id="questionTextArea" prefHeight="43.0" prefWidth="564.0" promptText="Frage eingeben" VBox.vgrow="ALWAYS">
+                <TextArea fx:id="questionTextArea" prefHeight="125.0" prefWidth="560.0" promptText="Frage eingeben" VBox.vgrow="ALWAYS">
                     <font>
                         <Font size="20.0" />
                     </font></TextArea>
@@ -59,11 +59,11 @@
                 <VBox fx:id="answerContainer" spacing="10"> <!-- Container für Antwortfelder (dynamisch erstellbar) -->
 
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                        <TextArea fx:id="number1TextArea" editable="false" maxWidth="60.0" minWidth="60.0" prefHeight="34.0" prefWidth="60.0" text="1" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="number1TextArea" editable="false" maxWidth="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="1" HBox.hgrow="ALWAYS" >
                             <font>
                                 <Font size="15.0" />
                             </font></TextArea>
-                        <TextArea fx:id="statement1TextArea" prefHeight="34.0" prefWidth="515.0" promptText="Aussage 1" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="statement1TextArea" prefHeight="60.0" prefWidth="515.0" promptText="Aussage 1" HBox.hgrow="ALWAYS">
                             <font>
                                 <Font size="15.0" />
                             </font>
@@ -72,12 +72,12 @@
 
 
                     <HBox alignment="CENTER_LEFT" spacing="10">
-                  <TextArea fx:id="number2TextArea" editable="false" maxWidth="60.0" minWidth="60.0" prefHeight="34.0" prefWidth="60.0" text="2" HBox.hgrow="ALWAYS">
+                  <TextArea fx:id="number2TextArea" editable="false" maxWidth="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" text="2" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </TextArea>
-                        <TextArea fx:id="statement2TextArea" prefHeight="34.0" prefWidth="515.0" promptText="Aussage 2" HBox.hgrow="ALWAYS">
+                        <TextArea fx:id="statement2TextArea" prefHeight="60.0" prefWidth="515.0" promptText="Aussage 2" HBox.hgrow="ALWAYS">
                             <font>
                                 <Font size="15.0" />
                             </font>

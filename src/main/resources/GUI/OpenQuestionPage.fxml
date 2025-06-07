@@ -35,7 +35,7 @@
                 </MenuButton>
 
                 <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                    <Text style="-fx-font-size: 24;" text="Offene Aufgabe erstellen" />
+                    <Text style="-fx-font-size: 30;" text="Offene Aufgabe erstellen" />
                 </HBox>
             </HBox>
             <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
@@ -65,11 +65,11 @@
                   <Font size="20.0" />
                </font></Text>
 
-            <TextArea fx:id="taskTextField" prefHeight="130.0" prefWidth="450.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextArea fx:id="taskTextField" prefHeight="130.0" prefWidth="450.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1"  style="-fx-font-size: 15px;">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></TextArea>
-            <TextArea fx:id="taskSampleSolution" prefHeight="150.0" prefWidth="450.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextArea fx:id="taskSampleSolution" prefHeight="150.0" prefWidth="450.0" GridPane.columnIndex="1" GridPane.rowIndex="3"  style="-fx-font-size: 15px;" />
          </children>
          <padding>
             <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />

@@ -35,7 +35,7 @@
             </MenuButton>
 
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                <Text style="-fx-font-size: 24;" text="Single-Choice Aufgabe erstellen" />
+                <Text style="-fx-font-size: 30;" text="Single-Choice Aufgabe erstellen" />
             </HBox>
         </HBox>
         <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
@@ -49,7 +49,7 @@
                 <padding>
                     <Insets bottom="20" left="20" right="20" top="20" />
                 </padding>
-                <TextArea fx:id="questionTextArea" prefHeight="121.0" prefWidth="558.0" promptText="Frage eingeben" wrapText="true">
+                <TextArea fx:id="questionTextArea" prefHeight="125.0" prefWidth="560.0" promptText="Frage eingeben" wrapText="true">
                     <font>
                         <Font size="15.0" />
                     </font>
