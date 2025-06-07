@@ -12,9 +12,11 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class ExamPreviewController extends SceneController {
 //ToDo: Bei exportieren die Datei auch auf den PC des Users downloaden und zweiter grüner Balken unten einfügen
+//ToDo: Musterklausur im unteren Feld anzeigen
 
     @FXML
     private MenuButton menuBar;
@@ -72,6 +74,12 @@ public class ExamPreviewController extends SceneController {
                 container.getChildren().add(imageView);
             }
         } catch (IOException ignored) {}
+    }
+
+    @FXML
+    public void exportExam(ActionEvent event) throws SQLException, IOException {
+        //ToDo: Klausur exportieren
+        super.switchToStartPage(event);
     }
 
     @FXML
