@@ -2,6 +2,10 @@ package GUI;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.domain.*;
@@ -86,7 +90,7 @@ public class ExamController extends SceneController {
     private LocalDate examDate;
     private Integer numberPoints;
     private Modul modul;
-    private int time;
+    private Integer time;
     private final List<BloomLevel> bloomLevel = new ArrayList<>();
     private final List<AntwortType> antwortType = new ArrayList<>();
     private final List<QuestionType> questionType = new ArrayList<>();
@@ -172,7 +176,7 @@ public class ExamController extends SceneController {
                 this.time = timeInteger;
             }
         } catch (NumberFormatException ignored) {
-            this.time = Integer.parseInt(null);
+            this.time = null;
         }
     }
 
@@ -289,10 +293,25 @@ public class ExamController extends SceneController {
         switch(exam.createKlausur()) {
             case 0:
                 System.out.println("Erfolgreich erstellt!");
-                super.switchToStartPage(event);
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/ExamPreview.fxml"));
+                Parent root = loader.load();
+
+                ExamPreviewController controller = loader.getController();
+                controller.setPdfName(examTitle);
+                controller.loadPDFs();
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                double sceneWidth = stage.getScene().getWidth();
+                double sceneHeight = stage.getScene().getHeight();
+
+                Scene scene = new Scene(root, sceneWidth, sceneHeight);
+                stage.setScene(scene);
+                stage.show();
+
                 break;
             case 1:
-                showAlert("Nicht genügend Aufgaben für dieses " + modul + " vorhanden. Bitte fügen Sie weitere Aufgaben hinzu!");
+                showAlert("Nicht genügend Aufgaben für das Modul " + modul.getName() + " vorhanden. Bitte fügen Sie weitere Aufgaben hinzu!");
                 break;
             case 2:
                 showAlert("Nicht genügend Aufgaben für die gewählten Taxonomien vorhanden. Bitte fügen Sie weitere Aufgaben hinzu!");

@@ -29,6 +29,7 @@ public class ExamService {
     static List<Task> tasks;
 
     public ExamService(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, int user_id) {
+        //ToDo: Prüfer namen richtig setzen
         this.name = name;
         this.date = date;
         this.totalPoints = totalPoints;

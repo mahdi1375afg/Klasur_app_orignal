@@ -1,66 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamPreviewController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamPreviewController">
+
    <top>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vorschau" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Text>
-       <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
-           <items>
-               <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-               <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
-               <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
-               <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
-               <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
-           </items>
-       </MenuButton>
+      <VBox alignment="TOP_CENTER" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="9.0" prefWidth="800.0">
+               <children>
+                  <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
+                     <items>
+                        <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                        <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
+                        <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                        <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                        <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+                     </items>
+                  </MenuButton>
+               </children>
+            </HBox>
+            <!-- Grüner Balken oben -->
+            <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
+         </children>
+      </VBox>
    </top>
+
    <center>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Generierte Klausur">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <TextArea fx:id="textAreaGeneratedExam" editable="false" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+
+            <ScrollPane fx:id="scrollPaneExam" fitToWidth="true" maxWidth="1200.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="pdfContainerExam" spacing="10.0" />
+               </content>
+            </ScrollPane>
+
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Generierte Musterlösung">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
-            <TextArea fx:id="textAreaGeneratedSampleSolution" editable="false" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#switchToExamPage" text="zurück">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="buttomExportExam" mnemonicParsing="false" onAction="#generateAndSwitchToStartPage" text="exportieren">
-                     <HBox.margin>
-                        <Insets left="30.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </HBox>
+
+            <ScrollPane fx:id="scrollPaneSampleSolution" fitToWidth="true" maxWidth="1200.0" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="pdfContainerSampleSolution"  />
+               </content>
+            </ScrollPane>
+
+            <!-- Grüner Balken direkt über den Buttons in einer eigenen VBox -->
+            <VBox spacing="0" alignment="CENTER" prefWidth="800.0">
+               <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
+               <HBox alignment="CENTER" spacing="30.0">
+                  <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#switchToExamPage" text="zurück" />
+                  <Button fx:id="buttonExportExam" mnemonicParsing="false" onAction="#switchToStartPage" text="exportieren" />
+               </HBox>
+            </VBox>
+
          </children>
       </VBox>
    </center>
+
+   <bottom>
+      <VBox/>
+   </bottom>
+
 </BorderPane>

@@ -53,7 +53,7 @@ public class StartPageController extends SceneController {
             pieChartModul.setLegendVisible(false);
 
             pieChartTax.setTitle("Taxonomien");
-            pieChartModul.setTitle("Modul");
+            pieChartModul.setTitle("Module");
 
             vBoxPieChartTax.getChildren().add(pieChartTax);
             vBoxPieChartModul.getChildren().add(pieChartModul);
