@@ -3,7 +3,6 @@ package GUI;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -20,8 +19,9 @@ import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 
 public class ExamPreviewController extends SceneController {
-//ToDo: Bei exportieren die Datei auch auf den PC des Users downloaden und zweiter grüner Balken unten einfügen
+//ToDo: Zweiter grüner Balken unten einfügen
 //ToDo: Musterklausur im unteren Feld anzeigen
+    //ToDo: Beim zurück gehen Informationen wieder zurück geben
 
     @FXML
     private MenuButton menuBar;
@@ -100,6 +100,12 @@ public class ExamPreviewController extends SceneController {
         super.switchToStartPage(event);
     }
 
+    @FXML
+    public void regenerateExam(ActionEvent event) throws IOException {
+        //ToDo: Daten wieder zurück geben an ExamController zu Klausur
+
+        super.switchToExamPage(event);
+    }
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {
         //Wechsel mit Warnung zur Startseite
