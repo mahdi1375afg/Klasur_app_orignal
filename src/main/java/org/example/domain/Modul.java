@@ -4,10 +4,7 @@ import org.example.dao.dbConn;
 import org.example.dao.dbConnModul;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Modul {
 
@@ -29,6 +26,9 @@ public class Modul {
 		for (Map.Entry<Integer, String> eintrag : result.entrySet()) {
 			modules.add(new Modul(eintrag.getKey(), eintrag.getValue()));
 		}
+
+		modules.sort((m1, m2) -> m1.getName().compareToIgnoreCase(m2.getName()));
+
 		return modules;
     }
 

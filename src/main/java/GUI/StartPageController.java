@@ -41,6 +41,9 @@ public class StartPageController extends SceneController {
             modulCounter.forEach((key, value) -> modulData.add(new PieChart.Data(key, value)));
             taxonomieCounter.forEach((key, value) -> taxData.add(new PieChart.Data(key, value)));
 
+            modulData.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+            taxData.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+
             CustomPieChart pieChartTax = new CustomPieChart(taxData);
             CustomPieChart pieChartModul = new CustomPieChart(modulData);
 
