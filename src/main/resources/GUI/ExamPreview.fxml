@@ -29,7 +29,6 @@
                   </MenuButton>
                </children>
             </HBox>
-            <!-- Grüner Balken oben -->
             <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
          </children>
       </VBox>
@@ -44,11 +43,11 @@
                </font>
             </Text>
 
-            <ScrollPane fx:id="scrollPaneExam" fitToWidth="true" maxWidth="1200.0" VBox.vgrow="ALWAYS">
-               <content>
-                  <VBox fx:id="pdfContainerExam" spacing="10.0" />
-               </content>
-            </ScrollPane>
+            <ScrollPane fx:id="scrollPaneExam" fitToWidth="true" hbarPolicy="NEVER" maxWidth="1200.0" VBox.vgrow="ALWAYS">
+            <content>
+               <VBox fx:id="pdfContainerExam" spacing="10.0" />
+            </content>
+         </ScrollPane>
 
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Musterlösung">
                <font>
@@ -56,13 +55,12 @@
                </font>
             </Text>
 
-            <ScrollPane fx:id="scrollPaneSampleSolution" fitToWidth="true" maxWidth="1200.0" VBox.vgrow="ALWAYS">
+            <ScrollPane fx:id="scrollPaneSampleSolution" fitToWidth="true" hbarPolicy="NEVER" maxWidth="1200.0" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox fx:id="pdfContainerSampleSolution" />
+                  <VBox fx:id="pdfContainerSampleSolution" spacing="10.0" />
                </content>
             </ScrollPane>
 
-            <!-- Grüner Balken direkt über den Buttons in einer eigenen VBox -->
             <VBox alignment="CENTER" prefWidth="800.0" spacing="0">
                <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
                <HBox alignment="CENTER" spacing="30.0">

@@ -3,6 +3,7 @@ package GUI;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -12,6 +13,10 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 
 public class ExamPreviewController extends SceneController {
@@ -21,7 +26,9 @@ public class ExamPreviewController extends SceneController {
     @FXML
     private MenuButton menuBar;
 
-    @FXML private VBox pdfContainerExam;
+
+    @FXML
+    private VBox pdfContainerExam;
     @FXML private VBox pdfContainerSampleSolution;
 
     private String pdfName;
@@ -53,7 +60,7 @@ public class ExamPreviewController extends SceneController {
 
         for (var node : container.getChildren()) {
             if (node instanceof ImageView imageView) {
-                imageView.setFitWidth(newWidth - 30);
+                imageView.setFitWidth(newWidth);
             }
         }
     }
@@ -79,6 +86,17 @@ public class ExamPreviewController extends SceneController {
     @FXML
     public void exportExam(ActionEvent event) throws SQLException, IOException {
         //ToDo: Klausur exportieren
+        File sourcePdfFile = new File(pdfName);
+        String userHome = System.getProperty("user.home");
+        Path downloadsPath = Paths.get(userHome, "Downloads");
+
+        Path destinationPath = downloadsPath.resolve(sourcePdfFile.getName());
+
+        try{
+            Files.copy(sourcePdfFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+        }
+        catch (IOException ignores) {}
+
         super.switchToStartPage(event);
     }
 
