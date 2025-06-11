@@ -89,6 +89,8 @@ public class OpenQuestionController extends SceneController{
         }
     }
 
+
+
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
         //Wechsel mit Warnung zur Aufgabenübersicht
@@ -98,6 +100,16 @@ public class OpenQuestionController extends SceneController{
             super.switchToTaskOverview(stage);
         }
     }
+
+    @FXML
+    public void switchToAddTaskPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Seite zum Aufgaben hinzufügen
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToAddTaskPage(stage);
+        }
+    }
+
 
     @FXML
     public void switchToExamOverview() throws IOException{
@@ -128,5 +140,4 @@ public class OpenQuestionController extends SceneController{
             super.logout(stage);
         }
     }
-
 }

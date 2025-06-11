@@ -422,7 +422,6 @@ public class ExamController extends SceneController {
         super.switchToStartPage(stage);
     }
 
-
     @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException {
         Stage stage = (Stage) menuBar.getScene().getWindow();

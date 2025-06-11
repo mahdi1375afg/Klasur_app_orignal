@@ -170,6 +170,15 @@ public class AssignController extends SceneController{
     }
 
     @FXML
+    public void switchToAddTaskPage(ActionEvent event) throws IOException {
+        //Wechsel mit Warnung zur Seite zum Aufgaben hinzufügen
+        if(showAlert()) {
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            super.switchToAddTaskPage(stage);
+        }
+    }
+
+    @FXML
     public void switchToTaskOverview(ActionEvent event) throws IOException{
         //Wechsel mit Warnung zur Aufgabenübersicht
 
