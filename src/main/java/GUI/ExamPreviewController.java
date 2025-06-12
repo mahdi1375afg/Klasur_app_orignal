@@ -56,7 +56,10 @@ public class ExamPreviewController extends SceneController {
     }
 
     public void setPdfName(String pdfName) {
-        this.pdfName = pdfName.endsWith(".pdf") ? pdfName : pdfName + ".pdf";
+        if (!pdfName.endsWith(".pdf")) {
+            pdfName += ".pdf";
+        }
+        this.pdfName = "target/GeneratedExams/" + pdfName;
     }
 
 
@@ -99,6 +102,7 @@ public class ExamPreviewController extends SceneController {
 
     @FXML
     public void exportExam(ActionEvent event) throws SQLException, IOException {
+        //Exportiert erstelle Klausur in den Download-Ordner des Nutzers
         File sourcePdfFile = new File(pdfName);
         String userHome = System.getProperty("user.home");
         Path downloadsPath = Paths.get(userHome, "Downloads");
@@ -113,8 +117,23 @@ public class ExamPreviewController extends SceneController {
         super.switchToStartPage(event);
     }
 
+    private void deleteExam() {
+        //löscht, das erstelle Pdf
+
+        File pdfFile = new File(pdfName);
+        if (pdfFile.exists()) {
+            boolean deleted = pdfFile.delete();
+            if (!deleted) {
+                System.err.println("Konnte PDF nicht löschen: " + pdfFile.getAbsolutePath());
+            }
+        }
+    }
+
     @FXML
     public void regenerateExam(ActionEvent event) throws IOException {
+        //Methode die zur ExamPage zurückgeht und die Parameter der Klausur setzt
+
+        deleteExam();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/ExamPage.fxml"));
         Parent root = loader.load();
@@ -135,6 +154,7 @@ public class ExamPreviewController extends SceneController {
         //Wechsel mit Warnung zur Startseite
 
         if(showAlert()) {
+            deleteExam();
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToStartPage(stage);
         }
@@ -143,6 +163,7 @@ public class ExamPreviewController extends SceneController {
     public void switchToAddTaskPage(ActionEvent event) throws IOException {
         //Wechsel mit Warnung zur Seite zum Aufgaben hinzufügen
         if(showAlert()) {
+            deleteExam();
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToAddTaskPage(stage);
         }
@@ -152,6 +173,7 @@ public class ExamPreviewController extends SceneController {
     public void switchToTaskOverview(ActionEvent event) throws IOException{
         //Wechsel mit Warnung zur Aufgabenübersicht
         if(showAlert()){
+            deleteExam();
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToTaskOverview(stage);
         }
@@ -160,8 +182,8 @@ public class ExamPreviewController extends SceneController {
     @FXML
     public void switchToExamOverview() throws IOException{
         //Wechsel mit Warnung zur Klausurübersicht
-
         if(showAlert()) {
+            deleteExam();
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamCollection(stage);
         }
@@ -170,8 +192,8 @@ public class ExamPreviewController extends SceneController {
     @FXML
     public void switchToExamPage(ActionEvent event) throws IOException {
         //Wechsel mit Warnung zur Seite zum Klausur erstellen
-
         if(showAlert()) {
+            deleteExam();
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.switchToExamPage(stage);
         }
@@ -180,8 +202,8 @@ public class ExamPreviewController extends SceneController {
     @FXML
     public void logout(ActionEvent event) throws IOException {
         //Abmelden mit Warnung
-
         if(showAlert()) {
+            deleteExam();
             Stage stage = (Stage) menuBar.getScene().getWindow();
             super.logout(stage);
         }

@@ -1,5 +1,6 @@
 package org.example.domain;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -268,7 +269,10 @@ public class ExamService {
         //ToDo: Deckblatt erstellen, alle Arten von Aufgaben hinzufügen
 
         Document document = new Document(PageSize.A4);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(name + ".pdf"));
+        String outputDir = "target/GeneratedExams/";
+        new File(outputDir).mkdirs();
+        String filePath = outputDir + name + ".pdf";
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
         document.open();
 
         // Deckblatt erstellen
