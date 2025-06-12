@@ -3,12 +3,17 @@ package GUI;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.example.domain.ExamService;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,9 +24,7 @@ import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 
 public class ExamPreviewController extends SceneController {
-//ToDo: Zweiter grüner Balken unten einfügen
 //ToDo: Musterklausur im unteren Feld anzeigen
-    //ToDo: Beim zurück gehen Informationen wieder zurück geben
 
     @FXML
     private MenuButton menuBar;
@@ -33,7 +36,7 @@ public class ExamPreviewController extends SceneController {
     private VBox pdfContainerSampleSolution;
 
     private String pdfName;
-
+    private ExamService exam;
     @FXML
     public void initialize() {
         //Listener setzen, um die Breite der PDF-Vorschau an die Fenstergröße anzupassen
@@ -44,6 +47,12 @@ public class ExamPreviewController extends SceneController {
 
         pdfContainerExam.widthProperty().addListener((obs, oldWidth, newWidth) -> adjustImageViewWidths(pdfContainerExam, newWidth.doubleValue()));
         pdfContainerSampleSolution.widthProperty().addListener((obs, oldWidth, newWidth) -> adjustImageViewWidths(pdfContainerSampleSolution, newWidth.doubleValue()));
+    }
+
+    public void setExamParams(ExamService exam) {
+        this.exam = exam;
+        setPdfName(exam.getName());
+
     }
 
     public void setPdfName(String pdfName) {
@@ -90,7 +99,6 @@ public class ExamPreviewController extends SceneController {
 
     @FXML
     public void exportExam(ActionEvent event) throws SQLException, IOException {
-        //ToDo: Klausur exportieren
         File sourcePdfFile = new File(pdfName);
         String userHome = System.getProperty("user.home");
         Path downloadsPath = Paths.get(userHome, "Downloads");
@@ -107,9 +115,20 @@ public class ExamPreviewController extends SceneController {
 
     @FXML
     public void regenerateExam(ActionEvent event) throws IOException {
-        //ToDo: Daten wieder zurück geben an ExamController zu Klausur
 
-        super.switchToExamPage(event);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/ExamPage.fxml"));
+        Parent root = loader.load();
+
+        ExamController controller = loader.getController();
+        controller.setExamParams(exam);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        double sceneWidth = stage.getScene().getWidth();
+        double sceneHeight = stage.getScene().getHeight();
+
+        Scene scene = new Scene(root, sceneWidth, sceneHeight);
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException {

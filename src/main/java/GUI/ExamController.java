@@ -288,7 +288,7 @@ public class ExamController extends SceneController {
         }
 
 
-        ExamService exam = new ExamService(examTitle,examDate,numberPoints,time,modul,questionTypes,bloomLevel,benutzerKonto.aktuellerBenutzer.getId());
+        ExamService exam = new ExamService(examTitle, examiner,examDate,numberPoints,time,modul,questionTypes,bloomLevel,benutzerKonto.aktuellerBenutzer.getId());
 
         switch(exam.createKlausur()) {
             case 0:
@@ -298,7 +298,7 @@ public class ExamController extends SceneController {
                 Parent root = loader.load();
 
                 ExamPreviewController controller = loader.getController();
-                controller.setPdfName(examTitle);
+                controller.setExamParams(exam);
                 controller.loadPDFs();
 
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -358,6 +358,142 @@ public class ExamController extends SceneController {
             bloomLevel.add(BloomLevel.erschaffen);
         }
     }
+
+    public void setExamParams(ExamService exam) {
+        if (exam == null) return;
+
+        // Titel
+        textFieldExamTitle.setText(exam.getName());
+
+        // Prüfer
+        textFieldExaminer.setText(exam.getPruefer());
+
+        // Datum als String setzen
+        if (exam.getDate() != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            textFieldExamDate.setText(exam.getDate().format(formatter));
+        } else {
+            textFieldExamDate.setText("");
+        }
+
+        // Anzahl Punkte
+        if (exam.getTotalPoints() != null) {
+            textFieldNumberPoints.setText(String.valueOf(exam.getTotalPoints()));
+        } else {
+            textFieldNumberPoints.setText("");
+        }
+
+        // Dauer (Zeit)
+        if (exam.getTotalTime() != null) {
+            textFieldDuration.setText(String.valueOf(exam.getTotalTime()));
+        } else {
+            textFieldDuration.setText("");
+        }
+
+        // Modul Dropdown setzen
+        if (exam.getModul() != null) {
+            modulDropdown.setValue(exam.getModul().getName());
+            this.modul = exam.getModul();
+        }
+
+        // Frage-Typen und Spinner befüllen
+        Map<QuestionType, Integer> questionTypes = exam.getQuestionType();
+        if (questionTypes != null) {
+            // Zuerst alle RadioButtons und Spinner zurücksetzen
+            rButtonTypOpen.setSelected(false);
+            spinnerAmountOpenQuestion.setDisable(true);
+            spinnerAmountOpenQuestion.getValueFactory().setValue(0);
+
+            rButtonTypSingle.setSelected(false);
+            spinnerAmountSingleChoice.setDisable(true);
+            spinnerAmountSingleChoice.getValueFactory().setValue(0);
+
+            rButtonTypMultiple.setSelected(false);
+            spinnerAmountMultipleChoice.setDisable(true);
+            spinnerAmountMultipleChoice.getValueFactory().setValue(0);
+
+            rButtonTypTrueFalsch.setSelected(false);
+            SpinnerAmountTrueFalse.setDisable(true);
+            SpinnerAmountTrueFalse.getValueFactory().setValue(0);
+
+            rButtonTypGapText.setSelected(false);
+            SpinnerAmountGapText.setDisable(true);
+            SpinnerAmountGapText.getValueFactory().setValue(0);
+
+            rButtonTypAssign.setSelected(false);
+            spinnerAmountAssign.setDisable(true);
+            spinnerAmountAssign.getValueFactory().setValue(0);
+
+            rButtonTypRanking.setSelected(false);
+            spinnerAmountRanking.setDisable(true);
+            spinnerAmountRanking.getValueFactory().setValue(0);
+
+            // Jetzt entsprechend der übergebenen Werte aktivieren und setzen
+            for (Map.Entry<QuestionType, Integer> entry : questionTypes.entrySet()) {
+                QuestionType type = entry.getKey();
+                int amount = entry.getValue();
+
+                switch (type) {
+                    case offen -> {
+                        rButtonTypOpen.setSelected(true);
+                        spinnerAmountOpenQuestion.setDisable(false);
+                        spinnerAmountOpenQuestion.getValueFactory().setValue(amount);
+                    }
+                    case singleChoiceFragen -> {
+                        rButtonTypSingle.setSelected(true);
+                        spinnerAmountSingleChoice.setDisable(false);
+                        spinnerAmountSingleChoice.getValueFactory().setValue(amount);
+                    }
+                    case multipleChoiceFragen -> {
+                        rButtonTypMultiple.setSelected(true);
+                        spinnerAmountMultipleChoice.setDisable(false);
+                        spinnerAmountMultipleChoice.getValueFactory().setValue(amount);
+                    }
+                    case wahrOderFalsch -> {
+                        rButtonTypTrueFalsch.setSelected(true);
+                        SpinnerAmountTrueFalse.setDisable(false);
+                        SpinnerAmountTrueFalse.getValueFactory().setValue(amount);
+                    }
+                    case leerstellen -> {
+                        rButtonTypGapText.setSelected(true);
+                        SpinnerAmountGapText.setDisable(false);
+                        SpinnerAmountGapText.getValueFactory().setValue(amount);
+                    }
+                    case zuordnung -> {
+                        rButtonTypAssign.setSelected(true);
+                        spinnerAmountAssign.setDisable(false);
+                        spinnerAmountAssign.getValueFactory().setValue(amount);
+                    }
+                    case ranking -> {
+                        rButtonTypRanking.setSelected(true);
+                        spinnerAmountRanking.setDisable(false);
+                        spinnerAmountRanking.getValueFactory().setValue(amount);
+                    }
+                }
+            }
+        }
+
+        // BloomLevel aus dem ExamService übernehmen und UI setzen
+        bloomLevel.clear();
+        if (exam.getBloomLevels() != null) {
+            bloomLevel.addAll(exam.getBloomLevels());
+
+            rButtonTaxonomieRemember.setSelected(bloomLevel.contains(BloomLevel.erinnern));
+            rButtonTaxonomieUnderstand.setSelected(bloomLevel.contains(BloomLevel.verstehen));
+            rButtonTaxonomieApply.setSelected(bloomLevel.contains(BloomLevel.anwenden));
+            rButtonTaxonomieAnalyze.setSelected(bloomLevel.contains(BloomLevel.analysieren));
+            rButtonTaxonomieRate.setSelected(bloomLevel.contains(BloomLevel.bewerten));
+            rButtonTaxonomieCreate.setSelected(bloomLevel.contains(BloomLevel.erschaffen));
+        } else {
+            rButtonTaxonomieRemember.setSelected(false);
+            rButtonTaxonomieUnderstand.setSelected(false);
+            rButtonTaxonomieApply.setSelected(false);
+            rButtonTaxonomieAnalyze.setSelected(false);
+            rButtonTaxonomieRate.setSelected(false);
+            rButtonTaxonomieCreate.setSelected(false);
+        }
+    }
+
 
     @FXML
     public void setTaskType() {

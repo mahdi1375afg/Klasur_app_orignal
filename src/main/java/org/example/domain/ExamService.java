@@ -1,6 +1,5 @@
 package org.example.domain;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -28,7 +27,25 @@ public class ExamService {
 
     static List<Task> tasks;
 
-    public ExamService(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, int user_id) {
+    public String getName() {
+        return name;
+    }
+    public LocalDate getDate() {
+        return date;
+    }
+    public Integer getTotalPoints() {
+        return totalPoints;
+    }
+    public Integer getTotalTime() { return totalTime; }
+    public Modul getModul() { return modul; }
+    public String getPruefer() { return pruefer; }
+    public Map<QuestionType, Integer> getQuestionType() { return questionType; }
+    public List<BloomLevel> getBloomLevels() { return bloomLevels; }
+
+
+
+
+    public ExamService(String name, String pruefer, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, int user_id) {
         //ToDo: Prüfer namen richtig setzen
         this.name = name;
         this.date = date;
@@ -37,7 +54,7 @@ public class ExamService {
         this.modul = modul;
         this.questionType = questionType;
         this.bloomLevels = bloomLevels;
-        this.pruefer = "pruefer";
+        this.pruefer = pruefer;
         this.user_id = user_id;
     }
 
@@ -217,7 +234,7 @@ public class ExamService {
             }
         }
 
-        // 3. Falls noch Punkte/Zeit übrig -> Rest füllen (ohne Typgrenze zu verletzen)
+        // 3. Falls noch Punkte/Zeit übrig → Rest füllen (ohne Typgrenzen zu verletzen)
         if (remainingPoints > 0 && remainingTime > 0) {
             Iterator<Task> iterator = tempTasks.iterator();
             while (iterator.hasNext()) {
@@ -399,17 +416,5 @@ public class ExamService {
 
 
 
-    public String getName() {
-        return name;
-    }
-    public LocalDate getDate() {
-        return date;
-    }
-    public int getTotalpoints() {
-        return totalPoints;
-    }
-    public int getUser_id() {
-        return user_id;
-    }
 
 }
