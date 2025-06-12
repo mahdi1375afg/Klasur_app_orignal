@@ -6,9 +6,9 @@ import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -74,6 +74,27 @@ public class CustomPieChart extends PieChart {
 
             item.setOnMouseEntered(e -> highlightSegment(d, item));
             item.setOnMouseExited(e -> resetSegment(d, item));
+
+            ContextMenu contextMenu = new ContextMenu();
+
+            MenuItem deleteItem = new MenuItem("Löschen");
+            //ToDo:Löschfunktion einfügen
+            deleteItem.setOnAction(e -> showAlert());
+
+            MenuItem printItem = new MenuItem("Drucken");
+            printItem.setOnAction(e -> {
+                //ToDo: Druckfunktion einfügen
+            });
+
+            contextMenu.getItems().addAll(deleteItem, printItem);
+
+            item.setOnMouseClicked(e -> {
+                if (e.getButton() == MouseButton.SECONDARY) { // Rechtsklick
+                    contextMenu.show(item, e.getScreenX(), e.getScreenY());
+                } else {
+                    contextMenu.hide();
+                }
+            });
 
             legendBox.getChildren().add(item);
         }
@@ -146,5 +167,25 @@ public class CustomPieChart extends PieChart {
                 (int)(color.getRed()*255),
                 (int)(color.getGreen()*255),
                 (int)(color.getBlue()*255));
+    }
+
+    protected boolean showAlert() {
+        //Zeigt Fehlermeldung an, wenn Daten beim Seitenwechsel verloren gehen würden
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Achtung!");
+        alert.setHeaderText(null);
+        alert.setContentText("Es werden alle zugehörigen Aufgaben gelöscht.");
+
+        boolean[] result = new boolean[1];
+
+        //Überprüft, welche Schaltfläche der Benutzer gedrückt hat
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                result[0] = true;
+            }
+        });
+
+        return result[0];
     }
 }
