@@ -29,13 +29,18 @@ public class ExamPreviewController extends SceneController {
 
     @FXML
     private VBox pdfContainerExam;
-    @FXML private VBox pdfContainerSampleSolution;
+    @FXML
+    private VBox pdfContainerSampleSolution;
 
     private String pdfName;
 
     @FXML
     public void initialize() {
         //Listener setzen, um die Breite der PDF-Vorschau an die Fenstergröße anzupassen
+
+        pdfContainerExam.setFocusTraversable(false);
+        pdfContainerSampleSolution.setFocusTraversable(false);
+
 
         pdfContainerExam.widthProperty().addListener((obs, oldWidth, newWidth) -> adjustImageViewWidths(pdfContainerExam, newWidth.doubleValue()));
         pdfContainerSampleSolution.widthProperty().addListener((obs, oldWidth, newWidth) -> adjustImageViewWidths(pdfContainerSampleSolution, newWidth.doubleValue()));

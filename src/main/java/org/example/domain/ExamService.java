@@ -72,6 +72,7 @@ public class ExamService {
 
     public int createKlausur() throws IOException, SQLException {
         //ToDo: Algorithmus robuster machen und darauf achten, dass Algorithmus oprimale und nicht erste Lösung verwendet
+        //ToDO: Erstellte Klausur in einen extra Ordner ablegen
 
         List<Task> allTasks = Task.tasks;
         List<Task> moduleTasks = new ArrayList<>();

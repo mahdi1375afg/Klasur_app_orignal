@@ -71,6 +71,10 @@ public class CustomPieChart extends PieChart {
             label.setStyle("-fx-font-size: 12px;");
 
             item.getChildren().addAll(colorBox, label);
+
+            item.setOnMouseEntered(e -> highlightSegment(d, item));
+            item.setOnMouseExited(e -> resetSegment(d, item));
+
             legendBox.getChildren().add(item);
         }
 
@@ -82,6 +86,33 @@ public class CustomPieChart extends PieChart {
 
         pane.getChildren().add(scrollPane);
     }
+
+    private void highlightSegment(Data d, HBox item) {
+        // Alle zurücksetzen
+        for (Data datum : getData()) {
+            if (datum.getNode() != null) {
+                datum.getNode().setScaleX(1.0);
+                datum.getNode().setScaleY(1.0);
+                datum.getNode().setOpacity(1.0);
+            }
+        }
+        item.setStyle("-fx-background-color: lightgray; -fx-cursor: hand;");
+        if (d.getNode() != null) {
+            d.getNode().setScaleX(1.1);
+            d.getNode().setScaleY(1.1);
+            d.getNode().setOpacity(0.8);
+        }
+    }
+
+    private void resetSegment(Data d, HBox item) {
+        item.setStyle("-fx-background-color: transparent;");
+        if (d.getNode() != null) {
+            d.getNode().setScaleX(1.0);
+            d.getNode().setScaleY(1.0);
+            d.getNode().setOpacity(1.0);
+        }
+    }
+
 
     private void generateColorPalette(int size) {
         //erstellt eine individuelle Farbpalette für die Diagramme
