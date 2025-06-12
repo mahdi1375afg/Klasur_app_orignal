@@ -46,7 +46,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>com.github.librepdf</groupId>
             <artifactId>openpdf</artifactId>
@@ -74,10 +73,9 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>${javafx.version}</version>
+            <version>23.0.1</version>
             <classifier>win</classifier>
         </dependency>
-
 
     </dependencies>
 

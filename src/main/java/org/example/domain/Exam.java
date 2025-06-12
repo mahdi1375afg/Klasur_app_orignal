@@ -2,7 +2,6 @@ package org.example.domain;
 
 import org.example.dao.dbConn;
 import org.example.dao.dbConnExam;
-import org.example.dao.dbConnFrage;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
