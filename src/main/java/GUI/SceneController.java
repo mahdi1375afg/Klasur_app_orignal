@@ -80,14 +80,14 @@ public class SceneController {
     public void switchToExamCollection(ActionEvent event) throws IOException {
         //sorgt für den Wechsel von Startseite zur Klausurerübersichtsseite
 
-        switchScene(event, "/GUI/ExamCollection.fxml");
+        switchScene(event, "/GUI/ExamOverview.fxml");
     }
 
     @FXML
     public void switchToExamCollection(Stage stage) throws IOException {
         //sorgt für den Wechsel von Startseite zur Klausurerübersichtsseite
 
-        switchScene(stage, "/GUI/ExamCollection.fxml");
+        switchScene(stage, "/GUI/ExamOverview.fxml");
     }
 
 

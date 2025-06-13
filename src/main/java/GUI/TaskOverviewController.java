@@ -70,7 +70,8 @@ public class TaskOverviewController extends SceneController implements Initializ
         typColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
         pointsColumn.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
 
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE); addRightClickMenu();
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        addRightClickMenu();
     }
 
     private void loadData() {

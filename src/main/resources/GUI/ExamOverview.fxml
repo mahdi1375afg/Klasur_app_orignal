@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamOverviewController">
+   <top>
+      <HBox alignment="CENTER_LEFT" prefWidth="600.0" spacing="5.0">
+         <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
+            <items>
+               <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+               <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
+               <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+               <MenuItem fx:id="menuButtonExamPage" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+               <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+            </items>
+         </MenuButton>
+
+         <Region HBox.hgrow="ALWAYS" />
+
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Klausursammlung" textAlignment="CENTER">
+            <font>
+               <Font size="36.0" />
+            </font>
+         </Text>
+
+         <Region HBox.hgrow="ALWAYS" />
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </top>
+
+
+   <center>
+      <TableView fx:id="tableView" prefWidth="605.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="nameColumn" prefWidth="184.0" text="Name" />
+            <TableColumn fx:id="modulColumn" minWidth="0.0" prefWidth="242.0" text="Modul" />
+            <TableColumn fx:id="pointsColumn" minWidth="0.0" prefWidth="173.0" text="Punkte" />
+         </columns>
+      </TableView>
+   </center>
+
+</BorderPane>

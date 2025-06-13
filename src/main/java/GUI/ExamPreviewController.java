@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 
 public class ExamPreviewController extends SceneController {
@@ -99,16 +98,18 @@ public class ExamPreviewController extends SceneController {
     @FXML
     public void exportExam(ActionEvent event) throws SQLException, IOException {
         //Exportiert erstelle Klausur in den Download-Ordner des Nutzers
+
         File sourcePdfFile = new File(pdfName);
         String userHome = System.getProperty("user.home");
         Path downloadsPath = Paths.get(userHome, "Downloads");
 
         Path destinationPath = downloadsPath.resolve(sourcePdfFile.getName());
+        Path uniquePath = getUniqueDestinationPath(destinationPath);
 
-        try{
-            Files.copy(sourcePdfFile.toPath(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+        try {
+            Files.copy(sourcePdfFile.toPath(), uniquePath);
+        } catch (IOException ignored) {
         }
-        catch (IOException ignores) {}
 
         super.switchToStartPage(event);
     }
@@ -118,11 +119,37 @@ public class ExamPreviewController extends SceneController {
 
         File pdfFile = new File(pdfName);
         if (pdfFile.exists()) {
-            boolean deleted = pdfFile.delete();
-            if (!deleted) {
-                System.err.println("Konnte PDF nicht löschen: " + pdfFile.getAbsolutePath());
-            }
+            pdfFile.delete();
         }
+    }
+
+    private Path getUniqueDestinationPath(Path destinationPath) {
+        //erstellt einen einzigartigen Namen für das PDF
+
+        Path parentDir = destinationPath.getParent();
+        String fileName = destinationPath.getFileName().toString();
+
+        String baseName;
+        String extension;
+
+        int dotIndex = fileName.lastIndexOf(".");
+        if (dotIndex > 0) {
+            baseName = fileName.substring(0, dotIndex);
+            extension = fileName.substring(dotIndex);
+        } else {
+            baseName = fileName;
+            extension = "";
+        }
+
+        int counter = 1;
+        Path newPath = destinationPath;
+
+        while (Files.exists(newPath)) {
+            String newFileName = String.format("%s(%d)%s", baseName, counter++, extension);
+            newPath = parentDir.resolve(newFileName);
+        }
+
+        return newPath;
     }
 
     @FXML

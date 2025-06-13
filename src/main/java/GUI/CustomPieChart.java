@@ -81,7 +81,7 @@ public class CustomPieChart extends PieChart {
             //ToDo:Löschfunktion einfügen
             deleteItem.setOnAction(e -> showAlert());
 
-            MenuItem printItem = new MenuItem("Drucken");
+            MenuItem printItem = new MenuItem("Exportieren");
             printItem.setOnAction(e -> {
                 //ToDo: Druckfunktion einfügen
             });
