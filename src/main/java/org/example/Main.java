@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.example.dao.dbConn;
@@ -33,6 +34,8 @@ public class Main  extends Application {
             Scene startScene = new Scene(root);
             stage.setScene(startScene);
             stage.setTitle("Klausurgenerator");
+            stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResource("/Images/Logo.png")).toString()));
+
             stage.setMaximized(true);
 
             stage.setOnCloseRequest((WindowEvent we) -> {
