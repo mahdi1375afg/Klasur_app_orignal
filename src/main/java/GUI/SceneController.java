@@ -125,7 +125,6 @@ public class SceneController {
 
         benutzerKonto konto = new benutzerKonto();
         konto.abmelden();
-        dbConn.closePool();
         switchToTitlePage(event);
     }
 
@@ -135,7 +134,6 @@ public class SceneController {
 
         benutzerKonto konto = new benutzerKonto();
         konto.abmelden();
-        dbConn.closePool();
         switchToTitlePage(stage);
     }
 
