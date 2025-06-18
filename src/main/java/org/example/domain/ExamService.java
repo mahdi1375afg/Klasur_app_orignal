@@ -59,7 +59,9 @@ public class ExamService {
         this.user_id = user_id;
     }
 
-    public void save() throws SQLException {
+    public void save() throws SQLException, IOException {
+        //Speicherung in die Datenbank -- Entfernen
+        /*
         benutzerKonto konto = new benutzerKonto();
         int examId = konto.ExamErstellen(name,date,totalPoints,benutzerKonto.aktuellerBenutzer.getId());
         for(Task t : tasks) {
@@ -69,6 +71,8 @@ public class ExamService {
         System.out.println("Save das Exam!");
         Exam.getAllExams(benutzerKonto.aktuellerBenutzer.getId());
 
+         */
+        generatePdf(name,date,totalPoints,0,modul,questionType,bloomLevels,pruefer,user_id,schule);
     }
 
     private boolean checkIfTimeAndPoints(List<Task> tasks) {
@@ -259,7 +263,6 @@ public class ExamService {
         tasks = selectedTasks;
         System.out.println("Exam konnte erstellt werden mit: " + selectedTasks.size() + " Tasks");
         save();
-        generatePdf(name,date,totalPoints,0,modul,questionType,bloomLevels,pruefer,user_id,schule);
         return 0; // Erfolgreich erstellt
     }
 
