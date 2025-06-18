@@ -448,11 +448,13 @@ public class ExamService {
             }
 
             document.add(new Paragraph(" "));
+            musterloesung.add(new Paragraph(" "));
 
             aufgabeNummer++;
         }
 
         document.close();
+        musterloesung.close();
         System.out.println("PDF wurde erstellt");
     }
 
