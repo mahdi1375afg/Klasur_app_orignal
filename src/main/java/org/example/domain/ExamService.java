@@ -441,9 +441,102 @@ public class ExamService {
                     }
                 }
 
-            } else if(typ == QuestionType.ranking || typ == QuestionType.zuordnung) {
+            } else if(typ == QuestionType.ranking) {
+                // Ranking + Zuordnung
+                for (int i = 0; i < task.getAnswer().size(); i++) {
+                    String antwortText = task.getAnswer().get(i).getAntwortText();
+                    int position = task.getAnswer().get(i).getAntwortRanking();
+                    Paragraph antwortParagraph = new Paragraph("[   ] " + antwortText, answerFont);
+                    Paragraph antwortParagraphRight = new Paragraph("[" + position + "] " + antwortText, answerFont);
+                    antwortParagraph.setIndentationLeft(20f);
+                    antwortParagraph.setSpacingAfter(2f);
+                    antwortParagraphRight.setIndentationLeft(20f);
+                    antwortParagraphRight.setSpacingAfter(2f);
+                    document.add(antwortParagraph);
+                    musterloesung.add(antwortParagraphRight);
+                }
                 // TODO: Ranking + Zuordnung (Ranking Typ von Zuordnung mit Zahlen)
+            } else if(typ == QuestionType.zuordnung) {
+                // Zuordnung
+
+                List<String> leftItems = new ArrayList<>();
+                List<String> rightItems = new ArrayList<>();
+
+                for (Antwort answer : task.getAnswer()) {
+                    leftItems.add(answer.getAntwortText());
+                    rightItems.add(answer.getAntwortText2());
+                }
+
+                // Zufällige Reihenfolge der rechten Seite
+                List<String> shuffledRightItems = new ArrayList<>(rightItems);
+                Collections.shuffle(shuffledRightItems);
+
+                PdfPTable table = new PdfPTable(2);
+                table.setWidths(new int[]{1, 1});
+                table.setSpacingBefore(10f);
+                table.setSpacingAfter(10f);
+
+                char letter = 'a';
+                for (int i = 0; i < leftItems.size(); i++) {
+                    PdfPCell cellLeft = new PdfPCell(new Phrase((i + 1) + ". " + leftItems.get(i), answerFont));
+                    PdfPCell cellRight = new PdfPCell(new Phrase((char)(letter + i) + ". " + shuffledRightItems.get(i), answerFont));
+                    cellLeft.setPadding(5f);
+                    cellRight.setPadding(5f);
+
+                    table.addCell(cellLeft);
+                    table.addCell(cellRight);
+                }
+
+                document.add(table);
+
+                // Tabelle für Musterlösung (korrekte Paare)
+                PdfPTable loesungstabelle = new PdfPTable(2);
+                loesungstabelle.setWidths(new int[]{1, 1});
+                loesungstabelle.setSpacingBefore(10f);
+                loesungstabelle.setSpacingAfter(10f);
+
+                for (int i = 0; i < leftItems.size(); i++) {
+                    PdfPCell cellLeft = new PdfPCell(new Phrase((i + 1) + ". " + leftItems.get(i), answerFont));
+                    PdfPCell cellRight = new PdfPCell(new Phrase((char)(letter + i) + ". " + rightItems.get(i), answerFont));
+                    cellLeft.setPadding(5f);
+                    cellRight.setPadding(5f);
+
+                    loesungstabelle.addCell(cellLeft);
+                    loesungstabelle.addCell(cellRight);
+                }
+
+                musterloesung.add(loesungstabelle);
             } else if(typ == QuestionType.leerstellen) {
+                // Keine Ahnung ob das stimmt, hier muss noch dran gearbeitet werden
+                String vollerText = task.getAnswer().getFirst().getAntwortText();
+                String lueckenText = task.getAnswer().getFirst().getAntwortText2();
+
+                vollerText = vollerText.replaceAll("[.,;!?]", "").toLowerCase();
+                lueckenText = lueckenText.replaceAll("[.,;!?]", "").toLowerCase();
+
+                String[] vollerWoerter = vollerText.split("\\s+");
+                String[] lueckenWoerter = lueckenText.split("\\s+");
+
+                List<String> gefundeneLuecken = new ArrayList<>();
+
+                for (int i = 0; i < Math.min(vollerWoerter.length, lueckenWoerter.length); i++) {
+                    if (lueckenWoerter[i].equals("_")) {
+                        gefundeneLuecken.add(vollerWoerter[i]);
+                    }
+                }
+
+                Paragraph Lueckentext = new Paragraph(task.getAnswer().getFirst().getAntwortText2(),answerFont);
+
+                Paragraph Worte = new Paragraph();
+                for(String wort : gefundeneLuecken) {
+                    Worte.add(wort);
+                }
+                document.add(Lueckentext);
+                document.add(Worte);
+
+                Paragraph VollerText = new Paragraph(task.getAnswer().getFirst().getAntwortText(),answerFont);
+                musterloesung.add(VollerText);
+
                 // TODO: Leerstellen
             }
 
