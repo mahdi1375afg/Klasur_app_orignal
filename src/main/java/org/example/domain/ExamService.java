@@ -267,16 +267,27 @@ public class ExamService {
     }
 
 
-
+// TODO: Auch Musterlösung machen - Vorteil: Eine Methode und bei jeder Generierung von Aufgabe auch generierung von Lösung
     public static void generatePdf(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, String pruefer, int user_id, String schule) throws IOException {
-        //ToDo: Deckblatt erstellen, alle Arten von Aufgaben hinzufügen
+        //ToDo: Alle Arten von Aufgaben hinzufügen
 
+        // EXAM + DIRECTORY
         Document document = new Document(PageSize.A4);
         String outputDir = "target/GeneratedExams/";
         new File(outputDir).mkdirs();
         String filePath = outputDir + name + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
         document.open();
+
+        // MUSTERLOESUNG
+        Document musterloesung = new Document(PageSize.A4);
+        String outputDirLoesung = outputDir + "Loesungen/";
+        new File(outputDirLoesung).mkdirs();
+        String filePathLoesung = outputDirLoesung + name + "_Loesung.pdf";
+        PdfWriter writerLoesung = PdfWriter.getInstance(musterloesung, new FileOutputStream(filePathLoesung));
+        musterloesung.open();
+
+
 
         // Deckblatt erstellen
         Font titleFont = new Font(Font.HELVETICA, 18, Font.BOLD);
@@ -290,13 +301,19 @@ public class ExamService {
         header.setSpacingAfter(30);
         document.add(header);
 
+        Paragraph headerMuster = new Paragraph("MUSTERLOESUNG", subTitleFont);
+        musterloesung.add(header);
+        musterloesung.add(headerMuster);
+
         //Hinweis
         Paragraph hinweis = new Paragraph("Bitte tragen Sie Ihre Matrikelnummer und Ihren Namen ein!", boldFont);
         hinweis.setSpacingAfter(10);
         document.add(hinweis);
+        musterloesung.add(hinweis);
 
         document.add(Chunk.NEWLINE);
         document.add(Chunk.NEWLINE);
+        musterloesung.add(Chunk.NEWLINE);
 
         // Name & Matrikelnummer
         PdfPTable table1 = new PdfPTable(1);
@@ -311,6 +328,7 @@ public class ExamService {
         table1.addCell(matrikelCell);
 
         document.add(table1);
+        musterloesung.add(table1);
 
 
         int anzahlAufgaben = tasks.size();
@@ -349,30 +367,29 @@ public class ExamService {
         }
 
         document.add(punktetabelle);
-
-
-
         document.add(Chunk.NEWLINE);
+        musterloesung.add(punktetabelle);
+        musterloesung.add(Chunk.NEWLINE);
 
         //Hinweise
         Paragraph hinweise = new Paragraph("Bitte beachten Sie:\n\n" +"   • Ab "+ totalPoints/2 +" (von "+ totalPoints +" möglichen) Punkten ist die Klausur bestanden (Note 4.0).\n" + "   • Nur Stifte und leere Papierblätter sind als Hilfsmittel erlaubt.\n", normalFont);
         hinweise.setSpacingBefore(20);
         document.add(hinweise);
         document.add(Chunk.NEWLINE);
+        musterloesung.add(hinweise);
+        musterloesung.add(Chunk.NEWLINE);
 
         // Viel Erfolg
         Paragraph erfolg = new Paragraph("Viel Erfolg!", boldFont);
         erfolg.setSpacingBefore(20);
         document.add(erfolg);
-
+        musterloesung.add(erfolg);
 
         document.newPage();
+        musterloesung.newPage();
 
 
         // HIER GEHT AUFGABEN LOS
-
-
-        PdfContentByte cb = writer.getDirectContent();
 
         Font headerFont = new Font(Font.HELVETICA, 16, Font.BOLD);
         Font questionHeaderFont = new Font(Font.HELVETICA, 14);
@@ -382,8 +399,9 @@ public class ExamService {
         Font punktFont = new Font(Font.HELVETICA, 10, Font.ITALIC);
 
         document.add(new Paragraph("Klausur: " + name + "                                " + "Datum: " + date.toString(), headerFont));
-        //document.add(new Paragraph("Prüfer: " + Pruefer));
+        musterloesung.add(new Paragraph("Klausur: " + name + "                                " + "Datum: " + date.toString(), headerFont));
         document.add(new Paragraph(" "));
+        musterloesung.add(new Paragraph(" "));
 
         int aufgabeNummer = 1;
         for(Task task : tasks) {
@@ -392,24 +410,41 @@ public class ExamService {
             taskHeadParagraph.setSpacingBefore(10);
             taskHeadParagraph.setSpacingAfter(2);
             document.add(taskHeadParagraph);
+            musterloesung.add(taskHeadParagraph);
 
             Paragraph taskParagraph = new Paragraph();
             taskParagraph.add(new Chunk(task.getQuestion().getQuestionText(), questionFont));
             taskParagraph.setSpacingBefore(15);
             taskParagraph.setSpacingAfter(2);
             document.add(taskParagraph);
+            musterloesung.add(taskParagraph);
 
             QuestionType typ = task.getAnswer().getFirst().getTyp();
 
+
             if(typ == QuestionType.multipleChoiceFragen || typ == QuestionType.singleChoiceFragen || typ == QuestionType.wahrOderFalsch) {
+                // Multiple Choice + Single Choice + Wahr/Falsch
                 for(int i = 0; i < task.getAnswer().size(); i++) {
                     String antwortText = task.getAnswer().get(i).getAntwortText();
-
+                    boolean right = task.getAnswer().get(i).isKorrekt();
                     Paragraph antwortParagraph = new Paragraph("[  ]  " + antwortText, answerFont);
+                    Paragraph antwortParagraphRight = new Paragraph("[ X ]  " + antwortText, answerFont);
                     antwortParagraph.setIndentationLeft(20f);
                     antwortParagraph.setSpacingAfter(2f);
+                    antwortParagraphRight.setIndentationLeft(20f);
+                    antwortParagraphRight.setSpacingAfter(2f);
                     document.add(antwortParagraph);
+                    if(right) {
+                        musterloesung.add(antwortParagraphRight);
+                    } else {
+                        musterloesung.add(antwortParagraph);
+                    }
                 }
+
+            } else if(typ == QuestionType.ranking || typ == QuestionType.zuordnung) {
+                // TODO: Ranking + Zuordnung (Ranking Typ von Zuordnung mit Zahlen)
+            } else if(typ == QuestionType.leerstellen) {
+                // TODO: Leerstellen
             }
 
             document.add(new Paragraph(" "));
