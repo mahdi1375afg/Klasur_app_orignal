@@ -108,15 +108,21 @@ public class ExamOverviewController extends SceneController implements Initializ
             for(ObservableList<String> exam: selectedExams) {
                 String pdfName = exam.getFirst();
                 File sourcePdfFile = new File("target/GeneratedExams/" + pdfName);
+                String name = pdfName.replace(".pdf", "");
+                File sourcePdfFileSolution = new File("target/GeneratedExams/Loesungen/" + name + "_Loesung.pdf");
                 String userHome = System.getProperty("user.home");
                 Path downloadsPath = Paths.get(userHome, "Downloads");
 
                 Path destinationPath = downloadsPath.resolve(sourcePdfFile.getName());
                 Path uniquePath = getUniqueDestinationPath(destinationPath);
+                Path destinationPathSolution = downloadsPath.resolve(sourcePdfFileSolution.getName());
+                Path uniquePathSolution = getUniqueDestinationPath(destinationPathSolution);
 
                 try {
                     Files.copy(sourcePdfFile.toPath(), uniquePath);
+                    Files.copy(sourcePdfFileSolution.toPath(), uniquePathSolution);
                 } catch (IOException ignored) {
+                    ignored.printStackTrace();
                 }
             }
         });
