@@ -15,7 +15,7 @@
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamPreviewController">
 
    <top>
-      <VBox spacing="0">
+      <VBox>
 
          <HBox alignment="CENTER_LEFT" spacing="10" BorderPane.alignment="CENTER">
          <padding>
@@ -24,12 +24,12 @@
 
          <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
                      <items>
-                        <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-                        <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
-                        <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
-                        <MenuItem fx:id="menuButtonAddExam" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
-                        <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
-                        <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+                        <MenuItem mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                        <MenuItem mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
+                        <MenuItem mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                        <MenuItem mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+                        <MenuItem mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                        <MenuItem mnemonicParsing="false" onAction="#logout" text="Logout" />
                      </items>
                   </MenuButton>
 
@@ -42,44 +42,44 @@
    </top>
 
    <center>
-      <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
+      <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+         <VBox alignment="TOP_CENTER" spacing="10" minHeight="600">
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Generierte Klausur">
                <font>
-                  <Font size="24.0" />
+                  <Font size="24.0"/>
                </font>
             </Text>
 
-            <ScrollPane fx:id="scrollPaneExam" fitToWidth="true" hbarPolicy="NEVER" maxWidth="1200.0" VBox.vgrow="ALWAYS">
-            <content>
-               <VBox fx:id="pdfContainerExam" spacing="10.0" />
-            </content>
-         </ScrollPane>
+            <ScrollPane maxHeight="400" fitToWidth="true" maxWidth="1200.0" prefWidth="1200"
+                        VBox.vgrow="ALWAYS">
+               <VBox fx:id="pdfContainerExam" spacing="10.0" maxWidth="Infinity"/>
+            </ScrollPane>
 
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Musterlösung">
                <font>
-                  <Font size="24.0" />
+                  <Font size="24.0"/>
                </font>
             </Text>
 
-            <ScrollPane fx:id="scrollPaneSampleSolution" fitToWidth="true" hbarPolicy="NEVER" maxWidth="1200.0" VBox.vgrow="ALWAYS">
+            <ScrollPane maxHeight="400" fitToWidth="true" maxWidth="1200.0"
+                        prefWidth="1200" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox fx:id="pdfContainerSampleSolution" spacing="10.0" />
+                  <VBox fx:id="pdfContainerSampleSolution" spacing="10.0" maxWidth="Infinity"/>
                </content>
             </ScrollPane>
 
 
-         </children>
-      </VBox>
+         </VBox>
+      </ScrollPane>
    </center>
 
    <bottom>
-      <VBox spacing="0">
+      <VBox>
          <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
          <HBox alignment="CENTER" spacing="15" style="-fx-padding: 20; ">
-            <Button fx:id="buttonBack" mnemonicParsing="false" onAction="#regenerateExam" text="zurück"  style=" -fx-padding: 8 16;"/>
+            <Button mnemonicParsing="false" onAction="#regenerateExam" text="zurück"  style=" -fx-padding: 8 16;"/>
 
-            <Button fx:id="buttonExportExam" mnemonicParsing="false" onAction="#exportExam" text="exportieren"  style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 16;"/>
+            <Button mnemonicParsing="false" onAction="#exportExam" text="exportieren"  style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8 16;"/>
 
          </HBox>
       </VBox>

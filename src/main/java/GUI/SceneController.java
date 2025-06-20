@@ -10,12 +10,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import org.example.Main;
-import org.example.dao.dbConn;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 import org.example.domain.benutzerKonto;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SceneController {
@@ -29,7 +29,7 @@ public class SceneController {
         double sceneWidth = stage.getScene().getWidth();
         double sceneHeight = stage.getScene().getHeight();
 
-        Parent root = FXMLLoader.load(getClass().getResource(newScene));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(newScene)));
         Scene scene = new Scene(root, sceneWidth, sceneHeight);
         stage.setScene(scene);
         stage.show();
@@ -42,7 +42,7 @@ public class SceneController {
         double sceneWidth = stage.getScene().getWidth();
         double sceneHeight = stage.getScene().getHeight();
 
-        Parent root = FXMLLoader.load(getClass().getResource(newScene));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(newScene)));
         Scene scene = new Scene(root, sceneWidth, sceneHeight);
         stage.setScene(scene);
         stage.show();

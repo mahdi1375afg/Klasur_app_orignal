@@ -15,7 +15,7 @@
 
 <BorderPane prefHeight="391.0" prefWidth="727.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.LoginController">
     <center>
-        <StackPane alignment="CENTER">
+        <StackPane>
             <VBox alignment="CENTER" maxHeight="500" maxWidth="850" spacing="40" style="-fx-background-radius: 15; -fx-background-color: white; -fx-padding: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 0, 4);">
                 <Text text="Anmelden">
                     <font>
@@ -52,13 +52,13 @@
                   </PasswordField>
 
 
-                    <Button fx:id="buttonstartpage" onAction="#switchToTitlePage" style="-fx-background-color: transparent; -fx-padding: 10 15; -fx-text-fill: #4CAF50; " text="Startseite" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                    <Button onAction="#switchToTitlePage" style="-fx-background-color: transparent; -fx-padding: 10 15; -fx-text-fill: #4CAF50; " text="Startseite" GridPane.columnIndex="0" GridPane.rowIndex="2">
                   <font>
                      <Font size="18.0" />
                   </font>
                  </Button>
 
-                    <Button fx:id="buttonLogin2" onAction="#switchToStartPage" defaultButton="true"  style="-fx-padding: 10 15; -fx-background-color: #4CAF50;-fx-text-fill: white;" text="Anmelden" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                    <Button onAction="#switchToStartPage" defaultButton="true"  style="-fx-padding: 10 15; -fx-background-color: #4CAF50;-fx-text-fill: white;" text="Anmelden" GridPane.columnIndex="1" GridPane.rowIndex="2">
                   <font>
                      <Font size="18.0" />
                   </font></Button>

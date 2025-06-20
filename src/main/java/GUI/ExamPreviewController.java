@@ -23,7 +23,6 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 
 public class ExamPreviewController extends SceneController {
-//ToDo: Musterklausur im unteren Feld anzeigen
 
     @FXML
     private MenuButton menuBar;
@@ -123,9 +122,7 @@ public class ExamPreviewController extends SceneController {
         try {
             Files.copy(sourcePdfFile.toPath(), uniquePath);
             Files.copy(sourcePdfFileSolution.toPath(), uniquePathSolution);
-        } catch (IOException ignored) {
-            ignored.printStackTrace();
-        }
+        } catch (IOException ignored) {}
 
         super.switchToStartPage(event);
     }

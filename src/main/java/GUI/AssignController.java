@@ -96,6 +96,7 @@ public class AssignController extends SceneController{
         TextArea answerArea = new TextArea();
         answerArea.setPromptText("Antwort " + (answerAreas.size() + 1));
         answerArea.setPrefWidth(370.0);
+        answerArea.setMinWidth(300.0);
         answerArea.setPrefHeight(60.0);
         answerArea.setFont(new Font(15.0));
         answerArea.setMaxWidth(Double.MAX_VALUE);
@@ -104,6 +105,7 @@ public class AssignController extends SceneController{
         TextArea solutionArea = new TextArea();
         solutionArea.setPromptText("Lösung " + (solutionAreas.size() + 1));
         solutionArea.setPrefWidth(370.0);
+        solutionArea.setMinWidth(300.0);
         solutionArea.setPrefHeight(60.0);
         solutionArea.setFont(new Font(15.0));
         answerArea.setMaxWidth(Double.MAX_VALUE);

@@ -143,7 +143,7 @@ public class TaskPageController extends SceneController {
         modulTitleText = modulDropdown.getValue();
     }
 
-    public void setNewModul() throws SQLException {
+    public void setNewModul() {
         modulTitleText = textFieldNewModul.getText();
         benutzerKonto konto = new benutzerKonto();
 

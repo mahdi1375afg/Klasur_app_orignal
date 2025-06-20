@@ -17,7 +17,7 @@ public class LoginController extends SceneController {
 
     @FXML
     public void switchToStartPage(ActionEvent event) throws IOException, SQLException {
-        //Anmelden des Users mit laden der Daten aus der Datenbank
+        //Anmelden des Users mit Laden der Daten aus der Datenbank
 
         String username = usernameLoginTextField.getText().trim();
         String password = passwordLoginField.getText();

@@ -1,4 +1,3 @@
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -14,7 +13,7 @@
 <?import javafx.scene.layout.StackPane?>
 <BorderPane prefHeight="411.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.SignUpController">
     <center>
-        <StackPane alignment="CENTER">
+        <StackPane>
             <VBox alignment="CENTER" maxHeight="500" maxWidth="850" spacing="40" style="-fx-background-radius: 15; -fx-background-color: white; -fx-padding: 50; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0.3, 0, 4);">
                 <Text text="Registrieren">
                     <font>
@@ -57,13 +56,13 @@
                     <PasswordField fx:id="passwordSignUpVerifyField" promptText="Passwort bestätigen" style="-fx-padding: 10 15; -fx-background-radius: 8; -fx-font-size: 20px;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     </PasswordField>
 
-                    <Button fx:id="buttonlogin2" onAction="#switchToTitlePage" style="-fx-background-color: transparent; -fx-padding: 10 15; -fx-text-fill: #4CAF50; " text="Startseite" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                    <Button onAction="#switchToTitlePage" style="-fx-background-color: transparent; -fx-padding: 10 15; -fx-text-fill: #4CAF50; " text="Startseite" GridPane.columnIndex="0" GridPane.rowIndex="3">
                         <font>
                             <Font size="18.0" />
                         </font>
                     </Button>
 
-                    <Button fx:id="buttonSignUp2" onAction="#switchToLoginPage" defaultButton="true" style="-fx-padding: 10 15; -fx-background-color: #4CAF50;-fx-text-fill: white;" text="Registrieren" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <Button onAction="#switchToLoginPage" defaultButton="true" style="-fx-padding: 10 15; -fx-background-color: #4CAF50;-fx-text-fill: white;" text="Registrieren" GridPane.columnIndex="1" GridPane.rowIndex="3">
                         <font>
                             <Font size="18.0" />
                         </font></Button>

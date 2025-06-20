@@ -18,9 +18,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ScrollPane?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.ExamController">
    <top>
-      <VBox spacing="0">
+      <VBox>
 
          <HBox alignment="CENTER_LEFT" spacing="10" BorderPane.alignment="CENTER">
             <padding>
@@ -29,11 +30,11 @@
 
             <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
                <items>
-                  <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-                  <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
-                  <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
-                  <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
-                  <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                  <MenuItem mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                  <MenuItem mnemonicParsing="false" onAction="#logout" text="Logout" />
                </items>
             </MenuButton>
 
@@ -46,161 +47,185 @@
    </top>
 
    <center>
-      <GridPane hgap="20" vgap="15" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
-         <padding>
-            <Insets bottom="-30.0" left="30.0" right="30.0" top="30.0" />
-         </padding>
-         <columnConstraints>
-            <ColumnConstraints percentWidth="20" />
-            <ColumnConstraints hgrow="ALWAYS" percentWidth="80" />
-         </columnConstraints>
+      <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+         <GridPane hgap="20" vgap="15">
+            <padding>
+               <Insets bottom="-30.0" left="30.0" right="30.0" top="30.0"/>
+            </padding>
+            <columnConstraints>
+               <ColumnConstraints percentWidth="20"/>
+               <ColumnConstraints hgrow="ALWAYS" percentWidth="80"/>
+            </columnConstraints>
 
-         <Text style="-fx-font-size: 16" text="Titel:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-         <TextField fx:id="textFieldExamTitle" prefHeight="25" promptText="Musterklausur" GridPane.columnIndex="1" GridPane.rowIndex="1">
-            <font>
-               <Font size="14.0" />
-            </font></TextField>
-         <Text style="-fx-font-size: 16" text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-         <TextField fx:id="textFieldExamDate" prefHeight="25" promptText="Format: dd.MM.yyyy" GridPane.columnIndex="1" GridPane.rowIndex="2">
-            <font>
-               <Font size="14.0" />
-            </font></TextField>
+            <Text style="-fx-font-size: 16" text="Titel:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="textFieldExamTitle" prefHeight="25" promptText="Musterklausur" GridPane.columnIndex="1"
+                       GridPane.rowIndex="1">
+               <font>
+                  <Font size="14.0"/>
+               </font>
+            </TextField>
+            <Text style="-fx-font-size: 16" text="Datum:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="textFieldExamDate" prefHeight="25" promptText="Format: dd.MM.yyyy"
+                       GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <font>
+                  <Font size="14.0"/>
+               </font>
+            </TextField>
 
 
-
-
-         <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.rowIndex="7" />
-         <VBox spacing="5" GridPane.rowIndex="8" GridPane.rowSpan="6">
-            <RadioButton fx:id="rButtonTaxonomieRemember" onAction="#setTaskTaxonomie" text="Erinnern">
-               <font>
-                  <Font size="14.0" />
-               </font></RadioButton>
-            <RadioButton fx:id="rButtonTaxonomieUnderstand" onAction="#setTaskTaxonomie" text="Verstehen">
-               <font>
-                  <Font size="14.0" />
-               </font></RadioButton>
-            <RadioButton fx:id="rButtonTaxonomieApply" onAction="#setTaskTaxonomie" text="Anwenden">
-               <font>
-                  <Font size="14.0" />
-               </font></RadioButton>
-            <RadioButton fx:id="rButtonTaxonomieAnalyze" onAction="#setTaskTaxonomie" prefHeight="20.0" prefWidth="101.0" text="Analysieren">
-               <font>
-                  <Font size="14.0" />
-               </font></RadioButton>
-            <RadioButton fx:id="rButtonTaxonomieRate" onAction="#setTaskTaxonomie" text="Bewerten">
-               <font>
-                  <Font size="14.0" />
-               </font></RadioButton>
-            <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen">
-               <font>
-                  <Font size="14.0" />
-               </font></RadioButton>
-         </VBox>
-         <HBox prefHeight="149.0" prefWidth="352.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="8">
-            <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.rowSpan="6">
-               <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen">
+            <Text style="-fx-font-size:18;" text="Taxonomie:" GridPane.rowIndex="7"/>
+            <VBox spacing="5" GridPane.rowIndex="8" GridPane.rowSpan="6">
+               <RadioButton fx:id="rButtonTaxonomieRemember" onAction="#setTaskTaxonomie" text="Erinnern">
                   <font>
-                     <Font size="14.0" />
-                  </font></RadioButton>
-               <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice">
+                     <Font size="14.0"/>
+                  </font>
+               </RadioButton>
+               <RadioButton fx:id="rButtonTaxonomieUnderstand" onAction="#setTaskTaxonomie" text="Verstehen">
                   <font>
-                     <Font size="14.0" />
-                  </font></RadioButton>
-               <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice">
+                     <Font size="14.0"/>
+                  </font>
+               </RadioButton>
+               <RadioButton fx:id="rButtonTaxonomieApply" onAction="#setTaskTaxonomie" text="Anwenden">
                   <font>
-                     <Font size="14.0" />
-                  </font></RadioButton>
-               <RadioButton fx:id="rButtonTypTrueFalsch" onAction="#setTaskType" text="Wahr/Falsch">
+                     <Font size="14.0"/>
+                  </font>
+               </RadioButton>
+               <RadioButton fx:id="rButtonTaxonomieAnalyze" onAction="#setTaskTaxonomie" prefHeight="20.0"
+                            prefWidth="101.0" text="Analysieren">
                   <font>
-                     <Font size="14.0" />
-                  </font></RadioButton>
-               <RadioButton fx:id="rButtonTypGapText" onAction="#setTaskType" text="Lückentext">
+                     <Font size="14.0"/>
+                  </font>
+               </RadioButton>
+               <RadioButton fx:id="rButtonTaxonomieRate" onAction="#setTaskTaxonomie" text="Bewerten">
                   <font>
-                     <Font size="14.0" />
-                  </font></RadioButton>
-               <RadioButton fx:id="rButtonTypAssign" onAction="#setTaskType" text="Zuordnen">
+                     <Font size="14.0"/>
+                  </font>
+               </RadioButton>
+               <RadioButton fx:id="rButtonTaxonomieCreate" onAction="#setTaskTaxonomie" text="Erschaffen">
                   <font>
-                     <Font size="14.0" />
-                  </font></RadioButton>
-               <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking">
-                  <font>
-                     <Font size="14.0" />
-                  </font></RadioButton>
+                     <Font size="14.0"/>
+                  </font>
+               </RadioButton>
             </VBox>
-            <VBox maxHeight="60.0" prefHeight="200.0" prefWidth="60.0">
-               <children>
-                  <Spinner fx:id="spinnerAmountOpenQuestion" editable="true" style="-fx-font-size: 13px;" />
-                  <Spinner fx:id="spinnerAmountSingleChoice" editable="true" style="-fx-font-size: 13px;" />
-                  <Spinner fx:id="spinnerAmountMultipleChoice" editable="true" style="-fx-font-size: 13px;" />
-                  <Spinner fx:id="SpinnerAmountTrueFalse" editable="true" style="-fx-font-size: 13px;" />
-                  <Spinner fx:id="SpinnerAmountGapText" editable="true" style="-fx-font-size: 13px;" />
-                  <Spinner fx:id="spinnerAmountAssign" editable="true" style="-fx-font-size: 13px;" />
-                  <Spinner fx:id="spinnerAmountRanking" editable="true" style="-fx-font-size: 13px;" />
-               </children>
-            </VBox>
-         </HBox>
-         <Button onAction="#generateExam" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 15;" text="erstellen" GridPane.columnIndex="1" GridPane.rowIndex="9">
-            <font>
-               <Font size="14.0" />
-            </font></Button>
+            <HBox prefHeight="149.0" prefWidth="352.0" spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <VBox spacing="8.0" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.rowSpan="6">
+                  <RadioButton fx:id="rButtonTypOpen" onAction="#setTaskType" text="offen">
+                     <font>
+                        <Font size="14.0"/>
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rButtonTypSingle" onAction="#setTaskType" text="Single-Choice">
+                     <font>
+                        <Font size="14.0"/>
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rButtonTypMultiple" onAction="#setTaskType" text="Multiple-Choice">
+                     <font>
+                        <Font size="14.0"/>
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rButtonTypTrueFalsch" onAction="#setTaskType" text="Wahr/Falsch">
+                     <font>
+                        <Font size="14.0"/>
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rButtonTypGapText" onAction="#setTaskType" text="Lückentext">
+                     <font>
+                        <Font size="14.0"/>
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rButtonTypAssign" onAction="#setTaskType" text="Zuordnen">
+                     <font>
+                        <Font size="14.0"/>
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rButtonTypRanking" onAction="#setTaskType" text="Ranking">
+                     <font>
+                        <Font size="14.0"/>
+                     </font>
+                  </RadioButton>
+               </VBox>
+               <VBox maxHeight="60.0" prefHeight="200.0" prefWidth="60.0">
+                  <Spinner fx:id="spinnerAmountOpenQuestion" editable="true" style="-fx-font-size: 13px;"/>
+                  <Spinner fx:id="spinnerAmountSingleChoice" editable="true" style="-fx-font-size: 13px;"/>
+                  <Spinner fx:id="spinnerAmountMultipleChoice" editable="true" style="-fx-font-size: 13px;"/>
+                  <Spinner fx:id="SpinnerAmountTrueFalse" editable="true" style="-fx-font-size: 13px;"/>
+                  <Spinner fx:id="SpinnerAmountGapText" editable="true" style="-fx-font-size: 13px;"/>
+                  <Spinner fx:id="spinnerAmountAssign" editable="true" style="-fx-font-size: 13px;"/>
+                  <Spinner fx:id="spinnerAmountRanking" editable="true" style="-fx-font-size: 13px;"/>
+               </VBox>
+            </HBox>
+            <Button onAction="#generateExam"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 5 15;" text="erstellen"
+                    GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <font>
+                  <Font size="14.0"/>
+               </font>
+            </Button>
 
-         <Text style="-fx-font-size: 16px;" text="Modul:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-         <ComboBox fx:id="modulDropdown" prefHeight="25" prefWidth="120.0" style="-fx-font-size: 14px;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Text style="-fx-font-size: 16px;" text="Modul:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <ComboBox fx:id="modulDropdown" prefHeight="25" prefWidth="120.0" style="-fx-font-size: 14px;"
+                      GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
-         <Text style="-fx-font-size: 16px;" text="Zeit (in Minuten):" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-         <TextField fx:id="textFieldDuration" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="5">
-            <font>
-               <Font size="14.0" />
-            </font></TextField>
-
-
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16px;" text="Anzahl Punkte:" GridPane.rowIndex="6" />
-         <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="6">
-            <font>
-               <Font size="14.0" />
-            </font></TextField>
+            <Text style="-fx-font-size: 16px;" text="Zeit (in Minuten):" GridPane.columnIndex="0"
+                  GridPane.rowIndex="5"/>
+            <TextField fx:id="textFieldDuration" prefHeight="25" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font size="14.0"/>
+               </font>
+            </TextField>
 
 
-         <TextField fx:id="textFieldExaminer" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <font>
-               <Font size="14.0" />
-            </font></TextField>
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16px;" text="Prüfer:" GridPane.rowIndex="3" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16px;" text="Anzahl Punkte:"
+                  GridPane.rowIndex="6"/>
+            <TextField fx:id="textFieldNumberPoints" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <font>
+                  <Font size="14.0"/>
+               </font>
+            </TextField>
 
-         <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="376.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
-            <children>
 
-               <Text style="-fx-font-size:18;" text="Typ:" />
+            <TextField fx:id="textFieldExaminer" prefHeight="25.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <font>
+                  <Font size="14.0"/>
+               </font>
+            </TextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16px;" text="Prüfer:"
+                  GridPane.rowIndex="3"/>
+
+            <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="376.0" GridPane.columnIndex="1"
+                  GridPane.rowIndex="7">
+               <Text style="-fx-font-size:18;" text="Typ:"/>
                <Text style="-fx-font-size: 18;" text="Anzahl:">
                   <HBox.margin>
-                     <Insets left="80.0" />
+                     <Insets left="80.0"/>
                   </HBox.margin>
                </Text>
-            </children>
-         </HBox>
+            </HBox>
 
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints minHeight="30.0" vgrow="NEVER" />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-      </GridPane>
+            <rowConstraints>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints minHeight="30.0" vgrow="NEVER"/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+               <RowConstraints/>
+            </rowConstraints>
+         </GridPane>
+      </ScrollPane>
    </center>
 
 
    <bottom>
-      <VBox spacing="0">
+      <VBox>
          <Region prefHeight="2" style="-fx-background-color: #4CAF50;" />
          <Region prefHeight="73" />
       </VBox>

@@ -20,11 +20,11 @@
 
             <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
                 <items>
-                    <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-                    <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
-                    <MenuItem fx:id="menuButtonExamPage" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
-                    <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
-                    <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                    <MenuItem mnemonicParsing="false" onAction="#logout" text="Logout" />
                 </items>
             </MenuButton>
 

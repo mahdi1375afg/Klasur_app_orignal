@@ -121,9 +121,7 @@ public class ExamOverviewController extends SceneController implements Initializ
                 try {
                     Files.copy(sourcePdfFile.toPath(), uniquePath);
                     Files.copy(sourcePdfFileSolution.toPath(), uniquePathSolution);
-                } catch (IOException ignored) {
-                    ignored.printStackTrace();
-                }
+                } catch (IOException ignored) {}
             }
         });
 

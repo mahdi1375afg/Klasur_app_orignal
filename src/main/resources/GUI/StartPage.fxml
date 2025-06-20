@@ -8,52 +8,50 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.ScrollPane?>
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.StartPageController">
     <left>
         <VBox alignment="CENTER_LEFT" maxWidth="400.0" prefHeight="400.0" prefWidth="150.0" spacing="10" style="-fx-background-color: #4CAF50;" BorderPane.alignment="CENTER">
-            <Button fx:id="buttonAddTask" onAction="#switchToAddTaskPage" prefHeight="30.0" prefWidth="150.0" text="Aufgabe hinzufügen">
+            <Button  onAction="#switchToAddTaskPage" prefHeight="30.0" prefWidth="150.0" text="Aufgabe hinzufügen">
             <font>
                <Font size="14.0" />
             </font></Button>
-            <Button fx:id="buttonTaskOverview" onAction="#switchToTaskOverview" prefHeight="30.0" prefWidth="150.0" text="Aufgabenübersicht">
+            <Button  onAction="#switchToTaskOverview" prefHeight="30.0" prefWidth="150.0" text="Aufgabenübersicht">
             <font>
                <Font size="14.0" />
             </font></Button>
-            <Button fx:id="buttonGenerateExam" onAction="#switchToExamPage" prefHeight="30.0" prefWidth="150.0" text="Klausur erstellen">
+            <Button  onAction="#switchToExamPage" prefHeight="30.0" prefWidth="150.0" text="Klausur erstellen">
             <font>
                <Font size="14.0" />
             </font></Button>
-            <Button fx:id="buttonExamCollection" onAction="#switchToExamCollection" prefHeight="30.0" prefWidth="150.0" text="Klausurensammlung">
+            <Button onAction="#switchToExamCollection" prefHeight="30.0" prefWidth="150.0" text="Klausurensammlung">
             <font>
                <Font size="14.0" />
             </font></Button>
-         <Button fx:id="buttonLogout" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="162.0" text="Logout">
+         <Button  mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="162.0" text="Logout">
             <font>
                <Font size="14.0" />
             </font></Button>
         </VBox>
     </left>
-   <center>
-       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Klausurgenerator" textAlignment="CENTER" wrappingWidth="399.3203125" VBox.vgrow="ALWAYS">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Text>
-             <HBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
-                 <VBox fx:id="vBoxPieChartTax" alignment="TOP_CENTER" HBox.hgrow="ALWAYS" />
-                 <VBox fx:id="vBoxPieChartModul" alignment="TOP_CENTER" HBox.hgrow="ALWAYS" />
-             </HBox>
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="400.0" spacing="100.0">
+                <padding>
+                    <Insets bottom="50.0"/>
+                </padding>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Klausurgenerator" textAlignment="CENTER"
+                      wrappingWidth="399.3203125" VBox.vgrow="ALWAYS">
+                    <font>
+                        <Font size="36.0"/>
+                    </font>
+                </Text>
+                <HBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
+                    <VBox fx:id="vBoxPieChartTax" alignment="TOP_CENTER" HBox.hgrow="ALWAYS"/>
+                    <VBox fx:id="vBoxPieChartModul" alignment="TOP_CENTER" HBox.hgrow="ALWAYS"/>
+                </HBox>
+            </VBox>
+        </ScrollPane>
+    </center>
 
-
-         </children>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="50.0" />
-         </padding>
-      </VBox>
-   </center>
 </BorderPane>

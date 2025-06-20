@@ -17,7 +17,7 @@
 
 
     <top>
-        <VBox spacing="0">
+        <VBox>
         <HBox alignment="CENTER_LEFT" spacing="10" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
@@ -25,12 +25,12 @@
 
             <MenuButton fx:id="menuBar" mnemonicParsing="false" text="Menü">
                 <items>
-                    <MenuItem fx:id="menuButtonStartPage" mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
-                    <MenuItem fx:id="menuButtonAddTask" mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
-                    <MenuItem fx:id="menuButtonTaskOverview" mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
-                    <MenuItem fx:id="menuButtonAddExam" mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
-                    <MenuItem fx:id="menuButtonExamCollection" mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
-                    <MenuItem fx:id="menuButtonLogout" mnemonicParsing="false" onAction="#logout" text="Logout" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToStartPage" text="Startseite" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToAddTaskPage" text="Aufgabe hinzufügen" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToTaskOverview" text="Aufgabenübersicht" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToExamPage" text="Klausur erstellen" />
+                    <MenuItem mnemonicParsing="false" onAction="#switchToExamOverview" text="Klausurensammlung" />
+                    <MenuItem mnemonicParsing="false" onAction="#logout" text="Logout" />
                 </items>
             </MenuButton>
 
