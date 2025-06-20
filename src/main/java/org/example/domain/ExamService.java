@@ -396,6 +396,7 @@ public class ExamService {
         questionHeaderFont.setColor(Color.blue);
         Font questionFont = new Font(Font.HELVETICA, 12);
         Font answerFont = new Font(Font.HELVETICA, 10);
+        Font answerFont2 = new Font(Font.HELVETICA, 8, Font.ITALIC);
         Font punktFont = new Font(Font.HELVETICA, 10, Font.ITALIC);
 
         document.add(new Paragraph("Klausur: " + name + "                                " + "Datum: " + date.toString(), headerFont));
@@ -508,8 +509,8 @@ public class ExamService {
                 musterloesung.add(loesungstabelle);
             } else if(typ == QuestionType.leerstellen) {
                 // Keine Ahnung ob das stimmt, hier muss noch dran gearbeitet werden
-                String vollerText = task.getAnswer().getFirst().getAntwortText();
-                String lueckenText = task.getAnswer().getFirst().getAntwortText2();
+                String vollerText = task.getAnswer().getFirst().getAntwortText2();
+                String lueckenText = task.getAnswer().getFirst().getAntwortText();
 
                 vollerText = vollerText.replaceAll("[.,;!?]", "").toLowerCase();
                 lueckenText = lueckenText.replaceAll("[.,;!?]", "").toLowerCase();
@@ -525,16 +526,22 @@ public class ExamService {
                     }
                 }
 
-                Paragraph Lueckentext = new Paragraph(task.getAnswer().getFirst().getAntwortText2(),answerFont);
+                Paragraph Lueckentext = new Paragraph(task.getAnswer().getFirst().getAntwortText(),answerFont);
 
-                Paragraph Worte = new Paragraph();
+                Paragraph Worte = new Paragraph(" ", answerFont2);
                 for(String wort : gefundeneLuecken) {
-                    Worte.add(wort);
+                    Worte.add(wort + " ");
                 }
+                System.out.println("gefundeneLuecken:");
+                for (String wort : gefundeneLuecken) {
+                    System.out.println("'" + wort + "'");
+                }
+
                 document.add(Lueckentext);
+                System.out.println("Worte: " + Worte);
                 document.add(Worte);
 
-                Paragraph VollerText = new Paragraph(task.getAnswer().getFirst().getAntwortText(),answerFont);
+                Paragraph VollerText = new Paragraph(task.getAnswer().getFirst().getAntwortText2(),answerFont);
                 musterloesung.add(VollerText);
 
                 // TODO: Leerstellen
