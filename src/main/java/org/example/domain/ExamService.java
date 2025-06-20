@@ -94,7 +94,6 @@ public class ExamService {
 
     public int createKlausur() throws IOException, SQLException {
         //ToDo: Algorithmus robuster machen und darauf achten, dass Algorithmus oprimale und nicht erste Lösung verwendet
-        //ToDO: Erstellte Klausur in einen extra Ordner ablegen
 
         List<Task> allTasks = Task.tasks;
         List<Task> moduleTasks = new ArrayList<>();
@@ -267,9 +266,7 @@ public class ExamService {
     }
 
 
-// TODO: Auch Musterlösung machen - Vorteil: Eine Methode und bei jeder Generierung von Aufgabe auch generierung von Lösung
     public static void generatePdf(String name, LocalDate date, int totalPoints, int TotalTime, Modul modul, Map<QuestionType, Integer> questionType, List<BloomLevel> bloomLevels, String pruefer, int user_id, String schule) throws IOException {
-        //ToDo: Alle Arten von Aufgaben hinzufügen
 
         // EXAM + DIRECTORY
         Document document = new Document(PageSize.A4);
@@ -456,7 +453,6 @@ public class ExamService {
                     document.add(antwortParagraph);
                     musterloesung.add(antwortParagraphRight);
                 }
-                // TODO: Ranking + Zuordnung (Ranking Typ von Zuordnung mit Zahlen)
             } else if(typ == QuestionType.zuordnung) {
                 // Zuordnung
 
@@ -543,8 +539,6 @@ public class ExamService {
 
                 Paragraph VollerText = new Paragraph(task.getAnswer().getFirst().getAntwortText2(),answerFont);
                 musterloesung.add(VollerText);
-
-                // TODO: Leerstellen
             }
 
             document.add(new Paragraph(" "));
