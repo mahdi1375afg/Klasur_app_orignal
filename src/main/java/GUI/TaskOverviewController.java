@@ -96,6 +96,7 @@ public class TaskOverviewController extends SceneController implements Initializ
         MenuItem deleteTaskItem = new MenuItem("Aufgabe löschen");
         MenuItem editTaskItem = new MenuItem("Aufgabe bearbeiten");
         MenuItem duplicateTask = new MenuItem("Aufgabe duplizieren");
+        MenuItem printTaskItem = new MenuItem("Aufgabe exportieren");
 
         deleteTaskItem.setOnAction(event -> {
             ObservableList<Task> selectedTasks = tableView.getSelectionModel().getSelectedItems();
@@ -152,8 +153,15 @@ public class TaskOverviewController extends SceneController implements Initializ
             }
         });
 
+        printTaskItem.setOnAction(event -> {
+            ObservableList<Task> selectedTasks = tableView.getSelectionModel().getSelectedItems();
+            if (selectedTasks.isEmpty())
+                return;
+            //ToDo: Druckfunktion für eine Aufgabe aufrufen bzw. die Auswahl an Aufgaben
+        });
 
-        rightClickMenu.getItems().addAll(editTaskItem, duplicateTask, deleteTaskItem);
+
+        rightClickMenu.getItems().addAll(editTaskItem, duplicateTask, printTaskItem, deleteTaskItem);
 
         tableView.setOnMouseClicked(click -> {
             if (click.getButton() == MouseButton.SECONDARY) {
