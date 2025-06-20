@@ -35,6 +35,7 @@ public class ExamPreviewController extends SceneController {
     private VBox pdfContainerSampleSolution;
 
     private String pdfName;
+    private String pdfNameSolution;
     private ExamService exam;
     @FXML
     public void initialize() {
@@ -47,6 +48,7 @@ public class ExamPreviewController extends SceneController {
     public void setExamParams(ExamService exam) {
         this.exam = exam;
         setPdfName(exam.getName());
+        setPdfNameSolution(exam.getName());
 
     }
 
@@ -57,14 +59,22 @@ public class ExamPreviewController extends SceneController {
         this.pdfName = "target/GeneratedExams/" + pdfName;
     }
 
+    public void setPdfNameSolution(String pdfName) {
+        if (!pdfName.endsWith("_Loesung.pdf")) {
+            pdfName += "_Loesung.pdf";
+        }
+        this.pdfNameSolution = "target/GeneratedExams/Loesungen/" + pdfName;
+    }
+
 
     public void loadPDFs() {
         //Lädt die PDF-Dateien und zeigt sie in den beiden Containern an
 
         File pdfFile = new File(pdfName);
+        File pdfFileSolution = new File(pdfNameSolution);
 
         showPDFInVBox(pdfContainerExam, pdfFile);
-        showPDFInVBox(pdfContainerSampleSolution, pdfFile);
+        showPDFInVBox(pdfContainerSampleSolution, pdfFileSolution);
     }
 
     private void adjustImageViewWidths(VBox container, double newWidth) {
@@ -100,15 +110,21 @@ public class ExamPreviewController extends SceneController {
         //Exportiert erstelle Klausur in den Download-Ordner des Nutzers
 
         File sourcePdfFile = new File(pdfName);
+        File sourcePdfFileSolution = new File(pdfNameSolution);
         String userHome = System.getProperty("user.home");
         Path downloadsPath = Paths.get(userHome, "Downloads");
 
         Path destinationPath = downloadsPath.resolve(sourcePdfFile.getName());
         Path uniquePath = getUniqueDestinationPath(destinationPath);
+        Path destinationPathSolution = downloadsPath.resolve(sourcePdfFileSolution.getName());
+        Path uniquePathSolution = getUniqueDestinationPath(destinationPathSolution);
+
 
         try {
             Files.copy(sourcePdfFile.toPath(), uniquePath);
+            Files.copy(sourcePdfFileSolution.toPath(), uniquePathSolution);
         } catch (IOException ignored) {
+            ignored.printStackTrace();
         }
 
         super.switchToStartPage(event);
@@ -118,8 +134,10 @@ public class ExamPreviewController extends SceneController {
         //löscht, das erstelle Pdf
 
         File pdfFile = new File(pdfName);
+        File pdfFileSolution = new File(pdfNameSolution);
         if (pdfFile.exists()) {
             pdfFile.delete();
+            pdfFileSolution.delete();
         }
     }
 
