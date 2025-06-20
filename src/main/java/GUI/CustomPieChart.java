@@ -22,7 +22,7 @@ public class CustomPieChart extends PieChart {
 
     private final List<Color> colorPalette = new ArrayList<>();
 
-    public CustomPieChart(ObservableList<Data> data) {
+    public CustomPieChart(ObservableList<Data> data, boolean setRightClickMenu) {
         //erstellt das chart, sowie die Legende mit benutzerdefinierten Farben
 
         super(data);
@@ -32,11 +32,11 @@ public class CustomPieChart extends PieChart {
         sceneProperty().addListener((obs, oldScene, newScene) -> {
             generateColorPalette(getData().size());
             applyCustomColors();
-            createCustomScrollableLegend();
+            createCustomScrollableLegend(setRightClickMenu);
         });
     }
 
-    private void createCustomScrollableLegend() {
+    private void createCustomScrollableLegend(boolean setRightClickMenu) {
         //erstellt eine passende scrollbare Legende für das chart
 
         Node oldLegend = lookup(".chart-legend");
@@ -75,26 +75,9 @@ public class CustomPieChart extends PieChart {
             item.setOnMouseEntered(e -> highlightSegment(d, item));
             item.setOnMouseExited(e -> resetSegment(d, item));
 
-            ContextMenu contextMenu = new ContextMenu();
-
-            MenuItem deleteItem = new MenuItem("Löschen");
-            //ToDo:Löschfunktion einfügen
-            deleteItem.setOnAction(e -> showAlert());
-
-            MenuItem printItem = new MenuItem("Exportieren");
-            printItem.setOnAction(e -> {
-                //ToDo: Druckfunktion einfügen
-            });
-
-            contextMenu.getItems().addAll(deleteItem, printItem);
-
-            item.setOnMouseClicked(e -> {
-                if (e.getButton() == MouseButton.SECONDARY) { // Rechtsklick
-                    contextMenu.show(item, e.getScreenX(), e.getScreenY());
-                } else {
-                    contextMenu.hide();
-                }
-            });
+            if (setRightClickMenu) {
+                addRightClickMenu(item);
+            }
 
             legendBox.getChildren().add(item);
         }
@@ -108,6 +91,30 @@ public class CustomPieChart extends PieChart {
         pane.getChildren().add(scrollPane);
     }
 
+    private void addRightClickMenu(HBox item){
+        //fügt Menü ein, dass bei Rechtsklick geöffnet wird
+
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem deleteItem = new MenuItem("Löschen");
+        //ToDo:Löschfunktion einfügen
+        deleteItem.setOnAction(e -> showAlert());
+
+        MenuItem printItem = new MenuItem("Exportieren");
+        printItem.setOnAction(e -> {
+            //ToDo: Druckfunktion einfügen
+        });
+
+        contextMenu.getItems().addAll(deleteItem, printItem);
+
+        item.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.SECONDARY) {
+                contextMenu.show(item, e.getScreenX(), e.getScreenY());
+            } else if (e.getButton() == MouseButton.PRIMARY) {
+                contextMenu.hide();
+            }
+        });
+    }
     private void highlightSegment(Data d, HBox item) {
         // Alle zurücksetzen
         for (Data datum : getData()) {

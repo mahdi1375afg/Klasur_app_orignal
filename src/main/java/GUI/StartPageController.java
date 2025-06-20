@@ -44,8 +44,8 @@ public class StartPageController extends SceneController {
             modulData.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
             taxData.sort((p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
 
-            CustomPieChart pieChartTax = new CustomPieChart(taxData);
-            CustomPieChart pieChartModul = new CustomPieChart(modulData);
+            CustomPieChart pieChartTax = new CustomPieChart(taxData, false);
+            CustomPieChart pieChartModul = new CustomPieChart(modulData, true);
 
             pieChartTax.setPrefSize(300, 300);
             pieChartModul.setPrefSize(300, 300);
