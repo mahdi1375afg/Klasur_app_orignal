@@ -170,8 +170,7 @@ public class TaskOverviewController extends SceneController implements Initializ
             ObservableList<Task> selectedTasks = tableView.getSelectionModel().getSelectedItems();
             if (selectedTasks.isEmpty())
                 return;
-            //ToDo: Druckfunktion für eine Aufgabe aufrufen bzw. die Auswahl an Aufgaben
-            // Normale Aufgabe
+
             Document document = new Document(PageSize.A4);
             String outputDir = "target/GeneratedExams/Tasks/";
             new File(outputDir).mkdirs();
@@ -182,7 +181,6 @@ public class TaskOverviewController extends SceneController implements Initializ
                 throw new RuntimeException(e);
             }
             document.open();
-            // Musterlösung der Aufgabe
             Document musterloesung = new Document(PageSize.A4);
             String outputDirLoesung = outputDir + "Loesungen/";
             new File(outputDirLoesung).mkdirs();
