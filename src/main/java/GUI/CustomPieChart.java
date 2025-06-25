@@ -6,10 +6,13 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -19,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import org.example.domain.Antwort;
 import org.example.domain.Modul;
 import org.example.domain.QuestionType;
@@ -114,8 +118,9 @@ public class CustomPieChart extends PieChart {
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem deleteItem = new MenuItem("Löschen");
-        deleteItem.setOnAction(event -> {
 
+
+        deleteItem.setOnAction(event -> {
             boolean confirm = showAlert();
             if (confirm) {
                 List<Task> deletableTasks = new ArrayList<>();
@@ -128,27 +133,54 @@ public class CustomPieChart extends PieChart {
                 for (Task task : deletableTasks) {
                     try {
                         Task.deleteTask(task);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    } catch (SQLException ignored) {}
                 }
+
                 Modul deletableModul = null;
-                for(Modul modul : Modul.modules) {
-                    if(modul.getName().equals(data.getName())) {
+                for (Modul modul : Modul.modules) {
+                    if (modul.getName().equals(data.getName())) {
                         deletableModul = modul;
+                        break;
                     }
                 }
+
                 try {
                     assert deletableModul != null;
                     Modul.deleteModul(deletableModul);
+                } catch (SQLException ignored) {
+                }
+
+                try {
+                    Modul.getAllModul();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-
-                //TODO: Löschen auch aktualisierung der PieCharts und Legenden
                 System.out.println("Deleted: " + data.getName());
+
+                try {
+                    MenuItem sourceMenuItem = (MenuItem) event.getSource();
+                    ContextMenu contextMenuDelete = sourceMenuItem.getParentPopup();
+                    Node ownerNode = contextMenuDelete.getOwnerNode();
+                    Stage stage = (Stage) ownerNode.getScene().getWindow();
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("startPage.fxml"));
+                    Parent root = loader.load();
+
+                    StartPageController controller = loader.getController();
+                    controller.updateCharts();
+
+                    double sceneWidth = stage.getScene().getWidth();
+                    double sceneHeight = stage.getScene().getHeight();
+
+                    Scene scene = new Scene(root, sceneWidth, sceneHeight);
+                    stage.setScene(scene);
+                    stage.show();
+
+                } catch (IOException | SQLException ignored) {}
             }
         });
+
+
 
         MenuItem printItem = new MenuItem("Exportieren");
         printItem.setOnAction(e -> {
@@ -289,7 +321,7 @@ public class CustomPieChart extends PieChart {
 
                     musterloesung.add(loesungstabelle);
                 } else if(typ == QuestionType.leerstellen) {
-                    // Keine Ahnung ob das stimmt, hier muss noch dran gearbeitet werden
+                    //ToDO: Keine Ahnung ob das stimmt, hier muss noch dran gearbeitet werden
                     String vollerText = task.getAnswer().getFirst().getAntwortText2();
                     String lueckenText = task.getAnswer().getFirst().getAntwortText();
 

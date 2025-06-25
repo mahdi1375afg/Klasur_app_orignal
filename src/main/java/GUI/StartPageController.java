@@ -5,8 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.VBox;
+import org.example.Main;
 import org.example.domain.Task;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,15 +20,22 @@ public class StartPageController extends SceneController {
     private VBox vBoxPieChartModul;
 
     @FXML
-    public void initialize() {
-        //erstellt zwei Diagramme zur Übersicht auf der Startseite
+    public void initialize() throws SQLException {
+        updateCharts();
+    }
+
+    public void updateCharts() throws SQLException {
+
+        vBoxPieChartTax.getChildren().clear();
+        vBoxPieChartModul.getChildren().clear();
+
+        Task.getAllTasks(Main.id);
 
         ObservableList<Task> tasks = FXCollections.observableArrayList(Task.tasks);
         Map<String, Integer> modulCounter = new HashMap<>();
         Map<String, Integer> taxonomieCounter = new HashMap<>();
 
         if (!tasks.isEmpty()) {
-
             for (Task task : tasks) {
                 String modul = task.getModul().getName();
                 String taxonomie = task.getQuestion().getTaxonomie().name();
@@ -63,3 +72,4 @@ public class StartPageController extends SceneController {
         }
     }
 }
+
