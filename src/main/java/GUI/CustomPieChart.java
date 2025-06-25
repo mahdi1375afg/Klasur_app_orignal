@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import org.example.domain.Modul;
 import org.example.domain.Task;
 
 import java.sql.SQLException;
@@ -115,6 +116,18 @@ public class CustomPieChart extends PieChart {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                }
+                Modul deletableModul = null;
+                for(Modul modul : Modul.modules) {
+                    if(modul.getName().equals(data.getName())) {
+                        deletableModul = modul;
+                    }
+                }
+                try {
+                    assert deletableModul != null;
+                    Modul.deleteModul(deletableModul);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
 
                 //TODO: Löschen auch aktualisierung der PieCharts und Legenden

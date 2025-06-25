@@ -18,6 +18,10 @@ public class Modul {
 		this.name = name;
 	}
 
+	public static void deleteModul(Modul modul) throws SQLException {
+		dbConn.sqlDelete("modul ", "id", modul.getId());
+	}
+
     public static void getAllModul() throws SQLException {
 		//lädt alle Module eines Nutzers aus der Datenbank und sortiert sie alphabetisch
 
