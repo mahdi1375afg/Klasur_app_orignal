@@ -14,7 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import org.example.domain.Task;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,6 @@ public class CustomPieChart extends PieChart {
 
     public CustomPieChart(ObservableList<Data> data, boolean setRightClickMenu) {
         //erstellt das chart, sowie die Legende mit benutzerdefinierten Farben
-
         super(data);
         setLegendSide(Side.RIGHT);
         setClockwise(true);
@@ -76,7 +77,7 @@ public class CustomPieChart extends PieChart {
             item.setOnMouseExited(e -> resetSegment(d, item));
 
             if (setRightClickMenu) {
-                addRightClickMenu(item);
+                addRightClickMenu(item, d);
             }
 
             legendBox.getChildren().add(item);
@@ -91,14 +92,35 @@ public class CustomPieChart extends PieChart {
         pane.getChildren().add(scrollPane);
     }
 
-    private void addRightClickMenu(HBox item){
+    private void addRightClickMenu(HBox item, Data data) {
         //fügt Menü ein, dass bei Rechtsklick geöffnet wird
 
         ContextMenu contextMenu = new ContextMenu();
 
         MenuItem deleteItem = new MenuItem("Löschen");
-        //ToDo:Löschfunktion einfügen
-        deleteItem.setOnAction(e -> showAlert());
+        deleteItem.setOnAction(event -> {
+
+            boolean confirm = showAlert();
+            if (confirm) {
+                List<Task> deletableTasks = new ArrayList<>();
+                for (Task task : Task.tasks) {
+                    if (task.getModul().getName().equals(data.getName())) {
+                        deletableTasks.add(task);
+                    }
+                }
+
+                for (Task task : deletableTasks) {
+                    try {
+                        Task.deleteTask(task);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                //TODO: Löschen auch aktualisierung der PieCharts und Legenden
+                System.out.println("Deleted: " + data.getName());
+            }
+        });
 
         MenuItem printItem = new MenuItem("Exportieren");
         printItem.setOnAction(e -> {

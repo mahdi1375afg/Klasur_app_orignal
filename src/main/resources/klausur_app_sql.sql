@@ -9,15 +9,6 @@ CREATE TABLE modul (
  name varchar(255) NOT NULL
 );
 
-CREATE TABLE klausur (
- id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
- name VARCHAR(255) NOT NULL,
- datum DATE NOT NULL,
- gesamtpunkte DECIMAL(5,1) NOT NULL,
- benutzer_id INT NOT NULL,
- FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
-);
-
 CREATE TYPE taxonomie_stufe AS ENUM (
  'Erinnern',
  'Verstehen',
@@ -66,14 +57,6 @@ CREATE TABLE antwortmoeglichkeit_geschlossen (
  ist_korrekt BOOLEAN NOT NULL,
  geschlossene_aufgabe_id INT NOT NULL,
  FOREIGN KEY (geschlossene_aufgabe_id) REFERENCES geschlossene_aufgabe(aufgabe_id)
-);
-
-CREATE TABLE aufgaben_klausur (
- PRIMARY KEY (aufgabe_id, klausur_id),
- aufgabe_id INT NOT NULL,
- klausur_id INT NOT NULL,
- FOREIGN KEY (aufgabe_id) REFERENCES aufgabe(id),
- FOREIGN KEY (klausur_id) REFERENCES klausur(id)
 );
 
 CREATE TABLE aufgaben_modul (
