@@ -13,9 +13,9 @@ public enum BloomLevel {
 	private  final String katagorie;
 	private  final String beschreibung;
 
-	public static BloomLevel fromKategorie(String kategorie) {
+	public static BloomLevel fromCategory(String kategorie) {
 		for (BloomLevel level : BloomLevel.values()) {
-			if (level.getKategorie().equalsIgnoreCase(kategorie)) {
+			if (level.getCategory().equalsIgnoreCase(kategorie)) {
 				return level;
 			}
 		}
@@ -29,7 +29,7 @@ public enum BloomLevel {
 		this.beschreibung = beschreibung;
 	}
 
-	public String getKategorie(){
+	public String getCategory(){
 		return katagorie;
 	}
 

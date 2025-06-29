@@ -20,7 +20,7 @@ public class dbConnUser {
         }
     }
 
-    public static User getNutzer(String name) throws SQLException {
+    public static User getUser(String name) throws SQLException {
         String sql = "SELECT * FROM benutzer WHERE benutzername = ?";
         User user = null;
 

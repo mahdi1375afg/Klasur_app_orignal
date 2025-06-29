@@ -25,7 +25,7 @@ public class UserAccount {
 	public int login(String name, String password) throws SQLException {
 		dbConnUser connection = new dbConnUser();
 		if(connection.getNameUsed(name)) {
-			User user = connection.getNutzer(name);
+			User user = connection.getUser(name);
 			try {
 				if(user.getPassword().equals(password)) {
 					this.aktuellerBenutzer = user;

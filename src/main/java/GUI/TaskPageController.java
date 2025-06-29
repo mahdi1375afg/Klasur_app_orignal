@@ -113,7 +113,7 @@ public class TaskPageController extends SceneController {
         }
         setTaskType();
 
-        switch (aufgabe.getQuestion().getTaxonomie().getKategorie()) {
+        switch (aufgabe.getQuestion().getTaxonomie().getCategory()) {
             case "Erinnern" -> rButtonTaxonomieRemember.setSelected(true);
             case "Verstehen" -> rButtonTaxonomieUnderstand.setSelected(true);
             case "Anwenden" -> rButtonTaxonomieApply.setSelected(true);
@@ -356,7 +356,7 @@ public class TaskPageController extends SceneController {
     }
 
     public String getTaskTaxonomie() {
-        return bloomLevel.getKategorie();
+        return bloomLevel.getCategory();
     }
 
     @FXML

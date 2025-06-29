@@ -60,7 +60,7 @@ public class AufgabeService {
                 question.getPoints(),
                 question.getTime(),
                 question.getFormat().getName(),
-                question.getTaxonomie().getKategorie(),
+                question.getTaxonomie().getCategory(),
                 modul.getName(),
                 antworten.getFirst().getType()
         );

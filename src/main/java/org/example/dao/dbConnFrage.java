@@ -36,7 +36,7 @@ public class dbConnFrage {
                     row.put("punkte", rs.getObject("punkte"));
 
                     String oldTaxonomie = rs.getString("taxonomie");
-                    BloomLevel taxonomie = BloomLevel.fromKategorie(oldTaxonomie);
+                    BloomLevel taxonomie = BloomLevel.fromCategory(oldTaxonomie);
                     row.put("taxonomie", taxonomie);
 
                     row.put("benutzer_id", rs.getInt("benutzer_id"));

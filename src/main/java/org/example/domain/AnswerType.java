@@ -6,11 +6,11 @@ public enum AnswerType {
     geschlosseneAntwort("Geschlossene Antwort", "Antwort mit Auswahlmöglichkeiten");
 
     private final String name;
-    private final String beschreibung;
+    private final String description;
 
-    AnswerType(String name, String beschreibung) {
+    AnswerType(String name, String description) {
         this.name = name;
-        this.beschreibung = beschreibung;
+        this.description = description;
     }
 
     public static AnswerType fromName(String name) {
