@@ -6,7 +6,9 @@ CREATE TABLE benutzer (
 
 CREATE TABLE modul (
  id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
- name varchar(255) NOT NULL
+ benutzer_id INT NOT NULL,
+ name varchar(255) NOT NULL,
+ FOREIGN KEY (benutzer_id) REFERENCES benutzer(id)
 );
 
 CREATE TYPE taxonomie_stufe AS ENUM (
