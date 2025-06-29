@@ -27,11 +27,11 @@ public class dbConnModul {
         return results;
     }
 
-    public static HashMap<Integer, String> sqlGetAllModul() throws SQLException {
+    public static HashMap<Integer, String> sqlGetAllModul(int id) throws SQLException {
         String table = "modul";
         HashMap<Integer, String> results = new HashMap<>();
 
-        String sql = "SELECT * FROM " + table;
+        String sql = "SELECT * FROM " + table + " WHERE benutzer_id = " + id;
 
         try (Connection conn = dbConn.getConn();
              PreparedStatement ps = conn.prepareStatement(sql);

@@ -25,7 +25,7 @@ public class Modul {
     public static void getAllModul() throws SQLException {
 		//lädt alle Module eines Nutzers aus der Datenbank und sortiert sie alphabetisch
 
-		HashMap<Integer, String> result = dbConnModul.sqlGetAllModul();
+		HashMap<Integer, String> result = dbConnModul.sqlGetAllModul(benutzerKonto.aktuellerBenutzer.getId());
 
 		modules.clear();
 
