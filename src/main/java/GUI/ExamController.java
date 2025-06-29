@@ -92,7 +92,7 @@ public class ExamController extends SceneController {
     private Modul modul;
     private Integer time;
     private final List<BloomLevel> bloomLevel = new ArrayList<>();
-    private final List<AntwortType> antwortType = new ArrayList<>();
+    private final List<AnswerType> answerType = new ArrayList<>();
     private final List<QuestionType> questionType = new ArrayList<>();
 
 
@@ -288,7 +288,7 @@ public class ExamController extends SceneController {
         }
 
 
-        ExamService exam = new ExamService(examTitle, examiner,examDate,numberPoints,time,modul,questionTypes,bloomLevel,benutzerKonto.aktuellerBenutzer.getId());
+        ExamService exam = new ExamService(examTitle, examiner,examDate,numberPoints,time,modul,questionTypes,bloomLevel, UserAccount.aktuellerBenutzer.getId());
 
         switch(exam.createKlausur()) {
             case 0:
@@ -498,56 +498,56 @@ public class ExamController extends SceneController {
     @FXML
     public void setTaskType() {
 
-        antwortType.clear();
+        answerType.clear();
         questionType.clear();
 
         if (rButtonTypOpen.isSelected()) {
             if(spinnerAmountOpenQuestion.getValue() <= 0) {
                 showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
             }
-            antwortType.add(AntwortType.offeneAntwort);
+            answerType.add(AnswerType.offeneAntwort);
             questionType.add(QuestionType.offen);
         }
         if (rButtonTypSingle.isSelected()) {
             if(spinnerAmountSingleChoice.getValue() <= 0) {
                 showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
             }
-            antwortType.add(AntwortType.geschlosseneAntwort);
+            answerType.add(AnswerType.geschlosseneAntwort);
             questionType.add(QuestionType.singleChoiceFragen);
         }
         if (rButtonTypMultiple.isSelected()) {
             if(spinnerAmountMultipleChoice.getValue() <= 0) {
                 showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
             }
-            antwortType.add(AntwortType.geschlosseneAntwort);
+            answerType.add(AnswerType.geschlosseneAntwort);
             questionType.add(QuestionType.multipleChoiceFragen);
         }
         if (rButtonTypTrueFalsch.isSelected()) {
             if(SpinnerAmountTrueFalse.getValue() <= 0) {
                 showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
             }
-            antwortType.add(AntwortType.geschlosseneAntwort);
+            answerType.add(AnswerType.geschlosseneAntwort);
             questionType.add(QuestionType.wahrOderFalsch);
         }
         if (rButtonTypGapText.isSelected()) {
             if(SpinnerAmountGapText.getValue() <= 0) {
                 showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
             }
-            antwortType.add(AntwortType.geschlosseneAntwort);
+            answerType.add(AnswerType.geschlosseneAntwort);
             questionType.add(QuestionType.leerstellen);
         }
         if (rButtonTypAssign.isSelected()) {
             if(spinnerAmountAssign.getValue() <= 0) {
                 showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
             }
-            antwortType.add(AntwortType.geschlosseneAntwort);
+            answerType.add(AnswerType.geschlosseneAntwort);
             questionType.add(QuestionType.zuordnung);
         }
         if (rButtonTypRanking.isSelected()) {
             if(spinnerAmountRanking.getValue() <= 0) {
                 showAlert("Aufgabetyp ausgewählt aber keine Anzahl!");
             }
-            antwortType.add(AntwortType.geschlosseneAntwort);
+            answerType.add(AnswerType.geschlosseneAntwort);
             questionType.add(QuestionType.ranking);
         }
     }

@@ -45,7 +45,7 @@ public class OpenQuestionController extends SceneController{
         //Lädt alle Informationen zur Aufgabe aus der Datenbank beim Bearbeiten der Aufgabe
 
         taskTextField.setText(selectedTask.getQuestion().getQuestionText());
-        taskSampleSolution.setText(selectedTask.getAnswer().getLast().getAntwortText());
+        taskSampleSolution.setText(selectedTask.getAnswer().getLast().getAnswerText());
 
         this.selectedTask = selectedTask;
         editMode = true;

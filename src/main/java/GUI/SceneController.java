@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import org.example.Main;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
-import org.example.domain.benutzerKonto;
+import org.example.domain.UserAccount;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
@@ -123,8 +123,8 @@ public class SceneController {
     public void logout(ActionEvent event) throws IOException {
         //meldet den aktuellen Nutzer ab und wechselt zu Anmeldeseite
 
-        benutzerKonto konto = new benutzerKonto();
-        konto.abmelden();
+        UserAccount konto = new UserAccount();
+        konto.logout();
         switchToTitlePage(event);
     }
 
@@ -132,8 +132,8 @@ public class SceneController {
     public void logout(Stage stage) throws IOException {
         //meldet den aktuellen Nutzer ab und wechselt zu Anmeldeseite
 
-        benutzerKonto konto = new benutzerKonto();
-        konto.abmelden();
+        UserAccount konto = new UserAccount();
+        konto.logout();
         switchToTitlePage(stage);
     }
 

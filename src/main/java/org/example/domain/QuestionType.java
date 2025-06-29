@@ -30,7 +30,6 @@ public enum QuestionType {
 	public  String getName() {
 		return name;
 	}
-
 	public String getBeschreibung() {
 		return beschreibung;
 	}

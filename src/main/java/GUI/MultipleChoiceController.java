@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.example.domain.Antwort;
+import org.example.domain.Answer;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 
@@ -72,15 +72,15 @@ public class MultipleChoiceController extends SceneController{
 
         questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
 
-        List<Antwort> answers = selectedTask.getAnswer();
+        List<Answer> answers = selectedTask.getAnswer();
 
         for (int i = 2; i < answers.size(); i++) {
             addAnswerField();
         }
 
         for (int i = 0; i < answers.size(); i++) {
-            answerAreas.get(i).setText(answers.get(i).getAntwortText());
-            checkBoxes.get(i).setSelected(answers.get(i).isKorrekt());
+            answerAreas.get(i).setText(answers.get(i).getAnswerText());
+            checkBoxes.get(i).setSelected(answers.get(i).isCorrect());
         }
     }
 

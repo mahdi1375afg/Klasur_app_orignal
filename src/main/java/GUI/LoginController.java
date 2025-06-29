@@ -2,7 +2,7 @@ package GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.example.domain.benutzerKonto;
+import org.example.domain.UserAccount;
 
 
 import java.io.IOException;
@@ -27,8 +27,8 @@ public class LoginController extends SceneController {
             return;
         }
 
-        benutzerKonto konto = new benutzerKonto();
-        int signIn = konto.anmelden(username, password);
+        UserAccount konto = new UserAccount();
+        int signIn = konto.login(username, password);
 
         if(signIn == 1) {
             showAlert("Falsches Passwort");
@@ -38,7 +38,7 @@ public class LoginController extends SceneController {
             showAlert("Benutzername existiert nicht");
         }
         try {
-            if(benutzerKonto.aktuellerBenutzer != null){
+            if(UserAccount.aktuellerBenutzer != null){
                 super.switchToStartPage(event);
             }
         } catch (NullPointerException e) {

@@ -59,19 +59,7 @@ public class ExamService {
         this.user_id = user_id;
     }
 
-    public void save() throws SQLException, IOException {
-        //Speicherung in die Datenbank -- Entfernen
-        /*
-        benutzerKonto konto = new benutzerKonto();
-        int examId = konto.ExamErstellen(name,date,totalPoints,benutzerKonto.aktuellerBenutzer.getId());
-        for(Task t : tasks) {
-            konto.createTaskToExam(t.getQuestion().getId(),examId);
-        }
-
-        System.out.println("Save das Exam!");
-        Exam.getAllExams(benutzerKonto.aktuellerBenutzer.getId());
-
-         */
+    public void save() throws IOException {
         generatePdf(name,date,totalPoints,0,modul,questionType,bloomLevels,pruefer,user_id,schule);
     }
 
@@ -122,7 +110,7 @@ public class ExamService {
         // FILTER: Typ
         for (Task task : bloomTasks) {
             for (QuestionType questionTypeKey : questionType.keySet()) {
-                if (task.getAnswer().getFirst().getTyp().equals(questionTypeKey)) {
+                if (task.getAnswer().getFirst().getType().equals(questionTypeKey)) {
                     typeTasks.add(task);
                 }
             }
@@ -143,7 +131,7 @@ public class ExamService {
             while (it.hasNext()) {
                 Task task = it.next();
                 if (task.getQuestion().getTaxonomie().equals(bloomLevel)) {
-                    QuestionType type = task.getAnswer().getFirst().getTyp();
+                    QuestionType type = task.getAnswer().getFirst().getType();
                     if (remainingTypeCounts.getOrDefault(type, 0) > 0 && task.getQuestion().getPoints() <= remainingPoints && task.getQuestion().getTime() <= remainingTime) {
                         selectedTasks.add(task);
                         it.remove();
@@ -166,7 +154,7 @@ public class ExamService {
                 Iterator<Task> iterator = tempTasks.iterator();
                 while (iterator.hasNext()) {
                     Task task = iterator.next();
-                    if (task.getAnswer().getFirst().getTyp().equals(type)) {
+                    if (task.getAnswer().getFirst().getType().equals(type)) {
                         boolean retry = true;
                         while (retry) {
                             retry = false;
@@ -194,7 +182,7 @@ public class ExamService {
                                     while (selectedIterator.hasNext() && !swapped) {
                                         Task exchTask = selectedIterator.next();
                                         for (Task tempTask : tempTasks) {
-                                            if (exchTask.getAnswer().getFirst().getTyp().equals(tempTask.getAnswer().getFirst().getTyp())
+                                            if (exchTask.getAnswer().getFirst().getType().equals(tempTask.getAnswer().getFirst().getType())
                                                     && exchTask.getQuestion().getPoints() > tempTask.getQuestion().getPoints()) {
                                                 selectedIterator.remove();
                                                 selectedTasks.add(tempTask);
@@ -215,7 +203,7 @@ public class ExamService {
                                     while (selectedIterator.hasNext() && !swapped) {
                                         Task exchTask = selectedIterator.next();
                                         for (Task tempTask : tempTasks) {
-                                            if (exchTask.getAnswer().getFirst().getTyp().equals(tempTask.getAnswer().getFirst().getTyp())
+                                            if (exchTask.getAnswer().getFirst().getType().equals(tempTask.getAnswer().getFirst().getType())
                                                     && exchTask.getQuestion().getTime() > tempTask.getQuestion().getTime()) {
                                                 selectedIterator.remove();
                                                 selectedTasks.add(tempTask);
@@ -243,7 +231,7 @@ public class ExamService {
             Iterator<Task> iterator = tempTasks.iterator();
             while (iterator.hasNext()) {
                 Task task = iterator.next();
-                QuestionType type = task.getAnswer().getFirst().getTyp();
+                QuestionType type = task.getAnswer().getFirst().getType();
                 if (remainingTypeCounts.getOrDefault(type, 0) > 0 &&
                         task.getQuestion().getPoints() <= remainingPoints &&
                         task.getQuestion().getTime() <= remainingTime) {
@@ -417,14 +405,14 @@ public class ExamService {
             document.add(taskParagraph);
             musterloesung.add(taskParagraph);
 
-            QuestionType typ = task.getAnswer().getFirst().getTyp();
+            QuestionType typ = task.getAnswer().getFirst().getType();
 
 
             if(typ == QuestionType.multipleChoiceFragen || typ == QuestionType.singleChoiceFragen || typ == QuestionType.wahrOderFalsch) {
                 // Multiple Choice + Single Choice + Wahr/Falsch
                 for(int i = 0; i < task.getAnswer().size(); i++) {
-                    String antwortText = task.getAnswer().get(i).getAntwortText();
-                    boolean right = task.getAnswer().get(i).isKorrekt();
+                    String antwortText = task.getAnswer().get(i).getAnswerText();
+                    boolean right = task.getAnswer().get(i).isCorrect();
                     Paragraph antwortParagraph = new Paragraph("[  ]  " + antwortText, answerFont);
                     Paragraph antwortParagraphRight = new Paragraph("[ X ]  " + antwortText, answerFont);
                     antwortParagraph.setIndentationLeft(20f);
@@ -442,8 +430,8 @@ public class ExamService {
             } else if(typ == QuestionType.ranking) {
                 // Ranking + Zuordnung
                 for (int i = 0; i < task.getAnswer().size(); i++) {
-                    String antwortText = task.getAnswer().get(i).getAntwortText();
-                    int position = task.getAnswer().get(i).getAntwortRanking();
+                    String antwortText = task.getAnswer().get(i).getAnswerText();
+                    int position = task.getAnswer().get(i).getAnswerRanking();
                     Paragraph antwortParagraph = new Paragraph("[   ] " + antwortText, answerFont);
                     Paragraph antwortParagraphRight = new Paragraph("[" + position + "] " + antwortText, answerFont);
                     antwortParagraph.setIndentationLeft(20f);
@@ -459,9 +447,9 @@ public class ExamService {
                 List<String> leftItems = new ArrayList<>();
                 List<String> rightItems = new ArrayList<>();
 
-                for (Antwort answer : task.getAnswer()) {
-                    leftItems.add(answer.getAntwortText());
-                    rightItems.add(answer.getAntwortText2());
+                for (Answer answer : task.getAnswer()) {
+                    leftItems.add(answer.getAnswerText());
+                    rightItems.add(answer.getAnswerText2());
                 }
 
                 // Zufällige Reihenfolge der rechten Seite
@@ -486,7 +474,6 @@ public class ExamService {
 
                 document.add(table);
 
-                // Tabelle für Musterlösung (korrekte Paare)
                 PdfPTable loesungstabelle = new PdfPTable(2);
                 loesungstabelle.setWidths(new int[]{1, 1});
                 loesungstabelle.setSpacingBefore(10f);
@@ -504,9 +491,8 @@ public class ExamService {
 
                 musterloesung.add(loesungstabelle);
             } else if(typ == QuestionType.leerstellen) {
-                // Keine Ahnung ob das stimmt, hier muss noch dran gearbeitet werden
-                String vollerText = task.getAnswer().getFirst().getAntwortText2();
-                String lueckenText = task.getAnswer().getFirst().getAntwortText();
+                String vollerText = task.getAnswer().getFirst().getAnswerText2();
+                String lueckenText = task.getAnswer().getFirst().getAnswerText();
 
                 vollerText = vollerText.replaceAll("[.,;!?]", "").toLowerCase();
                 lueckenText = lueckenText.replaceAll("[.,;!?]", "").toLowerCase();
@@ -522,7 +508,7 @@ public class ExamService {
                     }
                 }
 
-                Paragraph Lueckentext = new Paragraph(task.getAnswer().getFirst().getAntwortText(),answerFont);
+                Paragraph Lueckentext = new Paragraph(task.getAnswer().getFirst().getAnswerText(),answerFont);
 
                 Paragraph Worte = new Paragraph(" ", answerFont2);
                 for(String wort : gefundeneLuecken) {
@@ -537,7 +523,7 @@ public class ExamService {
                 System.out.println("Worte: " + Worte);
                 document.add(Worte);
 
-                Paragraph VollerText = new Paragraph(task.getAnswer().getFirst().getAntwortText2(),answerFont);
+                Paragraph VollerText = new Paragraph(task.getAnswer().getFirst().getAnswerText2(),answerFont);
                 musterloesung.add(VollerText);
             }
 

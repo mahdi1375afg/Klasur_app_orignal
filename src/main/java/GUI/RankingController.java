@@ -9,7 +9,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.example.domain.Antwort;
+import org.example.domain.Answer;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 
@@ -68,14 +68,14 @@ public class RankingController extends SceneController {
         this.selectedTask = selectedTask;
 
         questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
-        List<Antwort> answers = selectedTask.getAnswer();
+        List<Answer> answers = selectedTask.getAnswer();
 
         for(int i=2; i<answers.size(); i++){
             addStatementArea();
         }
 
         for(int i=0; i<answers.size(); i++){
-            statementAreas.get(i).setText(answers.get(i).getAntwortText());
+            statementAreas.get(i).setText(answers.get(i).getAnswerText());
         }
     }
 

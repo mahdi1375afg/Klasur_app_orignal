@@ -1,6 +1,6 @@
 package org.example.domain;
 
-public enum AntwortType {
+public enum AnswerType {
 
     offeneAntwort("Offene Antwort", "Antwort mit Freitext"),
     geschlosseneAntwort("Geschlossene Antwort", "Antwort mit Auswahlmöglichkeiten");
@@ -8,13 +8,13 @@ public enum AntwortType {
     private final String name;
     private final String beschreibung;
 
-    AntwortType(String name, String beschreibung) {
+    AnswerType(String name, String beschreibung) {
         this.name = name;
         this.beschreibung = beschreibung;
     }
 
-    public static AntwortType fromName(String name) {
-        for (AntwortType type : AntwortType.values()) {
+    public static AnswerType fromName(String name) {
+        for (AnswerType type : AnswerType.values()) {
             if (type.getName().equalsIgnoreCase(name)) {
                 return type;
             }
@@ -24,9 +24,6 @@ public enum AntwortType {
 
     public String getName() {
         return name;
-    }
-    public String getBeschreibung() {
-        return beschreibung;
     }
 
 }

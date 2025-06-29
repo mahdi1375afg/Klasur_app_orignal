@@ -1,6 +1,6 @@
 package org.example.dao;
 
-import org.example.domain.AntwortType;
+import org.example.domain.AnswerType;
 import org.example.domain.BloomLevel;
 import org.postgresql.util.PGInterval;
 
@@ -31,8 +31,8 @@ public class dbConnFrage {
                     }
                     row.put("zeit", minuten);
 
-                    AntwortType antwortType = AntwortType.fromName(rs.getString("format"));
-                    row.put("format", antwortType);
+                    AnswerType answerType = AnswerType.fromName(rs.getString("format"));
+                    row.put("format", answerType);
                     row.put("punkte", rs.getObject("punkte"));
 
                     String oldTaxonomie = rs.getString("taxonomie");

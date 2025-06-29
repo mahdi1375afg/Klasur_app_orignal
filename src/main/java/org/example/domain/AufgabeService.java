@@ -51,36 +51,36 @@ public class AufgabeService {
     public void duplicateTask(Task original) throws SQLException {
         //dupliziert eine bestimmte Aufgabe
 
-        Frage frage = original.getQuestion();
-        List<Antwort> antworten = original.getAnswer();
+        Question question = original.getQuestion();
+        List<Answer> antworten = original.getAnswer();
         Modul modul = original.getModul();
 
         this.setTaskPageData(
-                frage.getName() + "-Kopie",
-                frage.getPoints(),
-                frage.getTime(),
-                frage.getFormat().getName(),
-                frage.getTaxonomie().getKategorie(),
+                question.getName() + "-Kopie",
+                question.getPoints(),
+                question.getTime(),
+                question.getFormat().getName(),
+                question.getTaxonomie().getKategorie(),
                 modul.getName(),
-                antworten.getFirst().getTyp()
+                antworten.getFirst().getType()
         );
 
-        this.setTask(frage.getQuestionText());
+        this.setTask(question.getQuestionText());
 
-        for (Antwort antwort : antworten) {
-            switch (antwort.getTyp()) {
+        for (Answer answer : antworten) {
+            switch (answer.getType()) {
                 case wahrOderFalsch:
                 case multipleChoiceFragen:
                 case singleChoiceFragen:
                 case offen:
-                    this.setAnswerPage(antwort.getAntwortText(), antwort.isKorrekt());
+                    this.setAnswerPage(answer.getAnswerText(), answer.isCorrect());
                     break;
                 case zuordnung:
                 case leerstellen:
-                    this.setAnswerPageMultipleParts(antwort.getAntwortText(), antwort.getAntwortText2());
+                    this.setAnswerPageMultipleParts(answer.getAnswerText(), answer.getAnswerText2());
                     break;
                 case ranking:
-                    this.setAnswerPageRanking(antwort.getAntwortText(), antwort.getAntwortRanking());
+                    this.setAnswerPageRanking(answer.getAnswerText(), answer.getAnswerRanking());
                     break;
             }
         }
@@ -90,25 +90,25 @@ public class AufgabeService {
 
 
     public void save() throws SQLException {
-        benutzerKonto konto = new benutzerKonto();
-        int FragenId = konto.fragenErstellen(QuestionName, QuestionQuestion, QuestionDuration, QuestionType,QuestionPoints,QuestionTaxonomie,benutzerKonto.aktuellerBenutzer.getId());
+        UserAccount konto = new UserAccount();
+        int FragenId = konto.questionCreate(QuestionName, QuestionQuestion, QuestionDuration, QuestionType,QuestionPoints,QuestionTaxonomie, UserAccount.aktuellerBenutzer.getId());
         konto.createTaskToModul(FragenId,QuestionModulName);
-        if(QuestionType.equals(AntwortType.offeneAntwort.getName())) {
+        if(QuestionType.equals(AnswerType.offeneAntwort.getName())) {
             Map.Entry<String, Boolean> ersterEintrag = antworten.entrySet().iterator().next();
-            konto.antwortErstellenOffen(FragenId,ersterEintrag.getKey());
+            konto.questionCreateOpen(FragenId,ersterEintrag.getKey());
         } else {
-            konto.frageErstellenGeschlossen(FragenId,QuestionCloseType.getName());
+            konto.questionCreateClosed(FragenId,QuestionCloseType.getName());
             if(Objects.equals(QuestionCloseType.getName(), "Lückentext") || Objects.equals(QuestionCloseType.getName(), "Zuordnung")) {
                 for (Map.Entry<String, String> eintrag : antwortenMultipleParts.entrySet()) {
-                    konto.antwortErstellenGeschlossenMultipleParts(FragenId,eintrag.getKey(),eintrag.getValue());
+                    konto.answerCreateClosedMultipleParts(FragenId,eintrag.getKey(),eintrag.getValue());
                 }
             } else if(Objects.equals(QuestionCloseType.getName(), "Ranking")) {
                 for (Map.Entry<String, Integer> eintrag : antwortenRanking.entrySet()) {
-                    konto.antwortErstellenGeschlossenRanking(FragenId,eintrag.getKey(),eintrag.getValue());
+                    konto.answerCreateClosedRanking(FragenId,eintrag.getKey(),eintrag.getValue());
                 }
             } else {
                 for (Map.Entry<String, Boolean> eintrag : antworten.entrySet()) {
-                    konto.antwortErstellenGeschlossen(FragenId,eintrag.getKey(),eintrag.getValue());
+                    konto.answerCreateClosed(FragenId,eintrag.getKey(),eintrag.getValue());
                 }
             }
         }
@@ -117,7 +117,7 @@ public class AufgabeService {
 
         System.out.println("QuestionName: " + QuestionName);
         System.out.println("Question: " + QuestionQuestion);
-        Task.getAllTasks(benutzerKonto.aktuellerBenutzer.getId());
+        Task.getAllTasks(UserAccount.aktuellerBenutzer.getId());
 
     }
 

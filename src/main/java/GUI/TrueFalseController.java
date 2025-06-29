@@ -9,7 +9,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.example.domain.Antwort;
+import org.example.domain.Answer;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 
@@ -80,14 +80,14 @@ public class TrueFalseController extends SceneController{
 
             questionTextArea.setText(selectedTask.getQuestion().getQuestionText());
 
-            List<Antwort> answers = selectedTask.getAnswer();
+            List<Answer> answers = selectedTask.getAnswer();
 
             for(int i = 2; i < answers.size(); i++) {
                 addAnswerArea();
             }
             for(int i=0; i<answers.size(); i++) {
-                answerAreas.get(i).setText(answers.get(i).getAntwortText());
-                if(answers.get(i).isKorrekt()) {
+                answerAreas.get(i).setText(answers.get(i).getAnswerText());
+                if(answers.get(i).isCorrect()) {
                     trueButtons.get(i).setSelected(true);
                 }
                 else {

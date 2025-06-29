@@ -49,8 +49,8 @@ public class GapTextController extends SceneController{
         //Lädt alle Informationen zur Aufgabe aus der Datenbank beim Bearbeiten der Aufgabe
 
         textAreaTask.setText(selectedTask.getQuestion().getQuestionText());
-        textAreaGapText.setText(selectedTask.getAnswer().getLast().getAntwortText());
-        textAreaCompleteText.setText(selectedTask.getAnswer().getLast().getAntwortText2());
+        textAreaGapText.setText(selectedTask.getAnswer().getLast().getAnswerText());
+        textAreaCompleteText.setText(selectedTask.getAnswer().getLast().getAnswerText2());
 
 
         this.selectedTask = selectedTask;

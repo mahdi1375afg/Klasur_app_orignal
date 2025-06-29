@@ -1,6 +1,6 @@
 package org.example.dao;
 
-import org.example.domain.Nutzer;
+import org.example.domain.User;
 import org.postgresql.util.PSQLException;
 
 import java.sql.*;
@@ -20,9 +20,9 @@ public class dbConnUser {
         }
     }
 
-    public static Nutzer getNutzer(String name) throws SQLException {
+    public static User getNutzer(String name) throws SQLException {
         String sql = "SELECT * FROM benutzer WHERE benutzername = ?";
-        Nutzer nutzer = null;
+        User user = null;
 
         try (Connection conn = dbConn.getConn();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -34,11 +34,11 @@ public class dbConnUser {
                     int id = rs.getInt("id");
                     String foundName = rs.getString("benutzername");
                     String foundPasswort = rs.getString("passwort");
-                    nutzer = new Nutzer(id, foundName, foundPasswort);
+                    user = new User(id, foundName, foundPasswort);
                 }
             }
         }
-        return nutzer;
+        return user;
     }
 
     public static boolean getNameUsed(String name) throws SQLException {

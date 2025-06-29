@@ -4,7 +4,7 @@ package GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import org.example.domain.benutzerKonto;
+import org.example.domain.UserAccount;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ public class SignUpController  extends SceneController {
             return;
         }
 
-        benutzerKonto konto = new benutzerKonto();
+        UserAccount konto = new UserAccount();
 
         if(!konto.register(username, password)){
             showAlert("Der Benutzername ist schon vergeben. Bitte wählen Sie einen anderen Benutzernamen. ");

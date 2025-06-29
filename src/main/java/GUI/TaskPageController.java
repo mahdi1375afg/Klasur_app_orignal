@@ -66,7 +66,7 @@ public class TaskPageController extends SceneController {
     private String taskTitleText ;
     private String modulTitleText;
     private Integer numberPointsInteger;
-    private AntwortType antwortType;
+    private AnswerType answerType;
     private BloomLevel bloomLevel;
     private Integer durationNumber;
     private QuestionType closeType;
@@ -102,7 +102,7 @@ public class TaskPageController extends SceneController {
 
         modulDropdown.setValue(aufgabe.getModul().getName());
 
-        switch (aufgabe.getAnswer().getFirst().getTyp().getName()) {
+        switch (aufgabe.getAnswer().getFirst().getType().getName()) {
             case "offen" -> rButtonTypOpen.setSelected(true);
             case "Single-Choice" -> rButtonTypSingle.setSelected(true);
             case "Multiple-Choice" -> rButtonTypMultiple.setSelected(true);
@@ -145,7 +145,7 @@ public class TaskPageController extends SceneController {
 
     public void setNewModul() {
         modulTitleText = textFieldNewModul.getText();
-        benutzerKonto konto = new benutzerKonto();
+        UserAccount konto = new UserAccount();
 
         if (modulTitleText.isEmpty()) {
             showAlert("Fehler", "Bitte geben Sie einen Modulnamen ein.");
@@ -226,7 +226,7 @@ public class TaskPageController extends SceneController {
             showAlert("Fehler", "Bitte geben Sie eine korrekte Dauer an!");
             return;
         }
-        if (antwortType == null) {
+        if (answerType == null) {
             showAlert("Fehler", "Bitte geben Sie einen Aufgabentyp an!");
             return;
         }
@@ -241,25 +241,25 @@ public class TaskPageController extends SceneController {
         aufgabe.setTaskPageData(getTextFieldTaskTitle(), getTextFieldNumberPoints(), getDurationNumber(), getAntwortType(), getTaskTaxonomie(), getModulTitle(), closeType);
 
         if (!isEditMode) {
-            if (antwortType == AntwortType.offeneAntwort) {
+            if (answerType == AnswerType.offeneAntwort) {
                 OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
                 controller.setAufgabe(aufgabe);
-            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
+            } else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
                 SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml");
                 controller.setAufgabe(aufgabe);
-            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch) {
+            } else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch) {
                 TrueFalseController controller = switchSceneAndGetController(event, "/GUI/TrueFalsePage.fxml");
                 controller.setAufgabe(aufgabe);
-            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen) {
+            } else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen) {
                 MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml");
                 controller.setAufgabe(aufgabe);
-            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.zuordnung) {
+            } else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.zuordnung) {
                 AssignController controller = switchSceneAndGetController(event, "/GUI/AssignPage.fxml");
                 controller.setAufgabe(aufgabe);
-            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
+            } else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
                 GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml");
                 controller.setAufgabe(aufgabe);
-            } else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.ranking) {
+            } else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.ranking) {
                 RankingController controller = switchSceneAndGetController(event, "/GUI/RankingPage.fxml");
                 controller.setAufgabe(aufgabe);
             } else {
@@ -267,37 +267,37 @@ public class TaskPageController extends SceneController {
             }
         }
         else{
-            if (antwortType == AntwortType.offeneAntwort) {
+            if (answerType == AnswerType.offeneAntwort) {
                 OpenQuestionController controller = switchSceneAndGetController(event, "/GUI/OpenQuestionPage.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
-            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
+            else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.singleChoiceFragen) {
                 SingleChoiceController controller = switchSceneAndGetController(event, "/GUI/SingleChoicePage.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
-            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch) {
+            else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.wahrOderFalsch) {
                 TrueFalseController controller = switchSceneAndGetController(event, "/GUI/TrueFalsePage.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
-            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen) {
+            else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.multipleChoiceFragen) {
                 MultipleChoiceController controller = switchSceneAndGetController(event, "/GUI/MultipleChoicePage.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
-            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.zuordnung) {
+            else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.zuordnung) {
                 AssignController controller = switchSceneAndGetController(event, "/GUI/AssignPage.fxml");
                 controller.setEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
-            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
+            else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.leerstellen) {
                 GapTextController controller = switchSceneAndGetController(event, "/GUI/GapText.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
             }
-            else if (antwortType == AntwortType.geschlosseneAntwort && closeType == QuestionType.ranking) {
+            else if (answerType == AnswerType.geschlosseneAntwort && closeType == QuestionType.ranking) {
                 RankingController controller = switchSceneAndGetController(event, "/GUI/RankingPage.fxml");
                 controller.initializeEditMode(selectedTask);
                 controller.setAufgabe(aufgabe);
@@ -329,30 +329,30 @@ public class TaskPageController extends SceneController {
     @FXML
     public void setTaskType() {
         if (rButtonTypOpen.isSelected()) {
-            antwortType = AntwortType.offeneAntwort;
+            answerType = AnswerType.offeneAntwort;
         } else if (rButtonTypSingle.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
+            answerType = AnswerType.geschlosseneAntwort;
             closeType = QuestionType.singleChoiceFragen;
         } else if (rButtonTypMultiple.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
+            answerType = AnswerType.geschlosseneAntwort;
             closeType = QuestionType.multipleChoiceFragen;
         } else if (rButtonTypTrueFalsch.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
+            answerType = AnswerType.geschlosseneAntwort;
             closeType = QuestionType.wahrOderFalsch;
         } else if (rButtonTypGapText.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
+            answerType = AnswerType.geschlosseneAntwort;
             closeType = QuestionType.leerstellen;
         } else if (rButtonTypAssign.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
+            answerType = AnswerType.geschlosseneAntwort;
             closeType = QuestionType.zuordnung;
         } else if (rButtonTypRanking.isSelected()) {
-            antwortType = AntwortType.geschlosseneAntwort;
+            answerType = AnswerType.geschlosseneAntwort;
             closeType = QuestionType.ranking;
         }
     }
 
     public String getAntwortType() {
-        return antwortType.getName();
+        return answerType.getName();
     }
 
     public String getTaskTaxonomie() {

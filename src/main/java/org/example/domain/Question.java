@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Frage {
+public class Question {
 
 	private int id;
 	private String name;
 	private String questionText;
 	private int time;
-	private AntwortType format;
+	private AnswerType format;
 	private int points;
 	private BloomLevel taxonomie;
 
-	public Frage(int id, String name, String questionText, int time, AntwortType format, int points, BloomLevel taxonomie) {
+	public Question(int id, String name, String questionText, int time, AnswerType format, int points, BloomLevel taxonomie) {
 		this.id = id;
 		this.name = name;
 		this.questionText = questionText;
@@ -28,16 +28,16 @@ public class Frage {
 		this.taxonomie = taxonomie;
 	}
 
-	public static List<Frage> getAllFragen(int userid) throws SQLException {
-		List<Frage> fragen = new ArrayList<Frage>();
+	public static List<Question> getAllFragen(int userid) throws SQLException {
+		List<Question> fragen = new ArrayList<Question>();
 
 		List<Map<String, Object>> result = dbConnFrage.sqlSelect(userid);
 
 		for (Map<String, Object> row : result) {
 			BigDecimal punkteDecimal = (BigDecimal) row.get("punkte");
 			int punkte = punkteDecimal.intValue();
-			Frage frage = new Frage((int)row.get("id"),(String)row.get("name"),(String)row.get("aufgabentext"), (int) row.get("zeit"),(AntwortType) row.get("format"),punkte,(BloomLevel) row.get("taxonomie"));
-			fragen.add(frage);
+			Question question = new Question((int)row.get("id"),(String)row.get("name"),(String)row.get("aufgabentext"), (int) row.get("zeit"),(AnswerType) row.get("format"),punkte,(BloomLevel) row.get("taxonomie"));
+			fragen.add(question);
 		}
 
 		return fragen;
@@ -58,8 +58,8 @@ public class Frage {
 	public int getTime() {return time;}
 	public void setTime(int time) {this.time = time;}
 
-	public AntwortType getFormat() {return format;}
-	public void setFormat(AntwortType format) {this.format = format;}
+	public AnswerType getFormat() {return format;}
+	public void setFormat(AnswerType format) {this.format = format;}
 
 	public int getPoints() {return points;}
 	public void setPoints(int points) {this.points = points;}

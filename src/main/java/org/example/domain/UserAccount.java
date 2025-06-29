@@ -9,8 +9,8 @@ import org.postgresql.util.PGobject;
 
 import java.sql.SQLException;
 
-public class benutzerKonto {
-	public static Nutzer aktuellerBenutzer;
+public class UserAccount {
+	public static User aktuellerBenutzer;
 
 	public Boolean register(String name, String password) throws SQLException {
 		dbConnUser connection = new dbConnUser();
@@ -22,14 +22,14 @@ public class benutzerKonto {
 		}
     }
 
-	public int anmelden(String name, String password) throws SQLException {
+	public int login(String name, String password) throws SQLException {
 		dbConnUser connection = new dbConnUser();
 		if(connection.getNameUsed(name)) {
-			Nutzer nutzer = connection.getNutzer(name);
+			User user = connection.getNutzer(name);
 			try {
-				if(nutzer.getPassword().equals(password)) {
-					this.aktuellerBenutzer = nutzer;
-					Main.initUser(nutzer.getId());
+				if(user.getPassword().equals(password)) {
+					this.aktuellerBenutzer = user;
+					Main.initUser(user.getId());
 					return 0;
 				} else {
 					return 1;
@@ -42,7 +42,7 @@ public class benutzerKonto {
 		}
 	}
 
-	public String abmelden() {
+	public String logout() {
 		if(aktuellerBenutzer == null) {
 			return "Fehler beim abmelden! Kein Nutzer angemeldet!";
 		} else {
@@ -51,23 +51,21 @@ public class benutzerKonto {
 		}
 	}
 
-	public int fragenErstellen(String questionName, String questionQuestion, int questionDuration, String questionType, int questionPoints, String questionTaxonomie, int id) throws SQLException {
+	public int questionCreate(String questionName, String questionQuestion, int questionDuration, String questionType, int questionPoints, String questionTaxonomie, int id) throws SQLException {
 		dbConnFrage connection = new dbConnFrage();
 		return connection.getId(questionName,questionQuestion,questionDuration,questionType,questionPoints,questionTaxonomie,id);
 
 	}
 
-	public void antwortErstellenOffen(int fragenId, String key) {
+	public void questionCreateOpen(int fragenId, String key) {
 		try (Connection conn = dbConn.getConn()) {
-			dbConn.sqlInsert(conn, "offene_aufgabe",
-					new String[]{"musterloesung", "aufgabe_id"},
-					new Object[]{key, fragenId});
+			dbConn.sqlInsert(conn, "offene_aufgabe", new String[]{"musterloesung", "aufgabe_id"}, new Object[]{key, fragenId});
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void frageErstellenGeschlossen(int fragenId, String questionType) {
+	public void questionCreateClosed(int fragenId, String questionType) {
 		try (Connection conn = dbConn.getConn()) {
 			PGobject enumObj = new PGobject();
 			enumObj.setType("aufgaben_typ");
@@ -79,7 +77,7 @@ public class benutzerKonto {
 	}
 
 
-	public void antwortErstellenGeschlossen(int fragenId, String key, Boolean value) {
+	public void answerCreateClosed(int fragenId, String key, Boolean value) {
 		try (Connection conn = dbConn.getConn()) {
 			dbConn.sqlInsert(conn, "antwortmoeglichkeit_geschlossen",
 					new String[]{"antworttext", "ist_korrekt", "geschlossene_aufgabe_id"},
@@ -90,7 +88,7 @@ public class benutzerKonto {
 	}
 
 
-	public void antwortErstellenGeschlossenMultipleParts(int fragenId, String key, String value) {
+	public void answerCreateClosedMultipleParts(int fragenId, String key, String value) {
 		try (Connection conn = dbConn.getConn()) {
 			dbConn.sqlInsert(conn, "antwortMehrParts_geschlossen",
 					new String[]{"antworttext", "antworttext2", "geschlossene_aufgabe_id"},
@@ -101,7 +99,7 @@ public class benutzerKonto {
 	}
 
 
-	public void antwortErstellenGeschlossenRanking(int fragenId, String key, Integer value) {
+	public void answerCreateClosedRanking(int fragenId, String key, Integer value) {
 		try (Connection conn = dbConn.getConn()) {
 			dbConn.sqlInsert(conn, "antwortRanking_geschlossen",
 					new String[]{"antworttext", "rank", "geschlossene_aufgabe_id"},

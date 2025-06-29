@@ -28,15 +28,9 @@ public enum BloomLevel {
 		this.katagorie = katagorie;
 		this.beschreibung = beschreibung;
 	}
-	public int getNummer(){
-		return nummer;
-	}
+
 	public String getKategorie(){
 		return katagorie;
-	}
-
-	public String getBeschreibung(){
-		return beschreibung;
 	}
 
 }

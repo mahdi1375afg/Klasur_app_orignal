@@ -8,7 +8,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.example.domain.Antwort;
+import org.example.domain.Answer;
 import org.example.domain.AufgabeService;
 import org.example.domain.Task;
 
@@ -77,15 +77,15 @@ public class AssignController extends SceneController{
         this.selectedTask = selectedTask;
         textAreaQuestion.setText(selectedTask.getQuestion().getQuestionText());
 
-        List<Antwort> answers = selectedTask.getAnswer();
+        List<Answer> answers = selectedTask.getAnswer();
 
         for(int i=2; i<answers.size(); i++){
             addAnswerAreas();
         }
 
         for(int i=0; i<solutionAreas.size(); i++){
-            answerAreas.get(i).setText(answers.get(i).getAntwortText());
-            solutionAreas.get(i).setText(answers.get(i).getAntwortText2());
+            answerAreas.get(i).setText(answers.get(i).getAnswerText());
+            solutionAreas.get(i).setText(answers.get(i).getAnswerText2());
         }
     }
 

@@ -97,51 +97,6 @@ public class dbConn {
         }
     }
 
-    public static void sqlUpdate(String table, String[] column, Object[] value, String conditionColumn, Object conditionValue) throws SQLException {
-        StringBuilder setClause = new StringBuilder();
-        for (int i = 0; i < column.length; i++) {
-            if (column[i].equalsIgnoreCase("zeit")) {
-                setClause.append("zeit = CAST(? AS interval)");
-            } else if (column[i].equalsIgnoreCase("isKorrekt")) {
-                setClause.append("isKorrekt = CAST(? AS bloom)");
-            } else {
-                setClause.append(column[i]).append(" = ?");
-            }
-            if (i < column.length - 1) {
-                setClause.append(", ");
-            }
-        }
-
-        String query = "UPDATE " + table + " SET " + setClause + " WHERE " + conditionColumn + " = ?";
-        System.out.println(query);
-
-        try (Connection conn = getConn();
-             PreparedStatement ps = conn.prepareStatement(query)) {
-
-            for (int i = 0; i < value.length; i++) {
-                if (column[i].equalsIgnoreCase("zeit")) {
-                    ps.setString(i + 1, value[i] + " minutes");
-                } else if (value[i] instanceof String) {
-                    ps.setString(i + 1, (String) value[i]);
-                } else if (value[i] instanceof Integer) {
-                    ps.setInt(i + 1, (Integer) value[i]);
-                } else {
-                    throw new SQLException("Invalid data type");
-                }
-            }
-
-            if (conditionValue instanceof Integer) {
-                ps.setInt(value.length + 1, (Integer) conditionValue);
-            } else if (conditionValue instanceof String) {
-                ps.setString(value.length + 1, (String) conditionValue);
-            } else {
-                throw new SQLException("Invalid data type for conditionValue");
-            }
-
-            ps.executeUpdate();
-        }
-    }
-
     public static void sqlDelete(String table, String column, Object value) throws SQLException {
         String query = "DELETE FROM " + table + " WHERE " + column + " = ?";
         try (Connection conn = getConn();

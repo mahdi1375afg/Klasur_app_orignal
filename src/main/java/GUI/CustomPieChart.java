@@ -23,7 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import org.example.domain.Antwort;
+import org.example.domain.Answer;
 import org.example.domain.Modul;
 import org.example.domain.QuestionType;
 import org.example.domain.Task;
@@ -234,14 +234,14 @@ public class CustomPieChart extends PieChart {
                 document.add(taskParagraph);
                 musterloesung.add(taskParagraph);
 
-                QuestionType typ = task.getAnswer().getFirst().getTyp();
+                QuestionType typ = task.getAnswer().getFirst().getType();
 
 
                 if(typ == QuestionType.multipleChoiceFragen || typ == QuestionType.singleChoiceFragen || typ == QuestionType.wahrOderFalsch) {
                     // Multiple Choice + Single Choice + Wahr/Falsch
                     for(int i = 0; i < task.getAnswer().size(); i++) {
-                        String antwortText = task.getAnswer().get(i).getAntwortText();
-                        boolean right = task.getAnswer().get(i).isKorrekt();
+                        String antwortText = task.getAnswer().get(i).getAnswerText();
+                        boolean right = task.getAnswer().get(i).isCorrect();
                         Paragraph antwortParagraph = new Paragraph("[  ]  " + antwortText, answerFont);
                         Paragraph antwortParagraphRight = new Paragraph("[ X ]  " + antwortText, answerFont);
                         antwortParagraph.setIndentationLeft(20f);
@@ -259,8 +259,8 @@ public class CustomPieChart extends PieChart {
                 } else if(typ == QuestionType.ranking) {
                     // Ranking + Zuordnung
                     for (int i = 0; i < task.getAnswer().size(); i++) {
-                        String antwortText = task.getAnswer().get(i).getAntwortText();
-                        int position = task.getAnswer().get(i).getAntwortRanking();
+                        String antwortText = task.getAnswer().get(i).getAnswerText();
+                        int position = task.getAnswer().get(i).getAnswerRanking();
                         Paragraph antwortParagraph = new Paragraph("[   ] " + antwortText, answerFont);
                         Paragraph antwortParagraphRight = new Paragraph("[" + position + "] " + antwortText, answerFont);
                         antwortParagraph.setIndentationLeft(20f);
@@ -276,9 +276,9 @@ public class CustomPieChart extends PieChart {
                     List<String> leftItems = new ArrayList<>();
                     List<String> rightItems = new ArrayList<>();
 
-                    for (Antwort answer : task.getAnswer()) {
-                        leftItems.add(answer.getAntwortText());
-                        rightItems.add(answer.getAntwortText2());
+                    for (Answer answer : task.getAnswer()) {
+                        leftItems.add(answer.getAnswerText());
+                        rightItems.add(answer.getAnswerText2());
                     }
 
                     // Zufällige Reihenfolge der rechten Seite
@@ -322,8 +322,8 @@ public class CustomPieChart extends PieChart {
                     musterloesung.add(loesungstabelle);
                 } else if(typ == QuestionType.leerstellen) {
                     //ToDO: Keine Ahnung ob das stimmt, hier muss noch dran gearbeitet werden
-                    String vollerText = task.getAnswer().getFirst().getAntwortText2();
-                    String lueckenText = task.getAnswer().getFirst().getAntwortText();
+                    String vollerText = task.getAnswer().getFirst().getAnswerText2();
+                    String lueckenText = task.getAnswer().getFirst().getAnswerText();
 
                     vollerText = vollerText.replaceAll("[.,;!?]", "").toLowerCase();
                     lueckenText = lueckenText.replaceAll("[.,;!?]", "").toLowerCase();
@@ -339,7 +339,7 @@ public class CustomPieChart extends PieChart {
                         }
                     }
 
-                    Paragraph Lueckentext = new Paragraph(task.getAnswer().getFirst().getAntwortText(),answerFont);
+                    Paragraph Lueckentext = new Paragraph(task.getAnswer().getFirst().getAnswerText(),answerFont);
 
                     Paragraph Worte = new Paragraph(" ", answerFont2);
                     for(String wort : gefundeneLuecken) {
@@ -354,7 +354,7 @@ public class CustomPieChart extends PieChart {
                     System.out.println("Worte: " + Worte);
                     document.add(Worte);
 
-                    Paragraph VollerText = new Paragraph(task.getAnswer().getFirst().getAntwortText2(),answerFont);
+                    Paragraph VollerText = new Paragraph(task.getAnswer().getFirst().getAnswerText2(),answerFont);
                     musterloesung.add(VollerText);
                 }
 
