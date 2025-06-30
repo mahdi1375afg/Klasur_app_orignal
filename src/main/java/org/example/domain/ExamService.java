@@ -427,6 +427,10 @@ public class ExamService {
                     }
                 }
 
+            } else if(typ == QuestionType.offen) {
+                String antwortText = task.getAnswer().getFirst().getAnswerText();
+                Paragraph antwortParagraph = new Paragraph(antwortText, answerFont);
+                musterloesung.add(antwortParagraph);
             } else if(typ == QuestionType.ranking) {
                 // Ranking + Zuordnung
                 for (int i = 0; i < task.getAnswer().size(); i++) {
