@@ -59,8 +59,8 @@ public class ExamService {
         this.user_id = user_id;
     }
 
-    public void save() throws IOException {
-        generatePdf(name,date,totalPoints,0,modul,questionType,bloomLevels,pruefer,user_id,schule);
+    public void save(int points, int time) throws IOException {
+        generatePdf(name,date,points,time,modul,questionType,bloomLevels,pruefer,user_id,schule);
     }
 
     private boolean checkIfTimeAndPoints(List<Task> tasks) {
@@ -249,7 +249,7 @@ public class ExamService {
         System.out.println("Zeit uebrig: " + remainingTime);
         tasks = selectedTasks;
         System.out.println("Exam konnte erstellt werden mit: " + selectedTasks.size() + " Tasks");
-        save();
+        save(totalPoints-remainingPoints,totalTime-remainingTime);
         return 0; // Erfolgreich erstellt
     }
 
@@ -357,7 +357,7 @@ public class ExamService {
         musterloesung.add(Chunk.NEWLINE);
 
         //Hinweise
-        Paragraph hinweise = new Paragraph("Bitte beachten Sie:\n\n" +"   • Ab "+ totalPoints/2 +" (von "+ totalPoints +" möglichen) Punkten ist die Klausur bestanden (Note 4.0).\n" + "   • Nur Stifte und leere Papierblätter sind als Hilfsmittel erlaubt.\n", normalFont);
+        Paragraph hinweise = new Paragraph("Bitte beachten Sie:\n\n" +"   • Ab "+ totalPoints/2 +" (von "+ totalPoints +" möglichen) Punkten ist die Klausur bestanden (Note 4.0).\n" + "   • Nur Stifte und leere Papierblätter sind als Hilfsmittel erlaubt.\n" + "   • Die Zeit um alle Aufgaben zu schaffen ist angesetzt auf "+ TotalTime +" Minuten.\n", normalFont);
         hinweise.setSpacingBefore(20);
         document.add(hinweise);
         document.add(Chunk.NEWLINE);
