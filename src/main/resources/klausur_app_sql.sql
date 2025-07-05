@@ -42,7 +42,7 @@ CREATE TYPE aufgaben_typ AS ENUM (
  'Single-Choice',
  'Multiple-Choice',
  'Wahr/Falsch',
- 'Lückentext',
+ 'Lueckentext',
  'Zuordnung',
  'Ranking'
 );

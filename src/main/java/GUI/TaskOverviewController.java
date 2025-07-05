@@ -94,7 +94,7 @@ public class TaskOverviewController extends SceneController implements Initializ
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getName()));
         modulColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getModul().getName()));
         taxonomieColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getQuestion().getTaxonomie().name()));
-        typColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAnswer().getFirst().getType().getName()));
+        typColumn.setCellValueFactory(cellData -> {String dbTyp = cellData.getValue().getAnswer().getFirst().getType().getName();String displayTyp = dbTyp.equals("Lueckentext") ? "Lückentext" : dbTyp;return new SimpleStringProperty(displayTyp);});
         pointsColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuestion().getPoints()).asObject());
 
     }

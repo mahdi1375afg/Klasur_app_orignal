@@ -107,7 +107,7 @@ public class TaskPageController extends SceneController {
             case "Single-Choice" -> rButtonTypSingle.setSelected(true);
             case "Multiple-Choice" -> rButtonTypMultiple.setSelected(true);
             case "Wahr/Falsch" -> rButtonTypTrueFalsch.setSelected(true);
-            case "Lückentext" -> rButtonTypGapText.setSelected(true);
+            case "Lueckentext" -> rButtonTypGapText.setSelected(true);
             case "Zuordnung" -> rButtonTypAssign.setSelected(true);
             case "Ranking" -> rButtonTypRanking.setSelected(true);
         }

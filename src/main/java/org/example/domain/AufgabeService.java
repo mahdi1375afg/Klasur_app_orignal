@@ -98,7 +98,7 @@ public class AufgabeService {
             konto.questionCreateOpen(FragenId,ersterEintrag.getKey());
         } else {
             konto.questionCreateClosed(FragenId,QuestionCloseType.getName());
-            if(Objects.equals(QuestionCloseType.getName(), "Lückentext") || Objects.equals(QuestionCloseType.getName(), "Zuordnung")) {
+            if(Objects.equals(QuestionCloseType.getName(), "Lueckentext") || Objects.equals(QuestionCloseType.getName(), "Zuordnung")) {
                 for (Map.Entry<String, String> eintrag : antwortenMultipleParts.entrySet()) {
                     konto.answerCreateClosedMultipleParts(FragenId,eintrag.getKey(),eintrag.getValue());
                 }
